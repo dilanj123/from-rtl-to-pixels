@@ -1,0 +1,14 @@
+TOPLEVEL_LANG = verilog
+SIM ?= verilator
+
+THIS_DIR := $(dir $(abspath $(lastword $(MAKEFILE_LIST))))
+ROOT := $(abspath $(THIS_DIR)/../..)
+
+VERILOG_SOURCES = $(ROOT)/rtl/apb_regs.sv
+
+TOPLEVEL = apb_regs
+COCOTB_TEST_MODULES = test_apb_regs
+
+export PYTHONPATH := $(ROOT):$(THIS_DIR):$(PYTHONPATH)
+
+include $(shell cocotb-config --makefiles)/Makefile.sim

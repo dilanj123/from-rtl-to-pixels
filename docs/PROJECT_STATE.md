@@ -3,7 +3,7 @@
 Current phase: Phase 3 — Primitive RTL
 Current gate: Gate 1 CLOSED; Gate 2 OPEN
 Known-good commit before Phase 3: `57fa1f438e23015f50ad91fb0e2faf0582cac18c`
-Current architecture: frozen single-clock streaming Sobel specification; pixel types, combinational RGB-to-grayscale primitive, and one-entry elastic stage implemented
+Current architecture: frozen single-clock streaming Sobel specification; pixel types, combinational RGB-to-grayscale primitive, one-entry elastic stage, and APB CSR primitive implemented
 
 Gate 0:
 CLOSED — environment/repository/bootstrap established.
@@ -26,8 +26,10 @@ RTL simulation:
 Evidence: results/raw/rgb-to-gray-cocotb.log
 `elastic_stage`: RTL SIMULATION VERIFIED under the six-test focused one-entry ready/valid regression.
 Evidence: results/raw/elastic-stage-cocotb.log
-The reference-model and RGB-to-grayscale regressions remain passing.
-No Sobel/window/APB/top integration exists.
+`apb_regs`: RTL SIMULATION VERIFIED under the seven-test focused APB regression, including test-only VPI preload for FRAME_COUNT rollover.
+Evidence: results/raw/apb-regs-cocotb.log
+Previously verified reference-model, RGB-to-grayscale, and elastic-stage evidence remains established; all regressions still pass.
+No frame controller, Sobel, line-buffer/window, or top-level integration exists.
 
 Formal:
 not run
@@ -43,7 +45,7 @@ Known future workflow dependencies:
 - nextpnr-ecp5/ECP5 database for implementation
 
 Current bottleneck:
-Review the focused elastic-stage evidence before selecting the next primitive.
+Review the focused APB register evidence before selecting the next primitive.
 
 Next task:
 Next primitive pending ChatGPT review.

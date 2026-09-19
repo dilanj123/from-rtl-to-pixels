@@ -1,9 +1,9 @@
 # Project State
 
-Current phase: Phase 3 — Simulation-toolchain bootstrap
+Current phase: Phase 3 — Primitive RTL
 Current gate: Gate 1 CLOSED; Gate 2 OPEN
 Known-good commit before Phase 3: `57fa1f438e23015f50ad91fb0e2faf0582cac18c`
-Current architecture: frozen single-clock streaming Sobel specification; no accelerator RTL implemented
+Current architecture: frozen single-clock streaming Sobel specification; only pixel types and combinational RGB-to-grayscale primitive implemented
 
 Gate 0:
 CLOSED — environment/repository/bootstrap established.
@@ -22,7 +22,9 @@ Verilator 5.052 and cocotb 2.1.0 installed and smoke-checked using a temporary n
 Evidence: results/raw/sim-toolchain-smoke.log
 
 RTL simulation:
-Project RTL not yet implemented or verified.
+`rgb_to_gray`: RTL SIMULATION VERIFIED under the focused regression: 3 tests, 2317 RGB vectors against the independent Python grayscale oracle.
+Evidence: results/raw/rgb-to-gray-cocotb.log
+No streaming/Sobel/window/APB RTL implemented or verified.
 
 Formal:
 not run
@@ -38,7 +40,7 @@ Known future workflow dependencies:
 - nextpnr-ecp5/ECP5 database for implementation
 
 Current bottleneck:
-First primitive RTL specification and verification remain pending.
+Review the focused RGB-to-grayscale primitive evidence before selecting the next primitive.
 
 Next task:
-Specify and verify the first primitive RTL: `pixel_pkg`, then `rgb_to_gray`. This bootstrap adds no accelerator RTL.
+Specify and verify `elastic_stage` or another dependency only after ChatGPT review.

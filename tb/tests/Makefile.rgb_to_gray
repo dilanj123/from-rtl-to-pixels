@@ -1,0 +1,16 @@
+TOPLEVEL_LANG = verilog
+SIM ?= verilator
+
+THIS_DIR := $(dir $(abspath $(lastword $(MAKEFILE_LIST))))
+ROOT := $(abspath $(THIS_DIR)/../..)
+
+VERILOG_SOURCES = \
+	$(ROOT)/rtl/pixel_pkg.sv \
+	$(ROOT)/rtl/rgb_to_gray.sv
+
+TOPLEVEL = rgb_to_gray
+COCOTB_TEST_MODULES = test_rgb_to_gray
+
+export PYTHONPATH := $(ROOT):$(THIS_DIR):$(PYTHONPATH)
+
+include $(shell cocotb-config --makefiles)/Makefile.sim

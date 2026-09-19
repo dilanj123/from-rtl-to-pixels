@@ -57,12 +57,14 @@ Test:
 - reset defaults;
 - valid/invalid/misaligned accesses;
 - STATUS W1C;
+- simultaneous `FRAME_ERROR` set and STATUS[3] W1C clear: new error/set wins;
 - writes idle/mid-frame;
 - threshold/bypass changes;
 - same-edge APB-write/SOF priority;
 - `CONFIG_PENDING`;
 - `RUN_ENABLE`;
-- frame completion/count.
+- frame completion/count;
+- `FRAME_COUNT` 32-bit wrap from `0xFFFFFFFF` to `0x00000000` on completed-frame final output transfer.
 
 ### Malformed metadata
 Inject incorrect SOF/EOL positions and verify:

@@ -112,10 +112,10 @@ Reset shall:
 - invalidate rather than physically clear line-buffer memory;
 - restore:
 
-`RUN_ENABLE=0`  
-threshold shadow/active=`128`  
-bypass shadow/active=`0`  
-`FRAME_COUNT=0`  
+`RUN_ENABLE=0`
+threshold shadow/active=`128`
+bypass shadow/active=`0`
+`FRAME_COUNT=0`
 `FRAME_ERROR=0`
 
 After reset, a new frame requires valid SOF.

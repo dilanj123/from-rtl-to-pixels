@@ -1,8 +1,8 @@
 # Project State
 
-Current phase: Phase 1 — Gate-1 specification freeze  
-Current gate: Gate 1 — OPEN  
-Known-good commit before Phase 1: `6bd14fca23b7f74e74fbe18f911d718478f49bbb`  
+Current phase: Phase 1 — Gate-1 specification freeze
+Current gate: Gate 1 — OPEN
+Known-good commit before Phase 1: `6bd14fca23b7f74e74fbe18f911d718478f49bbb`
 Current architecture: specified single-clock streaming Sobel; no accelerator RTL implemented
 
 Repository:
@@ -17,9 +17,9 @@ Gate 0 evidence:
 - public remote created
 - `make doctor` bootstrap policy operational
 
-Functional regression: not implemented  
-Formal: not run  
-Synthesis: not run  
+Functional regression: not implemented
+Formal: not run
+Synthesis: not run
 Timing: not run
 
 Known missing future workflow dependencies:

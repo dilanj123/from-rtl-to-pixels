@@ -1,7 +1,9 @@
-# Bootstrap evidence index
+# Evidence index
 
-Classification: local bootstrap checks only. No accelerator verification claim.
-Commit: the single bootstrap commit containing these logs (`git log --reverse --oneline`). Pre-commit logs necessarily precede its hash.
+Classification: bootstrap checks and Gate-1 documentation only. No functional, formal, synthesis, or timing evidence exists yet.
+Bootstrap commit: `f540928c1d04e0ae191236fb44c326404c70e755`. Pre-commit logs necessarily precede its hash.
+Published Phase-0 baseline: `6bd14fca23b7f74e74fbe18f911d718478f49bbb`.
+Gate-1 documentation commit: `a19678a45e5bbf4dad3ee5e250b7dfcbcddbd1a1` (`Freeze Gate 1 project contract`); specifications only, pending review.
 Conditions: arm64 macOS 26.4.1, current PATH and system Python, 2026-09-19.
 
 | Claim / check | Commands and evidence |
@@ -12,6 +14,8 @@ Conditions: arm64 macOS 26.4.1, current PATH and system Python, 2026-09-19.
 | Missing/broken CORE fails | `results/raw/bootstrap-negative-checks.log`: isolated PATH and exit-9 stub probes |
 | Initial directory / Git setup | `results/raw/bootstrap-inspection.log` |
 | Staged review | `results/raw/bootstrap-staged-review.log`; excludes itself because recorded after the first staging |
-| Commit / final working tree | Local ignored `results/raw/bootstrap-postcommit.log`, produced after the only commit; contains commit hash and final status |
+| Commit / final working tree | Local ignored `results/raw/bootstrap-postcommit.log`, produced after the bootstrap commit; contains commit hash and final status |
 
-Gate 0 audit: OS/architecture and CORE paths/versions recorded; gh, Verilator, Yosys, SBY, solvers and nextpnr-ecp5 recorded as unavailable on PATH. Doctor works, repository initialized, bootstrap commit recorded in post-commit evidence. Public remote conditional action blocked by unavailable gh. ECP5 support required by 00 §21.1 remains unconfirmed. Gate 0 stays OPEN.
+Gate 0 evidence: the bootstrap logs record the original OS/architecture, CORE paths/versions and then-missing tools. GitHub CLI is now available and authenticated as `dilanj123`; the public origin is `https://github.com/dilanj123/from-rtl-to-pixels.git`. Check current state with `gh auth status`, `gh repo view --json url,visibility`, and `git remote -v`; historical bootstrap logs remain unchanged. `make doctor` works under the CORE-only bootstrap policy. Verilator, Yosys, SBY, formal solvers and nextpnr-ecp5 remain unavailable on PATH; ECP5 usability remains unproven.
+
+Gate 1 remains OPEN for specification review. No accelerator implementation or functional/formal/synthesis/timing results are claimed.

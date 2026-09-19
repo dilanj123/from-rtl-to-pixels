@@ -1,8 +1,8 @@
 # Project State
 
-Current phase: Phase 2 — Independent Python reference model
+Current phase: Phase 3 — Simulation-toolchain bootstrap
 Current gate: Gate 1 CLOSED; Gate 2 OPEN
-Known-good commit before Phase 2: `2e0873ba61b93d24eee529a3a9e96de58ff6dc87`
+Known-good commit before Phase 3: `57fa1f438e23015f50ad91fb0e2faf0582cac18c`
 Current architecture: frozen single-clock streaming Sobel specification; no accelerator RTL implemented
 
 Gate 0:
@@ -17,8 +17,12 @@ Reference model:
 REFERENCE-MODEL VERIFIED by the focused Phase-2 pytest suite.
 Evidence: results/raw/reference-model-pytest.log
 
+Phase 3 simulation toolchain:
+Verilator 5.052 and cocotb 2.1.0 installed and smoke-checked using a temporary non-project XOR fixture.
+Evidence: results/raw/sim-toolchain-smoke.log
+
 RTL simulation:
-not implemented
+Project RTL not yet implemented or verified.
 
 Formal:
 not run
@@ -30,12 +34,11 @@ Timing:
 not run
 
 Known future workflow dependencies:
-- Verilator/cocotb for RTL simulation
 - Yosys/SBY/formal solver for formal
 - nextpnr-ecp5/ECP5 database for implementation
 
 Current bottleneck:
-Establish actual Python reference-model evidence.
+First primitive RTL specification and verification remain pending.
 
 Next task:
-Run focused pytest reference-model verification. Do not implement RTL.
+Specify and verify the first primitive RTL: `pixel_pkg`, then `rgb_to_gray`. This bootstrap adds no accelerator RTL.

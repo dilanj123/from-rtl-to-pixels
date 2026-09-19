@@ -1,0 +1,20 @@
+TOPLEVEL_LANG = verilog
+SIM ?= verilator
+
+THIS_DIR := $(dir $(abspath $(lastword $(MAKEFILE_LIST))))
+ROOT := $(abspath $(THIS_DIR)/../..)
+
+IMG_WIDTH ?= 7
+
+export IMG_WIDTH
+
+VERILOG_SOURCES = $(ROOT)/rtl/line_buffer.sv
+
+TOPLEVEL = line_buffer
+COCOTB_TEST_MODULES = test_line_buffer
+
+COMPILE_ARGS += -GIMG_WIDTH=$(IMG_WIDTH)
+
+export PYTHONPATH := $(ROOT):$(THIS_DIR):$(PYTHONPATH)
+
+include $(shell cocotb-config --makefiles)/Makefile.sim

@@ -1,6 +1,6 @@
 # Evidence index
 
-Classification: bootstrap checks, Gate-1 documentation, and focused reference-model verification. Focused `rgb_to_gray`, `elastic_stage`, `apb_regs`, and `pixel_control` RTL simulation evidence is recorded below; no formal, synthesis, or timing evidence exists yet.
+Classification: bootstrap checks, Gate-1 documentation, and focused reference-model verification. Focused `rgb_to_gray`, `elastic_stage`, `apb_regs`, `pixel_control`, and `line_buffer` RTL simulation evidence is recorded below; no formal, synthesis, or timing evidence exists yet.
 Bootstrap commit: `f540928c1d04e0ae191236fb44c326404c70e755`. Pre-commit logs necessarily precede its hash.
 Published Phase-0 baseline: `6bd14fca23b7f74e74fbe18f911d718478f49bbb`.
 Gate-1 documentation commit: `a19678a45e5bbf4dad3ee5e250b7dfcbcddbd1a1` (`Freeze Gate 1 project contract`); specifications only; subsequently frozen by the Phase-2 task.
@@ -18,7 +18,7 @@ Conditions: arm64 macOS 26.4.1, current PATH and system Python, 2026-09-19.
 
 Gate 0 evidence: the bootstrap logs record the original OS/architecture, CORE paths/versions and then-missing tools. GitHub CLI is now available and authenticated as `dilanj123`; the public origin is `https://github.com/dilanj123/from-rtl-to-pixels.git`. Check current state with `gh auth status`, `gh repo view --json url,visibility`, and `git remote -v`; historical bootstrap logs remain unchanged. `make doctor` works under the CORE-only bootstrap policy. Verilator and cocotb are now installed and smoke-checked (see `results/raw/sim-toolchain-smoke.log`); Yosys, SBY, formal solvers and nextpnr-ecp5 remain unavailable on PATH. ECP5 usability remains unproven.
 
-Gate 1 was closed by the Phase-2 task. Only the focused `rgb_to_gray`, `elastic_stage`, `apb_regs`, and `pixel_control` primitives have RTL simulation evidence; no complete accelerator, formal, synthesis, or timing results are claimed.
+Gate 1 was closed by the Phase-2 task. Only the focused `rgb_to_gray`, `elastic_stage`, `apb_regs`, `pixel_control`, and `line_buffer` primitives have RTL simulation evidence; no complete accelerator, formal, synthesis, or timing results are claimed.
 
 Claim: Independent Python Sobel reference-model focused suite passes.
 Git commit: `57fa1f438e23015f50ad91fb0e2faf0582cac18c`
@@ -53,4 +53,11 @@ Git commit: the commit adding this entry (`Add verified pixel position control`)
 Command: temporary-build `make -f tb/tests/Makefile.pixel_control` with IMG_WIDTH/IMG_HEIGHT set to 3/3, then 5/4.
 Evidence: `results/raw/pixel-control-cocotb.log`
 Conditions: Verilator 5.052; cocotb 2.1.0; 7 tests at 3x3 plus 7 tests at 5x4.
+Classification: `RTL SIMULATION VERIFIED`
+
+Claim: `line_buffer` supplies correct same-column one-row/two-row history with commit-only updates and frame/reset invalidation.
+Git commit: the commit adding this entry (`Add verified two-row line buffer`).
+Command: temporary-build `make -f tb/tests/Makefile.line_buffer` with IMG_WIDTH=3, then IMG_WIDTH=7.
+Evidence: `results/raw/line-buffer-cocotb.log`
+Conditions: Verilator 5.052; cocotb 2.1.0; 7 tests at IMG_WIDTH=3; 7 tests at IMG_WIDTH=7. History taps are checked before the committing rising edge.
 Classification: `RTL SIMULATION VERIFIED`

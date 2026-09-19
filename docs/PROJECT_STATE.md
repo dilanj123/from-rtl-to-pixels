@@ -1,9 +1,9 @@
 # Project State
 
-Current phase: Phase 3 — Primitive RTL
+Current phase: Phase 4 — Two-row line buffer
 Current gate: Gate 1 CLOSED; Gate 2 OPEN
-Known-good commit before Phase 3: `57fa1f438e23015f50ad91fb0e2faf0582cac18c`
-Current architecture: frozen single-clock streaming Sobel specification; pixel types, combinational RGB-to-grayscale primitive, one-entry elastic stage, APB CSR primitive, and accepted-input coordinate/metadata control implemented
+Known-good commit before Phase 4: `ff9456f226d6d6e79160b8605013dc5da6d536fd`
+Current architecture: frozen single-clock streaming Sobel specification; pixel types, combinational RGB-to-grayscale primitive, one-entry elastic stage, APB CSR primitive, accepted-input coordinate/metadata control, and two-row vertical-history line buffer implemented
 
 Gate 0:
 CLOSED — environment/repository/bootstrap established.
@@ -30,8 +30,10 @@ Evidence: results/raw/elastic-stage-cocotb.log
 Evidence: results/raw/apb-regs-cocotb.log
 `pixel_control`: RTL SIMULATION VERIFIED under the focused 3x3 and 5x4 regressions (7 tests each).
 Evidence: results/raw/pixel-control-cocotb.log
-Previously verified reference-model, RGB-to-grayscale, elastic-stage, and APB register evidence remains established; all regressions still pass.
-No line buffer, window engine, drain controller, Sobel, or top-level integration exists.
+`line_buffer`: RTL SIMULATION VERIFIED under the focused width-3 and width-7 regressions (7 tests each), checking pre-write same-column history, commit-only updates, and frame/reset invalidation.
+Evidence: results/raw/line-buffer-cocotb.log
+Previously verified reference-model, RGB-to-grayscale, elastic-stage, APB register, and pixel-control evidence remains established; all regressions still pass.
+No horizontal window assembly, W+1 mapping, drain, Sobel, or top-level integration exists.
 `accept_i` represents accepted input; this primitive does not generate ready or implement RUN_ENABLE/DRAIN admission.
 
 Formal:
@@ -48,7 +50,7 @@ Known future workflow dependencies:
 - nextpnr-ecp5/ECP5 database for implementation
 
 Current bottleneck:
-Review the focused pixel-control evidence before selecting the next primitive.
+Review the focused line-buffer evidence before proceeding to window assembly.
 
 Next task:
-Next primitive pending ChatGPT review.
+`window_3x3` pending ChatGPT review.

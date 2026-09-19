@@ -1,0 +1,32 @@
+Initial read-only inspection (before any writes):
+$ pwd
+exit=0
+/Users/Dilan/Projects/from-rtl-to-pixels
+$ ls -la
+exit=0
+Only . and .. entries; directory empty.
+$ git status --short --branch
+exit=128
+fatal: not a git repository (or any of the parent directories): .git
+$ git log -5 --oneline
+exit=128
+fatal: not a git repository (or any of the parent directories): .git
+$ git remote -v
+exit=128
+fatal: not a git repository (or any of the parent directories): .git
+$ find .. -name AGENTS.md -print
+exit=0; no output.
+No known-good commit existed.
+
+$ git init -b main
+Sandbox attempt exit=1: .git: Operation not permitted
+Approved retry exit=0: Initialized empty Git repository in /Users/Dilan/Projects/from-rtl-to-pixels/.git/
+$ git config --local user.name 'Dilan Jayasena'
+$ git config --local user.email 'dilanj123@outlook.com'
+Sandbox attempts exit=255 each: could not lock config file .git/config: Operation not permitted
+Approved retries exit=0, no output.
+
+$ git add .
+Sandbox attempt exit=128: index.lock: Operation not permitted
+Approved retry exit=0.
+Initial staged whitespace review detected trailing blank lines in two logs; removed only trailing blank lines before final review.

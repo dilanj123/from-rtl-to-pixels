@@ -1,0 +1,125 @@
+$ pwd
+exit=0
+stdout:
+/Users/Dilan/Projects/from-rtl-to-pixels
+
+stderr:
+
+$ uname -a
+exit=0
+stdout:
+Darwin MacBook-Pro.local 25.4.0 Darwin Kernel Version 25.4.0: Thu Mar 19 19:31:17 PDT 2026; root:xnu-12377.101.15~1/RELEASE_ARM64_T6020 arm64
+
+stderr:
+
+$ arch
+exit=0
+stdout:
+arm64
+stderr:
+
+$ sw_vers
+exit=0
+stdout:
+ProductName:		macOS
+ProductVersion:		26.4.1
+BuildVersion:		25E253
+
+stderr:
+
+$ gh auth status
+exit=127
+stdout:
+
+stderr:
+[Errno 2] No such file or directory: 'gh'
+$ make help
+exit=0
+stdout:
+Phase 0 bootstrap
+make help    - show available commands
+make doctor  - inventory tools; fail for missing/broken CORE dependencies
+CORE: git python3 make; optional at bootstrap: GITHUB SIMULATION FORMAL IMPLEMENTATION
+Not implemented: lint test-unit test test-real-image formal synth timing ppa all clean
+Later workflow targets must enforce their own dependencies. No automatic installation.
+
+stderr:
+
+$ make doctor
+exit=0
+stdout:
+Host: macOS-26.4.1-arm64-arm-64bit-Mach-O / arm64
+
+[CORE] MANDATORY for bootstrap
+git: path=/opt/homebrew/bin/git
+$ /opt/homebrew/bin/git --version
+stdout:
+git version 2.44.0
+stderr:
+(empty)
+exit=0
+python3: path=/Library/Frameworks/Python.framework/Versions/3.14/bin/python3
+$ /Library/Frameworks/Python.framework/Versions/3.14/bin/python3 --version
+stdout:
+Python 3.14.0
+stderr:
+(empty)
+exit=0
+make: path=/usr/bin/make
+$ /usr/bin/make --version
+stdout:
+GNU Make 3.81
+Copyright (C) 2006  Free Software Foundation, Inc.
+This is free software; see the source for copying conditions.
+There is NO warranty; not even for MERCHANTABILITY or FITNESS FOR A
+PARTICULAR PURPOSE.
+
+This program built for i386-apple-darwin11.3.0
+stderr:
+(empty)
+exit=0
+
+[GITHUB] OPTIONAL for bootstrap; required as applicable by later workflows
+gh: path=MISSING (not on PATH)
+
+[SIMULATION] OPTIONAL for bootstrap; required as applicable by later workflows
+verilator: path=MISSING (not on PATH)
+
+[FORMAL] OPTIONAL for bootstrap; required as applicable by later workflows
+yosys: path=MISSING (not on PATH)
+sby: path=MISSING (not on PATH)
+z3: path=MISSING (not on PATH)
+boolector: path=MISSING (not on PATH)
+bitwuzla: path=MISSING (not on PATH)
+yices: path=MISSING (not on PATH)
+yices-smt2: path=MISSING (not on PATH)
+cvc5: path=MISSING (not on PATH)
+cvc4: path=MISSING (not on PATH)
+
+[IMPLEMENTATION] OPTIONAL for bootstrap; required as applicable by later workflows
+yosys: path=MISSING (not on PATH)
+nextpnr-ecp5: path=MISSING (not on PATH)
+ecppack: path=MISSING (not on PATH)
+
+[SIMULATION] Python package metadata in current interpreter (not import tests)
+cocotb: MISSING in this interpreter
+pytest: MISSING in this interpreter
+numpy: MISSING in this interpreter
+Pillow: MISSING in this interpreter
+
+[IMPLEMENTATION] ECP5 capability discovery; not a synthesis/route test
+Intended target: LFE5U-45F / CABGA381 / speed grade 6.
+Exact target/database usability remains UNPROVEN until a later controlled smoke flow.
+
+Missing/broken executable probes: GITHUB/gh, SIMULATION/verilator, FORMAL/yosys, FORMAL/sby, FORMAL/z3, FORMAL/boolector, FORMAL/bitwuzla, FORMAL/yices, FORMAL/yices-smt2, FORMAL/cvc5, FORMAL/cvc4, IMPLEMENTATION/yosys, IMPLEMENTATION/nextpnr-ecp5, IMPLEMENTATION/ecppack
+Bootstrap doctor exit=0; this is not RTL/formal/implementation verification.
+
+stderr:
+
+$ make test
+exit=2
+stdout:
+
+stderr:
+test: NOT IMPLEMENTED (Phase 0 only)
+make: *** [test] Error 2

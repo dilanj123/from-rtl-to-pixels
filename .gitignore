@@ -1,0 +1,11 @@
+.DS_Store
+.venv/
+__pycache__/
+*.py[cod]
+.pytest_cache/
+build/
+obj_dir/
+*.vcd
+*.fst
+# Post-commit evidence remains local to preserve a single bootstrap commit.
+results/raw/bootstrap-postcommit.log

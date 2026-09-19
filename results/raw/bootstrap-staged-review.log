@@ -1,0 +1,103 @@
+$ git diff --cached --check
+exit=0
+$ git diff --cached --stat
+exit=0
+ .github/workflows/.gitkeep                |   0
+ .gitignore                                |  11 +++
+ AGENTS.md                                 |   7 ++
+ LICENSE                                   |  21 +++++
+ Makefile                                  |  10 +++
+ README.md                                 |   9 +++
+ THIRD_PARTY_NOTICES.md                    |   3 +
+ constraints/.gitkeep                      |   0
+ docs/DECISIONS.md                         |  12 +++
+ docs/EVIDENCE_INDEX.md                    |  17 ++++
+ docs/FORMAL.md                            |   3 +
+ docs/KNOWN_LIMITATIONS.md                 |   3 +
+ docs/MICROARCHITECTURE.md                 |   3 +
+ docs/PROJECT_STATE.md                     |  14 ++++
+ docs/REQUIREMENTS.md                      |   3 +
+ docs/THIRD_PARTY_MANIFEST.md              |   3 +
+ docs/TIMING.md                            |   3 +
+ docs/TRADEOFFS.md                         |   3 +
+ docs/VERIFICATION_PLAN.md                 |   3 +
+ docs/assets/.gitkeep                      |   0
+ docs/debug/.gitkeep                       |   0
+ examples/.gitkeep                         |   0
+ formal/.gitkeep                           |   0
+ pyproject.toml                            |   2 +
+ reports/reference/.gitkeep                |   0
+ results/processed/.gitkeep                |   0
+ results/raw/.gitkeep                      |   0
+ results/raw/bootstrap-checks.log          | 125 ++++++++++++++++++++++++++++++
+ results/raw/bootstrap-inspection.log      |  32 ++++++++
+ results/raw/bootstrap-negative-checks.log | 119 ++++++++++++++++++++++++++++
+ results/raw/bootstrap-sources.log         |   5 ++
+ rtl/.gitkeep                              |   0
+ scripts/analysis/.gitkeep                 |   0
+ scripts/doctor.py                         |  67 ++++++++++++++++
+ scripts/formal/.gitkeep                   |   0
+ scripts/sim/.gitkeep                      |   0
+ scripts/synth/.gitkeep                    |   0
+ scripts/timing/.gitkeep                   |   0
+ tb/drivers/.gitkeep                       |   0
+ tb/images/.gitkeep                        |   0
+ tb/monitors/.gitkeep                      |   0
+ tb/reference/.gitkeep                     |   0
+ tb/tests/.gitkeep                         |   0
+ 43 files changed, 478 insertions(+)
+$ git status --short --branch
+exit=0
+## No commits yet on main
+A  .github/workflows/.gitkeep
+A  .gitignore
+A  AGENTS.md
+A  LICENSE
+A  Makefile
+A  README.md
+A  THIRD_PARTY_NOTICES.md
+A  constraints/.gitkeep
+A  docs/DECISIONS.md
+A  docs/EVIDENCE_INDEX.md
+A  docs/FORMAL.md
+A  docs/KNOWN_LIMITATIONS.md
+A  docs/MICROARCHITECTURE.md
+A  docs/PROJECT_STATE.md
+A  docs/REQUIREMENTS.md
+A  docs/THIRD_PARTY_MANIFEST.md
+A  docs/TIMING.md
+A  docs/TRADEOFFS.md
+A  docs/VERIFICATION_PLAN.md
+A  docs/assets/.gitkeep
+A  docs/debug/.gitkeep
+A  examples/.gitkeep
+A  formal/.gitkeep
+A  pyproject.toml
+A  reports/reference/.gitkeep
+A  results/processed/.gitkeep
+A  results/raw/.gitkeep
+A  results/raw/bootstrap-checks.log
+A  results/raw/bootstrap-inspection.log
+A  results/raw/bootstrap-negative-checks.log
+A  results/raw/bootstrap-sources.log
+A  rtl/.gitkeep
+A  scripts/analysis/.gitkeep
+A  scripts/doctor.py
+A  scripts/formal/.gitkeep
+A  scripts/sim/.gitkeep
+A  scripts/synth/.gitkeep
+A  scripts/timing/.gitkeep
+A  tb/drivers/.gitkeep
+A  tb/images/.gitkeep
+A  tb/monitors/.gitkeep
+A  tb/reference/.gitkeep
+A  tb/tests/.gitkeep
+?? results/raw/bootstrap-staged-review.log
+$ git remote -v
+exit=0
+$ git config --local --get user.name
+exit=0
+Dilan Jayasena
+$ git config --local --get user.email
+exit=0
+dilanj123@outlook.com

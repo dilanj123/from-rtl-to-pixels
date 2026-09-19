@@ -1,0 +1,119 @@
+$ PATH=<empty temporary directory> /Library/Frameworks/Python.framework/Versions/3.14/bin/python3 scripts/doctor.py
+exit=1
+stdout:
+Host: macOS-26.4.1-arm64-64bit / arm64
+
+[CORE] MANDATORY for bootstrap
+git: path=MISSING (not on PATH)
+python3: path=MISSING (not on PATH)
+make: path=MISSING (not on PATH)
+
+[GITHUB] OPTIONAL for bootstrap; required as applicable by later workflows
+gh: path=MISSING (not on PATH)
+
+[SIMULATION] OPTIONAL for bootstrap; required as applicable by later workflows
+verilator: path=MISSING (not on PATH)
+
+[FORMAL] OPTIONAL for bootstrap; required as applicable by later workflows
+yosys: path=MISSING (not on PATH)
+sby: path=MISSING (not on PATH)
+z3: path=MISSING (not on PATH)
+boolector: path=MISSING (not on PATH)
+bitwuzla: path=MISSING (not on PATH)
+yices: path=MISSING (not on PATH)
+yices-smt2: path=MISSING (not on PATH)
+cvc5: path=MISSING (not on PATH)
+cvc4: path=MISSING (not on PATH)
+
+[IMPLEMENTATION] OPTIONAL for bootstrap; required as applicable by later workflows
+yosys: path=MISSING (not on PATH)
+nextpnr-ecp5: path=MISSING (not on PATH)
+ecppack: path=MISSING (not on PATH)
+
+[SIMULATION] Python package metadata in current interpreter (not import tests)
+cocotb: MISSING in this interpreter
+pytest: MISSING in this interpreter
+numpy: MISSING in this interpreter
+Pillow: MISSING in this interpreter
+
+[IMPLEMENTATION] ECP5 capability discovery; not a synthesis/route test
+Intended target: LFE5U-45F / CABGA381 / speed grade 6.
+Exact target/database usability remains UNPROVEN until a later controlled smoke flow.
+
+Missing/broken executable probes: CORE/git, CORE/python3, CORE/make, GITHUB/gh, SIMULATION/verilator, FORMAL/yosys, FORMAL/sby, FORMAL/z3, FORMAL/boolector, FORMAL/bitwuzla, FORMAL/yices, FORMAL/yices-smt2, FORMAL/cvc5, FORMAL/cvc4, IMPLEMENTATION/yosys, IMPLEMENTATION/nextpnr-ecp5, IMPLEMENTATION/ecppack
+Bootstrap doctor exit=1; this is not RTL/formal/implementation verification.
+
+stderr:
+
+$ PATH=<empty temporary directory> /usr/bin/make doctor
+exit=2
+stdout:
+CORE python3: MISSING
+
+stderr:
+make: *** [doctor] Error 1
+
+$ PATH=<temporary stubs each exiting 9> /Library/Frameworks/Python.framework/Versions/3.14/bin/python3 scripts/doctor.py
+exit=1
+stdout:
+Host: macOS-26.4.1-arm64-64bit / arm64
+
+[CORE] MANDATORY for bootstrap
+git: path=/var/folders/78/xn7s20w54m75pf1x_198zh980000gn/T/bootstrap-doctor-nb05cjui/git
+$ /var/folders/78/xn7s20w54m75pf1x_198zh980000gn/T/bootstrap-doctor-nb05cjui/git --version
+stdout:
+(empty)
+stderr:
+(empty)
+exit=9
+python3: path=/var/folders/78/xn7s20w54m75pf1x_198zh980000gn/T/bootstrap-doctor-nb05cjui/python3
+$ /var/folders/78/xn7s20w54m75pf1x_198zh980000gn/T/bootstrap-doctor-nb05cjui/python3 --version
+stdout:
+(empty)
+stderr:
+(empty)
+exit=9
+make: path=/var/folders/78/xn7s20w54m75pf1x_198zh980000gn/T/bootstrap-doctor-nb05cjui/make
+$ /var/folders/78/xn7s20w54m75pf1x_198zh980000gn/T/bootstrap-doctor-nb05cjui/make --version
+stdout:
+(empty)
+stderr:
+(empty)
+exit=9
+
+[GITHUB] OPTIONAL for bootstrap; required as applicable by later workflows
+gh: path=MISSING (not on PATH)
+
+[SIMULATION] OPTIONAL for bootstrap; required as applicable by later workflows
+verilator: path=MISSING (not on PATH)
+
+[FORMAL] OPTIONAL for bootstrap; required as applicable by later workflows
+yosys: path=MISSING (not on PATH)
+sby: path=MISSING (not on PATH)
+z3: path=MISSING (not on PATH)
+boolector: path=MISSING (not on PATH)
+bitwuzla: path=MISSING (not on PATH)
+yices: path=MISSING (not on PATH)
+yices-smt2: path=MISSING (not on PATH)
+cvc5: path=MISSING (not on PATH)
+cvc4: path=MISSING (not on PATH)
+
+[IMPLEMENTATION] OPTIONAL for bootstrap; required as applicable by later workflows
+yosys: path=MISSING (not on PATH)
+nextpnr-ecp5: path=MISSING (not on PATH)
+ecppack: path=MISSING (not on PATH)
+
+[SIMULATION] Python package metadata in current interpreter (not import tests)
+cocotb: MISSING in this interpreter
+pytest: MISSING in this interpreter
+numpy: MISSING in this interpreter
+Pillow: MISSING in this interpreter
+
+[IMPLEMENTATION] ECP5 capability discovery; not a synthesis/route test
+Intended target: LFE5U-45F / CABGA381 / speed grade 6.
+Exact target/database usability remains UNPROVEN until a later controlled smoke flow.
+
+Missing/broken executable probes: CORE/git, CORE/python3, CORE/make, GITHUB/gh, SIMULATION/verilator, FORMAL/yosys, FORMAL/sby, FORMAL/z3, FORMAL/boolector, FORMAL/bitwuzla, FORMAL/yices, FORMAL/yices-smt2, FORMAL/cvc5, FORMAL/cvc4, IMPLEMENTATION/yosys, IMPLEMENTATION/nextpnr-ecp5, IMPLEMENTATION/ecppack
+Bootstrap doctor exit=1; this is not RTL/formal/implementation verification.
+
+stderr:

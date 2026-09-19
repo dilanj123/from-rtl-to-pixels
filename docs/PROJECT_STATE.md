@@ -1,14 +1,44 @@
-# Project state
+# Project State
 
-Current phase: Phase 0 local bootstrap only.
-Current gate: Gate 0 OPEN; ECP5 support and GitHub publication unresolved.
-Known-good commit: none before bootstrap; identify the single bootstrap commit with `git log -1`. This validates only bootstrap, never accelerator functionality.
-Current architecture: none implemented.
-Functional regression / formal / synthesis / timing: not run; no implementation exists.
-Latest strong evidence: bootstrap help/doctor and negative dependency checks in results/raw/.
-Open bugs: none established; accelerator remains unimplemented.
-Open decisions: full Gate-1 specifications and tested dependency versions pending.
-Current bottleneck: gh and EDA tools absent from PATH; ECP5 target/database support unproven.
-Next task: make GitHub CLI available, run `gh auth login` then `gh auth status`; inspect the authenticated account for an existing from-rtl-to-pixels repository before any creation. Resume the authorised public creation/push only after confirming no conflict. Review missing EDA dependencies separately, without automatic installation. Then author Gate-1 documents incorporating DECISIONS.md.
+Current phase: Phase 1 — Gate-1 specification freeze  
+Current gate: Gate 1 — OPEN  
+Known-good commit before Phase 1: `6bd14fca23b7f74e74fbe18f911d718478f49bbb`  
+Current architecture: specified single-clock streaming Sobel; no accelerator RTL implemented
 
-No remote has been created, inspected on GitHub, or pushed because gh is unavailable. No credentials handled. No dependencies installed. Source files remain read-only. No RTL, reference model, or Project F content added.
+Repository:
+- local: `/Users/Dilan/Projects/from-rtl-to-pixels`
+- branch: `main`
+- remote: `https://github.com/dilanj123/from-rtl-to-pixels.git`
+
+Gate 0 evidence:
+- macOS arm64 environment identified
+- CORE Git/Python/Make available
+- GitHub CLI installed/authenticated
+- public remote created
+- `make doctor` bootstrap policy operational
+
+Functional regression: not implemented  
+Formal: not run  
+Synthesis: not run  
+Timing: not run
+
+Known missing future workflow dependencies:
+- Verilator
+- cocotb/pytest/NumPy/Pillow
+- Yosys/SBY/formal solver
+- nextpnr-ecp5/ECP5 support
+
+Latest strong evidence:
+Phase-0 bootstrap repository committed and pushed with clean working tree.
+
+Open bugs:
+none known; no accelerator implementation exists.
+
+Open decisions:
+none currently blocking Gate 1.
+
+Current bottleneck:
+Gate-1 documents must be applied and consistency-reviewed before reference-model implementation.
+
+Next task:
+Apply/review the Gate-1 document set. Do not begin RTL.

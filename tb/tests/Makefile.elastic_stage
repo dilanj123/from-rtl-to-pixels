@@ -1,0 +1,14 @@
+TOPLEVEL_LANG = verilog
+SIM ?= verilator
+
+THIS_DIR := $(dir $(abspath $(lastword $(MAKEFILE_LIST))))
+ROOT := $(abspath $(THIS_DIR)/../..)
+
+VERILOG_SOURCES = $(ROOT)/rtl/elastic_stage.sv
+
+TOPLEVEL = elastic_stage
+COCOTB_TEST_MODULES = test_elastic_stage
+
+export PYTHONPATH := $(ROOT):$(THIS_DIR):$(PYTHONPATH)
+
+include $(shell cocotb-config --makefiles)/Makefile.sim

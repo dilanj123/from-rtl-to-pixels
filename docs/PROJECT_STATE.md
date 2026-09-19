@@ -3,7 +3,7 @@
 Current phase: Phase 3 — Primitive RTL
 Current gate: Gate 1 CLOSED; Gate 2 OPEN
 Known-good commit before Phase 3: `57fa1f438e23015f50ad91fb0e2faf0582cac18c`
-Current architecture: frozen single-clock streaming Sobel specification; only pixel types and combinational RGB-to-grayscale primitive implemented
+Current architecture: frozen single-clock streaming Sobel specification; pixel types, combinational RGB-to-grayscale primitive, and one-entry elastic stage implemented
 
 Gate 0:
 CLOSED — environment/repository/bootstrap established.
@@ -24,7 +24,10 @@ Evidence: results/raw/sim-toolchain-smoke.log
 RTL simulation:
 `rgb_to_gray`: RTL SIMULATION VERIFIED under the focused regression: 3 tests, 2317 RGB vectors against the independent Python grayscale oracle.
 Evidence: results/raw/rgb-to-gray-cocotb.log
-No streaming/Sobel/window/APB RTL implemented or verified.
+`elastic_stage`: RTL SIMULATION VERIFIED under the six-test focused one-entry ready/valid regression.
+Evidence: results/raw/elastic-stage-cocotb.log
+The reference-model and RGB-to-grayscale regressions remain passing.
+No Sobel/window/APB/top integration exists.
 
 Formal:
 not run
@@ -40,7 +43,7 @@ Known future workflow dependencies:
 - nextpnr-ecp5/ECP5 database for implementation
 
 Current bottleneck:
-Review the focused RGB-to-grayscale primitive evidence before selecting the next primitive.
+Review the focused elastic-stage evidence before selecting the next primitive.
 
 Next task:
-Specify and verify `elastic_stage` or another dependency only after ChatGPT review.
+Next primitive pending ChatGPT review.

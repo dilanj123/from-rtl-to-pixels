@@ -1,9 +1,9 @@
 # Project State
 
-Current phase: Phase 4 — 3x3 window primitive
+Current phase: Phase 4 — Logical output alignment and drain control
 Current gate: Gate 1 CLOSED; Gate 2 OPEN
 Known-good commit before Phase 4: `ff9456f226d6d6e79160b8605013dc5da6d536fd`
-Current architecture: frozen single-clock streaming Sobel specification; pixel types, combinational RGB-to-grayscale primitive, one-entry elastic stage, APB CSR primitive, accepted-input coordinate/metadata control, two-row vertical-history line buffer, and 3x3 window primitive implemented
+Current architecture: frozen single-clock streaming Sobel specification; pixel types, combinational RGB-to-grayscale primitive, one-entry elastic stage, APB CSR primitive, accepted-input coordinate/metadata control, two-row vertical-history line buffer, 3x3 window primitive, and logical output-position/drain controller implemented
 
 Gate 0:
 CLOSED — environment/repository/bootstrap established.
@@ -34,9 +34,11 @@ Evidence: results/raw/pixel-control-cocotb.log
 Evidence: results/raw/line-buffer-cocotb.log
 `window_3x3`: RTL SIMULATION VERIFIED under the focused 3x3, 5x4, and 8x5 regressions (7 tests each), using supplied pre-write vertical-history inputs.
 Evidence: results/raw/window-3x3-cocotb.log
+`output_control`: RTL SIMULATION VERIFIED under the focused 3x3, 5x4, and 8x5 regressions (7 tests each). W+1 logical mapping and final-drain control now have focused simulation evidence, under `pixel_commit_i -> input_allow_o`.
+Evidence: results/raw/output-control-cocotb.log
 Previously verified reference-model and primitive evidence remains established; all regressions still pass.
-No W+1 output controller, drain, Sobel, threshold integration, or top-level exists.
-`accept_i` represents accepted input; this primitive does not generate ready or implement RUN_ENABLE/DRAIN admission.
+No Sobel, magnitude/clamp, threshold integration, or top-level exists. Output pixel values and top-level stream protocol are not verified.
+`pixel_control.accept_i` represents accepted input; that primitive does not generate ready or implement RUN_ENABLE/DRAIN admission.
 
 Formal:
 not run
@@ -52,7 +54,7 @@ Known future workflow dependencies:
 - nextpnr-ecp5/ECP5 database for implementation
 
 Current bottleneck:
-Review the focused window-primitive evidence before selecting the next engineering task.
+Review the focused output-control evidence before selecting the next engineering task.
 
 Next task:
 Next engineering task awaits ChatGPT review.

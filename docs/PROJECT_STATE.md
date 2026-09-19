@@ -1,44 +1,41 @@
 # Project State
 
-Current phase: Phase 1 — Gate-1 specification freeze
-Current gate: Gate 1 — OPEN
-Known-good commit before Phase 1: `6bd14fca23b7f74e74fbe18f911d718478f49bbb`
-Current architecture: specified single-clock streaming Sobel; no accelerator RTL implemented
+Current phase: Phase 2 — Independent Python reference model
+Current gate: Gate 1 CLOSED; Gate 2 OPEN
+Known-good commit before Phase 2: `2e0873ba61b93d24eee529a3a9e96de58ff6dc87`
+Current architecture: frozen single-clock streaming Sobel specification; no accelerator RTL implemented
 
-Repository:
-- local: `/Users/Dilan/Projects/from-rtl-to-pixels`
-- branch: `main`
-- remote: `https://github.com/dilanj123/from-rtl-to-pixels.git`
+Gate 0:
+CLOSED — environment/repository/bootstrap established.
 
-Gate 0 evidence:
-- macOS arm64 environment identified
-- CORE Git/Python/Make available
-- GitHub CLI installed/authenticated
-- public remote created
-- `make doctor` bootstrap policy operational
+Gate 1:
+CLOSED — project contract, interfaces, arithmetic, alignment, drain, reset,
+configuration, verification strategy, formal scope, A/B experiment and reuse
+policy are frozen and synchronized.
 
-Functional regression: not implemented
-Formal: not run
-Synthesis: not run
-Timing: not run
+Reference model:
+REFERENCE-MODEL VERIFIED by the focused Phase-2 pytest suite.
+Evidence: results/raw/reference-model-pytest.log
 
-Known missing future workflow dependencies:
-- Verilator
-- cocotb/pytest/NumPy/Pillow
-- Yosys/SBY/formal solver
-- nextpnr-ecp5/ECP5 support
+RTL simulation:
+not implemented
 
-Latest strong evidence:
-Phase-0 bootstrap repository committed and pushed with clean working tree.
+Formal:
+not run
 
-Open bugs:
-none known; no accelerator implementation exists.
+Synthesis:
+not run
 
-Open decisions:
-none currently blocking Gate 1.
+Timing:
+not run
+
+Known future workflow dependencies:
+- Verilator/cocotb for RTL simulation
+- Yosys/SBY/formal solver for formal
+- nextpnr-ecp5/ECP5 database for implementation
 
 Current bottleneck:
-Gate-1 documents must be applied and consistency-reviewed before reference-model implementation.
+Establish actual Python reference-model evidence.
 
 Next task:
-Apply/review the Gate-1 document set. Do not begin RTL.
+Run focused pytest reference-model verification. Do not implement RTL.

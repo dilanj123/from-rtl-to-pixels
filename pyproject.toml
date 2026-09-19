@@ -1,2 +1,16 @@
-# Phase 0 placeholder. No package, environment, or dependencies installed.
-# Pin cocotb, pytest, numpy and Pillow after a tested combination is established.
+[project]
+name = "from-rtl-to-pixels"
+version = "0.0.0"
+requires-python = ">=3.11"
+dependencies = [
+    "numpy",
+    "Pillow",
+]
+
+[project.optional-dependencies]
+test = [
+    "pytest",
+]
+
+[tool.pytest.ini_options]
+testpaths = ["tb/tests"]

@@ -43,6 +43,14 @@ Classification: `RTL SIMULATION VERIFIED`
 Gate 2 CLOSED for the tested MVP simulation configurations: complete RTL RGB frames were reconstructed automatically, input/output counts were exact, and completed outputs matched the independent Python reference bit-exactly with zero mismatches.
 Gate-3 limitations: randomized source gaps in the production top; randomized downstream backpressure; reset matrix; malformed metadata recovery regression; mid-frame configuration-write regression; same-edge APB-write/SOF integration regression; broad dimension sweep/canonical 640x480; random RGB frames; real-image regression; requirements traceability closure; formal; synthesis; P&R; timing; Architecture B.
 
+Claim: Production Architecture A streaming stress regression exercises random source gaps, random and targeted downstream backpressure, SOF/EOL output stalls, drain stalls and deterministic random RGB frames at 3x3, 5x4 and 8x5. Under these tested conditions, ready/valid stalls preserved output data/metadata and completed frames remained bit-exact to the independent Python Sobel model.
+Git commit: the commit adding this entry (`Add production streaming stress regression`).
+Command: `python3 -m py_compile tb/tests/test_rtl_to_pixels_top_streaming.py`; strict production-top lint; temporary-build `make -f tb/tests/Makefile.rtl_to_pixels_top_streaming` at 3x3, 5x4, and 8x5; `.venv/bin/python -m pytest -q tb/tests/test_reference_model.py`.
+Evidence: `results/raw/gate3-streaming-stress-cocotb.log`
+Classification: `RTL SIMULATION VERIFIED`
+Conditions: Verilator 5.052; cocotb 2.1.0; 5 streaming-stress tests at each dimension; deterministic random RGB frames; independent `sobel_rgb` comparison. Actual frame comparisons reported mismatch_count=0 throughout, with exact W×H input/output counts and nonzero targeted gap/stall counters.
+Gate 3 remains open. Remaining work: reset matrix; malformed metadata/abort/restart; mid-frame configuration writes; same-edge APB-write/SOF; broader legal dimensions; canonical 640x480; additional random frames; real-image regression; requirements traceability closure; formal; synthesis; P&R; timing; Architecture B.
+
 Claim: `threshold_stage` implements the frozen threshold-only bypass rule: bypass returns M8 unchanged; otherwise M8<threshold -> 0, and M8>=threshold -> M8.
 Git commit: the commit adding this entry (`Add verified threshold stage and regression checkpoint`).
 Command: `verilator --lint-only -Wall rtl/threshold_stage.sv --top-module threshold_stage`; temporary-build `make -f tb/tests/Makefile.threshold_stage`.

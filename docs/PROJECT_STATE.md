@@ -46,6 +46,8 @@ Architecture-A alignment harness: RTL SIMULATION VERIFIED under 5 tests at each 
 Evidence: results/raw/architecture-a-alignment-cocotb.log
 Production Architecture A: RTL SIMULATION VERIFIED under 4 complete deterministic RGB-frame tests at each of 3x3, 5x4, and 8x5. Exact accepted input/output counts, SOF/EOL metadata, independent Python comparisons with zero mismatches, APB configuration, frame count, and final external-token completion behavior passed.
 Evidence: results/raw/gate2-top-cocotb.log
+Production Architecture A streaming stress: RTL SIMULATION VERIFIED at 3x3, 5x4, and 8x5. Five tests per dimension exercised deterministic random RGB frames, source gaps, random and targeted backpressure, SOF/EOL stalls, drain stalls, output stability, exact counts, and independent `sobel_rgb` comparison with mismatch_count=0.
+Evidence: results/raw/gate3-streaming-stress-cocotb.log
 Previously verified reference-model and primitive evidence remains established. The reference suite passed all 13 tests; established RTL/test/Makefile sources were unchanged. The approved accelerated isolated-leaf policy was used, without rebuilding historical RTL regressions.
 Deferred full accumulated checkpoint: all established primitive/reference regressions passed after the compact arithmetic leaves; evidence: results/raw/arithmetic-checkpoint-regression.log. This verifies individual regressions only, not integrated geometry plus arithmetic or a complete RTL frame.
 The production top is verified only for the tested deterministic configurations. Randomized source gaps/backpressure, reset, malformed metadata, mid-frame configuration timing, same-edge APB-write/SOF integration, broad dimensions/canonical 640x480, random/real frames, traceability, formal, synthesis, P&R, timing, and Architecture B remain unverified.
@@ -68,4 +70,4 @@ Current bottleneck:
 Review the accumulated primitive checkpoint before Architecture-A integration/alignment verification.
 
 Next task:
-Phase 6 — production-top deep regression: random gaps/backpressure, reset matrix, malformed metadata, configuration timing, broader dimensions, random/real frames, canonical 640x480, and requirements traceability.
+P6 reset + malformed-metadata production-top regression.

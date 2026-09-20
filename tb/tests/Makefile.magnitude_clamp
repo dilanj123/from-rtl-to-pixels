@@ -1,0 +1,14 @@
+TOPLEVEL_LANG = verilog
+SIM ?= verilator
+
+THIS_DIR := $(dir $(abspath $(lastword $(MAKEFILE_LIST))))
+ROOT := $(abspath $(THIS_DIR)/../..)
+
+VERILOG_SOURCES = $(ROOT)/rtl/magnitude_clamp.sv
+
+TOPLEVEL = magnitude_clamp
+COCOTB_TEST_MODULES = test_magnitude_clamp
+
+export PYTHONPATH := $(ROOT):$(THIS_DIR):$(PYTHONPATH)
+
+include $(shell cocotb-config --makefiles)/Makefile.sim

@@ -1,9 +1,9 @@
 # Project State
 
-Current phase: Phase 5 — Compact Sobel arithmetic
+Current phase: Phase 5 — Magnitude and clamp arithmetic
 Current gate: Gate 1 CLOSED; Gate 2 OPEN
 Known-good commit before Phase 5: `597af7f8c0edfac2dfb2763e042a7d17acf17b8d`
-Current architecture: frozen single-clock streaming Sobel specification; pixel types, combinational RGB-to-grayscale primitive, one-entry elastic stage, APB CSR primitive, accepted-input coordinate/metadata control, two-row vertical-history line buffer, 3x3 window primitive, logical output-position/drain controller, and compact combinational Sobel Gx/Gy primitive implemented
+Current architecture: frozen single-clock streaming Sobel specification; pixel types, combinational RGB-to-grayscale primitive, one-entry elastic stage, APB CSR primitive, accepted-input coordinate/metadata control, two-row vertical-history line buffer, 3x3 window primitive, logical output-position/drain controller, compact combinational Sobel Gx/Gy primitive, and compact magnitude/clamp primitive implemented
 
 Gate 0:
 CLOSED — environment/repository/bootstrap established.
@@ -38,8 +38,10 @@ Evidence: results/raw/window-3x3-cocotb.log
 Evidence: results/raw/output-control-cocotb.log
 `sobel_compact`: RTL SIMULATION VERIFIED under the focused seven-test arithmetic regression (4369 windows), with strict lint clean.
 Evidence: results/raw/sobel-compact-cocotb.log
+`magnitude_clamp`: RTL SIMULATION VERIFIED under the focused seven-test arithmetic regression. The initial lint defect was corrected before verification, without lint suppression; the reference suite passed all 13 tests.
+Evidence: results/raw/magnitude-clamp-cocotb.log
 Previously verified reference-model and primitive evidence remains established. The reference suite passed all 13 tests; established RTL/test/Makefile sources were unchanged. The approved accelerated isolated-leaf policy was used, without rebuilding historical RTL regressions.
-Sobel is not yet integrated with window/control. No magnitude/clamp, threshold integration, or top-level exists. Output pixel values and top-level stream protocol are not verified.
+Sobel and magnitude/clamp are not yet integrated with window/control. No threshold integration or top-level exists. Output pixel values and top-level stream protocol are not verified.
 `pixel_control.accept_i` represents accepted input; that primitive does not generate ready or implement RUN_ENABLE/DRAIN admission.
 
 Formal:
@@ -56,7 +58,7 @@ Known future workflow dependencies:
 - nextpnr-ecp5/ECP5 database for implementation
 
 Current bottleneck:
-Review the focused compact Sobel arithmetic evidence before the next arithmetic primitive.
+Review the focused magnitude/clamp arithmetic evidence before the next arithmetic primitive.
 
 Next task:
-Next arithmetic primitive: `magnitude_clamp`, pending ChatGPT review. Full accumulated RTL regression is deferred until after `magnitude_clamp` and `threshold_stage`, immediately before Architecture-A integration.
+Next arithmetic primitive: `threshold_stage`, pending ChatGPT review. Full accumulated RTL regression remains scheduled after `threshold_stage`, immediately before Architecture-A integration.

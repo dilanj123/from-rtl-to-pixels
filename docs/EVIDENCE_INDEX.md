@@ -1,6 +1,6 @@
 # Evidence index
 
-Classification: bootstrap checks, Gate-1 documentation, and focused reference-model verification. Focused `rgb_to_gray`, `elastic_stage`, `apb_regs`, `pixel_control`, `line_buffer`, `window_3x3`, `output_control`, and `sobel_compact` RTL simulation evidence is recorded below; no formal, synthesis, or timing evidence exists yet.
+Classification: bootstrap checks, Gate-1 documentation, and focused reference-model verification. Focused `rgb_to_gray`, `elastic_stage`, `apb_regs`, `pixel_control`, `line_buffer`, `window_3x3`, `output_control`, `sobel_compact`, and `magnitude_clamp` RTL simulation evidence is recorded below; no formal, synthesis, or timing evidence exists yet.
 Bootstrap commit: `f540928c1d04e0ae191236fb44c326404c70e755`. Pre-commit logs necessarily precede its hash.
 Published Phase-0 baseline: `6bd14fca23b7f74e74fbe18f911d718478f49bbb`.
 Gate-1 documentation commit: `a19678a45e5bbf4dad3ee5e250b7dfcbcddbd1a1` (`Freeze Gate 1 project contract`); specifications only; subsequently frozen by the Phase-2 task.
@@ -83,3 +83,10 @@ Evidence: `results/raw/sobel-compact-cocotb.log`
 Conditions: Verilator 5.052; cocotb 2.1.0; strict lint exit 0 without warnings; 7 focused tests; 4369 checked Sobel windows, including 256 exhaustive binary-extreme patterns and 4096 deterministic random windows; reference pytest 13 passed. All commands exited 0.
 Classification: `RTL SIMULATION VERIFIED`
 Limitations: focused arithmetic evidence only; not yet integrated with `window_3x3`; no magnitude/clamp or threshold in this block; no complete-frame RTL evidence; no formal, synthesis/P&R, or timing evidence for this block. The approved isolated-leaf policy was used: established RTL/test/Makefile sources were unchanged, so historical RTL regressions were not rebuilt.
+
+Claim: `magnitude_clamp` implements the frozen L1 Sobel magnitude `abs(Gx)+abs(Gy)`, full unsigned 11-bit 0..2040 magnitude, and exact 8-bit saturation at 255 for valid ±1020 Sobel inputs.
+Git commit: the commit adding this entry (`Add verified magnitude clamp stage`).
+Command: `verilator --lint-only -Wall rtl/magnitude_clamp.sv --top-module magnitude_clamp`; temporary-build `make -f tb/tests/Makefile.magnitude_clamp`; `.venv/bin/python -m pytest -q tb/tests/test_reference_model.py`.
+Evidence: `results/raw/magnitude-clamp-cocotb.log`
+Conditions: Verilator 5.052; cocotb 2.1.0; 7 focused cocotb tests passed; 8220 checked gradient pairs derived from test construction, including complete Gx/Gy axis sweeps and 4096 deterministic random pairs. The initial lint defect was corrected without suppression. This is focused arithmetic evidence only: no window/control integration, threshold, complete-frame RTL, formal, synthesis, P&R, or timing evidence. The isolated-leaf policy was used; established RTL/test files were unchanged.
+Classification: `RTL SIMULATION VERIFIED`

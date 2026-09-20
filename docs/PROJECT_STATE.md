@@ -85,7 +85,19 @@ Known future workflow dependencies:
 - nextpnr-ecp5/ECP5 database for implementation
 
 Current bottleneck:
-Begin Gate-4 targeted formal verification before synthesis/implementation.
+Execute the first targeted project formal proof on elastic_stage, including stalled stability, no overwrite and one-entry token conservation with cover/vacuity review.
 
 Next task:
-Phase 7 targeted formal planning and environment/tool bootstrap.
+P7-ELASTIC-FORMAL-001
+
+Formal toolchain:
+FORMAL TOOLCHAIN SMOKE VERIFIED.
+
+A generic prove and cover smoke job passed with the recorded Yosys,
+SymbiYosys and Z3 versions. No production RTL property has yet been
+formally checked; project formal status remains NOT YET RUN.
+
+Synthesis: not run
+Place/route: not run
+Timing: not run
+Architecture B: not started

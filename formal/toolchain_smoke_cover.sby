@@ -1,0 +1,13 @@
+[options]
+mode cover
+depth 12
+
+[engines]
+smtbmc z3
+
+[script]
+read -formal -sv toolchain_smoke.sv
+prep -top formal_toolchain_smoke
+
+[files]
+toolchain_smoke.sv

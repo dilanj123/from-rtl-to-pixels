@@ -1,0 +1,52 @@
+P7-FORMAL-BOOTSTRAP-001 evidence
+
+Baseline:
+  commit=c1a2a5d1f9d81dbbd60cf95e57be61a6f4529bb6
+  branch=main
+  architecture=arm64
+  macOS=26.4.1 (BuildVersion 25E253)
+  production RTL diff=empty
+  Verilator=5.052
+
+Toolchain source:
+  No coherent pre-existing yosys/sby/yosys-smtbmc/z3 installation was found.
+  Pinned official YosysHQ OSS CAD Suite installed outside the repository.
+  release tag=2026-09-20
+  asset=oss-cad-suite-darwin-arm64-20260920.tgz
+  expected_sha256=3af61f750c8040bcdfe317ba6134f93e391d65dc27e6bf39ef56455e48c723ae
+  actual_sha256=3af61f750c8040bcdfe317ba6134f93e391d65dc27e6bf39ef56455e48c723ae
+  external_install=/Users/Dilan/.local/share/from-rtl-to-pixels/oss-cad-suite-20260920
+  symlink=/Users/Dilan/.local/share/from-rtl-to-pixels/oss-cad-suite-current
+
+Executable paths and versions:
+  yosys=/Users/Dilan/.local/share/from-rtl-to-pixels/oss-cad-suite-current/bin/yosys
+  sby=/Users/Dilan/.local/share/from-rtl-to-pixels/oss-cad-suite-current/bin/sby
+  yosys-smtbmc=/Users/Dilan/.local/share/from-rtl-to-pixels/oss-cad-suite-current/bin/yosys-smtbmc
+  z3=/Users/Dilan/.local/share/from-rtl-to-pixels/oss-cad-suite-current/bin/z3
+  Yosys 0.69+75 (git sha1 f0b945f63-dirty, Release, Clang /usr/local/osxcross/target/bin/aarch64-apple-darwin25.5-clang++ 21.1.8)
+  SBY v0.69
+  Z3 version 4.15.5 - 64 bit
+  FORMAL_TOOLCHAIN_CHECK=PASS
+
+Prove smoke:
+  command: scripts/formal/run_toolchain_smoke.sh
+  job: formal/toolchain_smoke_prove.sby
+  engine: smtbmc
+  solver: z3
+  mode/depth: prove / 12
+  result: successful proof by k-induction; basecase pass; induction pass; DONE (PASS, rc=0)
+  exit_code=0
+
+Cover smoke:
+  command: scripts/formal/run_toolchain_smoke.sh
+  job: formal/toolchain_smoke_cover.sby
+  engine: smtbmc
+  solver: z3
+  mode/depth: cover / 12
+  result: reached cover statement at formal_toolchain_smoke:toolchain_smoke.sv:19.9-22.10 step 6; DONE (PASS, rc=0)
+  exit_code=0
+
+FORMAL_TOOLCHAIN_SMOKE=PASS
+
+NO PRODUCTION RTL PROPERTY WAS FORMALLY CHECKED BY THIS SMOKE TASK.
+This is generic toolchain environment evidence only; it is not accelerator formal verification.

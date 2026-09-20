@@ -189,3 +189,9 @@ Public image provenance is recorded in `THIRD_PARTY_NOTICES.md` and `docs/THIRD_
 | Architecture A/B comparison | none yet | deferred to Gate 4 |
 
 Known-defect regression audit: final external-token completion has dedicated Gate-2 coverage; the strengthened streaming monitor covers the earlier valid-persistence and targeted-stall monitoring gap; malformed metadata recovery has dedicated reset/abort/restart regression; shadow/active and same-edge APB-write/SOF behavior has dedicated configuration-timing regression. The repository records no unresolved known functional defect without regression evidence. Formal, synthesis, P&R, timing and Architecture B remain unverified.
+
+Claim: Phase-7 formal environment bootstrap established a runnable Yosys/SymbiYosys/Z3 flow on the recorded Apple-Silicon environment. A generic prove/cover smoke harness passed and demonstrates toolchain execution only. No production RTL property was formally checked by this milestone.
+Evidence: `results/raw/formal-toolchain-bootstrap.log`
+Classification: `FORMAL TOOLCHAIN SMOKE VERIFIED`
+Conditions: pinned YosysHQ OSS CAD Suite 2026-09-20, verified archive SHA-256, Yosys 0.69+75, SBY v0.69, Z3 4.15.5; generic `formal_toolchain_smoke` prove depth 12 and cover depth 12 both passed, with the cover statement reached at step 6.
+Limitation: this is environment evidence and must not be described as formal verification of the accelerator. No production RTL property has yet been checked.

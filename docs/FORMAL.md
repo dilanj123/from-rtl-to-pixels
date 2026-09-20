@@ -91,12 +91,80 @@ Toolchain smoke results are classified separately as:
 
 The latter is environment evidence, not design proof.
 
-## Current formal status
+## Elastic-stage proof record
 
-No production RTL property has yet been formally checked in Phase 7.
+Target:
+`rtl/elastic_stage.sv`
+
+Configuration:
+`DATA_WIDTH=11`
+
+Evidence:
+`results/raw/formal-elastic-stage.log`
+
+Engine:
+`smtbmc`
+
+Solver:
+`Z3`
+
+### F-ELASTIC-001
+
+Result:
+`FORMAL PROPERTY PASSED UNDER DOCUMENTED ASSUMPTIONS`
+
+Property:
+A valid output token remains valid with stable data while stalled.
+
+### F-ELASTIC-002
+
+Result:
+`FORMAL PROPERTY PASSED UNDER DOCUMENTED ASSUMPTIONS`
+
+Property:
+A stalled stored token cannot be replaced by a newly accepted input
+before the stored token is transferred.
+
+### F-ELASTIC-003
+
+Result:
+`FORMAL PROPERTY PASSED UNDER DOCUMENTED ASSUMPTIONS`
+
+Property:
+The ghost accepted-minus-transferred occupancy remains legal for the
+one-entry stage and agrees with the RTL valid/data state.
+
+### Assumptions
+
+The first sampled edge is constrained to synchronous reset.
+
+After initialization, `rst`, `s_valid`, `s_data`, and `m_ready` are
+otherwise arbitrary.
+
+No source or destination fairness is assumed.
+
+No source-valid or source-data hold behavior is assumed while not ready.
+
+### Vacuity / cover review
+
+The cover job reached:
+
+- stage occupied;
+- output stalled;
+- stalled token subsequently accepted;
+- empty stage accepting a token;
+- simultaneous pop/push.
+
+### Limitations
+
+The proof is elaborated at `DATA_WIDTH=11`, matching the production
+Architecture-A output elastic stage.
+
+This is a local control/protocol proof. It is not whole-accelerator formal
+verification.
 
 The next formal task is:
 
-`P7-ELASTIC-FORMAL-001`
+`P7-APB-FORMAL-001`
 
-covering `F-ELASTIC-001`, `F-ELASTIC-002`, and `F-ELASTIC-003`.
+covering `F-APB-001` and `F-APB-002`.

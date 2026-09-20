@@ -72,7 +72,15 @@ Formal, synthesis, P&R, timing and Architecture B remain unverified.
 `pixel_control.accept_i` represents accepted input; that primitive does not generate ready or implement RUN_ENABLE/DRAIN admission.
 
 Formal:
-not run
+TARGETED FORMAL IN PROGRESS.
+
+F-ELASTIC-001, F-ELASTIC-002 and F-ELASTIC-003 have passed at
+DATA_WIDTH=11 under the documented initialization assumption, with
+cover/vacuity checks.
+
+Evidence: results/raw/formal-elastic-stage.log
+
+No whole-accelerator formal verification is claimed.
 
 Synthesis:
 not run
@@ -85,17 +93,18 @@ Known future workflow dependencies:
 - nextpnr-ecp5/ECP5 database for implementation
 
 Current bottleneck:
-Execute the first targeted project formal proof on elastic_stage, including stalled stability, no overwrite and one-entry token conservation with cover/vacuity review.
+Execute the targeted APB/config formal properties, particularly shadow/active activation and same-edge APB-write/SOF priority, without over-constraining the APB environment.
 
 Next task:
-P7-ELASTIC-FORMAL-001
+P7-APB-FORMAL-001
 
 Formal toolchain:
 FORMAL TOOLCHAIN SMOKE VERIFIED.
 
 A generic prove and cover smoke job passed with the recorded Yosys,
-SymbiYosys and Z3 versions. No production RTL property has yet been
-formally checked; project formal status remains NOT YET RUN.
+SymbiYosys and Z3 versions. The first targeted elastic-stage project
+formal properties have since passed at DATA_WIDTH=11; whole-accelerator
+formal verification is not claimed.
 
 Synthesis: not run
 Place/route: not run

@@ -1,0 +1,15 @@
+[options]
+mode cover
+depth 20
+
+[engines]
+smtbmc z3
+
+[script]
+read -formal -sv elastic_stage.sv elastic_stage_formal.sv
+chparam -set DATA_WIDTH 11 elastic_stage_formal
+prep -top elastic_stage_formal
+
+[files]
+elastic_stage.sv ../rtl/elastic_stage.sv
+elastic_stage_formal.sv

@@ -195,3 +195,9 @@ Evidence: `results/raw/formal-toolchain-bootstrap.log`
 Classification: `FORMAL TOOLCHAIN SMOKE VERIFIED`
 Conditions: pinned YosysHQ OSS CAD Suite 2026-09-20, verified archive SHA-256, Yosys 0.69+75, SBY v0.69, Z3 4.15.5; generic `formal_toolchain_smoke` prove depth 12 and cover depth 12 both passed, with the cover statement reached at step 6.
 Limitation: this is environment evidence and must not be described as formal verification of the accelerator. No production RTL property has yet been checked.
+
+Claim: The production-used `DATA_WIDTH=11` `elastic_stage` configuration has targeted formal evidence for stalled output stability, prevention of input acceptance/overwrite while an output token is stalled, and a one-entry accepted-minus-transferred ghost occupancy/data invariant. The prove job passed under the documented initialization assumption, and cover checks exercised occupied, stalled, stall-release, empty-accept and simultaneous pop/push states.
+Evidence: `results/raw/formal-elastic-stage.log`
+Classification: `FORMAL PROPERTY PASSED UNDER DOCUMENTED ASSUMPTIONS`
+Conditions: Yosys 0.69+75; SymbiYosys v0.69; Z3 4.15.5; `smtbmc z3`; prove and cover depth 20; first sampled edge reset asserted; all later reset and source/destination stimulus arbitrary; no fairness or source-hold assumptions.
+Limitations: `DATA_WIDTH=11` only, matching the production Architecture-A instance; not a universal parameter proof and not whole-accelerator formal verification. Synthesis, P&R and timing remain unverified.

@@ -1,0 +1,59 @@
+P7-ELASTIC-FORMAL-001 evidence
+
+Baseline: fcef75948d0fc1a7e9457667d762872f57456b1a
+Production target: rtl/elastic_stage.sv
+Formal configuration: DATA_WIDTH=11
+
+Tool paths:
+  yosys=/Users/Dilan/.local/share/from-rtl-to-pixels/oss-cad-suite-current/bin/yosys
+  sby=/Users/Dilan/.local/share/from-rtl-to-pixels/oss-cad-suite-current/bin/sby
+  yosys-smtbmc=/Users/Dilan/.local/share/from-rtl-to-pixels/oss-cad-suite-current/bin/yosys-smtbmc
+  z3=/Users/Dilan/.local/share/from-rtl-to-pixels/oss-cad-suite-current/bin/z3
+Versions:
+  Yosys 0.69+75 (git sha1 f0b945f63-dirty, Release, Clang /usr/local/osxcross/target/bin/aarch64-apple-darwin25.5-clang++ 21.1.8)
+  SBY v0.69
+  Z3 version 4.15.5 - 64 bit
+
+Production lint:
+  verilator --lint-only -Wall rtl/elastic_stage.sv --top-module elastic_stage -GDATA_WIDTH=11
+  exit 0; zero warnings
+
+Existing simulation baseline:
+  PATH="$PWD/.venv/bin:$PATH" SIM_BUILD="$tmp" COCOTB_RESULTS_FILE="$tmp/results.xml" make -f tb/tests/Makefile.elastic_stage
+  TESTS=6 PASS=6 FAIL=0; exit 0
+
+Formal environment assumptions:
+  first sampled edge has synchronous reset asserted;
+  after initialization rst may reassert arbitrarily;
+  s_valid, s_data and m_ready are arbitrary on every step;
+  no source fairness, destination fairness, source-valid persistence,
+  source-data hold, or eventual-ready assumptions.
+
+Prove:
+  SBY file: formal/elastic_stage_prove.sby
+  mode=prove depth=20 engine=smtbmc solver=z3
+  basecase: pass; induction: pass; successful proof by k-induction
+  DONE (PASS, rc=0); exit_code=0
+
+Cover:
+  SBY file: formal/elastic_stage_cover.sby
+  mode=cover depth=20 engine=smtbmc solver=z3
+  c_empty_stage_accept reached at step 2
+  c_output_stalled reached at step 3
+  c_stage_occupied reached at step 3
+  c_simultaneous_pop_push reached at step 3
+  c_stall_then_transfer reached at step 4
+  DONE (PASS, rc=0); exit_code=0
+
+F-ELASTIC-001: FORMAL PROPERTY PASSED UNDER DOCUMENTED ASSUMPTIONS
+  Stalled valid output remains valid with identical data.
+F-ELASTIC-002: FORMAL PROPERTY PASSED UNDER DOCUMENTED ASSUMPTIONS
+  Stalled stored output cannot be overwritten or replaced before transfer.
+F-ELASTIC-003: FORMAL PROPERTY PASSED UNDER DOCUMENTED ASSUMPTIONS
+  One-entry ghost occupancy remains legal and matches valid/data state.
+
+Limitations:
+  DATA_WIDTH=11 only, matching the production Architecture-A instance;
+  not a universal parameter proof;
+  not whole-accelerator formal verification;
+  no synthesis, place/route, or timing evidence.

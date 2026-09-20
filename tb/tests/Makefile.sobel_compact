@@ -1,0 +1,14 @@
+TOPLEVEL_LANG = verilog
+SIM ?= verilator
+
+THIS_DIR := $(dir $(abspath $(lastword $(MAKEFILE_LIST))))
+ROOT := $(abspath $(THIS_DIR)/../..)
+
+VERILOG_SOURCES = $(ROOT)/rtl/sobel_compact.sv
+
+TOPLEVEL = sobel_compact
+COCOTB_TEST_MODULES = test_sobel_compact
+
+export PYTHONPATH := $(ROOT):$(THIS_DIR):$(PYTHONPATH)
+
+include $(shell cocotb-config --makefiles)/Makefile.sim

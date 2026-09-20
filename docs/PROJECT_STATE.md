@@ -1,7 +1,7 @@
 # Project State
 
-Current phase: Phase 6 — Production-top deep regression
-Current gate: Gate 2 CLOSED; Gate 3 OPEN
+Current phase: Phase 7 — Formal
+Current gate: Gate 3 CLOSED; Gate 4 OPEN
 Historical known-good commit before Phase 5: `597af7f8c0edfac2dfb2763e042a7d17acf17b8d`
 Streaming baseline commit: `a73be9929b6f73329e86790e7726eef8dae4e62d`; subsequent monitor/coverage strengthening is recorded in results/raw/gate3-streaming-monitor-coverage.log.
 Current architecture: frozen single-clock streaming Sobel specification with production `rtl_to_pixels_top` and verified Architecture-A datapath integration at tested small dimensions
@@ -62,8 +62,12 @@ Production Architecture A configuration timing regression verifies shadow/active
 Evidence: results/raw/gate3-config-timing-cocotb.log
 Classification: RTL SIMULATION VERIFIED.
 Conditions: Verilator 5.052; cocotb 2.1.0; 6 configuration-timing tests at each of 3x3, 5x4 and 8x5; independent `sobel_rgb` comparison.
-Gate 3 remains OPEN — streaming, reset/malformed-metadata and configuration-timing evidence established; broader-dimension/image coverage and requirements traceability remain.
-Remaining Gate-3 work: broader legal dimensions; canonical 640x480; additional random frames; real-image regression; requirements traceability closure.
+Production Architecture A dimension/image regression adds 18 deterministic random complete frames at 4x4, 5x5, 3x7, 7x3, 16x9 and 31x17, plus a canonical 640x480 public-domain image frame. All recorded comparisons have exact input/output counts and mismatch_count=0; processed reference, RTL and diff artifacts are recorded.
+Evidence: results/raw/gate3-dimension-image-cocotb.log
+Classification: RTL SIMULATION VERIFIED.
+Conditions: Verilator 5.052; cocotb 2.1.0; six legal dimensions with three random frames each; one 640x480 public-domain photograph; independent `sobel_rgb` comparison.
+Gate 3 CLOSED — verified regression evidence now covers streaming stress, reset/malformed-metadata recovery, configuration timing, multiple legal dimensions, deterministic random frames, a canonical 640x480 public real-image frame, and requirements traceability.
+Remaining Gate-3 work: none unresolved in the audited categories. Formal, synthesis, P&R, timing and Architecture B remain unverified.
 Formal, synthesis, P&R, timing and Architecture B remain unverified.
 `pixel_control.accept_i` represents accepted input; that primitive does not generate ready or implement RUN_ENABLE/DRAIN admission.
 
@@ -81,7 +85,7 @@ Known future workflow dependencies:
 - nextpnr-ecp5/ECP5 database for implementation
 
 Current bottleneck:
-Complete Gate-3 dimension/image coverage and requirements traceability.
+Begin Gate-4 targeted formal verification before synthesis/implementation.
 
 Next task:
-P6 broader-dimension, canonical-640x480 and image regression.
+Phase 7 targeted formal planning and environment/tool bootstrap.

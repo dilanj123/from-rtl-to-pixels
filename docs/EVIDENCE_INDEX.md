@@ -155,3 +155,37 @@ Evidence: `results/raw/gate3-config-timing-cocotb.log`
 Classification: `RTL SIMULATION VERIFIED`
 Conditions: Verilator 5.052; cocotb 2.1.0; 6 configuration-timing tests at 3x3, 5x4 and 8x5; independent `sobel_rgb` comparison. All emitted configuration-frame comparisons reported exact W×H accepted input/output counts and `mismatch_count=0`.
 Evidence covers idle shadow writes and CONFIG_PENDING, SOF activation, mid-frame threshold and bypass deferral, same-edge APB-write/SOF pre-edge priority, and RUN_ENABLE clearing during an active frame with new-frame blocking and re-enable. Gate 3 remains OPEN. Remaining Gate-3 work: broader legal dimensions, canonical 640x480, additional random frames, real-image regression and requirements traceability closure. Formal, synthesis, P&R, timing and Architecture B remain unverified.
+
+Claim: Production Architecture A broader-dimension and complete-image regression exercises deterministic random complete RGB frames at 4x4, 5x5, 3x7, 7x3, 16x9 and 31x17, plus the canonical 640x480 public-domain photograph. Complete RTL frames were reconstructed and compared automatically with the independent Python Sobel model.
+Git baseline: `9a1dc4d4148af59226cac9e0344b2a751a71ef2d`; commit adding this entry: `Close Gate 3 with dimension and image regression`.
+Evidence: `results/raw/gate3-dimension-image-cocotb.log`
+Classification: `RTL SIMULATION VERIFIED`
+Conditions: Verilator 5.052; cocotb 2.1.0; 18 additional deterministic random frames across six dimensions; one canonical 640x480 public-domain image; exact input/output counts; all recorded mismatch_count=0; independent `sobel_rgb` comparison.
+Public image provenance is recorded in `THIRD_PARTY_NOTICES.md` and `docs/THIRD_PARTY_MANIFEST.md`. Generated artifacts are `results/processed/gate3-real-reference.png`, `results/processed/gate3-real-rtl.png`, and `results/processed/gate3-real-diff.png`; all are 640x480 and the diff has zero nonzero pixels.
+
+## Gate 3 requirements traceability
+
+| Requirement area | Evidence | Classification / status |
+|---|---|---|
+| RGB/grayscale/Sobel/magnitude/clamp/threshold arithmetic | reference-model-pytest, rgb-to-gray, sobel-compact, magnitude-clamp, threshold-stage, Gate-2 complete-frame evidence | RTL simulation/reference verified for recorded tests |
+| exact accepted input/output counts | Gate-2, streaming stress/strengthened streaming, reset recovery, config timing, dimension/image regression | RTL simulation verified |
+| SOF/EOL output metadata | Gate-2, streaming monitor coverage, reset recovery, dimension/image regression | RTL simulation verified |
+| stalled output stability | strengthened streaming monitor coverage | RTL simulation verified for tested conditions |
+| source gaps/backpressure | strengthened streaming regression | RTL simulation verified |
+| borders/W+1 alignment/drain | output-control, Architecture-A alignment, Gate-2, streaming regression | RTL simulation verified |
+| reset abort/restart | gate3-reset-metadata | RTL simulation verified |
+| malformed metadata abort/restart | gate3-reset-metadata | RTL simulation verified |
+| APB reset/default/access/W1C/frame-count rollover behavior | apb-regs focused regression | RTL simulation verified at block level |
+| shadow/active configuration timing | gate3-config-timing | production-top RTL simulation verified |
+| same-edge APB-write/SOF priority | gate3-config-timing | production-top RTL simulation verified |
+| RUN_ENABLE admission behavior | Gate-2 plus gate3-config-timing | production-top RTL simulation verified |
+| legal dimensions / 4x4 / 5x5 / non-square | gate3-dimension-image | RTL simulation verified |
+| deterministic random complete frames | strengthened streaming plus gate3-dimension-image | RTL simulation verified |
+| canonical 640x480 | gate3-dimension-image | RTL simulation verified; 307200 input/output transfers, mismatch_count=0 |
+| real/public image | gate3-dimension-image plus provenance records | RTL simulation verified; public-domain source and SHA-256 recorded |
+| selected formal properties | none yet | deferred to Gate 4 |
+| synthesis/resources | none yet | deferred to Gate 4 |
+| place/route/timing | none yet | deferred to Gate 4 |
+| Architecture A/B comparison | none yet | deferred to Gate 4 |
+
+Known-defect regression audit: final external-token completion has dedicated Gate-2 coverage; the strengthened streaming monitor covers the earlier valid-persistence and targeted-stall monitoring gap; malformed metadata recovery has dedicated reset/abort/restart regression; shadow/active and same-edge APB-write/SOF behavior has dedicated configuration-timing regression. The repository records no unresolved known functional defect without regression evidence. Formal, synthesis, P&R, timing and Architecture B remain unverified.

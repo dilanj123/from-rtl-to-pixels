@@ -183,7 +183,7 @@ Public image provenance is recorded in `THIRD_PARTY_NOTICES.md` and `docs/THIRD_
 | deterministic random complete frames | strengthened streaming plus gate3-dimension-image | RTL simulation verified |
 | canonical 640x480 | gate3-dimension-image | RTL simulation verified; 307200 input/output transfers, mismatch_count=0 |
 | real/public image | gate3-dimension-image plus provenance records | RTL simulation verified; public-domain source and SHA-256 recorded |
-| selected formal properties | none yet | deferred to Gate 4 |
+| selected formal properties | formal-elastic-stage; formal-apb-regs | targeted formal evidence verified under documented assumptions; no whole-accelerator proof |
 | synthesis/resources | none yet | deferred to Gate 4 |
 | place/route/timing | none yet | deferred to Gate 4 |
 | Architecture A/B comparison | none yet | deferred to Gate 4 |
@@ -201,3 +201,8 @@ Evidence: `results/raw/formal-elastic-stage.log`
 Classification: `FORMAL PROPERTY PASSED UNDER DOCUMENTED ASSUMPTIONS`
 Conditions: Yosys 0.69+75; SymbiYosys v0.69; Z3 4.15.5; `smtbmc z3`; prove and cover depth 20; first sampled edge reset asserted; all later reset and source/destination stimulus arbitrary; no fairness or source-hold assumptions.
 Limitations: `DATA_WIDTH=11` only, matching the production Architecture-A instance; not a universal parameter proof and not whole-accelerator formal verification. Synthesis, P&R and timing remain unverified.
+
+Claim: Targeted formal evidence exists for selected elastic-stage and APB/configuration properties. The production `apb_regs` block passed F-APB-001 and F-APB-002 under the documented first-edge-reset and otherwise-arbitrary-input environment. The four internal APB state wires were observed through a formal-netlist-only Yosys `expose` transformation after direct `read_verilog` compilation; production RTL was unchanged. All ten APB reachability covers were reached at depth 24.
+Evidence: `results/raw/formal-apb-regs.log`
+Classification: `FORMAL PROPERTY PASSED UNDER DOCUMENTED ASSUMPTIONS`
+Limitations: local APB/configuration proof only; no whole-accelerator formal verification is claimed. The modulo-32-bit FRAME_COUNT recurrence is proved, while the specific rollover cover remains simulation evidence. No synthesis, P&R or timing evidence exists yet.

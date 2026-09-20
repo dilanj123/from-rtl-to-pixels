@@ -74,9 +74,14 @@ Formal, synthesis, P&R, timing and Architecture B remain unverified.
 Formal:
 TARGETED FORMAL IN PROGRESS.
 
-F-ELASTIC-001, F-ELASTIC-002 and F-ELASTIC-003 have passed at
-DATA_WIDTH=11 under the documented initialization assumption, with
-cover/vacuity checks.
+Passed under documented assumptions:
+- F-ELASTIC-001
+- F-ELASTIC-002
+- F-ELASTIC-003
+- F-APB-001
+- F-APB-002
+
+Elastic-stage and APB/configuration cover/vacuity checks are recorded.
 
 Evidence: results/raw/formal-elastic-stage.log
 
@@ -93,10 +98,10 @@ Known future workflow dependencies:
 - nextpnr-ecp5/ECP5 database for implementation
 
 Current bottleneck:
-Execute the targeted APB/config formal properties, particularly shadow/active activation and same-edge APB-write/SOF priority, without over-constraining the APB environment.
+Prove pixel_control legal-state/coordinate safety and selected accepted metadata invariants.
 
 Next task:
-P7-APB-FORMAL-001
+P7-CONTROL-FORMAL-001
 
 Formal toolchain:
 FORMAL TOOLCHAIN SMOKE VERIFIED.
@@ -105,6 +110,10 @@ A generic prove and cover smoke job passed with the recorded Yosys,
 SymbiYosys and Z3 versions. The first targeted elastic-stage project
 formal properties have since passed at DATA_WIDTH=11; whole-accelerator
 formal verification is not claimed.
+
+The targeted APB/configuration properties have also passed under documented
+assumptions using formal-netlist-only Yosys expose observation of the actual
+APB state wires. Evidence: results/raw/formal-apb-regs.log
 
 Synthesis: not run
 Place/route: not run

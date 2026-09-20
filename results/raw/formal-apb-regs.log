@@ -1,0 +1,87 @@
+Task: P7-APB-FORMAL-OBSERVE-003
+Baseline: e072a4ce0a8839b870e8861f69afda90a0f618e0
+
+Debug history:
+- Attempt 1: a_f_apb_001_threshold_read failed during temporal induction because ghost/DUT hidden-state correspondence was not explicit.
+- Attempt 2: direct hierarchical observations became implicit undriven wires.
+- Observation probe 1: generic read deferred the concrete module, so expose selections did not match.
+- Observation probe 2: direct read_verilog selected the real state, but JSON required process lowering.
+
+Final observation mechanism:
+read_verilog -formal -sv, module-local expose of threshold_shadow_q,
+bypass_threshold_shadow_q, frame_error_q and frame_count_q, then proc for the
+standalone JSON diagnostic. The proof flow uses direct read_verilog, expose,
+wrapper read and prep. No production RTL or testbench change was made.
+
+Toolchain:
+yosys: /Users/Dilan/.local/share/from-rtl-to-pixels/oss-cad-suite-current/bin/yosys
+sby: /Users/Dilan/.local/share/from-rtl-to-pixels/oss-cad-suite-current/bin/sby
+yosys-smtbmc: /Users/Dilan/.local/share/from-rtl-to-pixels/oss-cad-suite-current/bin/yosys-smtbmc
+z3: /Users/Dilan/.local/share/from-rtl-to-pixels/oss-cad-suite-current/bin/z3
+Yosys: 0.69+75
+SBY: v0.69
+Z3: 4.15.5
+
+Corrected expose probe:
+probe_rc=0
+EXPOSED_PORT name=threshold_shadow_q direction=output width=8
+EXPOSED_PORT name=bypass_threshold_shadow_q direction=output width=1
+EXPOSED_PORT name=frame_error_q direction=output width=1
+EXPOSED_PORT name=frame_count_q direction=output width=32
+APB_EXPOSE_PROBE=PASS
+Selection/implicit/undriven warnings: none
+
+Formal elaboration check:
+elab_rc=0
+Yosys check found 0 problems; no unmatched, implicit or undriven observation warnings.
+
+Production lint:
+verilator --lint-only -Wall rtl/apb_regs.sv --top-module apb_regs
+PASS, zero warnings
+
+Existing APB simulation:
+make -f tb/tests/Makefile.apb_regs
+TESTS=7 PASS=7 FAIL=0 SKIP=0, exit 0
+
+Formal assumptions:
+- first sampled edge has synchronous reset asserted;
+- later rst, APB, processing, draining and event inputs are arbitrary;
+- no APB phase sequencing assumption;
+- no fairness assumption;
+- no additional assumptions.
+
+Prove:
+SBY: formal/apb_regs_prove.sby
+mode=prove depth=24 engine=smtbmc solver=z3
+basecase: PASS
+temporal induction: PASS
+exit=0
+APB_REGS_PROVE=PASS
+
+Cover:
+SBY: formal/apb_regs_cover.sby
+mode=cover depth=24 engine=smtbmc solver=z3
+c_same_edge_threshold_write_sof: step 2
+c_valid_threshold_write: step 2
+c_same_edge_bypass_write_sof: step 2
+c_valid_control_write: step 2
+c_invalid_write: step 2
+c_frame_error_set_and_w1c_same_edge: step 2
+c_invalid_read: step 2
+c_config_pending: step 3
+c_frame_error_w1c: step 3
+c_config_pending_cleared_by_sof: step 4
+exit=0
+APB_REGS_COVER=PASS
+
+F-APB-001: FORMAL PROPERTY PASSED UNDER DOCUMENTED ASSUMPTIONS
+F-APB-002: FORMAL PROPERTY PASSED UNDER DOCUMENTED ASSUMPTIONS
+
+FRAME_COUNT limitation:
+The modulo-2^32 count recurrence was formally checked. The formal cover
+did not specifically claim the 0xFFFFFFFF -> 0 boundary; the existing APB
+cocotb regression separately exercises that concrete transition using
+test-only state preload.
+
+This is a local apb_regs proof. It is not whole-accelerator formal
+verification. Synthesis, P&R and timing evidence were not produced.

@@ -163,8 +163,74 @@ Architecture-A output elastic stage.
 This is a local control/protocol proof. It is not whole-accelerator formal
 verification.
 
+## APB/configuration proof record
+
+Target:
+`rtl/apb_regs.sv`
+
+Evidence:
+`results/raw/formal-apb-regs.log`
+
+Engine:
+`smtbmc`
+
+Solver:
+`Z3`
+
+### F-APB-001
+
+Result:
+`FORMAL PROPERTY PASSED UNDER DOCUMENTED ASSUMPTIONS`
+
+The proof covers the register map, constant PREADY, valid/invalid access
+error behavior, reset defaults, reserved-zero readback, FRAME_COUNT
+read-only behavior and modulo-32-bit transition equation, STATUS mapping,
+and sticky FRAME_ERROR W1C with set-over-clear priority.
+
+### F-APB-002
+
+Result:
+`FORMAL PROPERTY PASSED UNDER DOCUMENTED ASSUMPTIONS`
+
+The proof covers threshold/bypass shadow transitions, SOF-only active
+configuration updates, PRE-EDGE shadow capture, same-edge write/SOF priority,
+and CONFIG_PENDING shadow/active inequality.
+
+### Assumptions and observation
+
+The first sampled edge has synchronous reset asserted. Later reset, APB,
+status and event inputs are arbitrary. No APB sequencing or fairness
+assumption was added.
+
+The formal flow directly compiles the production module with
+`read_verilog -formal -sv`, then uses module-local Yosys `expose` to make the
+four actual internal state wires observable as formal-netlist-only output
+ports. Production RTL remains unchanged.
+
+### Vacuity / cover review
+
+All ten named covers were reached at depth 24: valid control write, valid
+threshold write, invalid read, invalid write, FRAME_ERROR W1C, simultaneous
+FRAME_ERROR set/W1C, same-edge threshold write/SOF, same-edge bypass write/SOF,
+CONFIG_PENDING, and CONFIG_PENDING cleared by SOF.
+
+### Formal-debug history
+
+The APB harness required three observation/debug iterations: the initial ghost
+state relation was not inductive; direct hierarchical references became
+implicit undriven wires; and generic Yosys read deferred the module so expose
+had no concrete target. The final direct `read_verilog` plus module-local
+`expose` flow resolved these tool-flow issues without a production RTL change
+or an additional environment assumption.
+
+### Limitations
+
+The modulo-2^32 FRAME_COUNT recurrence is formally checked, but the formal
+cover does not claim the specific `0xFFFFFFFF -> 0` boundary; the existing
+simulation regression covers that concrete transition with test-only preload.
+This is a local APB/configuration proof, not whole-accelerator formal
+verification. Synthesis, P&R and timing remain unverified.
+
 The next formal task is:
 
-`P7-APB-FORMAL-001`
-
-covering `F-APB-001` and `F-APB-002`.
+`P7-CONTROL-FORMAL-001`

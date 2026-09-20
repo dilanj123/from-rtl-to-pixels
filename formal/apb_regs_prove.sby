@@ -1,0 +1,18 @@
+[options]
+mode prove
+depth 24
+
+[engines]
+smtbmc z3
+
+[script]
+read_verilog -formal -sv apb_regs.sv
+cd apb_regs
+expose threshold_shadow_q bypass_threshold_shadow_q frame_error_q frame_count_q
+cd
+read_verilog -formal -sv apb_regs_formal.sv
+prep -top apb_regs_formal
+
+[files]
+apb_regs.sv ../rtl/apb_regs.sv
+apb_regs_formal.sv

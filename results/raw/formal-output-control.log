@@ -1,0 +1,92 @@
+Task ID: P7-OUTPUT-FORMAL-001
+baseline: badd152995ee34b33bcb38b47a6720fed94c0758
+target: rtl/output_control.sv
+formal dimensions: IMG_WIDTH=3 IMG_HEIGHT=3; IMG_WIDTH=5 IMG_HEIGHT=4
+
+Toolchain:
+Yosys: /Users/Dilan/.local/share/from-rtl-to-pixels/oss-cad-suite-current/bin/yosys (Yosys 0.69+75)
+SBY: /Users/Dilan/.local/share/from-rtl-to-pixels/oss-cad-suite-current/bin/sby (SBY v0.69)
+yosys-smtbmc: /Users/Dilan/.local/share/from-rtl-to-pixels/oss-cad-suite-current/bin/yosys-smtbmc
+Z3: /Users/Dilan/.local/share/from-rtl-to-pixels/oss-cad-suite-current/bin/z3 (Z3 version 4.15.5)
+
+Production lint:
+3x3: PASS, exit 0, zero warnings
+5x4: PASS, exit 0, zero warnings
+
+Existing output-control simulation:
+3x3 Makefile.output_control: TESTS=7 PASS=7 FAIL=0 SKIP=0, exit 0
+5x4 Makefile.output_control: TESTS=7 PASS=7 FAIL=0 SKIP=0, exit 0
+
+Formal environment:
+The first sampled edge has synchronous reset asserted. After initialization,
+rst, pixel_commit_i, frame_start_i, last_input_accept_i, frame_abort_i and
+output_ready_i are arbitrary. No safety fairness or upstream-protocol
+assumption is used.
+
+3x3 prove:
+SBY: formal/output_control_3x3_prove.sby
+mode=prove depth=64 engine=smtbmc solver=z3
+basecase: PASS
+temporal induction: PASS (success at step 64)
+overall: PASS, exit 0
+
+5x4 prove:
+SBY: formal/output_control_5x4_prove.sby
+mode=prove depth=64 engine=smtbmc solver=z3
+basecase: PASS
+temporal induction: PASS (success at step 64)
+overall: PASS, exit 0
+
+3x3 cover:
+SBY: formal/output_control_3x3_cover.sby
+mode=cover depth=64 engine=smtbmc solver=z3
+c_enter_process: reached step 3
+c_enter_drain: reached step 4
+c_drain_input_blocked: reached step 4
+c_drain_stall: reached step 4
+c_drain_stall_then_ready: reached step 5
+c_drain_ready_nonfinal: reached step 4
+c_frame_done: reached step 12
+c_frame_done_returned_wait: reached step 13
+c_abort_during_drain: reached step 4
+c_reset_during_drain: reached step 4
+overall: PASS, exit 0
+
+5x4 cover:
+SBY: formal/output_control_5x4_cover.sby
+mode=cover depth=64 engine=smtbmc solver=z3
+c_enter_process: reached step 3
+c_enter_drain: reached step 4
+c_drain_input_blocked: reached step 4
+c_drain_stall: reached step 4
+c_drain_stall_then_ready: reached step 5
+c_drain_ready_nonfinal: reached step 4
+c_frame_done: reached step 23
+c_frame_done_returned_wait: reached step 24
+c_abort_during_drain: reached step 4
+c_reset_during_drain: reached step 4
+overall: PASS, exit 0
+
+F-OUT-001:
+FORMAL PROPERTY PASSED UNDER DOCUMENTED ASSUMPTIONS
+At both elaborations, DRAIN is mutually exclusive with PROCESS and WAIT_SOF,
+and input_allow_o is deasserted throughout DRAIN. No fairness or upstream
+protocol assumption was used.
+
+F-OUT-002 transition mechanics:
+FORMAL PROPERTY PASSED UNDER DOCUMENTED ASSUMPTIONS
+Stall holds the valid drain token and cursor, non-final acceptance advances
+one raster position, final acceptance asserts frame_done_o, and the following
+state is WAIT_SOF.
+
+F-OUT-002 eventual completion:
+DERIVED FROM FORMALLY CHECKED TRANSITIONS UNDER EXPLICIT FAIRNESS ASSUMPTION
+Fairness: during uninterrupted DRAIN, every pending drain token eventually
+encounters a cycle with output_ready_i=1; downstream cannot stall one token
+forever. No unbounded liveness engine/property was run.
+
+Limitations:
+Formal evidence covers 3x3 and 5x4 only; it is not a universal parameter
+proof. Exact W+1 drain length remains simulation evidence. This is a local
+output_control proof, not whole-accelerator formal verification. Synthesis,
+place-and-route and timing were not run.

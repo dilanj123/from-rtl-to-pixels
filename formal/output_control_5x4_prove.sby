@@ -1,0 +1,15 @@
+[options]
+mode prove
+depth 64
+
+[engines]
+smtbmc z3
+
+[script]
+read_verilog -formal -sv output_control.sv output_control_formal.sv
+chparam -set IMG_WIDTH 5 -set IMG_HEIGHT 4 output_control_formal
+prep -top output_control_formal
+
+[files]
+output_control.sv ../rtl/output_control.sv
+output_control_formal.sv

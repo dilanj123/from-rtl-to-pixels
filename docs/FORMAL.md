@@ -267,10 +267,59 @@ This evidence is limited to the `3x3` and `5x4` configurations and is not a
 universal parameter proof. It is a local `pixel_control` proof; it does not
 prove top-level admission or the whole accelerator.
 
+## Output-control proof record
+
+Target:
+`rtl/output_control.sv`
+
+Configurations:
+`3x3` and `5x4`
+
+Evidence:
+`results/raw/formal-output-control.log`
+
+### F-OUT-001
+
+Result:
+`FORMAL PROPERTY PASSED UNDER DOCUMENTED ASSUMPTIONS`
+
+At both elaborations, `input_allow_o` is deasserted whenever the block is in
+`DRAIN`. `DRAIN` is also mutually exclusive with `PROCESS` and `WAIT_SOF`.
+No fairness or upstream-protocol assumption is used.
+
+### F-OUT-002
+
+Drain transition mechanics:
+`FORMAL PROPERTY PASSED UNDER DOCUMENTED ASSUMPTIONS`
+
+The proof checks that a stalled drain token remains valid at the same cursor,
+non-final acceptance advances one raster position, final acceptance generates
+`frame_done_o`, and the accepted final token returns the block to `WAIT_SOF`.
+
+Eventual completion:
+`DERIVED FROM FORMALLY CHECKED TRANSITIONS UNDER EXPLICIT FAIRNESS ASSUMPTION`
+
+The fairness condition is: during uninterrupted `DRAIN`, every pending drain
+token eventually encounters a cycle with `output_ready_i=1`; downstream cannot
+stall one token forever. Since the cursor advances across the finite raster
+on each accepted non-final token, the checked transitions imply completion
+under that condition.
+
+No dedicated unbounded-liveness engine or property was run, so eventual
+completion is not presented as an unconditional model-checked liveness proof.
+
+The ten reachability covers were reached for both dimensions: process entry,
+drain entry, input blocking, stall, stall-then-ready, non-final ready, frame
+completion, return to `WAIT_SOF`, abort during drain and reset during drain.
+
+This evidence is limited to `3x3` and `5x4`; it is not a universal parameter
+proof. Exact W+1 drain length remains simulation evidence. This is a local
+`output_control` proof and does not verify the whole accelerator.
+
 The next formal task is:
 
-`P7-OUTPUT-FORMAL-001`
+`P7-FRAME-FORMAL-001`
 
-Target properties:
+Target property:
 
-`F-OUT-001` and `F-OUT-002`
+`F-FRAME-001` narrow final-external-token completion/frame-count qualification.

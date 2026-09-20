@@ -202,7 +202,7 @@ Classification: `FORMAL PROPERTY PASSED UNDER DOCUMENTED ASSUMPTIONS`
 Conditions: Yosys 0.69+75; SymbiYosys v0.69; Z3 4.15.5; `smtbmc z3`; prove and cover depth 20; first sampled edge reset asserted; all later reset and source/destination stimulus arbitrary; no fairness or source-hold assumptions.
 Limitations: `DATA_WIDTH=11` only, matching the production Architecture-A instance; not a universal parameter proof and not whole-accelerator formal verification. Synthesis, P&R and timing remain unverified.
 
-Claim: Targeted formal evidence exists for selected elastic-stage and APB/configuration properties. The production `apb_regs` block passed F-APB-001 and F-APB-002 under the documented first-edge-reset and otherwise-arbitrary-input environment. The four internal APB state wires were observed through a formal-netlist-only Yosys `expose` transformation after direct `read_verilog` compilation; production RTL was unchanged. All ten APB reachability covers were reached at depth 24.
+Claim: Targeted formal evidence exists for selected elastic-stage, APB/configuration, pixel-controller and output-control safety/transition properties. The production `apb_regs` block passed F-APB-001 and F-APB-002 under the documented first-edge-reset and otherwise-arbitrary-input environment. The four internal APB state wires were observed through a formal-netlist-only Yosys `expose` transformation after direct `read_verilog` compilation; production RTL was unchanged. All ten APB reachability covers were reached at depth 24.
 Evidence: `results/raw/formal-apb-regs.log`
 Classification: `FORMAL PROPERTY PASSED UNDER DOCUMENTED ASSUMPTIONS`
 Limitations: local APB/configuration proof only; no whole-accelerator formal verification is claimed. The modulo-32-bit FRAME_COUNT recurrence is proved, while the specific rollover cover remains simulation evidence. No synthesis, P&R or timing evidence exists yet.
@@ -212,3 +212,10 @@ Evidence: `results/raw/formal-pixel-control.log`
 Classification: `FORMAL PROPERTY PASSED UNDER DOCUMENTED ASSUMPTIONS`
 Conditions: first sampled edge reset asserted; later reset, acceptance and metadata inputs arbitrary; no fairness or valid-metadata assumption; prove and cover depth 32 with `smtbmc z3`.
 Limitations: `3x3` and `5x4` only, not a universal dimension proof; local controller only; no top-level admission or whole-accelerator formal verification; no synthesis, P&R or timing evidence.
+
+Claim: Targeted formal evidence covers `output_control` at `3x3` and `5x4`. F-OUT-001 proves that DRAIN deasserts `input_allow_o`; F-OUT-002 proves stall stability, one-position non-final cursor advance, final `frame_done_o` generation and return to WAIT_SOF.
+Evidence: `results/raw/formal-output-control.log`
+Classification: `FORMAL PROPERTY PASSED UNDER DOCUMENTED ASSUMPTIONS` for safety and transition mechanics.
+Conditions: first sampled edge reset asserted; all later inputs arbitrary; no safety fairness or upstream-protocol assumption; prove and cover depth 64 with `smtbmc z3`.
+Eventual completion: `DERIVED FROM FORMALLY CHECKED TRANSITIONS UNDER EXPLICIT FAIRNESS ASSUMPTION`; during uninterrupted DRAIN every pending token eventually sees `output_ready_i=1`. No unconditional liveness model-check claim is made.
+Limitations: `3x3` and `5x4` only; exact W+1 remains simulation evidence; local output-control proof only; no whole-accelerator formal verification; no synthesis, P&R or timing evidence.

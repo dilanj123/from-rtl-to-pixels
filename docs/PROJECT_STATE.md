@@ -81,14 +81,20 @@ Passed under documented assumptions:
 - F-APB-001
 - F-APB-002
 - F-CTRL-001 at 3x3 and 5x4
+- F-OUT-001 at 3x3 and 5x4
+- F-OUT-002 drain transition mechanics at 3x3 and 5x4
 
-Elastic-stage, APB/configuration and pixel-controller cover/vacuity checks
-are recorded.
+Elastic-stage, APB/configuration, pixel-controller and output-control
+cover/vacuity checks are recorded.
+
+F-OUT-002 eventual drain completion is derived from the formally checked
+transition mechanics under an explicit downstream fairness condition.
 
 Evidence:
 results/raw/formal-elastic-stage.log
 results/raw/formal-apb-regs.log
 results/raw/formal-pixel-control.log
+results/raw/formal-output-control.log
 
 No whole-accelerator formal verification is claimed.
 
@@ -103,11 +109,11 @@ Known future workflow dependencies:
 - nextpnr-ecp5/ECP5 database for implementation
 
 Current bottleneck:
-Prove output_control no-overlap/drain safety and progress under an explicitly
-documented downstream-progress assumption.
+Prove the narrow final-external-token completion/frame-count qualification
+invariant before moving from targeted formal into Architecture-A synthesis.
 
 Next task:
-P7-OUTPUT-FORMAL-001
+P7-FRAME-FORMAL-001
 
 Formal toolchain:
 FORMAL TOOLCHAIN SMOKE VERIFIED.

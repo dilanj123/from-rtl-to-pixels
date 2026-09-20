@@ -32,11 +32,25 @@ Highest tested timing-clean target: **35 MHz**. Lowest tested timing-failing
 target: **50 MHz**. Search resolution: **5 MHz**. This is routed timing
 evidence for seed 1, not a statistically robust FPGA Fmax.
 
-The reported critical path is `s_tdata[15]$tr_io` output to
-`m_tdata_TRELLIS_FF_Q_2` data input, with total delay 32.068 ns, logic delay
-12.306 ns and routing delay 19.762 ns. Source references include
-`rgb_to_gray.sv`, `magnitude_clamp.sv` and `threshold_stage.sv`; the measured
-path is classified descriptively as a routing-dominated mixed arithmetic path.
+The synchronous critical path is `u_line_buffer.line1_mem.0.0` port `DOB1`
+(clock-to-clock) to `m_tdata_TRELLIS_FF_Q_2` port `DI`, with total delay
+25.731 ns: clk-to-q 5.830 ns, ordinary logic 8.033 ns and routing 11.868 ns.
+This is a mixed line-buffer/output arithmetic cone through the Sobel,
+magnitude/clamp and threshold path. Routing contributes 46.1% and the
+registered-source plus ordinary logic contribution 53.9%, so the measured
+synchronous bottleneck is mixed logic/routing rather than purely
+routing-dominated.
+
+### Unconstrained I/O timing
+
+The approximately 32.068 ns path from `s_tdata[15]$tr_io` to the same output
+data endpoint is an `<async>` to clock path. It includes source-side logic
+and is preserved as separate unconstrained I/O timing evidence; it is not the
+synchronous Fmax path.
+
+The logs contain two frequency lines: the earlier placement-stage estimate
+is 36.47 MHz and the later post-route result is 38.86 MHz. The latter is the
+routed achieved result used above.
 
 The design specifies up to one accepted pixel per clock. At the 35 MHz clean
 routed target, the corresponding **DERIVED** peak rate is 35 Mpixel/s. This is

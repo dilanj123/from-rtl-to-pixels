@@ -1,0 +1,31 @@
+Task: P9-ARCH-A-BOTTLENECK-001
+Baseline: 6b8676c45e46110eb8889307ec6dacd85bcea3c0
+Raw clean report: results/raw/arch-a-route-clean-report.json
+Raw failing report: results/raw/arch-a-route-fail-report.json
+
+Constraint frontier, seed 1: 25 MHz PASS; 35 MHz PASS; 50 MHz FAIL. Post-route achieved clock: 38.8636 MHz. Earlier placement-stage estimate in both logs: 36.47 MHz.
+
+Synchronous clock: $glbnet$clk$TRELLIS_IO_IN
+Synchronous domain: posedge clock -> posedge same clock
+Synchronous source: u_line_buffer.line1_mem.0.0 / DOB1
+Synchronous sink: m_tdata_TRELLIS_FF_Q_2 / DI
+Synchronous total delay: 25.731 ns
+Synchronous clk-to-q: 5.830 ns
+Synchronous ordinary logic: 8.033 ns
+Synchronous routing: 11.868 ns
+Synchronous interpretation: mixed logic/routing; routing 46.1%, clk-to-q plus logic 53.9%.
+
+Async-to-clock path source: s_tdata[15]$tr_io / O
+Async-to-clock sink: m_tdata_TRELLIS_FF_Q_2 / DI
+Async-to-clock total: 32.068 ns
+Async classification: UNCONSTRAINED ASYNC-INPUT-TO-CLOCK PATH; not the synchronous Fmax path.
+
+Previous parser behavior: selected the maximum-delay critical_paths entry across timing domains, choosing the async path. Root cause: no timing-domain classification. Parser correction: classify path domains and select the report fmax clock-to-same-clock path as critical_path; preserve async_to_clock_critical_path separately. Validation passed against both preserved reports.
+
+Measured bottleneck: long synchronous line-buffer/output arithmetic cone from EBR output through window/Sobel/magnitude/clamp/threshold to the final output elastic FF.
+
+Architecture-B hypothesis: BOTTLENECK-DRIVEN CONTROLLED PIPELINE EXPERIMENT. Selected boundary: one ready/valid elastic_stage immediately after Sobel Gx/Gy. Conceptual payload: 28 bits, {final_tag, user, last, border, gx, gy}; no additional arithmetic boundaries selected. Ready propagates from existing output elastic stage back through the new stage to output_control.
+
+Production RTL modified: No
+Architecture B implemented: No
+Classification: ARCHITECTURE-A BOTTLENECK REVIEW — DERIVED FROM ROUTED TIMING EVIDENCE

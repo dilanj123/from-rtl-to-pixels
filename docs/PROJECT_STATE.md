@@ -1,6 +1,6 @@
 # Project State
 
-Current phase: Phase 9 — Bottleneck review
+Current phase: Phase 10 — Architecture B
 Current gate: Gate 3 CLOSED; Gate 4 OPEN
 Historical known-good commit before Phase 5: `597af7f8c0edfac2dfb2763e042a7d17acf17b8d`
 Streaming baseline commit: `a73be9929b6f73329e86790e7726eef8dae4e62d`; subsequent monitor/coverage strengthening is recorded in results/raw/gate3-streaming-monitor-coverage.log.
@@ -116,10 +116,10 @@ Known future workflow dependencies:
 - nextpnr-ecp5/ECP5 database for implementation
 
 Current bottleneck:
-Measured routed critical path is a routing-dominated mixed arithmetic path spanning rgb_to_gray, magnitude_clamp and threshold_stage; inspect this path before selecting Architecture-B pipeline boundaries.
+Architecture-A synchronous clock-to-clock bottleneck is the ~25.731 ns path from the line-buffer EBR output to the output-data elastic FF through the long downstream arithmetic cone. The previously reported 32.07 ns s_tdata path is an unconstrained async-input-to-clock path and is not the design Fmax path.
 
 Next task:
-P9-ARCH-A-BOTTLENECK-001
+P10-ARCH-B-PIPELINE-001
 
 Formal toolchain:
 FORMAL TOOLCHAIN SMOKE VERIFIED.
@@ -140,13 +140,22 @@ Architecture B: not started
 
 
 Architecture-A implementation baseline:
-SYNTHESISED. Canonical 640x480 placed/routed timing-clean at 35 MHz, seed 1; timing-failing at 50 MHz. Highest tested clean=35 MHz, lowest tested fail=50 MHz, resolution=5 MHz. Mapped resources: LUT4=665, TRELLIS_FF=194, CCU2C=113, DP16KD=2, MULT18X18D=3, PFUMX=102, L6MUX21=48. Critical path measured at 32.068 ns total (12.306 ns logic, 19.762 ns routing), a routing-dominated mixed arithmetic path spanning grayscale, magnitude/clamp and threshold logic.
+SYNTHESISED. Canonical 640x480 placed/routed timing-clean at 35 MHz, seed 1; timing-failing at 50 MHz. Highest tested clean=35 MHz, lowest tested fail=50 MHz, resolution=5 MHz. Mapped resources: LUT4=665, TRELLIS_FF=194, CCU2C=113, DP16KD=2, MULT18X18D=3, PFUMX=102, L6MUX21=48. Primary synchronous path measured at 25.731 ns total (5.830 ns clk-to-q, 8.033 ns logic, 11.868 ns routing); separate 32.068 ns async-input-to-clock path is preserved but is not the Fmax path.
 
 Current bottleneck:
-Measured routed critical path is a routing-dominated mixed arithmetic path spanning rgb_to_gray, magnitude_clamp and threshold_stage; inspect this path before selecting Architecture-B pipeline boundaries.
+Architecture-A synchronous clock-to-clock bottleneck is the ~25.731 ns path from the line-buffer EBR output to the output-data elastic FF through the long downstream arithmetic cone. The previously reported 32.07 ns s_tdata path is an unconstrained async-input-to-clock path and is not the design Fmax path.
 
-Phase 9 next task:
-P9-ARCH-A-BOTTLENECK-001
+Architecture-B controlled change:
+one 28-bit ready/valid elastic stage after Sobel Gx/Gy.
+
+Architecture B status:
+hypothesis frozen; implementation not yet started
+
+Next task:
+P10-ARCH-B-PIPELINE-001
 
 Physical board: not run
 Physical measurement: none
+
+
+Architecture-A bottleneck review: ARCHITECTURE-A BOTTLENECK REVIEW — DERIVED FROM ROUTED TIMING EVIDENCE. The raw implementation evidence is preserved; the parser now selects the synchronous clock-to-clock path and reports the async I/O path separately.

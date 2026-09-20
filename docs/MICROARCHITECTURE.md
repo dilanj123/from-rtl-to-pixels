@@ -105,12 +105,9 @@ B shares with A:
 
 B differs only through intended arithmetic pipeline boundaries.
 
-Candidate boundaries include:
-- after Gx/Gy;
-- after abs/magnitude;
-- after clamp/threshold.
+Selected first boundary: one ready/valid elastic stage immediately after Sobel Gx/Gy. The conceptual 28-bit token carries `{final_tag, user, last, border, gx, gy}`. Its ready propagates from the existing output elastic stage through magnitude/clamp/threshold back to output_control. No other arithmetic pipeline boundary is added in the initial B experiment.
 
-Exact boundaries are selected after Architecture-A timing evidence.
+This boundary is selected from the corrected synchronous Architecture-A path: line-buffer EBR output through the Sobel-to-magnitude/clamp/threshold cone to the final output elastic FF.
 
 If the change directly addresses the measured A bottleneck it may be described as a bottleneck-driven optimisation. Otherwise it shall be described only as a controlled pipeline experiment.
 

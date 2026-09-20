@@ -232,3 +232,9 @@ Claim: Architecture A compact production RTL was synthesized and placed/routed f
 Evidence: `results/raw/arch-a-implementation-baseline.log`, `results/raw/arch-a-synthesis-stat.json`, `results/raw/arch-a-frequency-search.csv`, `results/raw/arch-a-route-clean-report.json`, `results/raw/arch-a-route-fail-report.json`
 Classification: `SYNTHESISED`; `PLACED/ROUTED TIMING-CLEAN AT 35 MHz, SEED 1`; `PLACED/ROUTED TIMING-FAILING AT 50 MHz, SEED 1`
 Limitations: one seed and canonical 640x480 only; routed timing evidence is not a statistically robust Fmax, physical board measurement, or whole-accelerator formal claim. Architecture B was not started.
+
+
+Claim: The Architecture-A routed implementation bottleneck was reclassified using timing-domain-correct parsing of the preserved reports. The raw implementation run remains valid. The primary synchronous path is the 25.731 ns posedge-to-same-posedge path from line-buffer EBR output `u_line_buffer.line1_mem.0.0.DOB1` to `m_tdata_TRELLIS_FF_Q_2.DI`, with 5.830 ns clk-to-q, 8.033 ns ordinary logic and 11.868 ns routing. The 32.068 ns `s_tdata[15]` path is separately classified as unconstrained async-input-to-clock timing.
+Evidence: `results/raw/arch-a-bottleneck-review.log`; preserved raw reports remain `results/raw/arch-a-route-clean-report.json` and `results/raw/arch-a-route-fail-report.json`
+Classification: `ARCHITECTURE-A BOTTLENECK REVIEW — DERIVED FROM ROUTED TIMING EVIDENCE`
+Interpretation: the corrected bottleneck supports one bottleneck-driven Architecture-B experiment: a single 28-bit ready/valid elastic stage after Sobel Gx/Gy. Architecture B was not implemented.

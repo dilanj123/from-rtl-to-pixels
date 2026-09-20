@@ -2,46 +2,42 @@
 import argparse,json,re
 from pathlib import Path
 p=argparse.ArgumentParser()
-p.add_argument('--dimensions',required=True); p.add_argument('--device',required=True); p.add_argument('--package',required=True); p.add_argument('--speed',required=True); p.add_argument('--seed',required=True); p.add_argument('--target-mhz',required=True,type=float); p.add_argument('--yosys-stat',required=True); p.add_argument('--report',required=True); p.add_argument('--log',required=True); p.add_argument('--output',required=True)
+for n in ('dimensions','device','package','speed','seed','yosys-stat','report','log','output'): p.add_argument('--'+n,required=True)
+p.add_argument('--target-mhz',required=True,type=float)
 a=p.parse_args(); stat=json.load(open(a.yosys_stat)); rep=json.load(open(a.report)); log=Path(a.log).read_text(errors='replace')
-# Preserve raw Yosys shape and normalize common cell dictionaries.
 cells={}
 def walk(x):
  if isinstance(x,dict):
-  if 'num_cells_by_type' in x and isinstance(x['num_cells_by_type'],dict): cells.update(x['num_cells_by_type'])
+  if isinstance(x.get('num_cells_by_type'),dict): cells.update(x['num_cells_by_type'])
   for v in x.values(): walk(v)
  elif isinstance(x,list):
   for v in x: walk(v)
 walk(stat)
 util=rep.get('utilization',rep.get('utilisation',{}))
-clocks=[]
-for name,v in rep.get('fmax',{}).items():
- if isinstance(v,dict): clocks.append({'clock':name,'constraint_mhz':v.get('constraint'),'achieved_mhz':v.get('achieved')})
+clocks=[{'clock':n,'constraint_mhz':v.get('constraint'),'achieved_mhz':v.get('achieved')} for n,v in rep.get('fmax',{}).items() if isinstance(v,dict)]
 if not clocks:
- for k,v in rep.items():
-  if isinstance(v,list) and ('clock' in k.lower() or 'timing' in k.lower()): clocks += [x for x in v if isinstance(x,dict)]
-if not clocks:
- for m in re.finditer(r'Max frequency for clock[^\n]*',log):
-  line=m.group(0); mm=re.search(r'([0-9]+(?:\.[0-9]+)?)\s*MHz',line); clocks.append({'raw':line,'achieved_mhz':float(mm.group(1)) if mm else None})
-if not clocks:
- clocks=[{'raw':x} for x in re.findall(r'Max frequency for clock[^\n]*',log)]
-for c in clocks:
- if 'achieved_mhz' not in c:
-  for key in ('achieved_mhz','achieved','freq','frequency'):
-   if key in c:
-    try:c['achieved_mhz']=float(c[key])
-    except:pass
-verdicts=[(c.get('achieved_mhz') is not None and c.get('achieved_mhz') >= a.target_mhz) for c in clocks]
-critical=[]
-for i,line in enumerate(log.splitlines()):
- if 'critical path' in line.lower() or 'Max frequency for clock' in line:
-  critical.append(line)
+ for line in re.findall(r'Max frequency for clock[^\n]*',log):
+  m=re.search(r"clock '([^']+)'.*?([0-9]+(?:\.[0-9]+)?) MHz",line)
+  if m: clocks.append({'clock':m.group(1),'achieved_mhz':float(m.group(2)),'raw':line})
+verdicts=[c.get('achieved_mhz') is not None and c['achieved_mhz']>=a.target_mhz for c in clocks]
+def domain(x):
+ return 'async' if x=='<async>' else ('clock' if isinstance(x,str) and x.startswith('posedge ') else 'other')
+def summarize(path,kind):
+ seg=path.get('path',[]); anns=[]
+ for x in seg: anns += x.get('sources',[])
+ return {'kind':kind,'from_domain':domain(path.get('from')),'to_domain':domain(path.get('to')),
+  'source':seg[0].get('from') if seg else None,'sink':seg[-1].get('to') if seg else None,
+  'total_delay_ns':sum(float(x.get('delay',0)) for x in seg),
+  'clk_to_q_delay_ns':sum(float(x.get('delay',0)) for x in seg if x.get('type')=='clk-to-q'),
+  'logic_delay_ns':sum(float(x.get('delay',0)) for x in seg if x.get('type')=='logic'),
+  'routing_delay_ns':sum(float(x.get('delay',0)) for x in seg if x.get('type')=='routing'),
+  'setup_delay_ns':sum(float(x.get('delay',0)) for x in seg if x.get('type')=='setup'),
+  'source_annotations':list(dict.fromkeys(anns)),'raw_path':path}
 paths=rep.get('critical_paths',[])
-cp={}
-if paths:
- path=max(paths,key=lambda x:sum(float(y.get('delay',0)) for y in x.get('path',[])))
- segs=path.get('path',[])
- cp={'source':segs[0].get('from') if segs else None,'sink':segs[-1].get('to') if segs else None,'total_delay_ns':sum(float(y.get('delay',0)) for y in segs),'logic_delay_ns':sum(float(y.get('delay',0)) for y in segs if y.get('type')=='logic'),'routing_delay_ns':sum(float(y.get('delay',0)) for y in segs if y.get('type')=='routing'),'raw_path':path}
-out={'architecture':'A / compact','dimensions':a.dimensions,'device':a.device,'package':a.package,'speed_grade':a.speed,'seed':int(a.seed),'target_mhz':a.target_mhz,'yosys_mapped_cells':cells,'nextpnr_utilization':util,'clocks':clocks,'timing_clean':bool(verdicts) and all(verdicts),'critical_path':cp,'critical_path_raw':critical,'raw_report':rep}
-json.dump(out,open(a.output,'w'),indent=2)
-print(json.dumps(out,indent=2))
+clock=next(iter(rep.get('fmax',{})),None)
+sync=[x for x in paths if clock and x.get('from')==f'posedge {clock}' and x.get('to')==f'posedge {clock}']
+asyncp=[x for x in paths if x.get('from')=='<async>' and clock and x.get('to')==f'posedge {clock}']
+primary=summarize(max(sync,key=lambda x:sum(float(y.get('delay',0)) for y in x.get('path',[]))),'clock_to_clock') if sync else None
+async_summary=summarize(max(asyncp,key=lambda x:sum(float(y.get('delay',0)) for y in x.get('path',[]))),'async_to_clock') if asyncp else None
+out={'architecture':'A / compact','dimensions':a.dimensions,'device':a.device,'package':a.package,'speed_grade':a.speed,'seed':int(a.seed),'target_mhz':a.target_mhz,'yosys_mapped_cells':cells,'nextpnr_utilization':util,'clocks':clocks,'timing_clean':bool(verdicts) and all(verdicts),'critical_path_kind':'clock_to_clock' if primary else None,'critical_path':primary,'synchronous_critical_path':primary,'async_to_clock_critical_path':async_summary,'clock_to_async_critical_path':None,'async_to_async_critical_path':None,'critical_path_log_lines':[x for x in log.splitlines() if 'critical path' in x.lower() or 'Max frequency for clock' in x],'raw_report':rep}
+json.dump(out,open(a.output,'w'),indent=2); print(json.dumps(out,indent=2))

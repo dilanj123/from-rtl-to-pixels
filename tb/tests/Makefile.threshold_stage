@@ -1,0 +1,14 @@
+TOPLEVEL_LANG = verilog
+SIM ?= verilator
+
+THIS_DIR := $(dir $(abspath $(lastword $(MAKEFILE_LIST))))
+ROOT := $(abspath $(THIS_DIR)/../..)
+
+VERILOG_SOURCES = $(ROOT)/rtl/threshold_stage.sv
+
+TOPLEVEL = threshold_stage
+COCOTB_TEST_MODULES = test_threshold_stage
+
+export PYTHONPATH := $(ROOT):$(THIS_DIR):$(PYTHONPATH)
+
+include $(shell cocotb-config --makefiles)/Makefile.sim

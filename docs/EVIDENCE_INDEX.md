@@ -1,6 +1,6 @@
 # Evidence index
 
-Classification: bootstrap checks, Gate-1 documentation, and focused reference-model verification. Focused `rgb_to_gray`, `elastic_stage`, `apb_regs`, `pixel_control`, `line_buffer`, `window_3x3`, `output_control`, `sobel_compact`, and `magnitude_clamp` RTL simulation evidence is recorded below; no formal, synthesis, or timing evidence exists yet.
+Classification: bootstrap checks, Gate-1 documentation, focused reference-model verification, and accumulated primitive regression evidence. Focused `rgb_to_gray`, `elastic_stage`, `apb_regs`, `pixel_control`, `line_buffer`, `window_3x3`, `output_control`, `sobel_compact`, `magnitude_clamp`, and `threshold_stage` RTL simulation evidence is recorded below; no formal, synthesis, or timing evidence exists yet.
 Bootstrap commit: `f540928c1d04e0ae191236fb44c326404c70e755`. Pre-commit logs necessarily precede its hash.
 Published Phase-0 baseline: `6bd14fca23b7f74e74fbe18f911d718478f49bbb`.
 Gate-1 documentation commit: `a19678a45e5bbf4dad3ee5e250b7dfcbcddbd1a1` (`Freeze Gate 1 project contract`); specifications only; subsequently frozen by the Phase-2 task.
@@ -33,6 +33,20 @@ Command: temporary-build `make -f tb/tests/Makefile.rgb_to_gray`
 Evidence: `results/raw/rgb-to-gray-cocotb.log`
 Conditions: Verilator 5.052; cocotb 2.1.0; 13 directed + 256 grayscale-identity + 2048 deterministic-random RGB vectors.
 Classification: `RTL SIMULATION VERIFIED`
+
+Claim: `threshold_stage` implements the frozen threshold-only bypass rule: bypass returns M8 unchanged; otherwise M8<threshold -> 0, and M8>=threshold -> M8.
+Git commit: the commit adding this entry (`Add verified threshold stage and regression checkpoint`).
+Command: `verilator --lint-only -Wall rtl/threshold_stage.sv --top-module threshold_stage`; temporary-build `make -f tb/tests/Makefile.threshold_stage`.
+Evidence: `results/raw/threshold-stage-cocotb.log`
+Conditions: Verilator 5.052; cocotb 2.1.0; 4 focused tests; 70668 checked combinations derived from the exact test construction, including the complete 256x256 non-bypass domain, 1024 bypass checks, and 4096 deterministic mixed-mode checks.
+Classification: `RTL SIMULATION VERIFIED`
+
+Claim: All established primitive and reference regressions pass after completion of the compact arithmetic leaves.
+Command: the accumulated runner recorded each configured invocation in sequence and stopped on nonzero exit.
+Evidence: `results/raw/arithmetic-checkpoint-regression.log`
+Conditions: 17 cases passed: reference pytest; rgb_to_gray; elastic_stage; apb_regs; pixel_control 3x3 and 5x4; line_buffer width 3 and 7; window_3x3 3x3, 5x4, and 8x5; output_control 3x3, 5x4, and 8x5; sobel_compact; magnitude_clamp; threshold_stage.
+Classification: `RTL SIMULATION VERIFIED`
+Limitations: This proves the individual established regressions pass in their isolated configurations. It does not prove integrated geometry plus arithmetic, a complete RTL frame, deep backpressure integration, formal properties, synthesis, P&R, timing, or Architecture B.
 
 Claim: `elastic_stage` satisfies the focused one-entry ready/valid regression.
 Git commit: the commit adding this entry (`Add verified elastic ready-valid stage`).

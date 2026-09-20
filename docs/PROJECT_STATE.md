@@ -1,6 +1,6 @@
 # Project State
 
-Current phase: Phase 6 — Production Architecture A deep verification / Gate 3
+Current phase: Phase 6 — Production-top deep regression
 Current gate: Gate 2 CLOSED; Gate 3 OPEN
 Historical known-good commit before Phase 5: `597af7f8c0edfac2dfb2763e042a7d17acf17b8d`
 Streaming baseline commit: `a73be9929b6f73329e86790e7726eef8dae4e62d`; subsequent monitor/coverage strengthening is recorded in results/raw/gate3-streaming-monitor-coverage.log.
@@ -53,7 +53,14 @@ Strengthened streaming checks: 5/5 tests passed at each of 3x3, 5x4 and 8x5, wit
 Evidence: results/raw/gate3-streaming-monitor-coverage.log; strict lint and all 13 reference tests also passed.
 Previously verified reference-model and primitive evidence remains established. The reference suite passed all 13 tests; established RTL/test/Makefile sources were unchanged. The approved accelerated isolated-leaf policy was used, without rebuilding historical RTL regressions.
 Deferred full accumulated checkpoint: all established primitive/reference regressions passed after the compact arithmetic leaves; evidence: results/raw/arithmetic-checkpoint-regression.log. This verifies individual regressions only, not integrated geometry plus arithmetic or a complete RTL frame.
-The production top is simulation-verified only under the recorded small-dimension configurations and deterministic seeds. Gate-3 work remains: reset matrix, malformed metadata recovery, mid-frame configuration timing, same-edge APB-write/SOF integration, broader dimensions/canonical 640x480, additional random/real frames, and traceability closure. Formal, synthesis, P&R, timing and Architecture B remain Gate-4 work without results.
+Production Architecture A reset/malformed-metadata recovery regression exercises synchronous reset from idle, pre-frame, first-pixel, mid-line, EOL, late-frame and DRAIN states, plus accepted early/missing EOL and unexpected SOF metadata errors. Under the tested 3x3, 5x4 and 8x5 configurations, reset restored the frozen defaults and clean-frame recovery remained bit-exact. Malformed accepted metadata aborted incomplete frames, set sticky FRAME_ERROR, prevented aborted-frame completion counting, required a new valid SOF, and allowed a subsequent bit-exact complete frame.
+Evidence: results/raw/gate3-reset-metadata-cocotb.log
+Classification: RTL SIMULATION VERIFIED.
+Conditions: Verilator 5.052; cocotb 2.1.0; 11 focused recovery tests at each of 3x3, 5x4 and 8x5; independent `sobel_rgb` comparisons. All 33 recovered frames reported zero mismatches, exact W*H input/output counts and correct metadata. Strict lint passed without warnings; reference pytest passed all 13 tests. Partial outputs before abort are discarded, not recalled; physical RAM clearing is not claimed.
+Random source gaps and backpressure are already RTL SIMULATION VERIFIED by the strengthened streaming regression above. The production top is simulation-verified only under the recorded small-dimension configurations and deterministic seeds.
+Gate 3 remains OPEN — streaming stress plus reset/malformed-metadata recovery evidence established; configuration timing, dimension/image and traceability regressions remain.
+Remaining Gate-3 work: mid-frame configuration writes; same-edge APB-write/SOF integration; CONFIG_PENDING integration; RUN_ENABLE mid-frame behavior; broader legal dimensions; canonical 640x480; additional random frames; real-image regression; requirements traceability closure.
+Formal, synthesis, P&R, timing and Architecture B remain unverified.
 `pixel_control.accept_i` represents accepted input; that primitive does not generate ready or implement RUN_ENABLE/DRAIN admission.
 
 Formal:
@@ -70,7 +77,10 @@ Known future workflow dependencies:
 - nextpnr-ecp5/ECP5 database for implementation
 
 Current bottleneck:
-Production-top reset/abort/restart and configuration-timing coverage remain incomplete. Streaming evidence covers a bounded set of small dimensions and deterministic seeds.
+Complete the remaining Gate-3 production-top configuration,
+dimension/image and traceability regressions.
 
 Next task:
-P6 reset + malformed-metadata production-top regression.
+P6 production-top configuration timing regression:
+mid-frame writes, same-edge APB-write/SOF priority,
+CONFIG_PENDING and RUN_ENABLE mid-frame behavior.

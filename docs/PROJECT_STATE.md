@@ -1,9 +1,9 @@
 # Project State
 
-Current phase: Phase 5 — Architecture-A alignment harness
-Current gate: Gate 1 CLOSED; Gate 2 OPEN
+Current phase: Phase 5 — Production Architecture A / Gate 2
+Current gate: Gate 2 CLOSED; Gate 3 OPEN
 Known-good commit before Phase 5: `597af7f8c0edfac2dfb2763e042a7d17acf17b8d`
-Current architecture: frozen single-clock streaming Sobel specification; verified geometry/arithmetic primitives plus a test-only Architecture-A alignment harness; no production top-level integration
+Current architecture: frozen single-clock streaming Sobel specification with production `rtl_to_pixels_top` and verified Architecture-A datapath integration at tested small dimensions
 
 Gate 0:
 CLOSED — environment/repository/bootstrap established.
@@ -44,9 +44,11 @@ Evidence: results/raw/magnitude-clamp-cocotb.log
 Evidence: results/raw/threshold-stage-cocotb.log
 Architecture-A alignment harness: RTL SIMULATION VERIFIED under 5 tests at each of 3x3, 5x4, and 8x5. The test-only harness composes geometry and arithmetic paths and checks labelled windows, W+1 mapping, borders, source gaps, live/drain stalls, thresholding, and consecutive frames without reset.
 Evidence: results/raw/architecture-a-alignment-cocotb.log
+Production Architecture A: RTL SIMULATION VERIFIED under 4 complete deterministic RGB-frame tests at each of 3x3, 5x4, and 8x5. Exact accepted input/output counts, SOF/EOL metadata, independent Python comparisons with zero mismatches, APB configuration, frame count, and final external-token completion behavior passed.
+Evidence: results/raw/gate2-top-cocotb.log
 Previously verified reference-model and primitive evidence remains established. The reference suite passed all 13 tests; established RTL/test/Makefile sources were unchanged. The approved accelerated isolated-leaf policy was used, without rebuilding historical RTL regressions.
 Deferred full accumulated checkpoint: all established primitive/reference regressions passed after the compact arithmetic leaves; evidence: results/raw/arithmetic-checkpoint-regression.log. This verifies individual regressions only, not integrated geometry plus arithmetic or a complete RTL frame.
-No production top-level integration exists. The harness does not prove RGB, pixel-control, APB, complete-frame, malformed-frame, or elastic output integration. Deep backpressure integration, formal, synthesis, P&R, timing, and Architecture B remain unverified.
+The production top is verified only for the tested deterministic configurations. Randomized source gaps/backpressure, reset, malformed metadata, mid-frame configuration timing, same-edge APB-write/SOF integration, broad dimensions/canonical 640x480, random/real frames, traceability, formal, synthesis, P&R, timing, and Architecture B remain unverified.
 `pixel_control.accept_i` represents accepted input; that primitive does not generate ready or implement RUN_ENABLE/DRAIN admission.
 
 Formal:
@@ -66,4 +68,4 @@ Current bottleneck:
 Review the accumulated primitive checkpoint before Architecture-A integration/alignment verification.
 
 Next task:
-Next engineering task: Implement production Architecture-A `rtl_to_pixels_top` and close Gate 2 with complete deterministic frame comparison.
+Phase 6 — production-top deep regression: random gaps/backpressure, reset matrix, malformed metadata, configuration timing, broader dimensions, random/real frames, canonical 640x480, and requirements traceability.

@@ -34,6 +34,15 @@ Evidence: `results/raw/rgb-to-gray-cocotb.log`
 Conditions: Verilator 5.052; cocotb 2.1.0; 13 directed + 256 grayscale-identity + 2048 deterministic-random RGB vectors.
 Classification: `RTL SIMULATION VERIFIED`
 
+Claim: Production Architecture A integrates RGB input, metadata/control, `pixel_control`, grayscale, line/window generation, compact Sobel, magnitude/clamp, threshold/bypass, W+1 output control, elastic data/metadata output, APB configuration and externally qualified frame completion.
+Git commit: the commit adding this entry (`Integrate Architecture A and close Gate 2`).
+Command: composed production-top lint; temporary-build `make -f tb/tests/Makefile.rtl_to_pixels_top` at 3x3, 5x4, and 8x5; `.venv/bin/python -m pytest -q tb/tests/test_reference_model.py`.
+Evidence: `results/raw/gate2-top-cocotb.log`
+Conditions: Verilator 5.052; cocotb 2.1.0; 4 production-top tests at 3x3, 5x4, and 8x5; complete deterministic RGB frames; independent `sobel_rgb` comparison; exact input/output counts; SOF/EOL checks; final-output stall/completion check; APB RUN_ENABLE/config/frame-count checks.
+Classification: `RTL SIMULATION VERIFIED`
+Gate 2 CLOSED for the tested MVP simulation configurations: complete RTL RGB frames were reconstructed automatically, input/output counts were exact, and completed outputs matched the independent Python reference bit-exactly with zero mismatches.
+Gate-3 limitations: randomized source gaps in the production top; randomized downstream backpressure; reset matrix; malformed metadata recovery regression; mid-frame configuration-write regression; same-edge APB-write/SOF integration regression; broad dimension sweep/canonical 640x480; random RGB frames; real-image regression; requirements traceability closure; formal; synthesis; P&R; timing; Architecture B.
+
 Claim: `threshold_stage` implements the frozen threshold-only bypass rule: bypass returns M8 unchanged; otherwise M8<threshold -> 0, and M8>=threshold -> M8.
 Git commit: the commit adding this entry (`Add verified threshold stage and regression checkpoint`).
 Command: `verilator --lint-only -Wall rtl/threshold_stage.sv --top-module threshold_stage`; temporary-build `make -f tb/tests/Makefile.threshold_stage`.

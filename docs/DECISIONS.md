@@ -47,3 +47,5 @@
 `D-023` Authority order is `00_MASTER_PROJECT_PLAN.md → 01_CHATGPT_PROJECT_OPERATING_INSTRUCTIONS.md → Gate-1 docs → implementation`.
 
 `D-024` `make doctor` categories are CORE/GITHUB/SIMULATION/FORMAL/IMPLEMENTATION. Bootstrap failure depends only on CORE; later targets enforce their workflow dependencies.
+
+`D-025` Production Architecture A retains a top-level final-output-pending state after output_control admits the last drain token into the elastic output buffer. New-frame admission and APB DRAINING/BUSY remain asserted until that buffered final token transfers externally. FRAME_COUNT increments only on that external final transfer.

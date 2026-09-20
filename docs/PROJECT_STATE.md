@@ -1,9 +1,9 @@
 # Project State
 
-Current phase: Phase 5 — Compact arithmetic leaves complete
+Current phase: Phase 5 — Architecture-A alignment harness
 Current gate: Gate 1 CLOSED; Gate 2 OPEN
 Known-good commit before Phase 5: `597af7f8c0edfac2dfb2763e042a7d17acf17b8d`
-Current architecture: frozen single-clock streaming Sobel specification; pixel types, combinational RGB-to-grayscale primitive, one-entry elastic stage, APB CSR primitive, accepted-input coordinate/metadata control, two-row vertical-history line buffer, 3x3 window primitive, logical output-position/drain controller, compact Sobel Gx/Gy, magnitude/clamp, and threshold primitives implemented
+Current architecture: frozen single-clock streaming Sobel specification; verified geometry/arithmetic primitives plus a test-only Architecture-A alignment harness; no production top-level integration
 
 Gate 0:
 CLOSED — environment/repository/bootstrap established.
@@ -42,9 +42,11 @@ Evidence: results/raw/sobel-compact-cocotb.log
 Evidence: results/raw/magnitude-clamp-cocotb.log
 `threshold_stage`: RTL SIMULATION VERIFIED under the focused four-test regression; 70668 checks were derived from the exact test construction.
 Evidence: results/raw/threshold-stage-cocotb.log
+Architecture-A alignment harness: RTL SIMULATION VERIFIED under 5 tests at each of 3x3, 5x4, and 8x5. The test-only harness composes geometry and arithmetic paths and checks labelled windows, W+1 mapping, borders, source gaps, live/drain stalls, thresholding, and consecutive frames without reset.
+Evidence: results/raw/architecture-a-alignment-cocotb.log
 Previously verified reference-model and primitive evidence remains established. The reference suite passed all 13 tests; established RTL/test/Makefile sources were unchanged. The approved accelerated isolated-leaf policy was used, without rebuilding historical RTL regressions.
 Deferred full accumulated checkpoint: all established primitive/reference regressions passed after the compact arithmetic leaves; evidence: results/raw/arithmetic-checkpoint-regression.log. This verifies individual regressions only, not integrated geometry plus arithmetic or a complete RTL frame.
-No top-level integration exists. Deep backpressure integration, formal, synthesis, P&R, timing, and Architecture B remain unverified.
+No production top-level integration exists. The harness does not prove RGB, pixel-control, APB, complete-frame, malformed-frame, or elastic output integration. Deep backpressure integration, formal, synthesis, P&R, timing, and Architecture B remain unverified.
 `pixel_control.accept_i` represents accepted input; that primitive does not generate ready or implement RUN_ENABLE/DRAIN admission.
 
 Formal:
@@ -64,4 +66,4 @@ Current bottleneck:
 Review the accumulated primitive checkpoint before Architecture-A integration/alignment verification.
 
 Next task:
-Next engineering task: Architecture-A integration/alignment verification.
+Next engineering task: Implement production Architecture-A `rtl_to_pixels_top` and close Gate 2 with complete deterministic frame comparison.

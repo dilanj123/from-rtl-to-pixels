@@ -48,6 +48,14 @@ Conditions: 17 cases passed: reference pytest; rgb_to_gray; elastic_stage; apb_r
 Classification: `RTL SIMULATION VERIFIED`
 Limitations: This proves the individual established regressions pass in their isolated configurations. It does not prove integrated geometry plus arithmetic, a complete RTL frame, deep backpressure integration, formal properties, synthesis, P&R, timing, or Architecture B.
 
+Claim: The Architecture-A geometry/arithmetic alignment harness composes `line_buffer`, `window_3x3`, `output_control`, `sobel_compact`, `magnitude_clamp` and `threshold_stage` with transfer-qualified image state. Under the tested small-frame configurations, logical output coordinates, labelled interior windows, arithmetic results, borders, W+1 drain, source gaps, live stalls and drain stalls remain aligned.
+Git commit: the commit adding this entry (`Add verified Architecture A alignment harness`).
+Command: composed `verilator --lint-only -Wall` followed by temporary-build `make -f tb/tests/Makefile.architecture_a_alignment` at 3x3, 5x4, and 8x5; `.venv/bin/python -m pytest -q tb/tests/test_reference_model.py`.
+Evidence: `results/raw/architecture-a-alignment-cocotb.log`
+Classification: `RTL SIMULATION VERIFIED`
+Conditions: Verilator 5.052; cocotb 2.1.0; 5 focused tests at 3x3; 5 focused tests at 5x4; 5 focused tests at 8x5; independent labelled-window and Sobel arithmetic scoreboard.
+Limitations: This is a test-only composition harness. It does not prove production `rtl_to_pixels_top` integration, RGB stream integration, `pixel_control` integration, APB integration, active/shadow configuration interaction in the complete datapath, elastic output metadata/data coupling, malformed-frame top-level recovery, complete RGB frame versus the Python reference, Gate 2 closure, formal, synthesis, P&R, timing, or Architecture B.
+
 Claim: `elastic_stage` satisfies the focused one-entry ready/valid regression.
 Git commit: the commit adding this entry (`Add verified elastic ready-valid stage`).
 Command: temporary-build `make -f tb/tests/Makefile.elastic_stage`

@@ -1,0 +1,21 @@
+[options]
+mode cover
+depth 64
+
+[engines]
+smtbmc z3
+
+[script]
+read_verilog -formal -sv output_control.sv elastic_stage.sv apb_regs.sv
+cd apb_regs
+expose frame_count_q
+cd
+read_verilog -formal -sv frame_completion_formal.sv
+chparam -set IMG_WIDTH 5 -set IMG_HEIGHT 4 frame_completion_formal
+prep -top frame_completion_formal
+
+[files]
+output_control.sv ../rtl/output_control.sv
+elastic_stage.sv ../rtl/elastic_stage.sv
+apb_regs.sv ../rtl/apb_regs.sv
+frame_completion_formal.sv

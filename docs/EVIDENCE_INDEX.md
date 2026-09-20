@@ -219,3 +219,11 @@ Classification: `FORMAL PROPERTY PASSED UNDER DOCUMENTED ASSUMPTIONS` for safety
 Conditions: first sampled edge reset asserted; all later inputs arbitrary; no safety fairness or upstream-protocol assumption; prove and cover depth 64 with `smtbmc z3`.
 Eventual completion: `DERIVED FROM FORMALLY CHECKED TRANSITIONS UNDER EXPLICIT FAIRNESS ASSUMPTION`; during uninterrupted DRAIN every pending token eventually sees `output_ready_i=1`. No unconditional liveness model-check claim is made.
 Limitations: `3x3` and `5x4` only; exact W+1 remains simulation evidence; local output-control proof only; no whole-accelerator formal verification; no synthesis, P&R or timing evidence.
+
+
+Claim: The narrow production completion/control integration at 3x3 and 5x4 proves that the internal raw final event is not itself a FRAME_COUNT completion; qualification occurs only on transfer of the externally visible tagged final token. `final_pending_q` matches the pending elastic final tag, blocks accepted input, extends draining status, and clears on external transfer.
+Evidence: `results/raw/formal-frame-completion.log`
+Classification: `FORMAL PROPERTY PASSED UNDER DOCUMENTED ASSUMPTIONS`
+Limitations: 3x3 and 5x4 only; narrow integration of output_control, elastic_stage and apb_regs plus audited glue; not universal dimensions, arithmetic/image datapath, or whole-accelerator formal verification.
+
+The selected Phase-7 targeted formal property set is complete. Output-control eventual drain completion remains a derived result under its documented downstream-fairness condition.

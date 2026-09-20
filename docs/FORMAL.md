@@ -323,3 +323,24 @@ The next formal task is:
 Target property:
 
 `F-FRAME-001` narrow final-external-token completion/frame-count qualification.
+
+
+## Final-token/frame-completion proof record
+
+Target: narrow integration of `rtl/output_control.sv`, `rtl/elastic_stage.sv` and `rtl/apb_regs.sv`, with production completion glue audited against `rtl/rtl_to_pixels_top.sv`.
+
+Configurations: `3x3`, `5x4`
+
+Evidence: `results/raw/formal-frame-completion.log`
+
+### F-FRAME-001
+
+Result: `FORMAL PROPERTY PASSED UNDER DOCUMENTED ASSUMPTIONS`
+
+The real output-control final event is tagged into the DATA_WIDTH=11 elastic boundary. `final_pending_q` bridges the tagged externally unconsumed token, blocks new accepted input, and extends draining status. A stalled tagged token remains stable. `FRAME_COUNT` changes outside reset only after `frame_done_external`, the valid/ready transfer of the tagged final token; the raw internal final event alone does not count. External completion clears pending.
+
+The first sampled edge is synchronous reset; later request, error, start, final and ready inputs are arbitrary. No fairness, eventual-ready or eventual-completion assumption is used. All ten covers reached at both dimensions (3x3 steps 12--14; 5x4 steps 23--25).
+
+The initial harness passed depth-64 reset-reachable BMC but failed temporal induction because the cross-module relationship between `final_pending_q`, the elastic final-tag state and post-internal-final output-control state was not explicit. Adding bridge assertions resolved that induction weakness without changing production RTL or adding an environmental assumption. This is a narrow integration proof, not arithmetic/image-datapath or whole-accelerator formal verification; it is not universal across dimensions.
+
+Selected Phase-7 formal scope is complete. Next task: `P8-ARCH-A-BASELINE-001`.

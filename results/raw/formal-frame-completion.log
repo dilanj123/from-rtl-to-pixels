@@ -1,0 +1,49 @@
+Task: P7-FRAME-FORMAL-REPAIR-001
+Baseline: fd332d1d0ee978047ea3bb6889d8b1861ca3aa10
+Target: narrow completion/control integration of rtl/output_control.sv, rtl/elastic_stage.sv (DATA_WIDTH=11), rtl/apb_regs.sv
+
+Initial failure: a_f_frame_external_done_requires_pending, temporal induction step 0.
+Original-harness BMC: depth=64, mode=bmc, smtbmc z3, PASS (reset-reachable).
+
+Repair hypothesis: induction lacked explicit cross-module invariants linking final_pending_q, the elastic final tag, and post-internal-final output-control state.
+Controlled repair: added the requested bridge assertions only; no production RTL modification, no new assumptions, same depth/engine/solver.
+
+Environment: first sampled edge reset asserted; all later inputs arbitrary; no fairness, eventual-ready, or eventual-completion assumption.
+
+Production checks:
+- 3x3 full production-top lint: PASS, zero warnings.
+- 5x4 full production-top lint: PASS, zero warnings.
+- 3x3 existing production-top simulation: 4/4 PASS, mismatch_count=0, accepted input/output 9/9.
+- 5x4 existing production-top simulation: 4/4 PASS, mismatch_count=0, accepted input/output 20/20.
+
+3x3 prove: mode=prove depth=64 engine=smtbmc solver=z3 basecase=PASS induction=PASS result=PASS.
+5x4 prove: mode=prove depth=64 engine=smtbmc solver=z3 basecase=PASS induction=PASS result=PASS.
+
+3x3 covers (all PASS):
+c_raw_internal_final step 12
+c_final_pending_after_internal step 13
+c_final_external_stall step 13
+c_final_stall_then_transfer step 14
+c_external_final_transfer step 13
+c_frame_count_increment step 14
+c_internal_final_without_count step 13
+c_pending_extends_draining_status step 13
+c_pending_blocks_requested_input step 13
+c_external_done_then_next_accept step 14
+
+5x4 covers (all PASS):
+c_raw_internal_final step 23
+c_final_pending_after_internal step 24
+c_final_external_stall step 24
+c_final_stall_then_transfer step 25
+c_external_final_transfer step 24
+c_frame_count_increment step 25
+c_internal_final_without_count step 24
+c_pending_extends_draining_status step 24
+c_pending_blocks_requested_input step 24
+c_external_done_then_next_accept step 25
+
+F-FRAME-001: FORMAL PROPERTY PASSED UNDER DOCUMENTED ASSUMPTIONS.
+Claim: internal raw final tagging alone does not increment FRAME_COUNT; only externally transferred tagged final token qualifies it; pending final blocks accepted input and extends draining status; external transfer clears pending.
+Limitations: 3x3 and 5x4 only; narrow integration; not universal dimensions, arithmetic/image datapath, or whole-accelerator formal verification. No synthesis, P&R, or timing evidence.
+Production RTL modified: no. Testbench modified: no.

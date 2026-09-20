@@ -1,6 +1,6 @@
 # Project State
 
-Current phase: Phase 7 — Formal
+Current phase: Phase 8 — Compact implementation baseline
 Current gate: Gate 3 CLOSED; Gate 4 OPEN
 Historical known-good commit before Phase 5: `597af7f8c0edfac2dfb2763e042a7d17acf17b8d`
 Streaming baseline commit: `a73be9929b6f73329e86790e7726eef8dae4e62d`; subsequent monitor/coverage strengthening is recorded in results/raw/gate3-streaming-monitor-coverage.log.
@@ -72,7 +72,7 @@ Formal, synthesis, P&R, timing and Architecture B remain unverified.
 `pixel_control.accept_i` represents accepted input; that primitive does not generate ready or implement RUN_ENABLE/DRAIN admission.
 
 Formal:
-TARGETED FORMAL IN PROGRESS.
+SELECTED TARGETED FORMAL COMPLETE.
 
 Passed under documented assumptions:
 - F-ELASTIC-001
@@ -83,9 +83,13 @@ Passed under documented assumptions:
 - F-CTRL-001 at 3x3 and 5x4
 - F-OUT-001 at 3x3 and 5x4
 - F-OUT-002 drain transition mechanics at 3x3 and 5x4
+- F-FRAME-001 narrow completion integration at 3x3 and 5x4
 
-Elastic-stage, APB/configuration, pixel-controller and output-control
-cover/vacuity checks are recorded.
+Elastic-stage, APB/configuration, pixel-controller, output-control and final-token/frame-completion cover/vacuity checks are recorded.
+
+F-FRAME-001 proves external final-token qualification of FRAME_COUNT in the narrow integration harness.
+
+No whole-accelerator formal verification is claimed.
 
 F-OUT-002 eventual drain completion is derived from the formally checked
 transition mechanics under an explicit downstream fairness condition.
@@ -95,6 +99,7 @@ results/raw/formal-elastic-stage.log
 results/raw/formal-apb-regs.log
 results/raw/formal-pixel-control.log
 results/raw/formal-output-control.log
+results/raw/formal-frame-completion.log
 
 No whole-accelerator formal verification is claimed.
 
@@ -109,11 +114,10 @@ Known future workflow dependencies:
 - nextpnr-ecp5/ECP5 database for implementation
 
 Current bottleneck:
-Prove the narrow final-external-token completion/frame-count qualification
-invariant before moving from targeted formal into Architecture-A synthesis.
+Establish reproducible Architecture-A synthesis, place/route, resource, timing and critical-path evidence on the frozen ECP5 virtual target.
 
 Next task:
-P7-FRAME-FORMAL-001
+P8-ARCH-A-BASELINE-001
 
 Formal toolchain:
 FORMAL TOOLCHAIN SMOKE VERIFIED.

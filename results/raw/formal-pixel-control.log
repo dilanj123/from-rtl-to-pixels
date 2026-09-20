@@ -1,0 +1,81 @@
+Task ID: P7-CONTROL-FORMAL-001
+baseline: 0d53d8a12780b586a6530da6c411cb6c73ee8508
+target: rtl/pixel_control.sv
+formal configurations: IMG_WIDTH=3 IMG_HEIGHT=3; IMG_WIDTH=5 IMG_HEIGHT=4
+
+Toolchain:
+Yosys: /Users/Dilan/.local/share/from-rtl-to-pixels/oss-cad-suite-current/bin/yosys (Yosys 0.69+75)
+SBY: /Users/Dilan/.local/share/from-rtl-to-pixels/oss-cad-suite-current/bin/sby (SBY v0.69)
+yosys-smtbmc: /Users/Dilan/.local/share/from-rtl-to-pixels/oss-cad-suite-current/bin/yosys-smtbmc
+Z3: /Users/Dilan/.local/share/from-rtl-to-pixels/oss-cad-suite-current/bin/z3 (Z3 version 4.15.5)
+
+Production lint:
+verilator --lint-only -Wall rtl/pixel_control.sv --top-module pixel_control -GIMG_WIDTH=3 -GIMG_HEIGHT=3: PASS, exit 0, zero warnings
+verilator --lint-only -Wall rtl/pixel_control.sv --top-module pixel_control -GIMG_WIDTH=5 -GIMG_HEIGHT=4: PASS, exit 0, zero warnings
+
+Existing simulation:
+3x3 Makefile.pixel_control: 7/7 PASS, exit 0
+5x4 Makefile.pixel_control: 7/7 PASS, exit 0
+
+Formal assumptions:
+The first sampled edge has synchronous reset asserted. After initialization,
+rst, accept_i, s_tuser_i and s_tlast_i are arbitrary. No fairness, valid-
+metadata, source-persistence or eventual-frame-completion assumption is used.
+
+3x3 prove:
+SBY: formal/pixel_control_3x3_prove.sby
+mode=prove depth=32 engine=smtbmc solver=z3
+basecase: PASS
+temporal induction: PASS (success at step 32)
+overall: PASS, exit 0
+
+5x4 prove:
+SBY: formal/pixel_control_5x4_prove.sby
+mode=prove depth=32 engine=smtbmc solver=z3
+basecase: PASS
+temporal induction: PASS (success at step 32)
+overall: PASS, exit 0
+
+3x3 cover:
+SBY: formal/pixel_control_3x3_cover.sby
+mode=cover depth=32 engine=smtbmc solver=z3
+c_reset_midframe_recovery: reached step 2
+c_missing_sof_error: reached step 2
+c_valid_sof_accept: reached step 2
+c_premature_eol_error: reached step 3
+c_unexpected_sof_error: reached step 3
+c_interior_accept: reached step 3
+c_nonaccept_hold: reached step 3
+c_row_eol_accept: reached step 4
+c_missing_eol_error: reached step 4
+c_last_pixel_accept: reached step 10
+overall: PASS, exit 0
+
+5x4 cover:
+SBY: formal/pixel_control_5x4_cover.sby
+mode=cover depth=32 engine=smtbmc solver=z3
+c_reset_midframe_recovery: reached step 2
+c_missing_sof_error: reached step 2
+c_valid_sof_accept: reached step 2
+c_premature_eol_error: reached step 3
+c_unexpected_sof_error: reached step 3
+c_interior_accept: reached step 3
+c_nonaccept_hold: reached step 3
+c_missing_eol_error: reached step 6
+c_row_eol_accept: reached step 6
+c_last_pixel_accept: reached step 21
+overall: PASS, exit 0
+
+F-CTRL-001:
+FORMAL PROPERTY PASSED UNDER DOCUMENTED ASSUMPTIONS
+
+The proof establishes legal row/column state, canonical WAIT_SOF restart,
+non-accepted state hold, malformed-metadata restart, valid SOF/interior/EOL/
+final transitions, and the documented commit, SOF, final-input and metadata-
+error event definitions at both elaborations.
+
+Limitations:
+Formal evidence covers 3x3 and 5x4 only; it is not a universal proof for all
+legal dimensions. This is a local pixel_control proof and does not prove
+top-level RUN_ENABLE/DRAIN admission or the whole accelerator. Synthesis,
+place-and-route and timing were not run.

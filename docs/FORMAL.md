@@ -231,6 +231,46 @@ simulation regression covers that concrete transition with test-only preload.
 This is a local APB/configuration proof, not whole-accelerator formal
 verification. Synthesis, P&R and timing remain unverified.
 
+## Pixel-controller proof record
+
+Target:
+`rtl/pixel_control.sv`
+
+Configurations:
+`3x3` and `5x4`
+
+Evidence:
+`results/raw/formal-pixel-control.log`
+
+### F-CTRL-001
+
+Result:
+`FORMAL PROPERTY PASSED UNDER DOCUMENTED ASSUMPTIONS`
+
+The proof establishes legal row and column bounds, canonical `(0,0)`
+`WAIT_SOF` state, state hold on non-accepted cycles, malformed-metadata
+restart, valid SOF/interior/EOL/final transitions, and the documented
+`pixel_commit_o`, `sof_accept_o`, `last_input_accept_o` and
+`metadata_error_o` event definitions.
+
+The only environment assumption is synchronous reset on the first sampled
+edge. Later reset, acceptance and metadata inputs are arbitrary. No fairness,
+valid-metadata, source-persistence or eventual-completion assumption is used.
+
+The ten reachability covers (`c_valid_sof_accept`, `c_interior_accept`,
+`c_row_eol_accept`, `c_last_pixel_accept`, `c_missing_sof_error`,
+`c_unexpected_sof_error`, `c_premature_eol_error`, `c_missing_eol_error`,
+`c_nonaccept_hold` and `c_reset_midframe_recovery`) were reached for both
+elaborations.
+
+This evidence is limited to the `3x3` and `5x4` configurations and is not a
+universal parameter proof. It is a local `pixel_control` proof; it does not
+prove top-level admission or the whole accelerator.
+
 The next formal task is:
 
-`P7-CONTROL-FORMAL-001`
+`P7-OUTPUT-FORMAL-001`
+
+Target properties:
+
+`F-OUT-001` and `F-OUT-002`

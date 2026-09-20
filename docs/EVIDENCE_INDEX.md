@@ -206,3 +206,9 @@ Claim: Targeted formal evidence exists for selected elastic-stage and APB/config
 Evidence: `results/raw/formal-apb-regs.log`
 Classification: `FORMAL PROPERTY PASSED UNDER DOCUMENTED ASSUMPTIONS`
 Limitations: local APB/configuration proof only; no whole-accelerator formal verification is claimed. The modulo-32-bit FRAME_COUNT recurrence is proved, while the specific rollover cover remains simulation evidence. No synthesis, P&R or timing evidence exists yet.
+
+Claim: Targeted formal evidence covers the production `pixel_control` controller at the `3x3` and `5x4` elaborations. F-CTRL-001 establishes legal coordinates, canonical WAIT_SOF state, non-accepted hold, malformed-metadata restart, valid SOF/interior/EOL/final transitions and event-output definitions. All ten reachability covers were reached for each dimension.
+Evidence: `results/raw/formal-pixel-control.log`
+Classification: `FORMAL PROPERTY PASSED UNDER DOCUMENTED ASSUMPTIONS`
+Conditions: first sampled edge reset asserted; later reset, acceptance and metadata inputs arbitrary; no fairness or valid-metadata assumption; prove and cover depth 32 with `smtbmc z3`.
+Limitations: `3x3` and `5x4` only, not a universal dimension proof; local controller only; no top-level admission or whole-accelerator formal verification; no synthesis, P&R or timing evidence.

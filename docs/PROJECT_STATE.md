@@ -80,10 +80,15 @@ Passed under documented assumptions:
 - F-ELASTIC-003
 - F-APB-001
 - F-APB-002
+- F-CTRL-001 at 3x3 and 5x4
 
-Elastic-stage and APB/configuration cover/vacuity checks are recorded.
+Elastic-stage, APB/configuration and pixel-controller cover/vacuity checks
+are recorded.
 
-Evidence: results/raw/formal-elastic-stage.log
+Evidence:
+results/raw/formal-elastic-stage.log
+results/raw/formal-apb-regs.log
+results/raw/formal-pixel-control.log
 
 No whole-accelerator formal verification is claimed.
 
@@ -98,10 +103,11 @@ Known future workflow dependencies:
 - nextpnr-ecp5/ECP5 database for implementation
 
 Current bottleneck:
-Prove pixel_control legal-state/coordinate safety and selected accepted metadata invariants.
+Prove output_control no-overlap/drain safety and progress under an explicitly
+documented downstream-progress assumption.
 
 Next task:
-P7-CONTROL-FORMAL-001
+P7-OUTPUT-FORMAL-001
 
 Formal toolchain:
 FORMAL TOOLCHAIN SMOKE VERIFIED.

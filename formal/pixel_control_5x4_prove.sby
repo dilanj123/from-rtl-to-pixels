@@ -1,0 +1,15 @@
+[options]
+mode prove
+depth 32
+
+[engines]
+smtbmc z3
+
+[script]
+read_verilog -formal -sv pixel_control.sv pixel_control_formal.sv
+chparam -set IMG_WIDTH 5 -set IMG_HEIGHT 4 pixel_control_formal
+prep -top pixel_control_formal
+
+[files]
+pixel_control.sv ../rtl/pixel_control.sv
+pixel_control_formal.sv

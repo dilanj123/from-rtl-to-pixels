@@ -58,8 +58,12 @@ Evidence: results/raw/gate3-reset-metadata-cocotb.log
 Classification: RTL SIMULATION VERIFIED.
 Conditions: Verilator 5.052; cocotb 2.1.0; 11 focused recovery tests at each of 3x3, 5x4 and 8x5; independent `sobel_rgb` comparisons. All 33 recovered frames reported zero mismatches, exact W*H input/output counts and correct metadata. Strict lint passed without warnings; reference pytest passed all 13 tests. Partial outputs before abort are discarded, not recalled; physical RAM clearing is not claimed.
 Random source gaps and backpressure are already RTL SIMULATION VERIFIED by the strengthened streaming regression above. The production top is simulation-verified only under the recorded small-dimension configurations and deterministic seeds.
-Gate 3 remains OPEN — streaming stress plus reset/malformed-metadata recovery evidence established; configuration timing, dimension/image and traceability regressions remain.
-Remaining Gate-3 work: mid-frame configuration writes; same-edge APB-write/SOF integration; CONFIG_PENDING integration; RUN_ENABLE mid-frame behavior; broader legal dimensions; canonical 640x480; additional random frames; real-image regression; requirements traceability closure.
+Production Architecture A configuration timing regression verifies shadow/active threshold and bypass semantics through the complete production datapath, including idle CONFIG_PENDING activation, mid-frame deferred writes, same-edge APB-write/SOF pre-edge priority, and RUN_ENABLE new-frame-only admission behavior. At 3x3, 5x4 and 8x5, all six focused tests per dimension passed with independent `sobel_rgb` mismatch_count=0 and exact input/output counts.
+Evidence: results/raw/gate3-config-timing-cocotb.log
+Classification: RTL SIMULATION VERIFIED.
+Conditions: Verilator 5.052; cocotb 2.1.0; 6 configuration-timing tests at each of 3x3, 5x4 and 8x5; independent `sobel_rgb` comparison.
+Gate 3 remains OPEN — streaming, reset/malformed-metadata and configuration-timing evidence established; broader-dimension/image coverage and requirements traceability remain.
+Remaining Gate-3 work: broader legal dimensions; canonical 640x480; additional random frames; real-image regression; requirements traceability closure.
 Formal, synthesis, P&R, timing and Architecture B remain unverified.
 `pixel_control.accept_i` represents accepted input; that primitive does not generate ready or implement RUN_ENABLE/DRAIN admission.
 
@@ -77,10 +81,7 @@ Known future workflow dependencies:
 - nextpnr-ecp5/ECP5 database for implementation
 
 Current bottleneck:
-Complete the remaining Gate-3 production-top configuration,
-dimension/image and traceability regressions.
+Complete Gate-3 dimension/image coverage and requirements traceability.
 
 Next task:
-P6 production-top configuration timing regression:
-mid-frame writes, same-edge APB-write/SOF priority,
-CONFIG_PENDING and RUN_ENABLE mid-frame behavior.
+P6 broader-dimension, canonical-640x480 and image regression.

@@ -1,0 +1,62 @@
+P6-CONFIG-TIMING-001 configuration timing regression evidence
+
+Tool versions:
+  Verilator 5.052 2026-09-05 rev vUNKNOWN-built20260905
+  cocotb 2.1.0
+
+Python syntax check:
+  python3 -m py_compile tb/tests/test_rtl_to_pixels_top_config.py
+  exit 0
+
+Strict production-top lint:
+  verilator --lint-only -Wall rtl/pixel_pkg.sv rtl/rgb_to_gray.sv rtl/elastic_stage.sv rtl/apb_regs.sv rtl/pixel_control.sv rtl/line_buffer.sv rtl/window_3x3.sv rtl/sobel_compact.sv rtl/magnitude_clamp.sv rtl/threshold_stage.sv rtl/output_control.sv rtl/rtl_to_pixels_top.sv --top-module rtl_to_pixels_top -GIMG_WIDTH=5 -GIMG_HEIGHT=4
+  exit 0; no warnings
+
+Focused simulations, each with a fresh temporary SIM_BUILD and results.xml:
+  PATH="$PWD/.venv/bin:$PATH" IMG_WIDTH=3 IMG_HEIGHT=3 SIM_BUILD="$tmp" COCOTB_RESULTS_FILE="$tmp/results.xml" make -f tb/tests/Makefile.rtl_to_pixels_top_config
+  TESTS=6 PASS=6 FAIL=0; exit 0
+  config frame: label=idle-shadow-activation threshold=20 bypass=1 accepted_input=9 accepted_output=9 mismatch_count=0
+  config frame: label=midframe-threshold-current threshold=10 bypass=0 accepted_input=9 accepted_output=9 mismatch_count=0
+  config frame: label=midframe-threshold-next threshold=20 bypass=0 accepted_input=9 accepted_output=9 mismatch_count=0
+  config frame: label=midframe-bypass-current threshold=20 bypass=0 accepted_input=9 accepted_output=9 mismatch_count=0
+  config frame: label=midframe-bypass-next threshold=20 bypass=1 accepted_input=9 accepted_output=9 mismatch_count=0
+  config frame: label=same-edge-threshold-current threshold=10 bypass=0 accepted_input=9 accepted_output=9 mismatch_count=0
+  config frame: label=same-edge-threshold-next threshold=20 bypass=0 accepted_input=9 accepted_output=9 mismatch_count=0
+  config frame: label=same-edge-bypass-current threshold=20 bypass=0 accepted_input=9 accepted_output=9 mismatch_count=0
+  config frame: label=same-edge-bypass-next threshold=20 bypass=1 accepted_input=9 accepted_output=9 mismatch_count=0
+  config frame: label=run-enable-current-frame threshold=10 bypass=0 accepted_input=9 accepted_output=9 mismatch_count=0
+  config frame: label=run-enable-reenabled-frame threshold=10 bypass=0 accepted_input=9 accepted_output=9 mismatch_count=0
+
+  PATH="$PWD/.venv/bin:$PATH" IMG_WIDTH=5 IMG_HEIGHT=4 SIM_BUILD="$tmp" COCOTB_RESULTS_FILE="$tmp/results.xml" make -f tb/tests/Makefile.rtl_to_pixels_top_config
+  TESTS=6 PASS=6 FAIL=0; exit 0
+  config frame: label=idle-shadow-activation threshold=20 bypass=1 accepted_input=20 accepted_output=20 mismatch_count=0
+  config frame: label=midframe-threshold-current threshold=10 bypass=0 accepted_input=20 accepted_output=20 mismatch_count=0
+  config frame: label=midframe-threshold-next threshold=20 bypass=0 accepted_input=20 accepted_output=20 mismatch_count=0
+  config frame: label=midframe-bypass-current threshold=20 bypass=0 accepted_input=20 accepted_output=20 mismatch_count=0
+  config frame: label=midframe-bypass-next threshold=20 bypass=1 accepted_input=20 accepted_output=20 mismatch_count=0
+  config frame: label=same-edge-threshold-current threshold=10 bypass=0 accepted_input=20 accepted_output=20 mismatch_count=0
+  config frame: label=same-edge-threshold-next threshold=20 bypass=0 accepted_input=20 accepted_output=20 mismatch_count=0
+  config frame: label=same-edge-bypass-current threshold=20 bypass=0 accepted_input=20 accepted_output=20 mismatch_count=0
+  config frame: label=same-edge-bypass-next threshold=20 bypass=1 accepted_input=20 accepted_output=20 mismatch_count=0
+  config frame: label=run-enable-current-frame threshold=10 bypass=0 accepted_input=20 accepted_output=20 mismatch_count=0
+  config frame: label=run-enable-reenabled-frame threshold=10 bypass=0 accepted_input=20 accepted_output=20 mismatch_count=0
+
+  PATH="$PWD/.venv/bin:$PATH" IMG_WIDTH=8 IMG_HEIGHT=5 SIM_BUILD="$tmp" COCOTB_RESULTS_FILE="$tmp/results.xml" make -f tb/tests/Makefile.rtl_to_pixels_top_config
+  TESTS=6 PASS=6 FAIL=0; exit 0
+  config frame: label=idle-shadow-activation threshold=20 bypass=1 accepted_input=40 accepted_output=40 mismatch_count=0
+  config frame: label=midframe-threshold-current threshold=10 bypass=0 accepted_input=40 accepted_output=40 mismatch_count=0
+  config frame: label=midframe-threshold-next threshold=20 bypass=0 accepted_input=40 accepted_output=40 mismatch_count=0
+  config frame: label=midframe-bypass-current threshold=20 bypass=0 accepted_input=40 accepted_output=40 mismatch_count=0
+  config frame: label=midframe-bypass-next threshold=20 bypass=1 accepted_input=40 accepted_output=40 mismatch_count=0
+  config frame: label=same-edge-threshold-current threshold=10 bypass=0 accepted_input=40 accepted_output=40 mismatch_count=0
+  config frame: label=same-edge-threshold-next threshold=20 bypass=0 accepted_input=40 accepted_output=40 mismatch_count=0
+  config frame: label=same-edge-bypass-current threshold=20 bypass=0 accepted_input=40 accepted_output=40 mismatch_count=0
+  config frame: label=same-edge-bypass-next threshold=20 bypass=1 accepted_input=40 accepted_output=40 mismatch_count=0
+  config frame: label=run-enable-current-frame threshold=10 bypass=0 accepted_input=40 accepted_output=40 mismatch_count=0
+  config frame: label=run-enable-reenabled-frame threshold=10 bypass=0 accepted_input=40 accepted_output=40 mismatch_count=0
+
+Independent reference regression:
+  .venv/bin/python -m pytest -q tb/tests/test_reference_model.py
+  13 passed in 0.09s; exit 0
+
+All focused tests and reference checks passed. No production RTL was modified.

@@ -33,4 +33,4 @@ Rules:
 - Return exact commands, exit codes, relevant logs, diff/stat and status for local tasks.
 
 Current restriction:
-Gate 1 is not closed until the specification documents are reviewed. Do not implement accelerator RTL.
+Gate 1 and Gate 2 are recorded closed in docs/PROJECT_STATE.md; Gate 3 remains open. Keep work scoped to the authorised verification task. Do not change production RTL during verification-only tasks; report any detected RTL failure before proceeding. Architecture B remains gated on Architecture-A functional and implementation evidence.

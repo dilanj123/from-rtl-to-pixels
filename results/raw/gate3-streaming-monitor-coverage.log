@@ -1,0 +1,279 @@
+$ git rev-parse HEAD
+a73be9929b6f73329e86790e7726eef8dae4e62d
+
+exit_code=0
+$ git diff -- tb/tests/test_rtl_to_pixels_top_streaming.py
+diff --git a/tb/tests/test_rtl_to_pixels_top_streaming.py b/tb/tests/test_rtl_to_pixels_top_streaming.py
+index a759889..e253826 100644
+--- a/tb/tests/test_rtl_to_pixels_top_streaming.py
++++ b/tb/tests/test_rtl_to_pixels_top_streaming.py
+@@ -20,14 +20,31 @@ async def config(d,t,b): await apb(d,CONTROL,1|(b<<1)); await apb(d,THRESHOLD,t)
+ def idle(d): d.s_tvalid.value=0; d.s_tdata.value=0; d.s_tuser.value=0; d.s_tlast.value=0
+ def drive(d,a,i):
+  r,c=coord(i); d.s_tdata.value=pack(a[r,c]); d.s_tvalid.value=1; d.s_tuser.value=int(i==0); d.s_tlast.value=int(c==W-1)
++def check_pending(pending, valid, transaction):
++ if pending is not None:
++  assert valid, 'm_tvalid dropped before stalled transaction transferred'
++  assert transaction == pending, 'stalled output data/metadata changed'
++
+ class Ready:
+- def __init__(self,mode,seed): self.mode=mode; self.r=random.Random(seed); self.used={}
++ def __init__(self,mode,seed):
++  self.mode=mode; self.r=random.Random(seed); self.used={}
++ def targets(self):
++  if self.mode=='metadata': return {i:2 for i in [0]+list(range(W-1,N,W))}
++  if self.mode=='drain': return {i:(4 if i==N-1 else 3 if i==N-D else 1) for i in range(N-D,N)}
++  return {}
+  def get(self,cycle,oi,valid):
+   if self.mode=='always': return 1
+   if self.mode=='random': return 0 if cycle%23 in (7,8,9) else int(self.r.random()>=.35)
+-  if self.mode=='metadata': target=valid and (oi==0 or oi%W==W-1); n=self.used.get(oi,0); self.used[oi]=n+1; return 0 if target and n<2 else 1
+-  if self.mode=='drain': target=valid and oi>=N-D; lim=4 if oi==N-1 else (3 if oi==N-D else 1); n=self.used.get(oi,0); self.used[oi]=n+1; return 0 if target and n<lim else 1
++  if self.mode in ('metadata','drain'):
++   return int(not (valid and self.used.get(oi,0)<self.targets().get(oi,0)))
+   raise ValueError(self.mode)
++ def observe_stall(self,oi):
++  self.used[oi]=self.used.get(oi,0)+1
++ def verify_coverage(self):
++  targets=self.targets()
++  for i,count in targets.items():
++   assert self.used.get(i,0)==count, f'{self.mode} output {i}: expected {count} stalls, observed {self.used.get(i,0)}'
++  if targets: print(f'targeted_stall_coverage: mode={self.mode} expected={targets} observed={self.used}')
+ async def run(d,a,t,b,source_seed,gapmax,mode,ready_seed):
+  await config(d,t,b); rng=random.Random(source_seed); gaps=[rng.randrange(gapmax+1) for _ in range(N)]; ready=Ready(mode,ready_seed); ii=0; out=[]; gap=0; holding=False; snap=None; gapc=stallc=0
+  for cyc in range(100*N+2000):
+@@ -37,7 +54,10 @@ async def run(d,a,t,b,source_seed,gapmax,mode,ready_seed):
+   elif gap: idle(d); gapc+=1
+   else: holding=True; drive(d,a,ii)
+   await settle(); inf=bool(int(d.s_tvalid.value) and int(d.s_tready.value)); ov=bool(d.m_tvalid.value); ot=ov and bool(d.m_tready.value)
++  cur=(int(d.m_tdata.value),int(d.m_tuser.value),int(d.m_tlast.value))
++  check_pending(snap,ov,cur)
+   if ov and not ot:
++   ready.observe_stall(oi)
+    stallc+=1; cur=(int(d.m_tdata.value),int(d.m_tuser.value),int(d.m_tlast.value)); snap=cur if snap is None else snap; assert cur==snap
+   if ot:
+    assert snap is None or (int(d.m_tdata.value),int(d.m_tuser.value),int(d.m_tlast.value))==snap; snap=None; r,c=coord(len(out)); assert int(d.m_tuser.value)==(len(out)==0); assert int(d.m_tlast.value)==(c==W-1); out.append(int(d.m_tdata.value))
+@@ -47,6 +67,7 @@ async def run(d,a,t,b,source_seed,gapmax,mode,ready_seed):
+   await settle()
+   if ii==N and len(out)==N: break
+  else: raise AssertionError('stress timeout')
++ ready.verify_coverage()
+  idle(d); d.m_tready.value=1; await settle(); assert not int(d.m_tvalid.value); act=np.array(out,dtype=np.uint8).reshape(H,W); res=compare_gray(sobel_rgb(a,threshold=t,bypass_threshold=bool(b)),act); print(f'stream stress frame: ready_mode={mode} accepted_input={ii} accepted_output={len(out)} source_gap_cycles={gapc} output_stall_cycles={stallc} mismatch_count={res["mismatch_count"]}'); assert ii==N and len(out)==N and res['mismatch_count']==0; assert await apb(d,FRAME_COUNT)==1; assert await apb(d,STATUS)&15==0; return gapc,stallc
+ @cocotb.test()
+ async def randomized_source_gaps_match_reference(d): await reset(d); g,s=await run(d,image(0x1001),73,0,0x2001,4,'always',0); assert g>0
+
+exit_code=0
+$ verilator --version
+Verilator 5.052 2026-09-05 rev vUNKNOWN-built20260905
+
+exit_code=0
+$ .venv/bin/cocotb-config --version
+2.1.0
+
+exit_code=0
+$ .venv/bin/python -c 'from tb.tests.test_rtl_to_pixels_top_streaming import check_pending, Ready
+p=(42,1,0)
+check_pending(p,True,p)
+for valid,tx in [(False,p),(True,(43,1,0)),(True,(42,0,0)),(True,(42,1,1))]:
+ try: check_pending(p,valid,tx)
+ except AssertionError: pass
+ else: raise AssertionError('"'"'monitor missed injected violation'"'"')
+r=Ready('"'"'metadata'"'"',0)
+for cycle in range(20): assert r.get(cycle,0,False)==1
+assert r.get(20,0,True)==0
+print('"'"'Monitor negative checks: valid drop, data/SOF/EOL changes rejected; idle cycles do not consume stall budget'"'"')
+'
+Monitor negative checks: valid drop, data/SOF/EOL changes rejected; idle cycles do not consume stall budget
+
+exit_code=0
+$ verilator --lint-only -Wall rtl/pixel_pkg.sv rtl/rgb_to_gray.sv rtl/elastic_stage.sv rtl/apb_regs.sv rtl/pixel_control.sv rtl/line_buffer.sv rtl/window_3x3.sv rtl/sobel_compact.sv rtl/magnitude_clamp.sv rtl/threshold_stage.sv rtl/output_control.sv rtl/rtl_to_pixels_top.sv --top-module rtl_to_pixels_top -GIMG_WIDTH=5 -GIMG_HEIGHT=4
+- V e r i l a t i o n   R e p o r t: Verilator 5.052 2026-09-05 rev vUNKNOWN-built20260905
+- Verilator: Built from 0.359 MB sources in 13 modules, into 0.102 MB in 3 C++ files needing 0.000 MB
+- Verilator: Walltime 0.042 s (elab=0.007, cvt=0.015, bld=0.000); cpu 0.026 s on 1 threads; allocated 12.969 MB
+
+exit_code=0
+
+DIMENSIONS=3x3 SIM_BUILD=/var/folders/78/xn7s20w54m75pf1x_198zh980000gn/T/tmpg2fhngv1
+$ make -f tb/tests/Makefile.rtl_to_pixels_top_streaming
+rm -f /var/folders/78/xn7s20w54m75pf1x_198zh980000gn/T/tmpg2fhngv1/results.xml
+/opt/homebrew/bin/verilator -cc --exe -Mdir /var/folders/78/xn7s20w54m75pf1x_198zh980000gn/T/tmpg2fhngv1 --top-module rtl_to_pixels_top -GIMG_WIDTH=3 -GIMG_HEIGHT=3 --timescale 1ns/1ps --vpi --public-flat-rw --prefix Vtop -o Vtop -LDFLAGS "-Wl,-rpath,/Users/Dilan/Projects/from-rtl-to-pixels/.venv/lib/python3.14/site-packages/cocotb/libs -L/Users/Dilan/Projects/from-rtl-to-pixels/.venv/lib/python3.14/site-packages/cocotb/libs -lcocotbvpi_verilator"  /Users/Dilan/Projects/from-rtl-to-pixels/rtl/pixel_pkg.sv /Users/Dilan/Projects/from-rtl-to-pixels/rtl/rgb_to_gray.sv /Users/Dilan/Projects/from-rtl-to-pixels/rtl/elastic_stage.sv /Users/Dilan/Projects/from-rtl-to-pixels/rtl/apb_regs.sv /Users/Dilan/Projects/from-rtl-to-pixels/rtl/pixel_control.sv /Users/Dilan/Projects/from-rtl-to-pixels/rtl/line_buffer.sv /Users/Dilan/Projects/from-rtl-to-pixels/rtl/window_3x3.sv /Users/Dilan/Projects/from-rtl-to-pixels/rtl/sobel_compact.sv /Users/Dilan/Projects/from-rtl-to-pixels/rtl/magnitude_clamp.sv /Users/Dilan/Projects/from-rtl-to-pixels/rtl/threshold_stage.sv /Users/Dilan/Projects/from-rtl-to-pixels/rtl/output_control.sv /Users/Dilan/Projects/from-rtl-to-pixels/rtl/rtl_to_pixels_top.sv /Users/Dilan/Projects/from-rtl-to-pixels/.venv/lib/python3.14/site-packages/cocotb/share/lib/verilator/verilator.cpp
+- V e r i l a t i o n   R e p o r t: Verilator 5.052 2026-09-05 rev vUNKNOWN-built20260905
+- Verilator: Built from 0.388 MB sources in 13 modules, into 0.251 MB in 7 C++ files needing 0.000 MB
+- Verilator: Walltime 0.029 s (elab=0.003, cvt=0.017, bld=0.000); cpu 0.027 s on 1 threads; allocated 14.078 MB
+/Applications/Xcode.app/Contents/Developer/usr/bin/make -C /var/folders/78/xn7s20w54m75pf1x_198zh980000gn/T/tmpg2fhngv1  -f Vtop.mk
+c++  -I.  -MMD -I/opt/homebrew/Cellar/verilator/5.052/share/verilator/include -I/opt/homebrew/Cellar/verilator/5.052/share/verilator/include/vltstd -DVERILATOR=1 -DVM_COVERAGE=0 -DVM_SC=0 -DVM_TIMING=0 -DVM_TRACE=0 -DVM_TRACE_FST=0 -DVM_TRACE_VCD=0 -DVM_TRACE_SAIF=0 -DVM_VPI=1 -faligned-new -fbracket-depth=4096 -fcf-protection=none -Xclang -fno-pch-timestamp -Qunused-arguments -Wno-bool-operation -Wno-c++11-narrowing -Wno-constant-logical-operand -Wno-int-in-bool-context -Wno-non-pod-varargs -Wno-parentheses-equality -Wno-shadow -Wno-sign-compare -Wno-tautological-bitwise-compare -Wno-tautological-compare -Wno-uninitialized -Wno-unnecessary-virtual-specifier -Wno-unused-but-set-parameter -Wno-unused-but-set-variable -Wno-unused-parameter -Wno-unused-variable -Wno-vla-cxx-extension      -Os  -c -o verilator.o /Users/Dilan/Projects/from-rtl-to-pixels/.venv/lib/python3.14/site-packages/cocotb/share/lib/verilator/verilator.cpp
+c++ -Os  -I.  -MMD -I/opt/homebrew/Cellar/verilator/5.052/share/verilator/include -I/opt/homebrew/Cellar/verilator/5.052/share/verilator/include/vltstd -DVERILATOR=1 -DVM_COVERAGE=0 -DVM_SC=0 -DVM_TIMING=0 -DVM_TRACE=0 -DVM_TRACE_FST=0 -DVM_TRACE_VCD=0 -DVM_TRACE_SAIF=0 -DVM_VPI=1 -faligned-new -fbracket-depth=4096 -fcf-protection=none -Xclang -fno-pch-timestamp -Qunused-arguments -Wno-bool-operation -Wno-c++11-narrowing -Wno-constant-logical-operand -Wno-int-in-bool-context -Wno-non-pod-varargs -Wno-parentheses-equality -Wno-shadow -Wno-sign-compare -Wno-tautological-bitwise-compare -Wno-tautological-compare -Wno-uninitialized -Wno-unnecessary-virtual-specifier -Wno-unused-but-set-parameter -Wno-unused-but-set-variable -Wno-unused-parameter -Wno-unused-variable -Wno-vla-cxx-extension      -c -o verilated.o /opt/homebrew/Cellar/verilator/5.052/share/verilator/include/verilated.cpp
+c++ -Os  -I.  -MMD -I/opt/homebrew/Cellar/verilator/5.052/share/verilator/include -I/opt/homebrew/Cellar/verilator/5.052/share/verilator/include/vltstd -DVERILATOR=1 -DVM_COVERAGE=0 -DVM_SC=0 -DVM_TIMING=0 -DVM_TRACE=0 -DVM_TRACE_FST=0 -DVM_TRACE_VCD=0 -DVM_TRACE_SAIF=0 -DVM_VPI=1 -faligned-new -fbracket-depth=4096 -fcf-protection=none -Xclang -fno-pch-timestamp -Qunused-arguments -Wno-bool-operation -Wno-c++11-narrowing -Wno-constant-logical-operand -Wno-int-in-bool-context -Wno-non-pod-varargs -Wno-parentheses-equality -Wno-shadow -Wno-sign-compare -Wno-tautological-bitwise-compare -Wno-tautological-compare -Wno-uninitialized -Wno-unnecessary-virtual-specifier -Wno-unused-but-set-parameter -Wno-unused-but-set-variable -Wno-unused-parameter -Wno-unused-variable -Wno-vla-cxx-extension      -c -o verilated_dpi.o /opt/homebrew/Cellar/verilator/5.052/share/verilator/include/verilated_dpi.cpp
+c++ -Os  -I.  -MMD -I/opt/homebrew/Cellar/verilator/5.052/share/verilator/include -I/opt/homebrew/Cellar/verilator/5.052/share/verilator/include/vltstd -DVERILATOR=1 -DVM_COVERAGE=0 -DVM_SC=0 -DVM_TIMING=0 -DVM_TRACE=0 -DVM_TRACE_FST=0 -DVM_TRACE_VCD=0 -DVM_TRACE_SAIF=0 -DVM_VPI=1 -faligned-new -fbracket-depth=4096 -fcf-protection=none -Xclang -fno-pch-timestamp -Qunused-arguments -Wno-bool-operation -Wno-c++11-narrowing -Wno-constant-logical-operand -Wno-int-in-bool-context -Wno-non-pod-varargs -Wno-parentheses-equality -Wno-shadow -Wno-sign-compare -Wno-tautological-bitwise-compare -Wno-tautological-compare -Wno-uninitialized -Wno-unnecessary-virtual-specifier -Wno-unused-but-set-parameter -Wno-unused-but-set-variable -Wno-unused-parameter -Wno-unused-variable -Wno-vla-cxx-extension      -c -o verilated_vpi.o /opt/homebrew/Cellar/verilator/5.052/share/verilator/include/verilated_vpi.cpp
+c++ -Os  -I.  -MMD -I/opt/homebrew/Cellar/verilator/5.052/share/verilator/include -I/opt/homebrew/Cellar/verilator/5.052/share/verilator/include/vltstd -DVERILATOR=1 -DVM_COVERAGE=0 -DVM_SC=0 -DVM_TIMING=0 -DVM_TRACE=0 -DVM_TRACE_FST=0 -DVM_TRACE_VCD=0 -DVM_TRACE_SAIF=0 -DVM_VPI=1 -faligned-new -fbracket-depth=4096 -fcf-protection=none -Xclang -fno-pch-timestamp -Qunused-arguments -Wno-bool-operation -Wno-c++11-narrowing -Wno-constant-logical-operand -Wno-int-in-bool-context -Wno-non-pod-varargs -Wno-parentheses-equality -Wno-shadow -Wno-sign-compare -Wno-tautological-bitwise-compare -Wno-tautological-compare -Wno-uninitialized -Wno-unnecessary-virtual-specifier -Wno-unused-but-set-parameter -Wno-unused-but-set-variable -Wno-unused-parameter -Wno-unused-variable -Wno-vla-cxx-extension      -c -o verilated_threads.o /opt/homebrew/Cellar/verilator/5.052/share/verilator/include/verilated_threads.cpp
+python3 /opt/homebrew/Cellar/verilator/5.052/share/verilator/bin/verilator_includer -DVL_INCLUDE_OPT=include Vtop.cpp Vtop___024root__0.cpp Vtop__Dpi.cpp Vtop__ConstPool__0__Slow.cpp Vtop___024root__Slow.cpp Vtop___024root__0__Slow.cpp Vtop__Syms__Slow.cpp > Vtop__ALL.cpp
+c++ -Os  -I.  -MMD -I/opt/homebrew/Cellar/verilator/5.052/share/verilator/include -I/opt/homebrew/Cellar/verilator/5.052/share/verilator/include/vltstd -DVERILATOR=1 -DVM_COVERAGE=0 -DVM_SC=0 -DVM_TIMING=0 -DVM_TRACE=0 -DVM_TRACE_FST=0 -DVM_TRACE_VCD=0 -DVM_TRACE_SAIF=0 -DVM_VPI=1 -faligned-new -fbracket-depth=4096 -fcf-protection=none -Xclang -fno-pch-timestamp -Qunused-arguments -Wno-bool-operation -Wno-c++11-narrowing -Wno-constant-logical-operand -Wno-int-in-bool-context -Wno-non-pod-varargs -Wno-parentheses-equality -Wno-shadow -Wno-sign-compare -Wno-tautological-bitwise-compare -Wno-tautological-compare -Wno-uninitialized -Wno-unnecessary-virtual-specifier -Wno-unused-but-set-parameter -Wno-unused-but-set-variable -Wno-unused-parameter -Wno-unused-variable -Wno-vla-cxx-extension      -c -o Vtop__ALL.o Vtop__ALL.cpp
+c++  -Wl,-U,__Z15vl_time_stamp64v,-U,__Z13sc_time_stampv,-U,_vlog_startup_routines   -rdynamic verilator.o verilated.o verilated_dpi.o verilated_vpi.o verilated_threads.o Vtop__ALL.a   -Wl,-rpath,/Users/Dilan/Projects/from-rtl-to-pixels/.venv/lib/python3.14/site-packages/cocotb/libs -L/Users/Dilan/Projects/from-rtl-to-pixels/.venv/lib/python3.14/site-packages/cocotb/libs -lcocotbvpi_verilator  -pthread -lpthread -ldl   -o Vtop
+rm Vtop__ALL.verilator_deplist.tmp
+rm -f /var/folders/78/xn7s20w54m75pf1x_198zh980000gn/T/tmpg2fhngv1/results.xml
+COCOTB_TEST_MODULES=test_rtl_to_pixels_top_streaming COCOTB_TESTCASE=  COCOTB_TOPLEVEL=rtl_to_pixels_top TOPLEVEL_LANG=verilog       \
+         /var/folders/78/xn7s20w54m75pf1x_198zh980000gn/T/tmpg2fhngv1/Vtop
+     -.--ns INFO     gpi                                ../gpi/GpiCommon.cpp:242  in gpi_load_users                  Loaded entry library: '/Library/Frameworks/Python.framework/Versions/3.14/Python'
+     -.--ns INFO     gpi                                ../gpi/GpiCommon.cpp:234  in gpi_load_users                  Running entry func 'initialize' from loaded library '/Users/Dilan/Projects/from-rtl-to-pixels/.venv/lib/python3.14/site-packages/cocotb/simulator.cpython-314-darwin.so'
+     -.--ns INFO     pygpi                              ..ib/pygpi/embed.cpp:115  in initialize                      Using Python 3.14.6 interpreter at /Users/Dilan/Projects/from-rtl-to-pixels/.venv/bin/python
+     -.--ns INFO     gpi                                ../gpi/GpiCommon.cpp:74   in gpi_print_registered_impl       GPI: VPI support registered
+     0.00ns INFO     cocotb.initialize                  Seeding Python random module with 1789912776
+     0.00ns INFO     cocotb.initialize                  Initialized cocotb v2.1.0 from /Users/Dilan/Projects/from-rtl-to-pixels/.venv/lib/python3.14/site-packages/cocotb
+     0.00ns INFO     cocotb.initialize                  Running on Verilator version 5.052 2026-09-05
+     0.00ns INFO     cocotb.regression                  Running tests
+     0.00ns INFO     cocotb.regression                  running test_rtl_to_pixels_top_streaming.randomized_source_gaps_match_reference (1/5)
+stream stress frame: ready_mode=always accepted_input=9 accepted_output=9 source_gap_cycles=12 output_stall_cycles=0 mismatch_count=0
+   351.00ns INFO     cocotb.regression                  test_rtl_to_pixels_top_streaming.randomized_source_gaps_match_reference passed
+   351.00ns INFO     cocotb.regression                  running test_rtl_to_pixels_top_streaming.randomized_downstream_backpressure_is_bit_exact (2/5)
+stream stress frame: ready_mode=random accepted_input=9 accepted_output=9 source_gap_cycles=0 output_stall_cycles=8 mismatch_count=0
+   672.00ns INFO     cocotb.regression                  test_rtl_to_pixels_top_streaming.randomized_downstream_backpressure_is_bit_exact passed
+   672.00ns INFO     cocotb.regression                  running test_rtl_to_pixels_top_streaming.combined_random_gaps_and_backpressure_match_reference (3/5)
+stream stress frame: ready_mode=random accepted_input=9 accepted_output=9 source_gap_cycles=13 output_stall_cycles=5 mismatch_count=0
+  1063.00ns INFO     cocotb.regression                  test_rtl_to_pixels_top_streaming.combined_random_gaps_and_backpressure_match_reference passed
+  1063.00ns INFO     cocotb.regression                  running test_rtl_to_pixels_top_streaming.sof_and_eol_output_stalls_are_stable (4/5)
+targeted_stall_coverage: mode=metadata expected={0: 2, 2: 2, 5: 2, 8: 2} observed={0: 2, 2: 2, 5: 2, 8: 2}
+stream stress frame: ready_mode=metadata accepted_input=9 accepted_output=9 source_gap_cycles=8 output_stall_cycles=8 mismatch_count=0
+  1444.00ns INFO     cocotb.regression                  test_rtl_to_pixels_top_streaming.sof_and_eol_output_stalls_are_stable passed
+  1444.00ns INFO     cocotb.regression                  running test_rtl_to_pixels_top_streaming.drain_backpressure_preserves_exact_frame (5/5)
+targeted_stall_coverage: mode=drain expected={5: 3, 6: 1, 7: 1, 8: 4} observed={5: 3, 6: 1, 7: 1, 8: 4}
+stream stress frame: ready_mode=drain accepted_input=9 accepted_output=9 source_gap_cycles=4 output_stall_cycles=9 mismatch_count=0
+  1815.00ns INFO     cocotb.regression                  test_rtl_to_pixels_top_streaming.drain_backpressure_preserves_exact_frame passed
+  1815.00ns INFO     cocotb.regression                  ************************************************************************************************************************************************
+                                                        ** TEST                                                                                    STATUS  SIM TIME (ns)  REAL TIME (s)  RATIO (ns/s) **
+                                                        ************************************************************************************************************************************************
+                                                        ** test_rtl_to_pixels_top_streaming.randomized_source_gaps_match_reference                  PASS         351.00           0.07       5136.51  **
+                                                        ** test_rtl_to_pixels_top_streaming.randomized_downstream_backpressure_is_bit_exact         PASS         321.00           0.00     126094.59  **
+                                                        ** test_rtl_to_pixels_top_streaming.combined_random_gaps_and_backpressure_match_reference   PASS         391.00           0.00     190194.34  **
+                                                        ** test_rtl_to_pixels_top_streaming.sof_and_eol_output_stalls_are_stable                    PASS         381.00           0.00     168023.35  **
+                                                        ** test_rtl_to_pixels_top_streaming.drain_backpressure_preserves_exact_frame                PASS         371.00           0.00     170529.00  **
+                                                        ************************************************************************************************************************************************
+                                                        ** TESTS=5 PASS=5 FAIL=0 SKIP=0                                                                         1815.00           0.08      22566.01  **
+                                                        ************************************************************************************************************************************************
+- :0: Verilog $finish
+
+exit_code=0
+
+DIMENSIONS=5x4 SIM_BUILD=/var/folders/78/xn7s20w54m75pf1x_198zh980000gn/T/tmpd66itkow
+$ make -f tb/tests/Makefile.rtl_to_pixels_top_streaming
+rm -f /var/folders/78/xn7s20w54m75pf1x_198zh980000gn/T/tmpd66itkow/results.xml
+/opt/homebrew/bin/verilator -cc --exe -Mdir /var/folders/78/xn7s20w54m75pf1x_198zh980000gn/T/tmpd66itkow --top-module rtl_to_pixels_top -GIMG_WIDTH=5 -GIMG_HEIGHT=4 --timescale 1ns/1ps --vpi --public-flat-rw --prefix Vtop -o Vtop -LDFLAGS "-Wl,-rpath,/Users/Dilan/Projects/from-rtl-to-pixels/.venv/lib/python3.14/site-packages/cocotb/libs -L/Users/Dilan/Projects/from-rtl-to-pixels/.venv/lib/python3.14/site-packages/cocotb/libs -lcocotbvpi_verilator"  /Users/Dilan/Projects/from-rtl-to-pixels/rtl/pixel_pkg.sv /Users/Dilan/Projects/from-rtl-to-pixels/rtl/rgb_to_gray.sv /Users/Dilan/Projects/from-rtl-to-pixels/rtl/elastic_stage.sv /Users/Dilan/Projects/from-rtl-to-pixels/rtl/apb_regs.sv /Users/Dilan/Projects/from-rtl-to-pixels/rtl/pixel_control.sv /Users/Dilan/Projects/from-rtl-to-pixels/rtl/line_buffer.sv /Users/Dilan/Projects/from-rtl-to-pixels/rtl/window_3x3.sv /Users/Dilan/Projects/from-rtl-to-pixels/rtl/sobel_compact.sv /Users/Dilan/Projects/from-rtl-to-pixels/rtl/magnitude_clamp.sv /Users/Dilan/Projects/from-rtl-to-pixels/rtl/threshold_stage.sv /Users/Dilan/Projects/from-rtl-to-pixels/rtl/output_control.sv /Users/Dilan/Projects/from-rtl-to-pixels/rtl/rtl_to_pixels_top.sv /Users/Dilan/Projects/from-rtl-to-pixels/.venv/lib/python3.14/site-packages/cocotb/share/lib/verilator/verilator.cpp
+- V e r i l a t i o n   R e p o r t: Verilator 5.052 2026-09-05 rev vUNKNOWN-built20260905
+- Verilator: Built from 0.388 MB sources in 13 modules, into 0.248 MB in 7 C++ files needing 0.000 MB
+- Verilator: Walltime 0.026 s (elab=0.003, cvt=0.015, bld=0.000); cpu 0.026 s on 1 threads; allocated 13.938 MB
+/Applications/Xcode.app/Contents/Developer/usr/bin/make -C /var/folders/78/xn7s20w54m75pf1x_198zh980000gn/T/tmpd66itkow  -f Vtop.mk
+c++  -I.  -MMD -I/opt/homebrew/Cellar/verilator/5.052/share/verilator/include -I/opt/homebrew/Cellar/verilator/5.052/share/verilator/include/vltstd -DVERILATOR=1 -DVM_COVERAGE=0 -DVM_SC=0 -DVM_TIMING=0 -DVM_TRACE=0 -DVM_TRACE_FST=0 -DVM_TRACE_VCD=0 -DVM_TRACE_SAIF=0 -DVM_VPI=1 -faligned-new -fbracket-depth=4096 -fcf-protection=none -Xclang -fno-pch-timestamp -Qunused-arguments -Wno-bool-operation -Wno-c++11-narrowing -Wno-constant-logical-operand -Wno-int-in-bool-context -Wno-non-pod-varargs -Wno-parentheses-equality -Wno-shadow -Wno-sign-compare -Wno-tautological-bitwise-compare -Wno-tautological-compare -Wno-uninitialized -Wno-unnecessary-virtual-specifier -Wno-unused-but-set-parameter -Wno-unused-but-set-variable -Wno-unused-parameter -Wno-unused-variable -Wno-vla-cxx-extension      -Os  -c -o verilator.o /Users/Dilan/Projects/from-rtl-to-pixels/.venv/lib/python3.14/site-packages/cocotb/share/lib/verilator/verilator.cpp
+c++ -Os  -I.  -MMD -I/opt/homebrew/Cellar/verilator/5.052/share/verilator/include -I/opt/homebrew/Cellar/verilator/5.052/share/verilator/include/vltstd -DVERILATOR=1 -DVM_COVERAGE=0 -DVM_SC=0 -DVM_TIMING=0 -DVM_TRACE=0 -DVM_TRACE_FST=0 -DVM_TRACE_VCD=0 -DVM_TRACE_SAIF=0 -DVM_VPI=1 -faligned-new -fbracket-depth=4096 -fcf-protection=none -Xclang -fno-pch-timestamp -Qunused-arguments -Wno-bool-operation -Wno-c++11-narrowing -Wno-constant-logical-operand -Wno-int-in-bool-context -Wno-non-pod-varargs -Wno-parentheses-equality -Wno-shadow -Wno-sign-compare -Wno-tautological-bitwise-compare -Wno-tautological-compare -Wno-uninitialized -Wno-unnecessary-virtual-specifier -Wno-unused-but-set-parameter -Wno-unused-but-set-variable -Wno-unused-parameter -Wno-unused-variable -Wno-vla-cxx-extension      -c -o verilated.o /opt/homebrew/Cellar/verilator/5.052/share/verilator/include/verilated.cpp
+c++ -Os  -I.  -MMD -I/opt/homebrew/Cellar/verilator/5.052/share/verilator/include -I/opt/homebrew/Cellar/verilator/5.052/share/verilator/include/vltstd -DVERILATOR=1 -DVM_COVERAGE=0 -DVM_SC=0 -DVM_TIMING=0 -DVM_TRACE=0 -DVM_TRACE_FST=0 -DVM_TRACE_VCD=0 -DVM_TRACE_SAIF=0 -DVM_VPI=1 -faligned-new -fbracket-depth=4096 -fcf-protection=none -Xclang -fno-pch-timestamp -Qunused-arguments -Wno-bool-operation -Wno-c++11-narrowing -Wno-constant-logical-operand -Wno-int-in-bool-context -Wno-non-pod-varargs -Wno-parentheses-equality -Wno-shadow -Wno-sign-compare -Wno-tautological-bitwise-compare -Wno-tautological-compare -Wno-uninitialized -Wno-unnecessary-virtual-specifier -Wno-unused-but-set-parameter -Wno-unused-but-set-variable -Wno-unused-parameter -Wno-unused-variable -Wno-vla-cxx-extension      -c -o verilated_dpi.o /opt/homebrew/Cellar/verilator/5.052/share/verilator/include/verilated_dpi.cpp
+c++ -Os  -I.  -MMD -I/opt/homebrew/Cellar/verilator/5.052/share/verilator/include -I/opt/homebrew/Cellar/verilator/5.052/share/verilator/include/vltstd -DVERILATOR=1 -DVM_COVERAGE=0 -DVM_SC=0 -DVM_TIMING=0 -DVM_TRACE=0 -DVM_TRACE_FST=0 -DVM_TRACE_VCD=0 -DVM_TRACE_SAIF=0 -DVM_VPI=1 -faligned-new -fbracket-depth=4096 -fcf-protection=none -Xclang -fno-pch-timestamp -Qunused-arguments -Wno-bool-operation -Wno-c++11-narrowing -Wno-constant-logical-operand -Wno-int-in-bool-context -Wno-non-pod-varargs -Wno-parentheses-equality -Wno-shadow -Wno-sign-compare -Wno-tautological-bitwise-compare -Wno-tautological-compare -Wno-uninitialized -Wno-unnecessary-virtual-specifier -Wno-unused-but-set-parameter -Wno-unused-but-set-variable -Wno-unused-parameter -Wno-unused-variable -Wno-vla-cxx-extension      -c -o verilated_vpi.o /opt/homebrew/Cellar/verilator/5.052/share/verilator/include/verilated_vpi.cpp
+c++ -Os  -I.  -MMD -I/opt/homebrew/Cellar/verilator/5.052/share/verilator/include -I/opt/homebrew/Cellar/verilator/5.052/share/verilator/include/vltstd -DVERILATOR=1 -DVM_COVERAGE=0 -DVM_SC=0 -DVM_TIMING=0 -DVM_TRACE=0 -DVM_TRACE_FST=0 -DVM_TRACE_VCD=0 -DVM_TRACE_SAIF=0 -DVM_VPI=1 -faligned-new -fbracket-depth=4096 -fcf-protection=none -Xclang -fno-pch-timestamp -Qunused-arguments -Wno-bool-operation -Wno-c++11-narrowing -Wno-constant-logical-operand -Wno-int-in-bool-context -Wno-non-pod-varargs -Wno-parentheses-equality -Wno-shadow -Wno-sign-compare -Wno-tautological-bitwise-compare -Wno-tautological-compare -Wno-uninitialized -Wno-unnecessary-virtual-specifier -Wno-unused-but-set-parameter -Wno-unused-but-set-variable -Wno-unused-parameter -Wno-unused-variable -Wno-vla-cxx-extension      -c -o verilated_threads.o /opt/homebrew/Cellar/verilator/5.052/share/verilator/include/verilated_threads.cpp
+python3 /opt/homebrew/Cellar/verilator/5.052/share/verilator/bin/verilator_includer -DVL_INCLUDE_OPT=include Vtop.cpp Vtop___024root__0.cpp Vtop__Dpi.cpp Vtop__ConstPool__0__Slow.cpp Vtop___024root__Slow.cpp Vtop___024root__0__Slow.cpp Vtop__Syms__Slow.cpp > Vtop__ALL.cpp
+c++ -Os  -I.  -MMD -I/opt/homebrew/Cellar/verilator/5.052/share/verilator/include -I/opt/homebrew/Cellar/verilator/5.052/share/verilator/include/vltstd -DVERILATOR=1 -DVM_COVERAGE=0 -DVM_SC=0 -DVM_TIMING=0 -DVM_TRACE=0 -DVM_TRACE_FST=0 -DVM_TRACE_VCD=0 -DVM_TRACE_SAIF=0 -DVM_VPI=1 -faligned-new -fbracket-depth=4096 -fcf-protection=none -Xclang -fno-pch-timestamp -Qunused-arguments -Wno-bool-operation -Wno-c++11-narrowing -Wno-constant-logical-operand -Wno-int-in-bool-context -Wno-non-pod-varargs -Wno-parentheses-equality -Wno-shadow -Wno-sign-compare -Wno-tautological-bitwise-compare -Wno-tautological-compare -Wno-uninitialized -Wno-unnecessary-virtual-specifier -Wno-unused-but-set-parameter -Wno-unused-but-set-variable -Wno-unused-parameter -Wno-unused-variable -Wno-vla-cxx-extension      -c -o Vtop__ALL.o Vtop__ALL.cpp
+c++  -Wl,-U,__Z15vl_time_stamp64v,-U,__Z13sc_time_stampv,-U,_vlog_startup_routines   -rdynamic verilator.o verilated.o verilated_dpi.o verilated_vpi.o verilated_threads.o Vtop__ALL.a   -Wl,-rpath,/Users/Dilan/Projects/from-rtl-to-pixels/.venv/lib/python3.14/site-packages/cocotb/libs -L/Users/Dilan/Projects/from-rtl-to-pixels/.venv/lib/python3.14/site-packages/cocotb/libs -lcocotbvpi_verilator  -pthread -lpthread -ldl   -o Vtop
+rm Vtop__ALL.verilator_deplist.tmp
+rm -f /var/folders/78/xn7s20w54m75pf1x_198zh980000gn/T/tmpd66itkow/results.xml
+COCOTB_TEST_MODULES=test_rtl_to_pixels_top_streaming COCOTB_TESTCASE=  COCOTB_TOPLEVEL=rtl_to_pixels_top TOPLEVEL_LANG=verilog       \
+         /var/folders/78/xn7s20w54m75pf1x_198zh980000gn/T/tmpd66itkow/Vtop
+     -.--ns INFO     gpi                                ../gpi/GpiCommon.cpp:242  in gpi_load_users                  Loaded entry library: '/Library/Frameworks/Python.framework/Versions/3.14/Python'
+     -.--ns INFO     gpi                                ../gpi/GpiCommon.cpp:234  in gpi_load_users                  Running entry func 'initialize' from loaded library '/Users/Dilan/Projects/from-rtl-to-pixels/.venv/lib/python3.14/site-packages/cocotb/simulator.cpython-314-darwin.so'
+     -.--ns INFO     pygpi                              ..ib/pygpi/embed.cpp:115  in initialize                      Using Python 3.14.6 interpreter at /Users/Dilan/Projects/from-rtl-to-pixels/.venv/bin/python
+     -.--ns INFO     gpi                                ../gpi/GpiCommon.cpp:74   in gpi_print_registered_impl       GPI: VPI support registered
+     0.00ns INFO     cocotb.initialize                  Seeding Python random module with 1789912783
+     0.00ns INFO     cocotb.initialize                  Initialized cocotb v2.1.0 from /Users/Dilan/Projects/from-rtl-to-pixels/.venv/lib/python3.14/site-packages/cocotb
+     0.00ns INFO     cocotb.initialize                  Running on Verilator version 5.052 2026-09-05
+     0.00ns INFO     cocotb.regression                  Running tests
+     0.00ns INFO     cocotb.regression                  running test_rtl_to_pixels_top_streaming.randomized_source_gaps_match_reference (1/5)
+stream stress frame: ready_mode=always accepted_input=20 accepted_output=20 source_gap_cycles=41 output_stall_cycles=0 mismatch_count=0
+   771.00ns INFO     cocotb.regression                  test_rtl_to_pixels_top_streaming.randomized_source_gaps_match_reference passed
+   771.00ns INFO     cocotb.regression                  running test_rtl_to_pixels_top_streaming.randomized_downstream_backpressure_is_bit_exact (2/5)
+stream stress frame: ready_mode=random accepted_input=20 accepted_output=20 source_gap_cycles=0 output_stall_cycles=12 mismatch_count=0
+  1262.00ns INFO     cocotb.regression                  test_rtl_to_pixels_top_streaming.randomized_downstream_backpressure_is_bit_exact passed
+  1262.00ns INFO     cocotb.regression                  running test_rtl_to_pixels_top_streaming.combined_random_gaps_and_backpressure_match_reference (3/5)
+stream stress frame: ready_mode=random accepted_input=20 accepted_output=20 source_gap_cycles=28 output_stall_cycles=14 mismatch_count=0
+  2013.00ns INFO     cocotb.regression                  test_rtl_to_pixels_top_streaming.combined_random_gaps_and_backpressure_match_reference passed
+  2013.00ns INFO     cocotb.regression                  running test_rtl_to_pixels_top_streaming.sof_and_eol_output_stalls_are_stable (4/5)
+targeted_stall_coverage: mode=metadata expected={0: 2, 4: 2, 9: 2, 14: 2, 19: 2} observed={0: 2, 4: 2, 9: 2, 14: 2, 19: 2}
+stream stress frame: ready_mode=metadata accepted_input=20 accepted_output=20 source_gap_cycles=25 output_stall_cycles=10 mismatch_count=0
+  2674.00ns INFO     cocotb.regression                  test_rtl_to_pixels_top_streaming.sof_and_eol_output_stalls_are_stable passed
+  2674.00ns INFO     cocotb.regression                  running test_rtl_to_pixels_top_streaming.drain_backpressure_preserves_exact_frame (5/5)
+targeted_stall_coverage: mode=drain expected={14: 3, 15: 1, 16: 1, 17: 1, 18: 1, 19: 4} observed={14: 3, 15: 1, 16: 1, 17: 1, 18: 1, 19: 4}
+stream stress frame: ready_mode=drain accepted_input=20 accepted_output=20 source_gap_cycles=19 output_stall_cycles=11 mismatch_count=0
+  3345.00ns INFO     cocotb.regression                  test_rtl_to_pixels_top_streaming.drain_backpressure_preserves_exact_frame passed
+  3345.00ns INFO     cocotb.regression                  ************************************************************************************************************************************************
+                                                        ** TEST                                                                                    STATUS  SIM TIME (ns)  REAL TIME (s)  RATIO (ns/s) **
+                                                        ************************************************************************************************************************************************
+                                                        ** test_rtl_to_pixels_top_streaming.randomized_source_gaps_match_reference                  PASS         771.00           0.02      38776.11  **
+                                                        ** test_rtl_to_pixels_top_streaming.randomized_downstream_backpressure_is_bit_exact         PASS         491.00           0.00     393758.25  **
+                                                        ** test_rtl_to_pixels_top_streaming.combined_random_gaps_and_backpressure_match_reference   PASS         751.00           0.00     447356.67  **
+                                                        ** test_rtl_to_pixels_top_streaming.sof_and_eol_output_stalls_are_stable                    PASS         661.00           0.00     480101.92  **
+                                                        ** test_rtl_to_pixels_top_streaming.drain_backpressure_preserves_exact_frame                PASS         671.00           0.00     481233.68  **
+                                                        ************************************************************************************************************************************************
+                                                        ** TESTS=5 PASS=5 FAIL=0 SKIP=0                                                                         3345.00           0.03     125671.91  **
+                                                        ************************************************************************************************************************************************
+- :0: Verilog $finish
+
+exit_code=0
+
+DIMENSIONS=8x5 SIM_BUILD=/var/folders/78/xn7s20w54m75pf1x_198zh980000gn/T/tmpn9qdnyl3
+$ make -f tb/tests/Makefile.rtl_to_pixels_top_streaming
+rm -f /var/folders/78/xn7s20w54m75pf1x_198zh980000gn/T/tmpn9qdnyl3/results.xml
+/opt/homebrew/bin/verilator -cc --exe -Mdir /var/folders/78/xn7s20w54m75pf1x_198zh980000gn/T/tmpn9qdnyl3 --top-module rtl_to_pixels_top -GIMG_WIDTH=8 -GIMG_HEIGHT=5 --timescale 1ns/1ps --vpi --public-flat-rw --prefix Vtop -o Vtop -LDFLAGS "-Wl,-rpath,/Users/Dilan/Projects/from-rtl-to-pixels/.venv/lib/python3.14/site-packages/cocotb/libs -L/Users/Dilan/Projects/from-rtl-to-pixels/.venv/lib/python3.14/site-packages/cocotb/libs -lcocotbvpi_verilator"  /Users/Dilan/Projects/from-rtl-to-pixels/rtl/pixel_pkg.sv /Users/Dilan/Projects/from-rtl-to-pixels/rtl/rgb_to_gray.sv /Users/Dilan/Projects/from-rtl-to-pixels/rtl/elastic_stage.sv /Users/Dilan/Projects/from-rtl-to-pixels/rtl/apb_regs.sv /Users/Dilan/Projects/from-rtl-to-pixels/rtl/pixel_control.sv /Users/Dilan/Projects/from-rtl-to-pixels/rtl/line_buffer.sv /Users/Dilan/Projects/from-rtl-to-pixels/rtl/window_3x3.sv /Users/Dilan/Projects/from-rtl-to-pixels/rtl/sobel_compact.sv /Users/Dilan/Projects/from-rtl-to-pixels/rtl/magnitude_clamp.sv /Users/Dilan/Projects/from-rtl-to-pixels/rtl/threshold_stage.sv /Users/Dilan/Projects/from-rtl-to-pixels/rtl/output_control.sv /Users/Dilan/Projects/from-rtl-to-pixels/rtl/rtl_to_pixels_top.sv /Users/Dilan/Projects/from-rtl-to-pixels/.venv/lib/python3.14/site-packages/cocotb/share/lib/verilator/verilator.cpp
+- V e r i l a t i o n   R e p o r t: Verilator 5.052 2026-09-05 rev vUNKNOWN-built20260905
+- Verilator: Built from 0.388 MB sources in 13 modules, into 0.247 MB in 7 C++ files needing 0.000 MB
+- Verilator: Walltime 0.028 s (elab=0.003, cvt=0.015, bld=0.000); cpu 0.027 s on 1 threads; allocated 14.094 MB
+/Applications/Xcode.app/Contents/Developer/usr/bin/make -C /var/folders/78/xn7s20w54m75pf1x_198zh980000gn/T/tmpn9qdnyl3  -f Vtop.mk
+c++  -I.  -MMD -I/opt/homebrew/Cellar/verilator/5.052/share/verilator/include -I/opt/homebrew/Cellar/verilator/5.052/share/verilator/include/vltstd -DVERILATOR=1 -DVM_COVERAGE=0 -DVM_SC=0 -DVM_TIMING=0 -DVM_TRACE=0 -DVM_TRACE_FST=0 -DVM_TRACE_VCD=0 -DVM_TRACE_SAIF=0 -DVM_VPI=1 -faligned-new -fbracket-depth=4096 -fcf-protection=none -Xclang -fno-pch-timestamp -Qunused-arguments -Wno-bool-operation -Wno-c++11-narrowing -Wno-constant-logical-operand -Wno-int-in-bool-context -Wno-non-pod-varargs -Wno-parentheses-equality -Wno-shadow -Wno-sign-compare -Wno-tautological-bitwise-compare -Wno-tautological-compare -Wno-uninitialized -Wno-unnecessary-virtual-specifier -Wno-unused-but-set-parameter -Wno-unused-but-set-variable -Wno-unused-parameter -Wno-unused-variable -Wno-vla-cxx-extension      -Os  -c -o verilator.o /Users/Dilan/Projects/from-rtl-to-pixels/.venv/lib/python3.14/site-packages/cocotb/share/lib/verilator/verilator.cpp
+c++ -Os  -I.  -MMD -I/opt/homebrew/Cellar/verilator/5.052/share/verilator/include -I/opt/homebrew/Cellar/verilator/5.052/share/verilator/include/vltstd -DVERILATOR=1 -DVM_COVERAGE=0 -DVM_SC=0 -DVM_TIMING=0 -DVM_TRACE=0 -DVM_TRACE_FST=0 -DVM_TRACE_VCD=0 -DVM_TRACE_SAIF=0 -DVM_VPI=1 -faligned-new -fbracket-depth=4096 -fcf-protection=none -Xclang -fno-pch-timestamp -Qunused-arguments -Wno-bool-operation -Wno-c++11-narrowing -Wno-constant-logical-operand -Wno-int-in-bool-context -Wno-non-pod-varargs -Wno-parentheses-equality -Wno-shadow -Wno-sign-compare -Wno-tautological-bitwise-compare -Wno-tautological-compare -Wno-uninitialized -Wno-unnecessary-virtual-specifier -Wno-unused-but-set-parameter -Wno-unused-but-set-variable -Wno-unused-parameter -Wno-unused-variable -Wno-vla-cxx-extension      -c -o verilated.o /opt/homebrew/Cellar/verilator/5.052/share/verilator/include/verilated.cpp
+c++ -Os  -I.  -MMD -I/opt/homebrew/Cellar/verilator/5.052/share/verilator/include -I/opt/homebrew/Cellar/verilator/5.052/share/verilator/include/vltstd -DVERILATOR=1 -DVM_COVERAGE=0 -DVM_SC=0 -DVM_TIMING=0 -DVM_TRACE=0 -DVM_TRACE_FST=0 -DVM_TRACE_VCD=0 -DVM_TRACE_SAIF=0 -DVM_VPI=1 -faligned-new -fbracket-depth=4096 -fcf-protection=none -Xclang -fno-pch-timestamp -Qunused-arguments -Wno-bool-operation -Wno-c++11-narrowing -Wno-constant-logical-operand -Wno-int-in-bool-context -Wno-non-pod-varargs -Wno-parentheses-equality -Wno-shadow -Wno-sign-compare -Wno-tautological-bitwise-compare -Wno-tautological-compare -Wno-uninitialized -Wno-unnecessary-virtual-specifier -Wno-unused-but-set-parameter -Wno-unused-but-set-variable -Wno-unused-parameter -Wno-unused-variable -Wno-vla-cxx-extension      -c -o verilated_dpi.o /opt/homebrew/Cellar/verilator/5.052/share/verilator/include/verilated_dpi.cpp
+c++ -Os  -I.  -MMD -I/opt/homebrew/Cellar/verilator/5.052/share/verilator/include -I/opt/homebrew/Cellar/verilator/5.052/share/verilator/include/vltstd -DVERILATOR=1 -DVM_COVERAGE=0 -DVM_SC=0 -DVM_TIMING=0 -DVM_TRACE=0 -DVM_TRACE_FST=0 -DVM_TRACE_VCD=0 -DVM_TRACE_SAIF=0 -DVM_VPI=1 -faligned-new -fbracket-depth=4096 -fcf-protection=none -Xclang -fno-pch-timestamp -Qunused-arguments -Wno-bool-operation -Wno-c++11-narrowing -Wno-constant-logical-operand -Wno-int-in-bool-context -Wno-non-pod-varargs -Wno-parentheses-equality -Wno-shadow -Wno-sign-compare -Wno-tautological-bitwise-compare -Wno-tautological-compare -Wno-uninitialized -Wno-unnecessary-virtual-specifier -Wno-unused-but-set-parameter -Wno-unused-but-set-variable -Wno-unused-parameter -Wno-unused-variable -Wno-vla-cxx-extension      -c -o verilated_vpi.o /opt/homebrew/Cellar/verilator/5.052/share/verilator/include/verilated_vpi.cpp
+c++ -Os  -I.  -MMD -I/opt/homebrew/Cellar/verilator/5.052/share/verilator/include -I/opt/homebrew/Cellar/verilator/5.052/share/verilator/include/vltstd -DVERILATOR=1 -DVM_COVERAGE=0 -DVM_SC=0 -DVM_TIMING=0 -DVM_TRACE=0 -DVM_TRACE_FST=0 -DVM_TRACE_VCD=0 -DVM_TRACE_SAIF=0 -DVM_VPI=1 -faligned-new -fbracket-depth=4096 -fcf-protection=none -Xclang -fno-pch-timestamp -Qunused-arguments -Wno-bool-operation -Wno-c++11-narrowing -Wno-constant-logical-operand -Wno-int-in-bool-context -Wno-non-pod-varargs -Wno-parentheses-equality -Wno-shadow -Wno-sign-compare -Wno-tautological-bitwise-compare -Wno-tautological-compare -Wno-uninitialized -Wno-unnecessary-virtual-specifier -Wno-unused-but-set-parameter -Wno-unused-but-set-variable -Wno-unused-parameter -Wno-unused-variable -Wno-vla-cxx-extension      -c -o verilated_threads.o /opt/homebrew/Cellar/verilator/5.052/share/verilator/include/verilated_threads.cpp
+python3 /opt/homebrew/Cellar/verilator/5.052/share/verilator/bin/verilator_includer -DVL_INCLUDE_OPT=include Vtop.cpp Vtop___024root__0.cpp Vtop__Dpi.cpp Vtop__ConstPool__0__Slow.cpp Vtop___024root__Slow.cpp Vtop___024root__0__Slow.cpp Vtop__Syms__Slow.cpp > Vtop__ALL.cpp
+c++ -Os  -I.  -MMD -I/opt/homebrew/Cellar/verilator/5.052/share/verilator/include -I/opt/homebrew/Cellar/verilator/5.052/share/verilator/include/vltstd -DVERILATOR=1 -DVM_COVERAGE=0 -DVM_SC=0 -DVM_TIMING=0 -DVM_TRACE=0 -DVM_TRACE_FST=0 -DVM_TRACE_VCD=0 -DVM_TRACE_SAIF=0 -DVM_VPI=1 -faligned-new -fbracket-depth=4096 -fcf-protection=none -Xclang -fno-pch-timestamp -Qunused-arguments -Wno-bool-operation -Wno-c++11-narrowing -Wno-constant-logical-operand -Wno-int-in-bool-context -Wno-non-pod-varargs -Wno-parentheses-equality -Wno-shadow -Wno-sign-compare -Wno-tautological-bitwise-compare -Wno-tautological-compare -Wno-uninitialized -Wno-unnecessary-virtual-specifier -Wno-unused-but-set-parameter -Wno-unused-but-set-variable -Wno-unused-parameter -Wno-unused-variable -Wno-vla-cxx-extension      -c -o Vtop__ALL.o Vtop__ALL.cpp
+c++  -Wl,-U,__Z15vl_time_stamp64v,-U,__Z13sc_time_stampv,-U,_vlog_startup_routines   -rdynamic verilator.o verilated.o verilated_dpi.o verilated_vpi.o verilated_threads.o Vtop__ALL.a   -Wl,-rpath,/Users/Dilan/Projects/from-rtl-to-pixels/.venv/lib/python3.14/site-packages/cocotb/libs -L/Users/Dilan/Projects/from-rtl-to-pixels/.venv/lib/python3.14/site-packages/cocotb/libs -lcocotbvpi_verilator  -pthread -lpthread -ldl   -o Vtop
+rm Vtop__ALL.verilator_deplist.tmp
+rm -f /var/folders/78/xn7s20w54m75pf1x_198zh980000gn/T/tmpn9qdnyl3/results.xml
+COCOTB_TEST_MODULES=test_rtl_to_pixels_top_streaming COCOTB_TESTCASE=  COCOTB_TOPLEVEL=rtl_to_pixels_top TOPLEVEL_LANG=verilog       \
+         /var/folders/78/xn7s20w54m75pf1x_198zh980000gn/T/tmpn9qdnyl3/Vtop
+     -.--ns INFO     gpi                                ../gpi/GpiCommon.cpp:242  in gpi_load_users                  Loaded entry library: '/Library/Frameworks/Python.framework/Versions/3.14/Python'
+     -.--ns INFO     gpi                                ../gpi/GpiCommon.cpp:234  in gpi_load_users                  Running entry func 'initialize' from loaded library '/Users/Dilan/Projects/from-rtl-to-pixels/.venv/lib/python3.14/site-packages/cocotb/simulator.cpython-314-darwin.so'
+     -.--ns INFO     pygpi                              ..ib/pygpi/embed.cpp:115  in initialize                      Using Python 3.14.6 interpreter at /Users/Dilan/Projects/from-rtl-to-pixels/.venv/bin/python
+     -.--ns INFO     gpi                                ../gpi/GpiCommon.cpp:74   in gpi_print_registered_impl       GPI: VPI support registered
+     0.00ns INFO     cocotb.initialize                  Seeding Python random module with 1789912790
+     0.00ns INFO     cocotb.initialize                  Initialized cocotb v2.1.0 from /Users/Dilan/Projects/from-rtl-to-pixels/.venv/lib/python3.14/site-packages/cocotb
+     0.00ns INFO     cocotb.initialize                  Running on Verilator version 5.052 2026-09-05
+     0.00ns INFO     cocotb.regression                  Running tests
+     0.00ns INFO     cocotb.regression                  running test_rtl_to_pixels_top_streaming.randomized_source_gaps_match_reference (1/5)
+stream stress frame: ready_mode=always accepted_input=40 accepted_output=40 source_gap_cycles=83 output_stall_cycles=0 mismatch_count=0
+  1421.00ns INFO     cocotb.regression                  test_rtl_to_pixels_top_streaming.randomized_source_gaps_match_reference passed
+  1421.00ns INFO     cocotb.regression                  running test_rtl_to_pixels_top_streaming.randomized_downstream_backpressure_is_bit_exact (2/5)
+stream stress frame: ready_mode=random accepted_input=40 accepted_output=40 source_gap_cycles=0 output_stall_cycles=20 mismatch_count=0
+  2222.00ns INFO     cocotb.regression                  test_rtl_to_pixels_top_streaming.randomized_downstream_backpressure_is_bit_exact passed
+  2222.00ns INFO     cocotb.regression                  running test_rtl_to_pixels_top_streaming.combined_random_gaps_and_backpressure_match_reference (3/5)
+stream stress frame: ready_mode=random accepted_input=40 accepted_output=40 source_gap_cycles=61 output_stall_cycles=34 mismatch_count=0
+  3653.00ns INFO     cocotb.regression                  test_rtl_to_pixels_top_streaming.combined_random_gaps_and_backpressure_match_reference passed
+  3653.00ns INFO     cocotb.regression                  running test_rtl_to_pixels_top_streaming.sof_and_eol_output_stalls_are_stable (4/5)
+targeted_stall_coverage: mode=metadata expected={0: 2, 7: 2, 15: 2, 23: 2, 31: 2, 39: 2} observed={0: 2, 7: 2, 15: 2, 23: 2, 31: 2, 39: 2}
+stream stress frame: ready_mode=metadata accepted_input=40 accepted_output=40 source_gap_cycles=44 output_stall_cycles=12 mismatch_count=0
+  4784.00ns INFO     cocotb.regression                  test_rtl_to_pixels_top_streaming.sof_and_eol_output_stalls_are_stable passed
+  4784.00ns INFO     cocotb.regression                  running test_rtl_to_pixels_top_streaming.drain_backpressure_preserves_exact_frame (5/5)
+targeted_stall_coverage: mode=drain expected={31: 3, 32: 1, 33: 1, 34: 1, 35: 1, 36: 1, 37: 1, 38: 1, 39: 4} observed={31: 3, 32: 1, 33: 1, 34: 1, 35: 1, 36: 1, 37: 1, 38: 1, 39: 4}
+stream stress frame: ready_mode=drain accepted_input=40 accepted_output=40 source_gap_cycles=43 output_stall_cycles=14 mismatch_count=0
+  5955.00ns INFO     cocotb.regression                  test_rtl_to_pixels_top_streaming.drain_backpressure_preserves_exact_frame passed
+  5955.00ns INFO     cocotb.regression                  ************************************************************************************************************************************************
+                                                        ** TEST                                                                                    STATUS  SIM TIME (ns)  REAL TIME (s)  RATIO (ns/s) **
+                                                        ************************************************************************************************************************************************
+                                                        ** test_rtl_to_pixels_top_streaming.randomized_source_gaps_match_reference                  PASS        1421.00           0.02      67950.74  **
+                                                        ** test_rtl_to_pixels_top_streaming.randomized_downstream_backpressure_is_bit_exact         PASS         801.00           0.00     371356.33  **
+                                                        ** test_rtl_to_pixels_top_streaming.combined_random_gaps_and_backpressure_match_reference   PASS        1431.00           0.00     483194.23  **
+                                                        ** test_rtl_to_pixels_top_streaming.sof_and_eol_output_stalls_are_stable                    PASS        1131.00           0.00     472933.05  **
+                                                        ** test_rtl_to_pixels_top_streaming.drain_backpressure_preserves_exact_frame                PASS        1171.00           0.00     465151.57  **
+                                                        ************************************************************************************************************************************************
+                                                        ** TESTS=5 PASS=5 FAIL=0 SKIP=0                                                                         5955.00           0.03     185558.70  **
+                                                        ************************************************************************************************************************************************
+- :0: Verilog $finish
+
+exit_code=0
+$ .venv/bin/python -m pytest -q -p no:cacheprovider tb/tests/test_reference_model.py
+.............                                                            [100%]
+13 passed in 0.07s
+
+exit_code=0

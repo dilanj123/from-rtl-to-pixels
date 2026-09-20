@@ -1,8 +1,9 @@
 # Project State
 
-Current phase: Phase 5 — Production Architecture A / Gate 2
+Current phase: Phase 6 — Production Architecture A deep verification / Gate 3
 Current gate: Gate 2 CLOSED; Gate 3 OPEN
-Known-good commit before Phase 5: `597af7f8c0edfac2dfb2763e042a7d17acf17b8d`
+Historical known-good commit before Phase 5: `597af7f8c0edfac2dfb2763e042a7d17acf17b8d`
+Streaming baseline commit: `a73be9929b6f73329e86790e7726eef8dae4e62d`; subsequent monitor/coverage strengthening is recorded in results/raw/gate3-streaming-monitor-coverage.log.
 Current architecture: frozen single-clock streaming Sobel specification with production `rtl_to_pixels_top` and verified Architecture-A datapath integration at tested small dimensions
 
 Gate 0:
@@ -47,10 +48,12 @@ Evidence: results/raw/architecture-a-alignment-cocotb.log
 Production Architecture A: RTL SIMULATION VERIFIED under 4 complete deterministic RGB-frame tests at each of 3x3, 5x4, and 8x5. Exact accepted input/output counts, SOF/EOL metadata, independent Python comparisons with zero mismatches, APB configuration, frame count, and final external-token completion behavior passed.
 Evidence: results/raw/gate2-top-cocotb.log
 Production Architecture A streaming stress: RTL SIMULATION VERIFIED at 3x3, 5x4, and 8x5. Five tests per dimension exercised deterministic random RGB frames, source gaps, random and targeted backpressure, SOF/EOL stalls, drain stalls, output stability, exact counts, and independent `sobel_rgb` comparison with mismatch_count=0.
-Evidence: results/raw/gate3-streaming-stress-cocotb.log
+Evidence: results/raw/gate3-streaming-stress-cocotb.log (historical; targeted metadata coverage and valid persistence were not fully asserted).
+Strengthened streaming checks: 5/5 tests passed at each of 3x3, 5x4 and 8x5, with zero mismatches. Pending stalled transactions require valid and unchanged data/SOF/EOL through transfer. Per-output counters assert two stalls at SOF and each EOL, and the specified stalls at every final W+1 drain position (including four on the final output). Monitor negative checks reject injected valid/data/SOF/EOL violations; idle cycles do not consume targeted stall budgets.
+Evidence: results/raw/gate3-streaming-monitor-coverage.log; strict lint and all 13 reference tests also passed.
 Previously verified reference-model and primitive evidence remains established. The reference suite passed all 13 tests; established RTL/test/Makefile sources were unchanged. The approved accelerated isolated-leaf policy was used, without rebuilding historical RTL regressions.
 Deferred full accumulated checkpoint: all established primitive/reference regressions passed after the compact arithmetic leaves; evidence: results/raw/arithmetic-checkpoint-regression.log. This verifies individual regressions only, not integrated geometry plus arithmetic or a complete RTL frame.
-The production top is verified only for the tested deterministic configurations. Randomized source gaps/backpressure, reset, malformed metadata, mid-frame configuration timing, same-edge APB-write/SOF integration, broad dimensions/canonical 640x480, random/real frames, traceability, formal, synthesis, P&R, timing, and Architecture B remain unverified.
+The production top is simulation-verified only under the recorded small-dimension configurations and deterministic seeds. Gate-3 work remains: reset matrix, malformed metadata recovery, mid-frame configuration timing, same-edge APB-write/SOF integration, broader dimensions/canonical 640x480, additional random/real frames, and traceability closure. Formal, synthesis, P&R, timing and Architecture B remain Gate-4 work without results.
 `pixel_control.accept_i` represents accepted input; that primitive does not generate ready or implement RUN_ENABLE/DRAIN admission.
 
 Formal:
@@ -67,7 +70,7 @@ Known future workflow dependencies:
 - nextpnr-ecp5/ECP5 database for implementation
 
 Current bottleneck:
-Review the accumulated primitive checkpoint before Architecture-A integration/alignment verification.
+Production-top reset/abort/restart and configuration-timing coverage remain incomplete. Streaming evidence covers a bounded set of small dimensions and deterministic seeds.
 
 Next task:
 P6 reset + malformed-metadata production-top regression.

@@ -1,0 +1,15 @@
+Task: P8-ARCH-A-BASELINE-001
+Baseline: 8c83fdfccbba72b786efbca3f0a3ae0b3cf2a55f
+Architecture: A / compact
+Target: LFE5U-45F, CABGA381, speed grade 6, nextpnr --45k
+Seed: 1
+Yosys path: /Users/Dilan/.local/share/from-rtl-to-pixels/oss-cad-suite-current/bin/yosys
+Yosys version: Yosys 0.69+75 (git sha1 f0b945f63-dirty)
+nextpnr path: /Users/Dilan/.local/share/from-rtl-to-pixels/oss-cad-suite-current/bin/nextpnr-ecp5
+nextpnr version: nextpnr-0.11.1-30-g3e53a0bf
+ ecppack path: /Users/Dilan/.local/share/from-rtl-to-pixels/oss-cad-suite-current/bin/ecppack
+ ecppack version: Project Trellis ecppack Version 1.4-82-g3afe7b5
+Capabilities: synth_ecp5, --45k, --package, --speed, --freq, --seed, --report, --detailed-timing-report, --timing-allow-fail, --textcfg
+ECP5 database test: PASS (nextpnr --45k --package CABGA381 --speed 6 --test)
+Temporary end-to-end ECP5 tool smoke: Yosys synthesis PASS; nextpnr place/route PASS; report JSON parse PASS; textcfg PASS; ecppack PASS; bitstream PASS.
+Classification: IMPLEMENTATION TOOLCHAIN SMOKE VERIFIED

@@ -1,0 +1,18 @@
+Task: P8-ARCH-A-BASELINE-001
+Architecture: A / compact
+Top: rtl_to_pixels_top
+Dimensions: 640x480
+Target: LFE5U-45F / CABGA381 / speed-6
+Seed: 1
+Synthesis: PASS; SYNTHESISED
+Mapped cells: LUT4=665, TRELLIS_FF=194, CCU2C=113, DP16KD=2, MULT18X18D=3, PFUMX=102, L6MUX21=48.
+No distributed/LUT RAM cells mapped; line-buffer storage appears as DP16KD EBRs in this mapping.
+P&R: PASS at 35 and 50 MHz; timing clean at 35 MHz, timing failing at 50 MHz.
+Achieved clock: 38.863624572753906 MHz (report fmax; nextpnr log also reports 38.86 MHz).
+Critical path: s_tdata[15]$tr_io O -> m_tdata_TRELLIS_FF_Q_2 DI; total 32.068 ns, logic 12.306 ns, routing 19.762 ns.
+Path source references include rgb_to_gray.sv, magnitude_clamp.sv and threshold_stage.sv; descriptive classification: mixed arithmetic path, routing-dominated.
+Highest tested timing-clean target: 35 MHz. Lowest tested timing-failing target: 50 MHz. Resolution: 5 MHz. Single seed only; not statistically robust Fmax.
+Peak throughput: 1 pixel/clock is a DERIVED architectural rate. At 35 MHz clean routed target: DERIVED peak 35 Mpixel/s, not physically measured.
+Physical board: not run. Physical measurement: none.
+Architecture B: not started.
+Classification: SYNTHESISED; PLACED/ROUTED TIMING-CLEAN AT 35 MHz, SEED 1; PLACED/ROUTED TIMING-FAILING AT 50 MHz, SEED 1.

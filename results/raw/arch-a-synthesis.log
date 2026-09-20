@@ -1,0 +1,2535 @@
+
+ /----------------------------------------------------------------------------\
+ |  yosys -- Yosys Open SYnthesis Suite                                       |
+ |  Copyright (C) 2012 - 2026  Claire Xenia Wolf <claire@yosyshq.com>         |
+ |  Distributed under an ISC-like license, type "license" to see terms        |
+ \----------------------------------------------------------------------------/
+ Yosys 0.69+75 (git sha1 f0b945f63-dirty, Release, Clang /usr/local/osxcross/target/bin/aarch64-apple-darwin25.5-clang++ 21.1.8)
+
+-- Running command `read_verilog -sv rtl/pixel_pkg.sv rtl/rgb_to_gray.sv rtl/elastic_stage.sv rtl/apb_regs.sv rtl/pixel_control.sv rtl/line_buffer.sv rtl/window_3x3.sv rtl/sobel_compact.sv rtl/magnitude_clamp.sv rtl/threshold_stage.sv rtl/output_control.sv rtl/rtl_to_pixels_top.sv; chparam -set IMG_WIDTH 640 -set IMG_HEIGHT 480 rtl_to_pixels_top; hierarchy -check -top rtl_to_pixels_top; synth_ecp5 -top rtl_to_pixels_top -json /Users/Dilan/Projects/from-rtl-to-pixels/build/impl/arch-a/640x480/arch-a.json; check' --
+
+1. Executing Verilog-2005 frontend: rtl/pixel_pkg.sv
+Parsing SystemVerilog input from `rtl/pixel_pkg.sv' to AST representation.
+Successfully finished Verilog frontend.
+
+2. Executing Verilog-2005 frontend: rtl/rgb_to_gray.sv
+Parsing SystemVerilog input from `rtl/rgb_to_gray.sv' to AST representation.
+Generating RTLIL representation for module `\rgb_to_gray'.
+Successfully finished Verilog frontend.
+
+3. Executing Verilog-2005 frontend: rtl/elastic_stage.sv
+Parsing SystemVerilog input from `rtl/elastic_stage.sv' to AST representation.
+Generating RTLIL representation for module `\elastic_stage'.
+Successfully finished Verilog frontend.
+
+4. Executing Verilog-2005 frontend: rtl/apb_regs.sv
+Parsing SystemVerilog input from `rtl/apb_regs.sv' to AST representation.
+Generating RTLIL representation for module `\apb_regs'.
+Successfully finished Verilog frontend.
+
+5. Executing Verilog-2005 frontend: rtl/pixel_control.sv
+Parsing SystemVerilog input from `rtl/pixel_control.sv' to AST representation.
+Generating RTLIL representation for module `\pixel_control'.
+Successfully finished Verilog frontend.
+
+6. Executing Verilog-2005 frontend: rtl/line_buffer.sv
+Parsing SystemVerilog input from `rtl/line_buffer.sv' to AST representation.
+Generating RTLIL representation for module `\line_buffer'.
+Successfully finished Verilog frontend.
+
+7. Executing Verilog-2005 frontend: rtl/window_3x3.sv
+Parsing SystemVerilog input from `rtl/window_3x3.sv' to AST representation.
+Generating RTLIL representation for module `\window_3x3'.
+Successfully finished Verilog frontend.
+
+8. Executing Verilog-2005 frontend: rtl/sobel_compact.sv
+Parsing SystemVerilog input from `rtl/sobel_compact.sv' to AST representation.
+Generating RTLIL representation for module `\sobel_compact'.
+Successfully finished Verilog frontend.
+
+9. Executing Verilog-2005 frontend: rtl/magnitude_clamp.sv
+Parsing SystemVerilog input from `rtl/magnitude_clamp.sv' to AST representation.
+Generating RTLIL representation for module `\magnitude_clamp'.
+Successfully finished Verilog frontend.
+
+10. Executing Verilog-2005 frontend: rtl/threshold_stage.sv
+Parsing SystemVerilog input from `rtl/threshold_stage.sv' to AST representation.
+Generating RTLIL representation for module `\threshold_stage'.
+Successfully finished Verilog frontend.
+
+11. Executing Verilog-2005 frontend: rtl/output_control.sv
+Parsing SystemVerilog input from `rtl/output_control.sv' to AST representation.
+Generating RTLIL representation for module `\output_control'.
+Successfully finished Verilog frontend.
+
+12. Executing Verilog-2005 frontend: rtl/rtl_to_pixels_top.sv
+Parsing SystemVerilog input from `rtl/rtl_to_pixels_top.sv' to AST representation.
+Generating RTLIL representation for module `\rtl_to_pixels_top'.
+Successfully finished Verilog frontend.
+Parameter \IMG_WIDTH = 640
+Parameter \IMG_HEIGHT = 480
+
+13. Executing AST frontend in derive mode using pre-parsed AST for module `\rtl_to_pixels_top'.
+Parameter \IMG_WIDTH = 640
+Parameter \IMG_HEIGHT = 480
+Generating RTLIL representation for module `$paramod$f48128f830911e7a575e49ebf33e1e9e3ea4f610\rtl_to_pixels_top'.
+
+14. Executing HIERARCHY pass (managing design hierarchy).
+
+14.1. Analyzing design hierarchy..
+Top module:  \rtl_to_pixels_top
+Used module:     \pixel_control
+Used module:     \rgb_to_gray
+Used module:     \line_buffer
+Used module:     \window_3x3
+Used module:     \sobel_compact
+Used module:     \magnitude_clamp
+Used module:     \threshold_stage
+Used module:     \output_control
+Used module:     \elastic_stage
+Used module:     \apb_regs
+Parameter \IMG_WIDTH = 640
+Parameter \IMG_HEIGHT = 480
+
+14.2. Executing AST frontend in derive mode using pre-parsed AST for module `\pixel_control'.
+Parameter \IMG_WIDTH = 640
+Parameter \IMG_HEIGHT = 480
+Generating RTLIL representation for module `$paramod$fa44f9d60fdaa00ac752b3c259a4cb77b4a81f1e\pixel_control'.
+Parameter \DATA_WIDTH = 8
+Parameter \IMG_WIDTH = 640
+
+14.3. Executing AST frontend in derive mode using pre-parsed AST for module `\line_buffer'.
+Parameter \DATA_WIDTH = 8
+Parameter \IMG_WIDTH = 640
+Generating RTLIL representation for module `$paramod$495080390bf796d5ed223c0a63457c6ab13cc7a3\line_buffer'.
+Parameter \DATA_WIDTH = 8
+Parameter \IMG_WIDTH = 640
+Parameter \IMG_HEIGHT = 480
+
+14.4. Executing AST frontend in derive mode using pre-parsed AST for module `\window_3x3'.
+Parameter \DATA_WIDTH = 8
+Parameter \IMG_WIDTH = 640
+Parameter \IMG_HEIGHT = 480
+Generating RTLIL representation for module `$paramod$4349c5fc150692d260dbfde0778a24c1982d1662\window_3x3'.
+Parameter \IMG_WIDTH = 640
+Parameter \IMG_HEIGHT = 480
+
+14.5. Executing AST frontend in derive mode using pre-parsed AST for module `\output_control'.
+Parameter \IMG_WIDTH = 640
+Parameter \IMG_HEIGHT = 480
+Generating RTLIL representation for module `$paramod$fa44f9d60fdaa00ac752b3c259a4cb77b4a81f1e\output_control'.
+Parameter \DATA_WIDTH = 11
+
+14.6. Executing AST frontend in derive mode using pre-parsed AST for module `\elastic_stage'.
+Parameter \DATA_WIDTH = 11
+Generating RTLIL representation for module `$paramod\elastic_stage\DATA_WIDTH=s32'00000000000000000000000000001011'.
+
+14.7. Analyzing design hierarchy..
+Top module:  \rtl_to_pixels_top
+Used module:     $paramod$fa44f9d60fdaa00ac752b3c259a4cb77b4a81f1e\pixel_control
+Used module:     \rgb_to_gray
+Used module:     $paramod$495080390bf796d5ed223c0a63457c6ab13cc7a3\line_buffer
+Used module:     $paramod$4349c5fc150692d260dbfde0778a24c1982d1662\window_3x3
+Used module:     \sobel_compact
+Used module:     \magnitude_clamp
+Used module:     \threshold_stage
+Used module:     $paramod$fa44f9d60fdaa00ac752b3c259a4cb77b4a81f1e\output_control
+Used module:     $paramod\elastic_stage\DATA_WIDTH=s32'00000000000000000000000000001011
+Used module:     \apb_regs
+
+14.8. Analyzing design hierarchy..
+Top module:  \rtl_to_pixels_top
+Used module:     $paramod$fa44f9d60fdaa00ac752b3c259a4cb77b4a81f1e\pixel_control
+Used module:     \rgb_to_gray
+Used module:     $paramod$495080390bf796d5ed223c0a63457c6ab13cc7a3\line_buffer
+Used module:     $paramod$4349c5fc150692d260dbfde0778a24c1982d1662\window_3x3
+Used module:     \sobel_compact
+Used module:     \magnitude_clamp
+Used module:     \threshold_stage
+Used module:     $paramod$fa44f9d60fdaa00ac752b3c259a4cb77b4a81f1e\output_control
+Used module:     $paramod\elastic_stage\DATA_WIDTH=s32'00000000000000000000000000001011
+Used module:     \apb_regs
+Removing unused module `\output_control'.
+Removing unused module `\window_3x3'.
+Removing unused module `\line_buffer'.
+Removing unused module `\pixel_control'.
+Removing unused module `\elastic_stage'.
+Removed 5 unused modules.
+
+15. Executing SYNTH_LATTICE pass.
+
+15.1. Executing Verilog-2005 frontend: /Users/Dilan/.local/share/from-rtl-to-pixels/oss-cad-suite-20260920/libexec/../share/yosys/lattice/cells_sim_ecp5.v
+Parsing Verilog input from `/Users/Dilan/.local/share/from-rtl-to-pixels/oss-cad-suite-20260920/libexec/../share/yosys/lattice/cells_sim_ecp5.v' to AST representation.
+Generating RTLIL representation for module `\LUT4'.
+Generating RTLIL representation for module `\$__ABC9_LUT5'.
+Generating RTLIL representation for module `\$__ABC9_LUT6'.
+Generating RTLIL representation for module `\$__ABC9_LUT7'.
+Generating RTLIL representation for module `\L6MUX21'.
+Generating RTLIL representation for module `\TRELLIS_RAM16X2'.
+Generating RTLIL representation for module `\PFUMX'.
+Generating RTLIL representation for module `\TRELLIS_DPR16X4'.
+Generating RTLIL representation for module `\DPR16X4C'.
+Generating RTLIL representation for module `\LUT2'.
+Generating RTLIL representation for module `\TRELLIS_FF'.
+Generating RTLIL representation for module `\TRELLIS_IO'.
+Generating RTLIL representation for module `\INV'.
+Generating RTLIL representation for module `\TRELLIS_COMB'.
+Generating RTLIL representation for module `\VLO'.
+Generating RTLIL representation for module `\VHI'.
+Generating RTLIL representation for module `\FD1P3AX'.
+Generating RTLIL representation for module `\FD1P3AY'.
+Generating RTLIL representation for module `\FD1P3BX'.
+Generating RTLIL representation for module `\FD1P3DX'.
+Generating RTLIL representation for module `\FD1P3IX'.
+Generating RTLIL representation for module `\FD1P3JX'.
+Generating RTLIL representation for module `\FD1S3AX'.
+Generating RTLIL representation for module `\FD1S3AY'.
+Generating RTLIL representation for module `\FD1S3BX'.
+Generating RTLIL representation for module `\FD1S3DX'.
+Generating RTLIL representation for module `\FD1S3IX'.
+Generating RTLIL representation for module `\FD1S3JX'.
+Generating RTLIL representation for module `\IFS1P3BX'.
+Generating RTLIL representation for module `\IFS1P3DX'.
+Generating RTLIL representation for module `\IFS1P3IX'.
+Generating RTLIL representation for module `\IFS1P3JX'.
+Generating RTLIL representation for module `\OFS1P3BX'.
+Generating RTLIL representation for module `\OFS1P3DX'.
+Generating RTLIL representation for module `\OFS1P3IX'.
+Generating RTLIL representation for module `\OFS1P3JX'.
+Generating RTLIL representation for module `\IB'.
+Generating RTLIL representation for module `\IBPU'.
+Generating RTLIL representation for module `\IBPD'.
+Generating RTLIL representation for module `\OB'.
+Generating RTLIL representation for module `\OBZ'.
+Generating RTLIL representation for module `\OBZPU'.
+Generating RTLIL representation for module `\OBZPD'.
+Generating RTLIL representation for module `\OBCO'.
+Generating RTLIL representation for module `\BB'.
+Generating RTLIL representation for module `\BBPU'.
+Generating RTLIL representation for module `\BBPD'.
+Generating RTLIL representation for module `\ILVDS'.
+Generating RTLIL representation for module `\OLVDS'.
+Generating RTLIL representation for module `\CCU2C'.
+Generating RTLIL representation for module `\DP16KD'.
+Replacing existing blackbox module `\FD1P3AX' at /Users/Dilan/.local/share/from-rtl-to-pixels/oss-cad-suite-20260920/libexec/../share/yosys/lattice/cells_ff.vh:2.1-2.261.
+Generating RTLIL representation for module `\FD1P3AX'.
+Replacing existing blackbox module `\FD1P3AY' at /Users/Dilan/.local/share/from-rtl-to-pixels/oss-cad-suite-20260920/libexec/../share/yosys/lattice/cells_ff.vh:3.1-3.261.
+Generating RTLIL representation for module `\FD1P3AY'.
+Replacing existing blackbox module `\FD1P3BX' at /Users/Dilan/.local/share/from-rtl-to-pixels/oss-cad-suite-20260920/libexec/../share/yosys/lattice/cells_ff.vh:4.1-4.261.
+Generating RTLIL representation for module `\FD1P3BX'.
+Replacing existing blackbox module `\FD1P3DX' at /Users/Dilan/.local/share/from-rtl-to-pixels/oss-cad-suite-20260920/libexec/../share/yosys/lattice/cells_ff.vh:5.1-5.261.
+Generating RTLIL representation for module `\FD1P3DX'.
+Replacing existing blackbox module `\FD1P3IX' at /Users/Dilan/.local/share/from-rtl-to-pixels/oss-cad-suite-20260920/libexec/../share/yosys/lattice/cells_ff.vh:6.1-6.261.
+Generating RTLIL representation for module `\FD1P3IX'.
+Replacing existing blackbox module `\FD1P3JX' at /Users/Dilan/.local/share/from-rtl-to-pixels/oss-cad-suite-20260920/libexec/../share/yosys/lattice/cells_ff.vh:7.1-7.261.
+Generating RTLIL representation for module `\FD1P3JX'.
+Replacing existing blackbox module `\FD1S3AX' at /Users/Dilan/.local/share/from-rtl-to-pixels/oss-cad-suite-20260920/libexec/../share/yosys/lattice/cells_ff.vh:8.1-8.261.
+Generating RTLIL representation for module `\FD1S3AX'.
+Replacing existing blackbox module `\FD1S3AY' at /Users/Dilan/.local/share/from-rtl-to-pixels/oss-cad-suite-20260920/libexec/../share/yosys/lattice/cells_ff.vh:9.1-9.261.
+Generating RTLIL representation for module `\FD1S3AY'.
+Replacing existing blackbox module `\FD1S3BX' at /Users/Dilan/.local/share/from-rtl-to-pixels/oss-cad-suite-20260920/libexec/../share/yosys/lattice/cells_ff.vh:10.1-10.261.
+Generating RTLIL representation for module `\FD1S3BX'.
+Replacing existing blackbox module `\FD1S3DX' at /Users/Dilan/.local/share/from-rtl-to-pixels/oss-cad-suite-20260920/libexec/../share/yosys/lattice/cells_ff.vh:11.1-11.261.
+Generating RTLIL representation for module `\FD1S3DX'.
+Replacing existing blackbox module `\FD1S3IX' at /Users/Dilan/.local/share/from-rtl-to-pixels/oss-cad-suite-20260920/libexec/../share/yosys/lattice/cells_ff.vh:12.1-12.261.
+Generating RTLIL representation for module `\FD1S3IX'.
+Replacing existing blackbox module `\FD1S3JX' at /Users/Dilan/.local/share/from-rtl-to-pixels/oss-cad-suite-20260920/libexec/../share/yosys/lattice/cells_ff.vh:13.1-13.261.
+Generating RTLIL representation for module `\FD1S3JX'.
+Replacing existing blackbox module `\IFS1P3BX' at /Users/Dilan/.local/share/from-rtl-to-pixels/oss-cad-suite-20260920/libexec/../share/yosys/lattice/cells_ff.vh:26.1-26.301.
+Generating RTLIL representation for module `\IFS1P3BX'.
+Replacing existing blackbox module `\IFS1P3DX' at /Users/Dilan/.local/share/from-rtl-to-pixels/oss-cad-suite-20260920/libexec/../share/yosys/lattice/cells_ff.vh:27.1-27.301.
+Generating RTLIL representation for module `\IFS1P3DX'.
+Replacing existing blackbox module `\IFS1P3IX' at /Users/Dilan/.local/share/from-rtl-to-pixels/oss-cad-suite-20260920/libexec/../share/yosys/lattice/cells_ff.vh:28.1-28.301.
+Generating RTLIL representation for module `\IFS1P3IX'.
+Replacing existing blackbox module `\IFS1P3JX' at /Users/Dilan/.local/share/from-rtl-to-pixels/oss-cad-suite-20260920/libexec/../share/yosys/lattice/cells_ff.vh:29.1-29.301.
+Generating RTLIL representation for module `\IFS1P3JX'.
+Replacing existing blackbox module `\OFS1P3BX' at /Users/Dilan/.local/share/from-rtl-to-pixels/oss-cad-suite-20260920/libexec/../share/yosys/lattice/cells_ff.vh:31.1-31.302.
+Generating RTLIL representation for module `\OFS1P3BX'.
+Replacing existing blackbox module `\OFS1P3DX' at /Users/Dilan/.local/share/from-rtl-to-pixels/oss-cad-suite-20260920/libexec/../share/yosys/lattice/cells_ff.vh:32.1-32.302.
+Generating RTLIL representation for module `\OFS1P3DX'.
+Replacing existing blackbox module `\OFS1P3IX' at /Users/Dilan/.local/share/from-rtl-to-pixels/oss-cad-suite-20260920/libexec/../share/yosys/lattice/cells_ff.vh:33.1-33.302.
+Generating RTLIL representation for module `\OFS1P3IX'.
+Replacing existing blackbox module `\OFS1P3JX' at /Users/Dilan/.local/share/from-rtl-to-pixels/oss-cad-suite-20260920/libexec/../share/yosys/lattice/cells_ff.vh:34.1-34.302.
+Generating RTLIL representation for module `\OFS1P3JX'.
+Replacing existing blackbox module `\IB' at /Users/Dilan/.local/share/from-rtl-to-pixels/oss-cad-suite-20260920/libexec/../share/yosys/lattice/cells_io.vh:2.1-2.157.
+Generating RTLIL representation for module `\IB'.
+Replacing existing blackbox module `\IBPU' at /Users/Dilan/.local/share/from-rtl-to-pixels/oss-cad-suite-20260920/libexec/../share/yosys/lattice/cells_io.vh:3.1-3.157.
+Generating RTLIL representation for module `\IBPU'.
+Replacing existing blackbox module `\IBPD' at /Users/Dilan/.local/share/from-rtl-to-pixels/oss-cad-suite-20260920/libexec/../share/yosys/lattice/cells_io.vh:4.1-4.157.
+Generating RTLIL representation for module `\IBPD'.
+Replacing existing blackbox module `\OB' at /Users/Dilan/.local/share/from-rtl-to-pixels/oss-cad-suite-20260920/libexec/../share/yosys/lattice/cells_io.vh:5.1-5.157.
+Generating RTLIL representation for module `\OB'.
+Replacing existing blackbox module `\OBZ' at /Users/Dilan/.local/share/from-rtl-to-pixels/oss-cad-suite-20260920/libexec/../share/yosys/lattice/cells_io.vh:6.1-6.164.
+Generating RTLIL representation for module `\OBZ'.
+Replacing existing blackbox module `\OBZPU' at /Users/Dilan/.local/share/from-rtl-to-pixels/oss-cad-suite-20260920/libexec/../share/yosys/lattice/cells_io.vh:7.1-7.164.
+Generating RTLIL representation for module `\OBZPU'.
+Replacing existing blackbox module `\OBZPD' at /Users/Dilan/.local/share/from-rtl-to-pixels/oss-cad-suite-20260920/libexec/../share/yosys/lattice/cells_io.vh:8.1-8.164.
+Generating RTLIL representation for module `\OBZPD'.
+Replacing existing blackbox module `\OBCO' at /Users/Dilan/.local/share/from-rtl-to-pixels/oss-cad-suite-20260920/libexec/../share/yosys/lattice/cells_io.vh:9.1-9.90.
+Generating RTLIL representation for module `\OBCO'.
+Replacing existing blackbox module `\BB' at /Users/Dilan/.local/share/from-rtl-to-pixels/oss-cad-suite-20260920/libexec/../share/yosys/lattice/cells_io.vh:10.1-10.179.
+Generating RTLIL representation for module `\BB'.
+Replacing existing blackbox module `\BBPU' at /Users/Dilan/.local/share/from-rtl-to-pixels/oss-cad-suite-20260920/libexec/../share/yosys/lattice/cells_io.vh:11.1-11.179.
+Generating RTLIL representation for module `\BBPU'.
+Replacing existing blackbox module `\BBPD' at /Users/Dilan/.local/share/from-rtl-to-pixels/oss-cad-suite-20260920/libexec/../share/yosys/lattice/cells_io.vh:12.1-12.179.
+Generating RTLIL representation for module `\BBPD'.
+Replacing existing blackbox module `\ILVDS' at /Users/Dilan/.local/share/from-rtl-to-pixels/oss-cad-suite-20260920/libexec/../share/yosys/lattice/cells_io.vh:13.1-13.139.
+Generating RTLIL representation for module `\ILVDS'.
+Replacing existing blackbox module `\OLVDS' at /Users/Dilan/.local/share/from-rtl-to-pixels/oss-cad-suite-20260920/libexec/../share/yosys/lattice/cells_io.vh:14.1-14.146.
+Generating RTLIL representation for module `\OLVDS'.
+Successfully finished Verilog frontend.
+
+15.2. Executing Verilog-2005 frontend: /Users/Dilan/.local/share/from-rtl-to-pixels/oss-cad-suite-20260920/libexec/../share/yosys/lattice/cells_bb_ecp5.v
+Parsing Verilog input from `/Users/Dilan/.local/share/from-rtl-to-pixels/oss-cad-suite-20260920/libexec/../share/yosys/lattice/cells_bb_ecp5.v' to AST representation.
+Generating RTLIL representation for module `\GSR'.
+Generating RTLIL representation for module `\PUR'.
+Generating RTLIL representation for module `\SGSR'.
+Generating RTLIL representation for module `\PDPW16KD'.
+Generating RTLIL representation for module `\MULT18X18D'.
+Generating RTLIL representation for module `\ALU54B'.
+Generating RTLIL representation for module `\CLKDIVF'.
+Generating RTLIL representation for module `\PCSCLKDIV'.
+Generating RTLIL representation for module `\DCSC'.
+Generating RTLIL representation for module `\DCCA'.
+Generating RTLIL representation for module `\ECLKSYNCB'.
+Generating RTLIL representation for module `\ECLKBRIDGECS'.
+Generating RTLIL representation for module `\DELAYF'.
+Generating RTLIL representation for module `\DELAYG'.
+Generating RTLIL representation for module `\USRMCLK'.
+Generating RTLIL representation for module `\DQSBUFM'.
+Generating RTLIL representation for module `\DDRDLLA'.
+Generating RTLIL representation for module `\DLLDELD'.
+Generating RTLIL representation for module `\IDDRX1F'.
+Generating RTLIL representation for module `\IDDRX2F'.
+Generating RTLIL representation for module `\IDDR71B'.
+Generating RTLIL representation for module `\IDDRX2DQA'.
+Generating RTLIL representation for module `\ODDRX1F'.
+Generating RTLIL representation for module `\ODDRX2F'.
+Generating RTLIL representation for module `\ODDR71B'.
+Generating RTLIL representation for module `\OSHX2A'.
+Generating RTLIL representation for module `\TSHX2DQA'.
+Generating RTLIL representation for module `\TSHX2DQSA'.
+Generating RTLIL representation for module `\ODDRX2DQA'.
+Generating RTLIL representation for module `\ODDRX2DQSB'.
+Generating RTLIL representation for module `\EHXPLLL'.
+Generating RTLIL representation for module `\DTR'.
+Generating RTLIL representation for module `\OSCG'.
+Generating RTLIL representation for module `\EXTREFB'.
+Generating RTLIL representation for module `\JTAGG'.
+Generating RTLIL representation for module `\DCUA'.
+Successfully finished Verilog frontend.
+
+15.3. Executing HIERARCHY pass (managing design hierarchy).
+
+15.3.1. Analyzing design hierarchy..
+Top module:  \rtl_to_pixels_top
+Used module:     $paramod$fa44f9d60fdaa00ac752b3c259a4cb77b4a81f1e\pixel_control
+Used module:     \rgb_to_gray
+Used module:     $paramod$495080390bf796d5ed223c0a63457c6ab13cc7a3\line_buffer
+Used module:     $paramod$4349c5fc150692d260dbfde0778a24c1982d1662\window_3x3
+Used module:     \sobel_compact
+Used module:     \magnitude_clamp
+Used module:     \threshold_stage
+Used module:     $paramod$fa44f9d60fdaa00ac752b3c259a4cb77b4a81f1e\output_control
+Used module:     $paramod\elastic_stage\DATA_WIDTH=s32'00000000000000000000000000001011
+Used module:     \apb_regs
+
+15.3.2. Analyzing design hierarchy..
+Top module:  \rtl_to_pixels_top
+Used module:     $paramod$fa44f9d60fdaa00ac752b3c259a4cb77b4a81f1e\pixel_control
+Used module:     \rgb_to_gray
+Used module:     $paramod$495080390bf796d5ed223c0a63457c6ab13cc7a3\line_buffer
+Used module:     $paramod$4349c5fc150692d260dbfde0778a24c1982d1662\window_3x3
+Used module:     \sobel_compact
+Used module:     \magnitude_clamp
+Used module:     \threshold_stage
+Used module:     $paramod$fa44f9d60fdaa00ac752b3c259a4cb77b4a81f1e\output_control
+Used module:     $paramod\elastic_stage\DATA_WIDTH=s32'00000000000000000000000000001011
+Used module:     \apb_regs
+Removed 0 unused modules.
+
+15.4. Executing PROC pass (convert processes to netlists).
+
+15.4.1. Executing PROC_CLEAN pass (remove empty switches from decision trees).
+Cleaned up 0 empty switches.
+
+15.4.2. Executing PROC_RMDEAD pass (remove dead branches from decision trees).
+Marked 1 switch rules as full_case in process $proc$rtl/rtl_to_pixels_top.sv:23$212 in module rtl_to_pixels_top.
+Marked 1 switch rules as full_case in process $proc$rtl/rtl_to_pixels_top.sv:32$223 in module rtl_to_pixels_top.
+Marked 2 switch rules as full_case in process $proc$rtl/rtl_to_pixels_top.sv:48$234 in module rtl_to_pixels_top.
+Marked 1 switch rules as full_case in process $proc$rtl/elastic_stage.sv:23$359 in module $paramod\elastic_stage\DATA_WIDTH=s32'00000000000000000000000000001011.
+Marked 2 switch rules as full_case in process $proc$rtl/threshold_stage.sv:9$140 in module threshold_stage.
+Marked 3 switch rules as full_case in process $proc$rtl/magnitude_clamp.sv:11$131 in module magnitude_clamp.
+Marked 6 switch rules as full_case in process $proc$rtl/output_control.sv:148$348 in module $paramod$fa44f9d60fdaa00ac752b3c259a4cb77b4a81f1e\output_control.
+Marked 4 switch rules as full_case in process $proc$rtl/output_control.sv:111$329 in module $paramod$fa44f9d60fdaa00ac752b3c259a4cb77b4a81f1e\output_control.
+Marked 3 switch rules as full_case in process $proc$rtl/output_control.sv:83$325 in module $paramod$fa44f9d60fdaa00ac752b3c259a4cb77b4a81f1e\output_control.
+Marked 2 switch rules as full_case in process $proc$rtl/window_3x3.sv:95$309 in module $paramod$4349c5fc150692d260dbfde0778a24c1982d1662\window_3x3.
+Marked 1 switch rules as full_case in process $proc$rtl/window_3x3.sv:53$298 in module $paramod$4349c5fc150692d260dbfde0778a24c1982d1662\window_3x3.
+Marked 3 switch rules as full_case in process $proc$rtl/line_buffer.sv:55$273 in module $paramod$495080390bf796d5ed223c0a63457c6ab13cc7a3\line_buffer.
+Marked 2 switch rules as full_case in process $proc$rtl/line_buffer.sv:30$258 in module $paramod$495080390bf796d5ed223c0a63457c6ab13cc7a3\line_buffer.
+Marked 2 switch rules as full_case in process $proc$rtl/apb_regs.sv:93$29 in module apb_regs.
+Marked 1 switch rules as full_case in process $proc$rtl/apb_regs.sv:63$27 in module apb_regs.
+Marked 1 switch rules as full_case in process $proc$rtl/apb_regs.sv:40$12 in module apb_regs.
+Marked 5 switch rules as full_case in process $proc$rtl/pixel_control.sv:77$249 in module $paramod$fa44f9d60fdaa00ac752b3c259a4cb77b4a81f1e\pixel_control.
+Marked 2 switch rules as full_case in process $proc$rtl/pixel_control.sv:57$243 in module $paramod$fa44f9d60fdaa00ac752b3c259a4cb77b4a81f1e\pixel_control.
+Removed a total of 0 dead cases.
+
+15.4.3. Executing PROC_PRUNE pass (remove redundant assignments in processes).
+Removed 1 redundant assignment.
+Promoted 57 assignments to connections.
+
+15.4.4. Executing PROC_INIT pass (extract init attributes).
+
+15.4.5. Executing PROC_ARST pass (detect async resets in processes).
+
+15.4.6. Executing PROC_ROM pass (convert switches to ROMs).
+Converted 0 switches.
+<suppressed ~58 debug messages>
+
+15.4.7. Executing PROC_MUX pass (convert decision trees to multiplexers).
+Creating decoders for process `\rtl_to_pixels_top.$proc$rtl/rtl_to_pixels_top.sv:23$212'.
+     1/1: $1\s_tready[0:0]
+Creating decoders for process `\rtl_to_pixels_top.$proc$rtl/rtl_to_pixels_top.sv:32$223'.
+     1/1: $0\frame_abort_q[0:0]
+Creating decoders for process `\rtl_to_pixels_top.$proc$rtl/rtl_to_pixels_top.sv:40$224'.
+Creating decoders for process `\rtl_to_pixels_top.$proc$rtl/rtl_to_pixels_top.sv:48$234'.
+     1/1: $0\final_pending_q[0:0]
+Creating decoders for process `$paramod\elastic_stage\DATA_WIDTH=s32'00000000000000000000000000001011.$proc$rtl/elastic_stage.sv:23$359'.
+     1/2: $0\valid_q[0:0]
+     2/2: $0\data_q[10:0]
+Creating decoders for process `\threshold_stage.$proc$rtl/threshold_stage.sv:9$140'.
+     1/2: $2\edge_o[7:0]
+     2/2: $1\edge_o[7:0]
+Creating decoders for process `\magnitude_clamp.$proc$rtl/magnitude_clamp.sv:11$131'.
+     1/3: $1\magnitude_clamped_o[7:0]
+     2/3: $1\abs_gy[10:0]
+     3/3: $1\abs_gx[10:0]
+Creating decoders for process `\sobel_compact.$proc$rtl/sobel_compact.sv:28$114'.
+Creating decoders for process `$paramod$fa44f9d60fdaa00ac752b3c259a4cb77b4a81f1e\output_control.$proc$rtl/output_control.sv:148$348'.
+     1/4: $0\output_col_q[9:0]
+     2/4: $0\output_row_q[8:0]
+     3/4: $0\input_count_q[18:0]
+     4/4: $0\state_q[1:0]
+Creating decoders for process `$paramod$fa44f9d60fdaa00ac752b3c259a4cb77b4a81f1e\output_control.$proc$rtl/output_control.sv:111$329'.
+     1/10: $2\output_border_o[0:0]
+     2/10: $2\output_col_o[9:0]
+     3/10: $2\output_row_o[8:0]
+     4/10: $3\output_valid_o[0:0]
+     5/10: $2\output_valid_o[0:0]
+     6/10: $1\frame_done_o[0:0]
+     7/10: $1\output_border_o[0:0]
+     8/10: $1\output_col_o[9:0]
+     9/10: $1\output_row_o[8:0]
+    10/10: $1\output_valid_o[0:0]
+Creating decoders for process `$paramod$fa44f9d60fdaa00ac752b3c259a4cb77b4a81f1e\output_control.$proc$rtl/output_control.sv:83$325'.
+     1/3: $3\input_allow_o[0:0]
+     2/3: $2\input_allow_o[0:0]
+     3/3: $1\input_allow_o[0:0]
+Creating decoders for process `$paramod$4349c5fc150692d260dbfde0778a24c1982d1662\window_3x3.$proc$rtl/window_3x3.sv:95$309'.
+     1/6: $0\bot_c1_q[7:0]
+     2/6: $0\bot_c2_q[7:0]
+     3/6: $0\mid_c1_q[7:0]
+     4/6: $0\mid_c2_q[7:0]
+     5/6: $0\top_c1_q[7:0]
+     6/6: $0\top_c2_q[7:0]
+Creating decoders for process `$paramod$4349c5fc150692d260dbfde0778a24c1982d1662\window_3x3.$proc$rtl/window_3x3.sv:53$298'.
+     1/11: $1\p22_o[7:0]
+     2/11: $1\p21_o[7:0]
+     3/11: $1\p20_o[7:0]
+     4/11: $1\p12_o[7:0]
+     5/11: $1\p11_o[7:0]
+     6/11: $1\p10_o[7:0]
+     7/11: $1\p02_o[7:0]
+     8/11: $1\p01_o[7:0]
+     9/11: $1\p00_o[7:0]
+    10/11: $1\window_col_o[9:0]
+    11/11: $1\window_row_o[8:0]
+Creating decoders for process `$paramod$495080390bf796d5ed223c0a63457c6ab13cc7a3\line_buffer.$proc$rtl/line_buffer.sv:55$273'.
+     1/13: $2$memwr$\line1_mem$rtl/line_buffer.sv:71$257_EN[7:0]$296
+     2/13: $2$memwr$\line1_mem$rtl/line_buffer.sv:71$257_DATA[7:0]$295
+     3/13: $2$memwr$\line1_mem$rtl/line_buffer.sv:71$257_ADDR[9:0]$294
+     4/13: $2$memwr$\line2_mem$rtl/line_buffer.sv:70$256_EN[7:0]$293
+     5/13: $2$memwr$\line2_mem$rtl/line_buffer.sv:70$256_DATA[7:0]$292
+     6/13: $2$memwr$\line2_mem$rtl/line_buffer.sv:70$256_ADDR[9:0]$291
+     7/13: $1$memwr$\line1_mem$rtl/line_buffer.sv:71$257_EN[7:0]$285
+     8/13: $1$memwr$\line1_mem$rtl/line_buffer.sv:71$257_DATA[7:0]$284
+     9/13: $1$memwr$\line1_mem$rtl/line_buffer.sv:71$257_ADDR[9:0]$283
+    10/13: $1$memwr$\line2_mem$rtl/line_buffer.sv:70$256_EN[7:0]$282
+    11/13: $1$memwr$\line2_mem$rtl/line_buffer.sv:70$256_DATA[7:0]$281
+    12/13: $1$memwr$\line2_mem$rtl/line_buffer.sv:70$256_ADDR[9:0]$280
+    13/13: $0\history_rows_q[1:0]
+Creating decoders for process `$paramod$495080390bf796d5ed223c0a63457c6ab13cc7a3\line_buffer.$proc$rtl/line_buffer.sv:30$258'.
+     1/2: $1\prev_row2_o[7:0]
+     2/2: $1\prev_row1_o[7:0]
+Creating decoders for process `\apb_regs.$proc$rtl/apb_regs.sv:93$29'.
+     1/7: $0\frame_count_q[31:0]
+     2/7: $0\frame_error_q[0:0]
+     3/7: $0\bypass_threshold_shadow_q[0:0]
+     4/7: $0\threshold_shadow_q[7:0]
+     5/7: $0\bypass_threshold_active_o[0:0]
+     6/7: $0\threshold_active_o[7:0]
+     7/7: $0\run_enable_o[0:0]
+Creating decoders for process `\apb_regs.$proc$rtl/apb_regs.sv:63$27'.
+     1/6: $1\prdata[31:0] [31:8]
+     2/6: $1\prdata[31:0] [0]
+     3/6: $1\prdata[31:0] [3]
+     4/6: $1\prdata[31:0] [7:4]
+     5/6: $1\prdata[31:0] [2]
+     6/6: $1\prdata[31:0] [1]
+Creating decoders for process `\apb_regs.$proc$rtl/apb_regs.sv:40$12'.
+     1/1: $1\addr_valid[0:0]
+Creating decoders for process `$paramod$fa44f9d60fdaa00ac752b3c259a4cb77b4a81f1e\pixel_control.$proc$rtl/pixel_control.sv:77$249'.
+     1/3: $0\col_q[9:0]
+     2/3: $0\row_q[8:0]
+     3/3: $0\state_q[0:0]
+Creating decoders for process `$paramod$fa44f9d60fdaa00ac752b3c259a4cb77b4a81f1e\pixel_control.$proc$rtl/pixel_control.sv:57$243'.
+     1/8: $2\last_input_accept_o[0:0]
+     2/8: $2\sof_accept_o[0:0]
+     3/8: $2\pixel_commit_o[0:0]
+     4/8: $2\metadata_error_o[0:0]
+     5/8: $1\metadata_error_o[0:0]
+     6/8: $1\last_input_accept_o[0:0]
+     7/8: $1\sof_accept_o[0:0]
+     8/8: $1\pixel_commit_o[0:0]
+Creating decoders for process `\rgb_to_gray.$proc$rtl/rgb_to_gray.sv:11$1'.
+
+15.4.8. Executing PROC_DLATCH pass (convert process syncs to latches).
+No latch inferred for signal `\rtl_to_pixels_top.\s_tready' from process `\rtl_to_pixels_top.$proc$rtl/rtl_to_pixels_top.sv:23$212'.
+No latch inferred for signal `\rtl_to_pixels_top.\raw_output_data' from process `\rtl_to_pixels_top.$proc$rtl/rtl_to_pixels_top.sv:40$224'.
+No latch inferred for signal `\threshold_stage.\edge_o' from process `\threshold_stage.$proc$rtl/threshold_stage.sv:9$140'.
+No latch inferred for signal `\magnitude_clamp.\magnitude_o' from process `\magnitude_clamp.$proc$rtl/magnitude_clamp.sv:11$131'.
+No latch inferred for signal `\magnitude_clamp.\magnitude_clamped_o' from process `\magnitude_clamp.$proc$rtl/magnitude_clamp.sv:11$131'.
+No latch inferred for signal `\magnitude_clamp.\abs_gx' from process `\magnitude_clamp.$proc$rtl/magnitude_clamp.sv:11$131'.
+No latch inferred for signal `\magnitude_clamp.\abs_gy' from process `\magnitude_clamp.$proc$rtl/magnitude_clamp.sv:11$131'.
+No latch inferred for signal `\magnitude_clamp.\magnitude_sum' from process `\magnitude_clamp.$proc$rtl/magnitude_clamp.sv:11$131'.
+No latch inferred for signal `\sobel_compact.\gx_o' from process `\sobel_compact.$proc$rtl/sobel_compact.sv:28$114'.
+No latch inferred for signal `\sobel_compact.\gy_o' from process `\sobel_compact.$proc$rtl/sobel_compact.sv:28$114'.
+No latch inferred for signal `\sobel_compact.\p00_s' from process `\sobel_compact.$proc$rtl/sobel_compact.sv:28$114'.
+No latch inferred for signal `\sobel_compact.\p01_s' from process `\sobel_compact.$proc$rtl/sobel_compact.sv:28$114'.
+No latch inferred for signal `\sobel_compact.\p02_s' from process `\sobel_compact.$proc$rtl/sobel_compact.sv:28$114'.
+No latch inferred for signal `\sobel_compact.\p10_s' from process `\sobel_compact.$proc$rtl/sobel_compact.sv:28$114'.
+No latch inferred for signal `\sobel_compact.\p12_s' from process `\sobel_compact.$proc$rtl/sobel_compact.sv:28$114'.
+No latch inferred for signal `\sobel_compact.\p20_s' from process `\sobel_compact.$proc$rtl/sobel_compact.sv:28$114'.
+No latch inferred for signal `\sobel_compact.\p21_s' from process `\sobel_compact.$proc$rtl/sobel_compact.sv:28$114'.
+No latch inferred for signal `\sobel_compact.\p22_s' from process `\sobel_compact.$proc$rtl/sobel_compact.sv:28$114'.
+No latch inferred for signal `$paramod$fa44f9d60fdaa00ac752b3c259a4cb77b4a81f1e\output_control.\output_valid_o' from process `$paramod$fa44f9d60fdaa00ac752b3c259a4cb77b4a81f1e\output_control.$proc$rtl/output_control.sv:111$329'.
+No latch inferred for signal `$paramod$fa44f9d60fdaa00ac752b3c259a4cb77b4a81f1e\output_control.\output_row_o' from process `$paramod$fa44f9d60fdaa00ac752b3c259a4cb77b4a81f1e\output_control.$proc$rtl/output_control.sv:111$329'.
+No latch inferred for signal `$paramod$fa44f9d60fdaa00ac752b3c259a4cb77b4a81f1e\output_control.\output_col_o' from process `$paramod$fa44f9d60fdaa00ac752b3c259a4cb77b4a81f1e\output_control.$proc$rtl/output_control.sv:111$329'.
+No latch inferred for signal `$paramod$fa44f9d60fdaa00ac752b3c259a4cb77b4a81f1e\output_control.\output_border_o' from process `$paramod$fa44f9d60fdaa00ac752b3c259a4cb77b4a81f1e\output_control.$proc$rtl/output_control.sv:111$329'.
+No latch inferred for signal `$paramod$fa44f9d60fdaa00ac752b3c259a4cb77b4a81f1e\output_control.\frame_done_o' from process `$paramod$fa44f9d60fdaa00ac752b3c259a4cb77b4a81f1e\output_control.$proc$rtl/output_control.sv:111$329'.
+No latch inferred for signal `$paramod$fa44f9d60fdaa00ac752b3c259a4cb77b4a81f1e\output_control.\input_allow_o' from process `$paramod$fa44f9d60fdaa00ac752b3c259a4cb77b4a81f1e\output_control.$proc$rtl/output_control.sv:83$325'.
+No latch inferred for signal `$paramod$4349c5fc150692d260dbfde0778a24c1982d1662\window_3x3.\window_valid_o' from process `$paramod$4349c5fc150692d260dbfde0778a24c1982d1662\window_3x3.$proc$rtl/window_3x3.sv:53$298'.
+No latch inferred for signal `$paramod$4349c5fc150692d260dbfde0778a24c1982d1662\window_3x3.\window_row_o' from process `$paramod$4349c5fc150692d260dbfde0778a24c1982d1662\window_3x3.$proc$rtl/window_3x3.sv:53$298'.
+No latch inferred for signal `$paramod$4349c5fc150692d260dbfde0778a24c1982d1662\window_3x3.\window_col_o' from process `$paramod$4349c5fc150692d260dbfde0778a24c1982d1662\window_3x3.$proc$rtl/window_3x3.sv:53$298'.
+No latch inferred for signal `$paramod$4349c5fc150692d260dbfde0778a24c1982d1662\window_3x3.\p00_o' from process `$paramod$4349c5fc150692d260dbfde0778a24c1982d1662\window_3x3.$proc$rtl/window_3x3.sv:53$298'.
+No latch inferred for signal `$paramod$4349c5fc150692d260dbfde0778a24c1982d1662\window_3x3.\p01_o' from process `$paramod$4349c5fc150692d260dbfde0778a24c1982d1662\window_3x3.$proc$rtl/window_3x3.sv:53$298'.
+No latch inferred for signal `$paramod$4349c5fc150692d260dbfde0778a24c1982d1662\window_3x3.\p02_o' from process `$paramod$4349c5fc150692d260dbfde0778a24c1982d1662\window_3x3.$proc$rtl/window_3x3.sv:53$298'.
+No latch inferred for signal `$paramod$4349c5fc150692d260dbfde0778a24c1982d1662\window_3x3.\p10_o' from process `$paramod$4349c5fc150692d260dbfde0778a24c1982d1662\window_3x3.$proc$rtl/window_3x3.sv:53$298'.
+No latch inferred for signal `$paramod$4349c5fc150692d260dbfde0778a24c1982d1662\window_3x3.\p11_o' from process `$paramod$4349c5fc150692d260dbfde0778a24c1982d1662\window_3x3.$proc$rtl/window_3x3.sv:53$298'.
+No latch inferred for signal `$paramod$4349c5fc150692d260dbfde0778a24c1982d1662\window_3x3.\p12_o' from process `$paramod$4349c5fc150692d260dbfde0778a24c1982d1662\window_3x3.$proc$rtl/window_3x3.sv:53$298'.
+No latch inferred for signal `$paramod$4349c5fc150692d260dbfde0778a24c1982d1662\window_3x3.\p20_o' from process `$paramod$4349c5fc150692d260dbfde0778a24c1982d1662\window_3x3.$proc$rtl/window_3x3.sv:53$298'.
+No latch inferred for signal `$paramod$4349c5fc150692d260dbfde0778a24c1982d1662\window_3x3.\p21_o' from process `$paramod$4349c5fc150692d260dbfde0778a24c1982d1662\window_3x3.$proc$rtl/window_3x3.sv:53$298'.
+No latch inferred for signal `$paramod$4349c5fc150692d260dbfde0778a24c1982d1662\window_3x3.\p22_o' from process `$paramod$4349c5fc150692d260dbfde0778a24c1982d1662\window_3x3.$proc$rtl/window_3x3.sv:53$298'.
+No latch inferred for signal `$paramod$495080390bf796d5ed223c0a63457c6ab13cc7a3\line_buffer.\prev_row1_o' from process `$paramod$495080390bf796d5ed223c0a63457c6ab13cc7a3\line_buffer.$proc$rtl/line_buffer.sv:30$258'.
+No latch inferred for signal `$paramod$495080390bf796d5ed223c0a63457c6ab13cc7a3\line_buffer.\prev_row1_valid_o' from process `$paramod$495080390bf796d5ed223c0a63457c6ab13cc7a3\line_buffer.$proc$rtl/line_buffer.sv:30$258'.
+No latch inferred for signal `$paramod$495080390bf796d5ed223c0a63457c6ab13cc7a3\line_buffer.\prev_row2_o' from process `$paramod$495080390bf796d5ed223c0a63457c6ab13cc7a3\line_buffer.$proc$rtl/line_buffer.sv:30$258'.
+No latch inferred for signal `$paramod$495080390bf796d5ed223c0a63457c6ab13cc7a3\line_buffer.\prev_row2_valid_o' from process `$paramod$495080390bf796d5ed223c0a63457c6ab13cc7a3\line_buffer.$proc$rtl/line_buffer.sv:30$258'.
+No latch inferred for signal `\apb_regs.\prdata' from process `\apb_regs.$proc$rtl/apb_regs.sv:63$27'.
+No latch inferred for signal `\apb_regs.\addr_valid' from process `\apb_regs.$proc$rtl/apb_regs.sv:40$12'.
+No latch inferred for signal `$paramod$fa44f9d60fdaa00ac752b3c259a4cb77b4a81f1e\pixel_control.\pixel_commit_o' from process `$paramod$fa44f9d60fdaa00ac752b3c259a4cb77b4a81f1e\pixel_control.$proc$rtl/pixel_control.sv:57$243'.
+No latch inferred for signal `$paramod$fa44f9d60fdaa00ac752b3c259a4cb77b4a81f1e\pixel_control.\sof_accept_o' from process `$paramod$fa44f9d60fdaa00ac752b3c259a4cb77b4a81f1e\pixel_control.$proc$rtl/pixel_control.sv:57$243'.
+No latch inferred for signal `$paramod$fa44f9d60fdaa00ac752b3c259a4cb77b4a81f1e\pixel_control.\last_input_accept_o' from process `$paramod$fa44f9d60fdaa00ac752b3c259a4cb77b4a81f1e\pixel_control.$proc$rtl/pixel_control.sv:57$243'.
+No latch inferred for signal `$paramod$fa44f9d60fdaa00ac752b3c259a4cb77b4a81f1e\pixel_control.\metadata_error_o' from process `$paramod$fa44f9d60fdaa00ac752b3c259a4cb77b4a81f1e\pixel_control.$proc$rtl/pixel_control.sv:57$243'.
+No latch inferred for signal `\rgb_to_gray.\gray_o' from process `\rgb_to_gray.$proc$rtl/rgb_to_gray.sv:11$1'.
+No latch inferred for signal `\rgb_to_gray.\r_ext' from process `\rgb_to_gray.$proc$rtl/rgb_to_gray.sv:11$1'.
+No latch inferred for signal `\rgb_to_gray.\g_ext' from process `\rgb_to_gray.$proc$rtl/rgb_to_gray.sv:11$1'.
+No latch inferred for signal `\rgb_to_gray.\b_ext' from process `\rgb_to_gray.$proc$rtl/rgb_to_gray.sv:11$1'.
+No latch inferred for signal `\rgb_to_gray.\accum' from process `\rgb_to_gray.$proc$rtl/rgb_to_gray.sv:11$1'.
+
+15.4.9. Executing PROC_DFF pass (convert process syncs to FFs).
+Creating register for signal `\rtl_to_pixels_top.\frame_abort_q' using process `\rtl_to_pixels_top.$proc$rtl/rtl_to_pixels_top.sv:32$223'.
+  created $dff cell `$procdff$1094' with positive edge clock.
+Creating register for signal `\rtl_to_pixels_top.\final_pending_q' using process `\rtl_to_pixels_top.$proc$rtl/rtl_to_pixels_top.sv:48$234'.
+  created $dff cell `$procdff$1095' with positive edge clock.
+Creating register for signal `$paramod\elastic_stage\DATA_WIDTH=s32'00000000000000000000000000001011.\data_q' using process `$paramod\elastic_stage\DATA_WIDTH=s32'00000000000000000000000000001011.$proc$rtl/elastic_stage.sv:23$359'.
+  created $dff cell `$procdff$1096' with positive edge clock.
+Creating register for signal `$paramod\elastic_stage\DATA_WIDTH=s32'00000000000000000000000000001011.\valid_q' using process `$paramod\elastic_stage\DATA_WIDTH=s32'00000000000000000000000000001011.$proc$rtl/elastic_stage.sv:23$359'.
+  created $dff cell `$procdff$1097' with positive edge clock.
+Creating register for signal `$paramod$fa44f9d60fdaa00ac752b3c259a4cb77b4a81f1e\output_control.\state_q' using process `$paramod$fa44f9d60fdaa00ac752b3c259a4cb77b4a81f1e\output_control.$proc$rtl/output_control.sv:148$348'.
+  created $dff cell `$procdff$1098' with positive edge clock.
+Creating register for signal `$paramod$fa44f9d60fdaa00ac752b3c259a4cb77b4a81f1e\output_control.\input_count_q' using process `$paramod$fa44f9d60fdaa00ac752b3c259a4cb77b4a81f1e\output_control.$proc$rtl/output_control.sv:148$348'.
+  created $dff cell `$procdff$1099' with positive edge clock.
+Creating register for signal `$paramod$fa44f9d60fdaa00ac752b3c259a4cb77b4a81f1e\output_control.\output_row_q' using process `$paramod$fa44f9d60fdaa00ac752b3c259a4cb77b4a81f1e\output_control.$proc$rtl/output_control.sv:148$348'.
+  created $dff cell `$procdff$1100' with positive edge clock.
+Creating register for signal `$paramod$fa44f9d60fdaa00ac752b3c259a4cb77b4a81f1e\output_control.\output_col_q' using process `$paramod$fa44f9d60fdaa00ac752b3c259a4cb77b4a81f1e\output_control.$proc$rtl/output_control.sv:148$348'.
+  created $dff cell `$procdff$1101' with positive edge clock.
+Creating register for signal `$paramod$4349c5fc150692d260dbfde0778a24c1982d1662\window_3x3.\top_c2_q' using process `$paramod$4349c5fc150692d260dbfde0778a24c1982d1662\window_3x3.$proc$rtl/window_3x3.sv:95$309'.
+  created $dff cell `$procdff$1102' with positive edge clock.
+Creating register for signal `$paramod$4349c5fc150692d260dbfde0778a24c1982d1662\window_3x3.\top_c1_q' using process `$paramod$4349c5fc150692d260dbfde0778a24c1982d1662\window_3x3.$proc$rtl/window_3x3.sv:95$309'.
+  created $dff cell `$procdff$1103' with positive edge clock.
+Creating register for signal `$paramod$4349c5fc150692d260dbfde0778a24c1982d1662\window_3x3.\mid_c2_q' using process `$paramod$4349c5fc150692d260dbfde0778a24c1982d1662\window_3x3.$proc$rtl/window_3x3.sv:95$309'.
+  created $dff cell `$procdff$1104' with positive edge clock.
+Creating register for signal `$paramod$4349c5fc150692d260dbfde0778a24c1982d1662\window_3x3.\mid_c1_q' using process `$paramod$4349c5fc150692d260dbfde0778a24c1982d1662\window_3x3.$proc$rtl/window_3x3.sv:95$309'.
+  created $dff cell `$procdff$1105' with positive edge clock.
+Creating register for signal `$paramod$4349c5fc150692d260dbfde0778a24c1982d1662\window_3x3.\bot_c2_q' using process `$paramod$4349c5fc150692d260dbfde0778a24c1982d1662\window_3x3.$proc$rtl/window_3x3.sv:95$309'.
+  created $dff cell `$procdff$1106' with positive edge clock.
+Creating register for signal `$paramod$4349c5fc150692d260dbfde0778a24c1982d1662\window_3x3.\bot_c1_q' using process `$paramod$4349c5fc150692d260dbfde0778a24c1982d1662\window_3x3.$proc$rtl/window_3x3.sv:95$309'.
+  created $dff cell `$procdff$1107' with positive edge clock.
+Creating register for signal `$paramod$495080390bf796d5ed223c0a63457c6ab13cc7a3\line_buffer.\history_rows_q' using process `$paramod$495080390bf796d5ed223c0a63457c6ab13cc7a3\line_buffer.$proc$rtl/line_buffer.sv:55$273'.
+  created $dff cell `$procdff$1108' with positive edge clock.
+Creating register for signal `$paramod$495080390bf796d5ed223c0a63457c6ab13cc7a3\line_buffer.$memwr$\line2_mem$rtl/line_buffer.sv:70$256_ADDR' using process `$paramod$495080390bf796d5ed223c0a63457c6ab13cc7a3\line_buffer.$proc$rtl/line_buffer.sv:55$273'.
+  created $dff cell `$procdff$1109' with positive edge clock.
+Creating register for signal `$paramod$495080390bf796d5ed223c0a63457c6ab13cc7a3\line_buffer.$memwr$\line2_mem$rtl/line_buffer.sv:70$256_DATA' using process `$paramod$495080390bf796d5ed223c0a63457c6ab13cc7a3\line_buffer.$proc$rtl/line_buffer.sv:55$273'.
+  created $dff cell `$procdff$1110' with positive edge clock.
+Creating register for signal `$paramod$495080390bf796d5ed223c0a63457c6ab13cc7a3\line_buffer.$memwr$\line2_mem$rtl/line_buffer.sv:70$256_EN' using process `$paramod$495080390bf796d5ed223c0a63457c6ab13cc7a3\line_buffer.$proc$rtl/line_buffer.sv:55$273'.
+  created $dff cell `$procdff$1111' with positive edge clock.
+Creating register for signal `$paramod$495080390bf796d5ed223c0a63457c6ab13cc7a3\line_buffer.$memwr$\line1_mem$rtl/line_buffer.sv:71$257_ADDR' using process `$paramod$495080390bf796d5ed223c0a63457c6ab13cc7a3\line_buffer.$proc$rtl/line_buffer.sv:55$273'.
+  created $dff cell `$procdff$1112' with positive edge clock.
+Creating register for signal `$paramod$495080390bf796d5ed223c0a63457c6ab13cc7a3\line_buffer.$memwr$\line1_mem$rtl/line_buffer.sv:71$257_DATA' using process `$paramod$495080390bf796d5ed223c0a63457c6ab13cc7a3\line_buffer.$proc$rtl/line_buffer.sv:55$273'.
+  created $dff cell `$procdff$1113' with positive edge clock.
+Creating register for signal `$paramod$495080390bf796d5ed223c0a63457c6ab13cc7a3\line_buffer.$memwr$\line1_mem$rtl/line_buffer.sv:71$257_EN' using process `$paramod$495080390bf796d5ed223c0a63457c6ab13cc7a3\line_buffer.$proc$rtl/line_buffer.sv:55$273'.
+  created $dff cell `$procdff$1114' with positive edge clock.
+Creating register for signal `\apb_regs.\run_enable_o' using process `\apb_regs.$proc$rtl/apb_regs.sv:93$29'.
+  created $dff cell `$procdff$1115' with positive edge clock.
+Creating register for signal `\apb_regs.\threshold_active_o' using process `\apb_regs.$proc$rtl/apb_regs.sv:93$29'.
+  created $dff cell `$procdff$1116' with positive edge clock.
+Creating register for signal `\apb_regs.\bypass_threshold_active_o' using process `\apb_regs.$proc$rtl/apb_regs.sv:93$29'.
+  created $dff cell `$procdff$1117' with positive edge clock.
+Creating register for signal `\apb_regs.\threshold_shadow_q' using process `\apb_regs.$proc$rtl/apb_regs.sv:93$29'.
+  created $dff cell `$procdff$1118' with positive edge clock.
+Creating register for signal `\apb_regs.\bypass_threshold_shadow_q' using process `\apb_regs.$proc$rtl/apb_regs.sv:93$29'.
+  created $dff cell `$procdff$1119' with positive edge clock.
+Creating register for signal `\apb_regs.\frame_error_q' using process `\apb_regs.$proc$rtl/apb_regs.sv:93$29'.
+  created $dff cell `$procdff$1120' with positive edge clock.
+Creating register for signal `\apb_regs.\frame_count_q' using process `\apb_regs.$proc$rtl/apb_regs.sv:93$29'.
+  created $dff cell `$procdff$1121' with positive edge clock.
+Creating register for signal `$paramod$fa44f9d60fdaa00ac752b3c259a4cb77b4a81f1e\pixel_control.\state_q' using process `$paramod$fa44f9d60fdaa00ac752b3c259a4cb77b4a81f1e\pixel_control.$proc$rtl/pixel_control.sv:77$249'.
+  created $dff cell `$procdff$1122' with positive edge clock.
+Creating register for signal `$paramod$fa44f9d60fdaa00ac752b3c259a4cb77b4a81f1e\pixel_control.\row_q' using process `$paramod$fa44f9d60fdaa00ac752b3c259a4cb77b4a81f1e\pixel_control.$proc$rtl/pixel_control.sv:77$249'.
+  created $dff cell `$procdff$1123' with positive edge clock.
+Creating register for signal `$paramod$fa44f9d60fdaa00ac752b3c259a4cb77b4a81f1e\pixel_control.\col_q' using process `$paramod$fa44f9d60fdaa00ac752b3c259a4cb77b4a81f1e\pixel_control.$proc$rtl/pixel_control.sv:77$249'.
+  created $dff cell `$procdff$1124' with positive edge clock.
+
+15.4.10. Executing PROC_MEMWR pass (convert process memory writes to cells).
+
+15.4.11. Executing PROC_CLEAN pass (remove empty switches from decision trees).
+Found and cleaned up 1 empty switch in `\rtl_to_pixels_top.$proc$rtl/rtl_to_pixels_top.sv:23$212'.
+Removing empty process `rtl_to_pixels_top.$proc$rtl/rtl_to_pixels_top.sv:23$212'.
+Found and cleaned up 1 empty switch in `\rtl_to_pixels_top.$proc$rtl/rtl_to_pixels_top.sv:32$223'.
+Removing empty process `rtl_to_pixels_top.$proc$rtl/rtl_to_pixels_top.sv:32$223'.
+Removing empty process `rtl_to_pixels_top.$proc$rtl/rtl_to_pixels_top.sv:40$224'.
+Found and cleaned up 3 empty switches in `\rtl_to_pixels_top.$proc$rtl/rtl_to_pixels_top.sv:48$234'.
+Removing empty process `rtl_to_pixels_top.$proc$rtl/rtl_to_pixels_top.sv:48$234'.
+Found and cleaned up 3 empty switches in `$paramod\elastic_stage\DATA_WIDTH=s32'00000000000000000000000000001011.$proc$rtl/elastic_stage.sv:23$359'.
+Removing empty process `$paramod\elastic_stage\DATA_WIDTH=s32'00000000000000000000000000001011.$proc$rtl/elastic_stage.sv:23$359'.
+Found and cleaned up 2 empty switches in `\threshold_stage.$proc$rtl/threshold_stage.sv:9$140'.
+Removing empty process `threshold_stage.$proc$rtl/threshold_stage.sv:9$140'.
+Found and cleaned up 3 empty switches in `\magnitude_clamp.$proc$rtl/magnitude_clamp.sv:11$131'.
+Removing empty process `magnitude_clamp.$proc$rtl/magnitude_clamp.sv:11$131'.
+Removing empty process `sobel_compact.$proc$rtl/sobel_compact.sv:28$114'.
+Found and cleaned up 11 empty switches in `$paramod$fa44f9d60fdaa00ac752b3c259a4cb77b4a81f1e\output_control.$proc$rtl/output_control.sv:148$348'.
+Removing empty process `$paramod$fa44f9d60fdaa00ac752b3c259a4cb77b4a81f1e\output_control.$proc$rtl/output_control.sv:148$348'.
+Found and cleaned up 4 empty switches in `$paramod$fa44f9d60fdaa00ac752b3c259a4cb77b4a81f1e\output_control.$proc$rtl/output_control.sv:111$329'.
+Removing empty process `$paramod$fa44f9d60fdaa00ac752b3c259a4cb77b4a81f1e\output_control.$proc$rtl/output_control.sv:111$329'.
+Found and cleaned up 3 empty switches in `$paramod$fa44f9d60fdaa00ac752b3c259a4cb77b4a81f1e\output_control.$proc$rtl/output_control.sv:83$325'.
+Removing empty process `$paramod$fa44f9d60fdaa00ac752b3c259a4cb77b4a81f1e\output_control.$proc$rtl/output_control.sv:83$325'.
+Found and cleaned up 3 empty switches in `$paramod$4349c5fc150692d260dbfde0778a24c1982d1662\window_3x3.$proc$rtl/window_3x3.sv:95$309'.
+Removing empty process `$paramod$4349c5fc150692d260dbfde0778a24c1982d1662\window_3x3.$proc$rtl/window_3x3.sv:95$309'.
+Found and cleaned up 1 empty switch in `$paramod$4349c5fc150692d260dbfde0778a24c1982d1662\window_3x3.$proc$rtl/window_3x3.sv:53$298'.
+Removing empty process `$paramod$4349c5fc150692d260dbfde0778a24c1982d1662\window_3x3.$proc$rtl/window_3x3.sv:53$298'.
+Found and cleaned up 4 empty switches in `$paramod$495080390bf796d5ed223c0a63457c6ab13cc7a3\line_buffer.$proc$rtl/line_buffer.sv:55$273'.
+Removing empty process `$paramod$495080390bf796d5ed223c0a63457c6ab13cc7a3\line_buffer.$proc$rtl/line_buffer.sv:55$273'.
+Found and cleaned up 2 empty switches in `$paramod$495080390bf796d5ed223c0a63457c6ab13cc7a3\line_buffer.$proc$rtl/line_buffer.sv:30$258'.
+Removing empty process `$paramod$495080390bf796d5ed223c0a63457c6ab13cc7a3\line_buffer.$proc$rtl/line_buffer.sv:30$258'.
+Found and cleaned up 7 empty switches in `\apb_regs.$proc$rtl/apb_regs.sv:93$29'.
+Removing empty process `apb_regs.$proc$rtl/apb_regs.sv:93$29'.
+Found and cleaned up 1 empty switch in `\apb_regs.$proc$rtl/apb_regs.sv:63$27'.
+Removing empty process `apb_regs.$proc$rtl/apb_regs.sv:63$27'.
+Found and cleaned up 1 empty switch in `\apb_regs.$proc$rtl/apb_regs.sv:40$12'.
+Removing empty process `apb_regs.$proc$rtl/apb_regs.sv:40$12'.
+Found and cleaned up 6 empty switches in `$paramod$fa44f9d60fdaa00ac752b3c259a4cb77b4a81f1e\pixel_control.$proc$rtl/pixel_control.sv:77$249'.
+Removing empty process `$paramod$fa44f9d60fdaa00ac752b3c259a4cb77b4a81f1e\pixel_control.$proc$rtl/pixel_control.sv:77$249'.
+Found and cleaned up 2 empty switches in `$paramod$fa44f9d60fdaa00ac752b3c259a4cb77b4a81f1e\pixel_control.$proc$rtl/pixel_control.sv:57$243'.
+Removing empty process `$paramod$fa44f9d60fdaa00ac752b3c259a4cb77b4a81f1e\pixel_control.$proc$rtl/pixel_control.sv:57$243'.
+Removing empty process `rgb_to_gray.$proc$rtl/rgb_to_gray.sv:11$1'.
+Cleaned up 58 empty switches.
+
+15.4.12. Executing OPT_EXPR pass (perform const folding).
+Optimizing module rtl_to_pixels_top.
+<suppressed ~4 debug messages>
+Optimizing module $paramod\elastic_stage\DATA_WIDTH=s32'00000000000000000000000000001011.
+Optimizing module threshold_stage.
+Optimizing module magnitude_clamp.
+Optimizing module sobel_compact.
+<suppressed ~4 debug messages>
+Optimizing module $paramod$fa44f9d60fdaa00ac752b3c259a4cb77b4a81f1e\output_control.
+<suppressed ~6 debug messages>
+Optimizing module $paramod$4349c5fc150692d260dbfde0778a24c1982d1662\window_3x3.
+<suppressed ~1 debug messages>
+Optimizing module $paramod$495080390bf796d5ed223c0a63457c6ab13cc7a3\line_buffer.
+Optimizing module apb_regs.
+<suppressed ~7 debug messages>
+Optimizing module $paramod$fa44f9d60fdaa00ac752b3c259a4cb77b4a81f1e\pixel_control.
+<suppressed ~9 debug messages>
+Optimizing module rgb_to_gray.
+<suppressed ~1 debug messages>
+
+15.5. Executing CHECK pass (checking for obvious problems).
+Checking module rtl_to_pixels_top...
+Checking module $paramod\elastic_stage\DATA_WIDTH=s32'00000000000000000000000000001011...
+Checking module threshold_stage...
+Checking module magnitude_clamp...
+Checking module sobel_compact...
+Checking module $paramod$fa44f9d60fdaa00ac752b3c259a4cb77b4a81f1e\output_control...
+Checking module $paramod$4349c5fc150692d260dbfde0778a24c1982d1662\window_3x3...
+Checking module $paramod$495080390bf796d5ed223c0a63457c6ab13cc7a3\line_buffer...
+Checking module apb_regs...
+Checking module $paramod$fa44f9d60fdaa00ac752b3c259a4cb77b4a81f1e\pixel_control...
+Checking module rgb_to_gray...
+Found and reported 0 problems.
+
+15.6. Executing FLATTEN pass (flatten design).
+Deleting now unused module $paramod\elastic_stage\DATA_WIDTH=s32'00000000000000000000000000001011.
+Deleting now unused module threshold_stage.
+Deleting now unused module magnitude_clamp.
+Deleting now unused module sobel_compact.
+Deleting now unused module $paramod$fa44f9d60fdaa00ac752b3c259a4cb77b4a81f1e\output_control.
+Deleting now unused module $paramod$4349c5fc150692d260dbfde0778a24c1982d1662\window_3x3.
+Deleting now unused module $paramod$495080390bf796d5ed223c0a63457c6ab13cc7a3\line_buffer.
+Deleting now unused module apb_regs.
+Deleting now unused module $paramod$fa44f9d60fdaa00ac752b3c259a4cb77b4a81f1e\pixel_control.
+Deleting now unused module rgb_to_gray.
+<suppressed ~10 debug messages>
+
+15.7. Executing TRIBUF pass.
+
+15.8. Executing DEMINOUT pass (demote inout ports to input or output).
+
+15.9. Executing OPT_EXPR pass (perform const folding).
+Optimizing module rtl_to_pixels_top.
+<suppressed ~2 debug messages>
+
+15.10. Executing CHECK pass (checking for obvious problems).
+Checking module rtl_to_pixels_top...
+Found and reported 0 problems.
+
+15.11. Executing OPT_CLEAN pass (remove unused cells and wires).
+Finding unused cells or wires in module \rtl_to_pixels_top..
+Removed 14 unused cells and 386 unused wires.
+<suppressed ~23 debug messages>
+
+15.12. Executing OPT pass (performing simple optimizations).
+
+15.12.1. Executing OPT_EXPR pass (perform const folding).
+Optimizing module rtl_to_pixels_top.
+
+15.12.2. Executing OPT_MERGE pass (detect identical cells).
+Finding identical cells in module `\rtl_to_pixels_top'.
+Computing hashes of 396 cells of `\rtl_to_pixels_top'.
+Finding duplicate cells in `\rtl_to_pixels_top'.
+Computing hashes of 336 cells of `\rtl_to_pixels_top'.
+Finding duplicate cells in `\rtl_to_pixels_top'.
+Computing hashes of 332 cells of `\rtl_to_pixels_top'.
+Finding duplicate cells in `\rtl_to_pixels_top'.
+Computing hashes of 331 cells of `\rtl_to_pixels_top'.
+Finding duplicate cells in `\rtl_to_pixels_top'.
+<suppressed ~195 debug messages>
+Removed a total of 65 cells.
+
+15.12.3. Executing OPT_MUXTREE pass (detect dead branches in mux trees).
+Running muxtree optimizer on module \rtl_to_pixels_top..
+  Creating internal representation of mux trees.
+  Evaluating internal representation of mux trees.
+      Replacing known input bits on port A of cell $flatten\u_pixel_control.$procmux$1045: \u_pixel_control.state_q -> 1'1
+      Replacing known input bits on port A of cell $flatten\u_pixel_control.$procmux$1043: \u_pixel_control.state_q -> 1'1
+  Analyzing evaluation results.
+    dead port 1/2 on $mux $flatten\u_line_buffer.$procmux$886.
+    dead port 1/2 on $mux $flatten\u_line_buffer.$procmux$892.
+    dead port 1/2 on $mux $flatten\u_line_buffer.$procmux$898.
+    dead port 1/2 on $mux $flatten\u_line_buffer.$procmux$904.
+    dead port 1/2 on $mux $flatten\u_threshold.$procmux$615.
+    dead port 2/2 on $mux $flatten\u_pixel_control.$procmux$1062.
+    dead port 2/2 on $mux $flatten\u_pixel_control.$procmux$1068.
+    dead port 2/2 on $mux $flatten\u_pixel_control.$procmux$1074.
+    dead port 2/2 on $mux $flatten\u_pixel_control.$procmux$1080.
+    dead port 2/2 on $mux $flatten\u_output_control.$procmux$725.
+    dead port 2/2 on $mux $flatten\u_output_control.$procmux$731.
+    dead port 2/2 on $mux $flatten\u_output_control.$procmux$737.
+    dead port 1/2 on $mux $flatten\u_output_control.$procmux$744.
+    dead port 2/2 on $mux $flatten\u_output_control.$procmux$746.
+    dead port 2/2 on $mux $flatten\u_output_control.$procmux$775.
+    dead port 2/2 on $mux $flatten\u_output_control.$procmux$777.
+    dead port 2/2 on $mux $flatten\u_output_control.$procmux$785.
+    dead port 1/2 on $mux $flatten\u_line_buffer.$procmux$874.
+    dead port 1/2 on $mux $flatten\u_line_buffer.$procmux$880.
+Removed 19 multiplexer ports.
+<suppressed ~245 debug messages>
+
+15.12.4. Executing OPT_REDUCE pass (consolidate $*mux and $reduce_* inputs).
+  Optimizing cells in module \rtl_to_pixels_top.
+    Consolidated identical input bits for $mux cell $flatten\u_line_buffer.$procmux$889:
+      Old ports: A=8'00000000, B=8'11111111, Y=$flatten\u_line_buffer.$procmux$889_Y
+      New ports: A=1'0, B=1'1, Y=$flatten\u_line_buffer.$procmux$889_Y [0]
+      New connections: $flatten\u_line_buffer.$procmux$889_Y [7:1] = { $flatten\u_line_buffer.$procmux$889_Y [0] $flatten\u_line_buffer.$procmux$889_Y [0] $flatten\u_line_buffer.$procmux$889_Y [0] $flatten\u_line_buffer.$procmux$889_Y [0] $flatten\u_line_buffer.$procmux$889_Y [0] $flatten\u_line_buffer.$procmux$889_Y [0] $flatten\u_line_buffer.$procmux$889_Y [0] }
+    Consolidated identical input bits for $mux cell $flatten\u_line_buffer.$procmux$871:
+      Old ports: A=8'00000000, B=8'11111111, Y=$flatten\u_line_buffer.$procmux$871_Y
+      New ports: A=1'0, B=1'1, Y=$flatten\u_line_buffer.$procmux$871_Y [0]
+      New connections: $flatten\u_line_buffer.$procmux$871_Y [7:1] = { $flatten\u_line_buffer.$procmux$871_Y [0] $flatten\u_line_buffer.$procmux$871_Y [0] $flatten\u_line_buffer.$procmux$871_Y [0] $flatten\u_line_buffer.$procmux$871_Y [0] $flatten\u_line_buffer.$procmux$871_Y [0] $flatten\u_line_buffer.$procmux$871_Y [0] $flatten\u_line_buffer.$procmux$871_Y [0] }
+  Optimizing cells in module \rtl_to_pixels_top.
+    Consolidated identical input bits for $mux cell $flatten\u_line_buffer.$procmux$907:
+      Old ports: A=$flatten\u_line_buffer.$2$memwr$\line1_mem$rtl/line_buffer.sv:71$257_EN[7:0]$296, B=8'00000000, Y=$flatten\u_line_buffer.$0$memwr$\line1_mem$rtl/line_buffer.sv:71$257_EN[7:0]$279
+      New ports: A=$flatten\u_line_buffer.$procmux$871_Y [0], B=1'0, Y=$flatten\u_line_buffer.$0$memwr$\line1_mem$rtl/line_buffer.sv:71$257_EN[7:0]$279 [0]
+      New connections: $flatten\u_line_buffer.$0$memwr$\line1_mem$rtl/line_buffer.sv:71$257_EN[7:0]$279 [7:1] = { $flatten\u_line_buffer.$0$memwr$\line1_mem$rtl/line_buffer.sv:71$257_EN[7:0]$279 [0] $flatten\u_line_buffer.$0$memwr$\line1_mem$rtl/line_buffer.sv:71$257_EN[7:0]$279 [0] $flatten\u_line_buffer.$0$memwr$\line1_mem$rtl/line_buffer.sv:71$257_EN[7:0]$279 [0] $flatten\u_line_buffer.$0$memwr$\line1_mem$rtl/line_buffer.sv:71$257_EN[7:0]$279 [0] $flatten\u_line_buffer.$0$memwr$\line1_mem$rtl/line_buffer.sv:71$257_EN[7:0]$279 [0] $flatten\u_line_buffer.$0$memwr$\line1_mem$rtl/line_buffer.sv:71$257_EN[7:0]$279 [0] $flatten\u_line_buffer.$0$memwr$\line1_mem$rtl/line_buffer.sv:71$257_EN[7:0]$279 [0] }
+    Consolidated identical input bits for $mux cell $flatten\u_line_buffer.$procmux$916:
+      Old ports: A=$flatten\u_line_buffer.$2$memwr$\line2_mem$rtl/line_buffer.sv:70$256_EN[7:0]$293, B=8'00000000, Y=$flatten\u_line_buffer.$0$memwr$\line2_mem$rtl/line_buffer.sv:70$256_EN[7:0]$276
+      New ports: A=$flatten\u_line_buffer.$procmux$889_Y [0], B=1'0, Y=$flatten\u_line_buffer.$0$memwr$\line2_mem$rtl/line_buffer.sv:70$256_EN[7:0]$276 [0]
+      New connections: $flatten\u_line_buffer.$0$memwr$\line2_mem$rtl/line_buffer.sv:70$256_EN[7:0]$276 [7:1] = { $flatten\u_line_buffer.$0$memwr$\line2_mem$rtl/line_buffer.sv:70$256_EN[7:0]$276 [0] $flatten\u_line_buffer.$0$memwr$\line2_mem$rtl/line_buffer.sv:70$256_EN[7:0]$276 [0] $flatten\u_line_buffer.$0$memwr$\line2_mem$rtl/line_buffer.sv:70$256_EN[7:0]$276 [0] $flatten\u_line_buffer.$0$memwr$\line2_mem$rtl/line_buffer.sv:70$256_EN[7:0]$276 [0] $flatten\u_line_buffer.$0$memwr$\line2_mem$rtl/line_buffer.sv:70$256_EN[7:0]$276 [0] $flatten\u_line_buffer.$0$memwr$\line2_mem$rtl/line_buffer.sv:70$256_EN[7:0]$276 [0] $flatten\u_line_buffer.$0$memwr$\line2_mem$rtl/line_buffer.sv:70$256_EN[7:0]$276 [0] }
+  Optimizing cells in module \rtl_to_pixels_top.
+Performed a total of 4 changes.
+
+15.12.5. Executing OPT_MERGE pass (detect identical cells).
+Finding identical cells in module `\rtl_to_pixels_top'.
+Computing hashes of 312 cells of `\rtl_to_pixels_top'.
+Finding duplicate cells in `\rtl_to_pixels_top'.
+Computing hashes of 306 cells of `\rtl_to_pixels_top'.
+Finding duplicate cells in `\rtl_to_pixels_top'.
+Computing hashes of 304 cells of `\rtl_to_pixels_top'.
+Finding duplicate cells in `\rtl_to_pixels_top'.
+<suppressed ~24 debug messages>
+Removed a total of 8 cells.
+
+15.12.6. Executing OPT_DFF pass (perform DFF optimizations).
+
+15.12.7. Executing OPT_CLEAN pass (remove unused cells and wires).
+Finding unused cells or wires in module \rtl_to_pixels_top..
+Removed 0 unused cells and 89 unused wires.
+<suppressed ~1 debug messages>
+
+15.12.8. Executing OPT_EXPR pass (perform const folding).
+Optimizing module rtl_to_pixels_top.
+<suppressed ~2 debug messages>
+
+15.12.9. Rerunning OPT passes. (Maybe there is more to do..)
+
+15.12.10. Executing OPT_MUXTREE pass (detect dead branches in mux trees).
+Running muxtree optimizer on module \rtl_to_pixels_top..
+  Creating internal representation of mux trees.
+  Evaluating internal representation of mux trees.
+  Analyzing evaluation results.
+Removed 0 multiplexer ports.
+<suppressed ~218 debug messages>
+
+15.12.11. Executing OPT_REDUCE pass (consolidate $*mux and $reduce_* inputs).
+  Optimizing cells in module \rtl_to_pixels_top.
+Performed a total of 0 changes.
+
+15.12.12. Executing OPT_MERGE pass (detect identical cells).
+Finding identical cells in module `\rtl_to_pixels_top'.
+Computing hashes of 302 cells of `\rtl_to_pixels_top'.
+Finding duplicate cells in `\rtl_to_pixels_top'.
+Removed a total of 0 cells.
+
+15.12.13. Executing OPT_DFF pass (perform DFF optimizations).
+
+15.12.14. Executing OPT_CLEAN pass (remove unused cells and wires).
+Finding unused cells or wires in module \rtl_to_pixels_top..
+Removed 0 unused cells and 2 unused wires.
+<suppressed ~1 debug messages>
+
+15.12.15. Executing OPT_EXPR pass (perform const folding).
+Optimizing module rtl_to_pixels_top.
+
+15.12.16. Rerunning OPT passes. (Maybe there is more to do..)
+
+15.12.17. Executing OPT_MUXTREE pass (detect dead branches in mux trees).
+Running muxtree optimizer on module \rtl_to_pixels_top..
+  Creating internal representation of mux trees.
+  Evaluating internal representation of mux trees.
+  Analyzing evaluation results.
+Removed 0 multiplexer ports.
+<suppressed ~218 debug messages>
+
+15.12.18. Executing OPT_REDUCE pass (consolidate $*mux and $reduce_* inputs).
+  Optimizing cells in module \rtl_to_pixels_top.
+Performed a total of 0 changes.
+
+15.12.19. Executing OPT_MERGE pass (detect identical cells).
+Finding identical cells in module `\rtl_to_pixels_top'.
+Computing hashes of 302 cells of `\rtl_to_pixels_top'.
+Finding duplicate cells in `\rtl_to_pixels_top'.
+Removed a total of 0 cells.
+
+15.12.20. Executing OPT_DFF pass (perform DFF optimizations).
+
+15.12.21. Executing OPT_CLEAN pass (remove unused cells and wires).
+Finding unused cells or wires in module \rtl_to_pixels_top..
+
+15.12.22. Executing OPT_EXPR pass (perform const folding).
+Optimizing module rtl_to_pixels_top.
+
+15.12.23. Finished fast OPT passes. (There is nothing left to do.)
+
+15.13. Executing FSM pass (extract and optimize FSM).
+
+15.13.1. Executing FSM_DETECT pass (finding FSMs in design).
+Found FSM state register rtl_to_pixels_top.u_output_control.state_q.
+
+15.13.2. Executing FSM_EXTRACT pass (extracting FSM from design).
+Extracting FSM `\u_output_control.state_q' from module `\rtl_to_pixels_top'.
+  found $dff cell for state register: $flatten\u_output_control.$procdff$1098
+  root of input selection tree: $flatten\u_output_control.$0\state_q[1:0]
+  found reset state: 2'00 (guessed from mux tree)
+  found ctrl input: \rst
+  found ctrl input: \frame_abort_q
+  found ctrl input: \draining_internal
+  found ctrl input: \u_apb_regs.processing_i
+  found ctrl input: \output_waiting_for_sof
+  found state code: 2'00
+  found ctrl input: \u_output_control.output_ready_i
+  found ctrl input: \u_output_control.final_output_position
+  found ctrl input: \u_line_buffer.pixel_commit_i
+  found ctrl input: \last_input_accept
+  found state code: 2'10
+  found ctrl input: $flatten\u_output_control.$logic_and$rtl/output_control.sv:168$349_Y
+  found state code: 2'01
+  found ctrl output: \u_apb_regs.processing_i
+  found ctrl output: \output_waiting_for_sof
+  found ctrl output: \draining_internal
+  ctrl inputs: { \u_line_buffer.pixel_commit_i \u_output_control.output_ready_i \u_output_control.final_output_position $flatten\u_output_control.$logic_and$rtl/output_control.sv:168$349_Y \frame_abort_q \last_input_accept \rst }
+  ctrl outputs: { $flatten\u_output_control.$0\state_q[1:0] \u_apb_regs.processing_i \output_waiting_for_sof \draining_internal }
+  transition:       2'00 7'---00-0 ->       2'00 5'00010
+  transition:       2'00 7'---10-0 ->       2'01 5'01010
+  transition:       2'00 7'----1-0 ->       2'00 5'00010
+  transition:       2'00 7'------1 ->       2'00 5'00010
+  transition:       2'10 7'-0--0-0 ->       2'10 5'10001
+  transition:       2'10 7'-10-0-0 ->       2'10 5'10001
+  transition:       2'10 7'-11-0-0 ->       2'00 5'00001
+  transition:       2'10 7'----1-0 ->       2'00 5'00001
+  transition:       2'10 7'------1 ->       2'00 5'00001
+  transition:       2'01 7'0---0-0 ->       2'01 5'01100
+  transition:       2'01 7'1---000 ->       2'01 5'01100
+  transition:       2'01 7'1---010 ->       2'10 5'10100
+  transition:       2'01 7'----1-0 ->       2'00 5'00100
+  transition:       2'01 7'------1 ->       2'00 5'00100
+
+15.13.3. Executing FSM_OPT pass (simple optimizations of FSMs).
+Optimizing FSM `$fsm$\u_output_control.state_q$1137' from module `\rtl_to_pixels_top'.
+
+15.13.4. Executing OPT_CLEAN pass (remove unused cells and wires).
+Finding unused cells or wires in module \rtl_to_pixels_top..
+Removed 12 unused cells and 12 unused wires.
+<suppressed ~13 debug messages>
+
+15.13.5. Executing FSM_OPT pass (simple optimizations of FSMs).
+Optimizing FSM `$fsm$\u_output_control.state_q$1137' from module `\rtl_to_pixels_top'.
+  Removing unused output signal $flatten\u_output_control.$0\state_q[1:0] [0].
+  Removing unused output signal $flatten\u_output_control.$0\state_q[1:0] [1].
+
+15.13.6. Executing FSM_RECODE pass (re-assigning FSM state encoding).
+Recoding FSM `$fsm$\u_output_control.state_q$1137' from module `\rtl_to_pixels_top' using `auto' encoding:
+  mapping auto encoding to `one-hot` for this FSM.
+  00 -> --1
+  10 -> -1-
+  01 -> 1--
+
+15.13.7. Executing FSM_INFO pass (dumping all available information on FSM cells).
+
+FSM `$fsm$\u_output_control.state_q$1137' from module `rtl_to_pixels_top':
+-------------------------------------
+
+  Information on FSM $fsm$\u_output_control.state_q$1137 (\u_output_control.state_q):
+
+  Number of input signals:    7
+  Number of output signals:   3
+  Number of state bits:       3
+
+  Input signals:
+    0: \rst
+    1: \last_input_accept
+    2: \frame_abort_q
+    3: $flatten\u_output_control.$logic_and$rtl/output_control.sv:168$349_Y
+    4: \u_output_control.final_output_position
+    5: \u_output_control.output_ready_i
+    6: \u_line_buffer.pixel_commit_i
+
+  Output signals:
+    0: \draining_internal
+    1: \output_waiting_for_sof
+    2: \u_apb_regs.processing_i
+
+  State encoding:
+    0:      3'--1  <RESET STATE>
+    1:      3'-1-
+    2:      3'1--
+
+  Transition Table (state_in, ctrl_in, state_out, ctrl_out):
+      0:     0 7'---00-0   ->     0 3'010
+      1:     0 7'----1-0   ->     0 3'010
+      2:     0 7'------1   ->     0 3'010
+      3:     0 7'---10-0   ->     2 3'010
+      4:     1 7'-11-0-0   ->     0 3'001
+      5:     1 7'----1-0   ->     0 3'001
+      6:     1 7'------1   ->     0 3'001
+      7:     1 7'-10-0-0   ->     1 3'001
+      8:     1 7'-0--0-0   ->     1 3'001
+      9:     2 7'----1-0   ->     0 3'100
+     10:     2 7'------1   ->     0 3'100
+     11:     2 7'1---010   ->     1 3'100
+     12:     2 7'1---000   ->     2 3'100
+     13:     2 7'0---0-0   ->     2 3'100
+
+-------------------------------------
+
+15.13.8. Executing FSM_MAP pass (mapping FSMs to basic logic).
+Mapping FSM `$fsm$\u_output_control.state_q$1137' from module `\rtl_to_pixels_top'.
+
+15.14. Executing OPT pass (performing simple optimizations).
+
+15.14.1. Executing OPT_EXPR pass (perform const folding).
+Optimizing module rtl_to_pixels_top.
+<suppressed ~4 debug messages>
+
+15.14.2. Executing OPT_MERGE pass (detect identical cells).
+Finding identical cells in module `\rtl_to_pixels_top'.
+Computing hashes of 311 cells of `\rtl_to_pixels_top'.
+Finding duplicate cells in `\rtl_to_pixels_top'.
+Removed a total of 0 cells.
+
+15.14.3. Executing OPT_MUXTREE pass (detect dead branches in mux trees).
+Running muxtree optimizer on module \rtl_to_pixels_top..
+  Creating internal representation of mux trees.
+  Evaluating internal representation of mux trees.
+  Analyzing evaluation results.
+Removed 0 multiplexer ports.
+<suppressed ~209 debug messages>
+
+15.14.4. Executing OPT_REDUCE pass (consolidate $*mux and $reduce_* inputs).
+  Optimizing cells in module \rtl_to_pixels_top.
+Performed a total of 0 changes.
+
+15.14.5. Executing OPT_MERGE pass (detect identical cells).
+Finding identical cells in module `\rtl_to_pixels_top'.
+Computing hashes of 311 cells of `\rtl_to_pixels_top'.
+Finding duplicate cells in `\rtl_to_pixels_top'.
+Removed a total of 0 cells.
+
+15.14.6. Executing OPT_DFF pass (perform DFF optimizations).
+Adding SRST signal on $procdff$1094 ($dff) from module rtl_to_pixels_top (D = \metadata_error, Q = \frame_abort_q, rval = 1'0).
+Adding SRST signal on $procdff$1095 ($dff) from module rtl_to_pixels_top (D = $procmux$591_Y, Q = \final_pending_q, rval = 1'0).
+Adding EN signal on $auto$ff.cc:337:slice$1186 ($sdff) from module rtl_to_pixels_top (D = 1'1, Q = \final_pending_q).
+Adding SRST signal on $flatten\u_apb_regs.$procdff$1119 ($dff) from module rtl_to_pixels_top (D = $flatten\u_apb_regs.$procmux$951_Y, Q = \u_apb_regs.bypass_threshold_shadow_q, rval = 1'0).
+Adding EN signal on $auto$ff.cc:337:slice$1190 ($sdff) from module rtl_to_pixels_top (D = \pwdata [1], Q = \u_apb_regs.bypass_threshold_shadow_q).
+Adding SRST signal on $flatten\u_apb_regs.$procdff$1118 ($dff) from module rtl_to_pixels_top (D = $flatten\u_apb_regs.$procmux$956_Y, Q = \u_apb_regs.threshold_shadow_q, rval = 8'10000000).
+Adding EN signal on $auto$ff.cc:337:slice$1192 ($sdff) from module rtl_to_pixels_top (D = \pwdata [7:0], Q = \u_apb_regs.threshold_shadow_q).
+Adding SRST signal on $flatten\u_apb_regs.$procdff$1117 ($dff) from module rtl_to_pixels_top (D = $flatten\u_apb_regs.$procmux$961_Y, Q = \u_apb_regs.bypass_threshold_active_o, rval = 1'0).
+Adding EN signal on $auto$ff.cc:337:slice$1194 ($sdff) from module rtl_to_pixels_top (D = \u_apb_regs.bypass_threshold_shadow_q, Q = \u_apb_regs.bypass_threshold_active_o).
+Adding SRST signal on $flatten\u_apb_regs.$procdff$1116 ($dff) from module rtl_to_pixels_top (D = $flatten\u_apb_regs.$procmux$966_Y, Q = \u_apb_regs.threshold_active_o, rval = 8'10000000).
+Adding EN signal on $auto$ff.cc:337:slice$1196 ($sdff) from module rtl_to_pixels_top (D = \u_apb_regs.threshold_shadow_q, Q = \u_apb_regs.threshold_active_o).
+Adding SRST signal on $flatten\u_apb_regs.$procdff$1115 ($dff) from module rtl_to_pixels_top (D = $flatten\u_apb_regs.$procmux$971_Y, Q = \u_apb_regs.run_enable_o, rval = 1'0).
+Adding EN signal on $auto$ff.cc:337:slice$1198 ($sdff) from module rtl_to_pixels_top (D = \pwdata [0], Q = \u_apb_regs.run_enable_o).
+Adding SRST signal on $flatten\u_pixel_control.$procdff$1124 ($dff) from module rtl_to_pixels_top (D = $flatten\u_pixel_control.$procmux$1019_Y, Q = \u_pixel_control.col_q, rval = 10'0000000000).
+Adding EN signal on $auto$ff.cc:337:slice$1200 ($sdff) from module rtl_to_pixels_top (D = $flatten\u_pixel_control.$procmux$1017_Y, Q = \u_pixel_control.col_q).
+Adding SRST signal on $flatten\u_pixel_control.$procdff$1123 ($dff) from module rtl_to_pixels_top (D = $flatten\u_pixel_control.$procmux$1036_Y, Q = \u_pixel_control.row_q, rval = 9'000000000).
+Adding EN signal on $auto$ff.cc:337:slice$1202 ($sdff) from module rtl_to_pixels_top (D = $flatten\u_pixel_control.$procmux$1034_Y, Q = \u_pixel_control.row_q).
+Adding SRST signal on $flatten\u_pixel_control.$procdff$1122 ($dff) from module rtl_to_pixels_top (D = $flatten\u_pixel_control.$procmux$1053_Y, Q = \u_pixel_control.state_q, rval = 1'0).
+Adding EN signal on $auto$ff.cc:337:slice$1208 ($sdff) from module rtl_to_pixels_top (D = $flatten\u_pixel_control.$procmux$1051_Y, Q = \u_pixel_control.state_q).
+Adding SRST signal on $flatten\u_apb_regs.$procdff$1120 ($dff) from module rtl_to_pixels_top (D = $flatten\u_apb_regs.$procmux$946_Y, Q = \u_apb_regs.frame_error_q, rval = 1'0).
+Adding EN signal on $auto$ff.cc:337:slice$1210 ($sdff) from module rtl_to_pixels_top (D = $flatten\u_apb_regs.$procmux$946_Y, Q = \u_apb_regs.frame_error_q).
+Adding SRST signal on $flatten\u_apb_regs.$procdff$1121 ($dff) from module rtl_to_pixels_top (D = $flatten\u_apb_regs.$procmux$938_Y, Q = \u_apb_regs.frame_count_q, rval = 0).
+Adding EN signal on $auto$ff.cc:337:slice$1214 ($sdff) from module rtl_to_pixels_top (D = $flatten\u_apb_regs.$add$rtl/apb_regs.sv:124$34_Y, Q = \u_apb_regs.frame_count_q).
+Adding SRST signal on $flatten\u_output_elastic.$procdff$1097 ($dff) from module rtl_to_pixels_top (D = $flatten\u_output_elastic.$procmux$599_Y, Q = \u_output_elastic.valid_q, rval = 1'0).
+Adding EN signal on $auto$ff.cc:337:slice$1216 ($sdff) from module rtl_to_pixels_top (D = \u_output_elastic.s_valid, Q = \u_output_elastic.valid_q).
+Adding EN signal on $flatten\u_output_elastic.$procdff$1096 ($dff) from module rtl_to_pixels_top (D = { \raw_frame_done_internal \raw_output_user \raw_output_last \raw_output_data }, Q = \u_output_elastic.data_q).
+Adding SRST signal on $auto$ff.cc:337:slice$1218 ($dffe) from module rtl_to_pixels_top (D = \threshold_edge, Q = \u_output_elastic.data_q [7:0], rval = 8'00000000).
+Adding SRST signal on $flatten\u_output_control.$procdff$1101 ($dff) from module rtl_to_pixels_top (D = $flatten\u_output_control.$procmux$638_Y, Q = \u_output_control.output_col_q, rval = 10'0000000000).
+Adding EN signal on $auto$ff.cc:337:slice$1225 ($sdff) from module rtl_to_pixels_top (D = $flatten\u_output_control.$procmux$638_Y, Q = \u_output_control.output_col_q).
+Adding SRST signal on $flatten\u_output_control.$procdff$1100 ($dff) from module rtl_to_pixels_top (D = $flatten\u_output_control.$procmux$663_Y, Q = \u_output_control.output_row_q, rval = 9'000000000).
+Adding EN signal on $auto$ff.cc:337:slice$1237 ($sdff) from module rtl_to_pixels_top (D = $flatten\u_output_control.$procmux$663_Y, Q = \u_output_control.output_row_q).
+Adding SRST signal on $flatten\u_output_control.$procdff$1099 ($dff) from module rtl_to_pixels_top (D = $flatten\u_output_control.$procmux$685_Y, Q = \u_output_control.input_count_q, rval = 19'0000000000000000000).
+Adding EN signal on $auto$ff.cc:337:slice$1249 ($sdff) from module rtl_to_pixels_top (D = $flatten\u_output_control.$procmux$685_Y, Q = \u_output_control.input_count_q).
+Adding SRST signal on $flatten\u_window.$procdff$1107 ($dff) from module rtl_to_pixels_top (D = $flatten\u_window.$procmux$792_Y, Q = \u_window.bot_c1_q, rval = 8'00000000).
+Adding EN signal on $auto$ff.cc:337:slice$1261 ($sdff) from module rtl_to_pixels_top (D = \u_rgb_to_gray.accum [15:8], Q = \u_window.bot_c1_q).
+Adding SRST signal on $flatten\u_window.$procdff$1106 ($dff) from module rtl_to_pixels_top (D = $flatten\u_window.$procmux$800_Y, Q = \u_window.bot_c2_q, rval = 8'00000000).
+Adding EN signal on $auto$ff.cc:337:slice$1263 ($sdff) from module rtl_to_pixels_top (D = $flatten\u_window.$procmux$798_Y, Q = \u_window.bot_c2_q).
+Adding SRST signal on $flatten\u_window.$procdff$1105 ($dff) from module rtl_to_pixels_top (D = $flatten\u_window.$procmux$808_Y, Q = \u_window.mid_c1_q, rval = 8'00000000).
+Adding EN signal on $auto$ff.cc:337:slice$1265 ($sdff) from module rtl_to_pixels_top (D = $flatten\u_window.$procmux$806_Y, Q = \u_window.mid_c1_q).
+Adding SRST signal on $flatten\u_window.$procdff$1104 ($dff) from module rtl_to_pixels_top (D = $flatten\u_window.$procmux$816_Y, Q = \u_window.mid_c2_q, rval = 8'00000000).
+Adding EN signal on $auto$ff.cc:337:slice$1267 ($sdff) from module rtl_to_pixels_top (D = $flatten\u_window.$procmux$814_Y, Q = \u_window.mid_c2_q).
+Adding SRST signal on $flatten\u_window.$procdff$1103 ($dff) from module rtl_to_pixels_top (D = $flatten\u_window.$procmux$824_Y, Q = \u_window.top_c1_q, rval = 8'00000000).
+Adding EN signal on $auto$ff.cc:337:slice$1269 ($sdff) from module rtl_to_pixels_top (D = $flatten\u_window.$procmux$822_Y, Q = \u_window.top_c1_q).
+Adding SRST signal on $flatten\u_window.$procdff$1102 ($dff) from module rtl_to_pixels_top (D = $flatten\u_window.$procmux$832_Y, Q = \u_window.top_c2_q, rval = 8'00000000).
+Adding EN signal on $auto$ff.cc:337:slice$1271 ($sdff) from module rtl_to_pixels_top (D = $flatten\u_window.$procmux$830_Y, Q = \u_window.top_c2_q).
+Adding SRST signal on $flatten\u_line_buffer.$procdff$1108 ($dff) from module rtl_to_pixels_top (D = $flatten\u_line_buffer.$procmux$924_Y, Q = \u_line_buffer.history_rows_q, rval = 2'00).
+Adding EN signal on $auto$ff.cc:337:slice$1273 ($sdff) from module rtl_to_pixels_top (D = $flatten\u_line_buffer.$add$rtl/line_buffer.sv:66$290_Y, Q = \u_line_buffer.history_rows_q).
+
+15.14.7. Executing OPT_CLEAN pass (remove unused cells and wires).
+Finding unused cells or wires in module \rtl_to_pixels_top..
+Removed 50 unused cells and 53 unused wires.
+<suppressed ~51 debug messages>
+
+15.14.8. Executing OPT_EXPR pass (perform const folding).
+Optimizing module rtl_to_pixels_top.
+<suppressed ~1 debug messages>
+
+15.14.9. Rerunning OPT passes. (Maybe there is more to do..)
+
+15.14.10. Executing OPT_MUXTREE pass (detect dead branches in mux trees).
+Running muxtree optimizer on module \rtl_to_pixels_top..
+  Creating internal representation of mux trees.
+  Evaluating internal representation of mux trees.
+  Analyzing evaluation results.
+Removed 0 multiplexer ports.
+<suppressed ~148 debug messages>
+
+15.14.11. Executing OPT_REDUCE pass (consolidate $*mux and $reduce_* inputs).
+  Optimizing cells in module \rtl_to_pixels_top.
+Performed a total of 0 changes.
+
+15.14.12. Executing OPT_MERGE pass (detect identical cells).
+Finding identical cells in module `\rtl_to_pixels_top'.
+Computing hashes of 284 cells of `\rtl_to_pixels_top'.
+Finding duplicate cells in `\rtl_to_pixels_top'.
+Computing hashes of 277 cells of `\rtl_to_pixels_top'.
+Finding duplicate cells in `\rtl_to_pixels_top'.
+Computing hashes of 276 cells of `\rtl_to_pixels_top'.
+Finding duplicate cells in `\rtl_to_pixels_top'.
+<suppressed ~24 debug messages>
+Removed a total of 8 cells.
+
+15.14.13. Executing OPT_DFF pass (perform DFF optimizations).
+
+15.14.14. Executing OPT_CLEAN pass (remove unused cells and wires).
+Finding unused cells or wires in module \rtl_to_pixels_top..
+Removed 0 unused cells and 8 unused wires.
+<suppressed ~1 debug messages>
+
+15.14.15. Executing OPT_EXPR pass (perform const folding).
+Optimizing module rtl_to_pixels_top.
+
+15.14.16. Rerunning OPT passes. (Maybe there is more to do..)
+
+15.14.17. Executing OPT_MUXTREE pass (detect dead branches in mux trees).
+Running muxtree optimizer on module \rtl_to_pixels_top..
+  Creating internal representation of mux trees.
+  Evaluating internal representation of mux trees.
+  Analyzing evaluation results.
+Removed 0 multiplexer ports.
+<suppressed ~148 debug messages>
+
+15.14.18. Executing OPT_REDUCE pass (consolidate $*mux and $reduce_* inputs).
+  Optimizing cells in module \rtl_to_pixels_top.
+Performed a total of 0 changes.
+
+15.14.19. Executing OPT_MERGE pass (detect identical cells).
+Finding identical cells in module `\rtl_to_pixels_top'.
+Computing hashes of 276 cells of `\rtl_to_pixels_top'.
+Finding duplicate cells in `\rtl_to_pixels_top'.
+Removed a total of 0 cells.
+
+15.14.20. Executing OPT_DFF pass (perform DFF optimizations).
+
+15.14.21. Executing OPT_CLEAN pass (remove unused cells and wires).
+Finding unused cells or wires in module \rtl_to_pixels_top..
+
+15.14.22. Executing OPT_EXPR pass (perform const folding).
+Optimizing module rtl_to_pixels_top.
+
+15.14.23. Finished fast OPT passes. (There is nothing left to do.)
+
+15.15. Executing WREDUCE pass (reducing word size of cells).
+Removed top 1 bits (of 2) from port B of cell rtl_to_pixels_top.$auto$simple.cc:194:make_patterns_logic$1234 ($ne).
+Removed top 1 bits (of 2) from port B of cell rtl_to_pixels_top.$auto$simple.cc:194:make_patterns_logic$1232 ($ne).
+Removed top 4 bits (of 8) from port B of cell rtl_to_pixels_top.$flatten\u_apb_regs.$procmux$978_CMP0 ($eq).
+Removed top 31 bits (of 32) from port B of cell rtl_to_pixels_top.$flatten\u_apb_regs.$add$rtl/apb_regs.sv:124$34 ($add).
+Removed top 5 bits (of 8) from port B of cell rtl_to_pixels_top.$flatten\u_apb_regs.$eq$rtl/apb_regs.sv:108$32 ($eq).
+Removed top 4 bits (of 8) from port B of cell rtl_to_pixels_top.$flatten\u_apb_regs.$eq$rtl/apb_regs.sv:60$22 ($eq).
+Removed top 18 bits (of 19) from mux cell rtl_to_pixels_top.$flatten\u_output_control.$procmux$690 ($mux).
+Removed top 18 bits (of 19) from port B of cell rtl_to_pixels_top.$flatten\u_output_control.$add$rtl/output_control.sv:188$353 ($add).
+Removed top 9 bits (of 10) from port B of cell rtl_to_pixels_top.$flatten\u_output_control.$add$rtl/output_control.sv:183$352 ($add).
+Removed top 8 bits (of 9) from port B of cell rtl_to_pixels_top.$flatten\u_output_control.$add$rtl/output_control.sv:180$351 ($add).
+Removed top 9 bits (of 19) from port B of cell rtl_to_pixels_top.$flatten\u_output_control.$ge$rtl/output_control.sv:77$320 ($ge).
+Removed top 3 bits (of 11) from port B of cell rtl_to_pixels_top.$flatten\u_magnitude.$gt$rtl/magnitude_clamp.sv:30$139 ($gt).
+Removed top 10 bits (of 11) from port B of cell rtl_to_pixels_top.$flatten\u_magnitude.$add$rtl/magnitude_clamp.sv:24$137 ($add).
+Removed top 11 bits (of 12) from port B of cell rtl_to_pixels_top.$flatten\u_magnitude.$lt$rtl/magnitude_clamp.sv:23$135 ($lt).
+Removed top 10 bits (of 11) from port B of cell rtl_to_pixels_top.$flatten\u_magnitude.$add$rtl/magnitude_clamp.sv:19$134 ($add).
+Removed top 11 bits (of 12) from port B of cell rtl_to_pixels_top.$flatten\u_magnitude.$lt$rtl/magnitude_clamp.sv:18$132 ($lt).
+Removed top 3 bits (of 12) from port B of cell rtl_to_pixels_top.$flatten\u_sobel.$sub$rtl/sobel_compact.sv:49$126 ($sub).
+Removed top 2 bits (of 12) from port B of cell rtl_to_pixels_top.$flatten\u_sobel.$sub$rtl/sobel_compact.sv:49$125 ($sub).
+Removed top 3 bits (of 12) from port B of cell rtl_to_pixels_top.$flatten\u_sobel.$add$rtl/sobel_compact.sv:49$127 ($add).
+Removed top 3 bits (of 12) from port A of cell rtl_to_pixels_top.$flatten\u_sobel.$neg$rtl/sobel_compact.sv:49$123 ($neg).
+Converting cell rtl_to_pixels_top.$flatten\u_sobel.$neg$rtl/sobel_compact.sv:49$123 ($neg) from signed to unsigned.
+Removed top 1 bits (of 9) from port A of cell rtl_to_pixels_top.$flatten\u_sobel.$neg$rtl/sobel_compact.sv:49$123 ($neg).
+Removed top 3 bits (of 12) from port B of cell rtl_to_pixels_top.$flatten\u_sobel.$add$rtl/sobel_compact.sv:41$122 ($add).
+Removed top 3 bits (of 12) from port B of cell rtl_to_pixels_top.$flatten\u_sobel.$sub$rtl/sobel_compact.sv:41$121 ($sub).
+Removed top 2 bits (of 12) from port B of cell rtl_to_pixels_top.$flatten\u_sobel.$add$rtl/sobel_compact.sv:41$120 ($add).
+Removed top 2 bits (of 12) from port B of cell rtl_to_pixels_top.$flatten\u_sobel.$add$rtl/sobel_compact.sv:49$129 ($add).
+Removed top 2 bits (of 12) from port B of cell rtl_to_pixels_top.$flatten\u_sobel.$sub$rtl/sobel_compact.sv:41$118 ($sub).
+Removed top 3 bits (of 12) from port B of cell rtl_to_pixels_top.$flatten\u_sobel.$add$rtl/sobel_compact.sv:49$130 ($add).
+Removed top 3 bits (of 12) from port B of cell rtl_to_pixels_top.$flatten\u_sobel.$add$rtl/sobel_compact.sv:41$116 ($add).
+Removed top 8 bits (of 10) from port B of cell rtl_to_pixels_top.$flatten\u_window.$ge$rtl/window_3x3.sv:60$305 ($ge).
+Removed top 7 bits (of 9) from port B of cell rtl_to_pixels_top.$flatten\u_window.$ge$rtl/window_3x3.sv:59$303 ($ge).
+Removed top 1 bits (of 2) from port B of cell rtl_to_pixels_top.$flatten\u_line_buffer.$add$rtl/line_buffer.sv:66$290 ($add).
+Removed top 1 bits (of 2) from port B of cell rtl_to_pixels_top.$flatten\u_line_buffer.$ge$rtl/line_buffer.sv:35$263 ($ge).
+Removed top 8 bits (of 16) from port B of cell rtl_to_pixels_top.$flatten\u_rgb_to_gray.$add$rtl/rgb_to_gray.sv:17$7 ($add).
+Removed top 11 bits (of 16) from port A of cell rtl_to_pixels_top.$flatten\u_rgb_to_gray.$mul$rtl/rgb_to_gray.sv:19$5 ($mul).
+Removed top 8 bits (of 16) from port B of cell rtl_to_pixels_top.$flatten\u_rgb_to_gray.$mul$rtl/rgb_to_gray.sv:19$5 ($mul).
+Removed top 3 bits (of 16) from port Y of cell rtl_to_pixels_top.$flatten\u_rgb_to_gray.$mul$rtl/rgb_to_gray.sv:19$5 ($mul).
+Removed top 8 bits (of 15) from port A of cell rtl_to_pixels_top.$flatten\u_rgb_to_gray.$mul$rtl/rgb_to_gray.sv:18$3 ($mul).
+Removed top 8 bits (of 16) from port B of cell rtl_to_pixels_top.$flatten\u_rgb_to_gray.$mul$rtl/rgb_to_gray.sv:18$3 ($mul).
+Removed top 9 bits (of 16) from port A of cell rtl_to_pixels_top.$flatten\u_rgb_to_gray.$mul$rtl/rgb_to_gray.sv:17$2 ($mul).
+Removed top 8 bits (of 16) from port B of cell rtl_to_pixels_top.$flatten\u_rgb_to_gray.$mul$rtl/rgb_to_gray.sv:17$2 ($mul).
+Removed top 1 bits (of 16) from port Y of cell rtl_to_pixels_top.$flatten\u_rgb_to_gray.$mul$rtl/rgb_to_gray.sv:17$2 ($mul).
+Removed top 9 bits (of 10) from port B of cell rtl_to_pixels_top.$flatten\u_pixel_control.$add$rtl/pixel_control.sv:101$255 ($add).
+Removed top 8 bits (of 9) from port B of cell rtl_to_pixels_top.$flatten\u_pixel_control.$add$rtl/pixel_control.sv:97$254 ($add).
+Removed top 3 bits (of 16) from wire rtl_to_pixels_top.$flatten\u_rgb_to_gray.$mul$rtl/rgb_to_gray.sv:19$5_Y.
+Removed top 1 bits (of 16) from wire rtl_to_pixels_top.$flatten\u_rgb_to_gray.$mul$rtl/rgb_to_gray.sv:17$2_Y.
+Removed top 18 bits (of 19) from wire rtl_to_pixels_top.$flatten\u_output_control.$procmux$690_Y.
+
+15.16. Executing PEEPOPT pass (run peephole optimizers).
+
+15.17. Executing OPT_CLEAN pass (remove unused cells and wires).
+Finding unused cells or wires in module \rtl_to_pixels_top..
+Removed 0 unused cells and 3 unused wires.
+<suppressed ~1 debug messages>
+
+15.18. Executing SHARE pass (SAT-based resource sharing).
+Found 2 cells in module rtl_to_pixels_top that may be considered for resource sharing.
+  Analyzing resource sharing options for $flatten\u_line_buffer.$memrd$\line2_mem$rtl/line_buffer.sv:51$272 ($memrd):
+    Found 5 activation_patterns using ctrl signal { \u_window.prev_row2_valid_i \u_window.window_valid_o $flatten\u_magnitude.$gt$rtl/magnitude_clamp.sv:30$139_Y $flatten\u_threshold.$lt$rtl/threshold_stage.sv:12$141_Y \u_apb_regs.bypass_threshold_active_o }.
+    No candidates found.
+  Analyzing resource sharing options for $flatten\u_line_buffer.$memrd$\line1_mem$rtl/line_buffer.sv:47$271 ($memrd):
+    Found 6 activation_patterns using ctrl signal { \u_line_buffer.pixel_commit_i \u_window.prev_row1_valid_i \u_window.window_valid_o $flatten\u_magnitude.$gt$rtl/magnitude_clamp.sv:30$139_Y $flatten\u_threshold.$lt$rtl/threshold_stage.sv:12$141_Y \u_apb_regs.bypass_threshold_active_o \rst }.
+    No candidates found.
+
+15.19. Executing TECHMAP pass (map to technology primitives).
+
+15.19.1. Executing Verilog-2005 frontend: /Users/Dilan/.local/share/from-rtl-to-pixels/oss-cad-suite-20260920/libexec/../share/yosys/cmp2lut.v
+Parsing Verilog input from `/Users/Dilan/.local/share/from-rtl-to-pixels/oss-cad-suite-20260920/libexec/../share/yosys/cmp2lut.v' to AST representation.
+Generating RTLIL representation for module `\_90_lut_cmp_'.
+Successfully finished Verilog frontend.
+
+15.19.2. Continuing TECHMAP pass.
+Using template $paramod$95cc903f66ace9a14a4cfd768767dedcebc73225\_90_lut_cmp_ for cells of type $lt.
+Using template $paramod$afeecd606aa1f88f4128508c15de913b64fbe29c\_90_lut_cmp_ for cells of type $ge.
+Using template $paramod$eae7bad97664e7f2f52c363827077e96a763dc1c\_90_lut_cmp_ for cells of type $ge.
+No more expansions possible.
+<suppressed ~240 debug messages>
+
+15.20. Executing OPT_EXPR pass (perform const folding).
+Optimizing module rtl_to_pixels_top.
+
+15.21. Executing OPT_CLEAN pass (remove unused cells and wires).
+Finding unused cells or wires in module \rtl_to_pixels_top..
+Removed 0 unused cells and 9 unused wires.
+<suppressed ~1 debug messages>
+
+15.22. Executing TECHMAP pass (map to technology primitives).
+
+15.22.1. Executing Verilog-2005 frontend: /Users/Dilan/.local/share/from-rtl-to-pixels/oss-cad-suite-20260920/libexec/../share/yosys/mul2dsp.v
+Parsing Verilog input from `/Users/Dilan/.local/share/from-rtl-to-pixels/oss-cad-suite-20260920/libexec/../share/yosys/mul2dsp.v' to AST representation.
+Generating RTLIL representation for module `\_80_mul'.
+Generating RTLIL representation for module `\_90_soft_mul'.
+Successfully finished Verilog frontend.
+
+15.22.2. Continuing TECHMAP pass.
+Using template $paramod$42d3dab4b320f88a3b0795acfdfbda8ceb1b3ef8\_80_mul for cells of type $mul.
+Using template $paramod$b623e5b022da31c9b47efbfd0a15a27264b1d1af\_80_mul for cells of type $mul.
+Using template $paramod$e8178f2b3f76efdb464e39002c0bd494edf0707e\_80_mul for cells of type $mul.
+Using template $paramod$dbb1d2a3b828920ee2d1b90542246733ff8a4001\_80_mul for cells of type $mul.
+No more expansions possible.
+<suppressed ~178 debug messages>
+
+15.23. Executing TECHMAP pass (map to technology primitives).
+
+15.23.1. Executing Verilog-2005 frontend: /Users/Dilan/.local/share/from-rtl-to-pixels/oss-cad-suite-20260920/libexec/../share/yosys/lattice/dsp_map_18x18.v
+Parsing Verilog input from `/Users/Dilan/.local/share/from-rtl-to-pixels/oss-cad-suite-20260920/libexec/../share/yosys/lattice/dsp_map_18x18.v' to AST representation.
+Generating RTLIL representation for module `$__MUL18X18'.
+Successfully finished Verilog frontend.
+
+15.23.2. Continuing TECHMAP pass.
+Using template $paramod$90ad58588eee57442a78f93690ad37267c7e5fdf$__MUL18X18 for cells of type $__MUL18X18.
+Using template $paramod$d4225c01b5b9490b69aa1af0e58f81b853aea0ee$__MUL18X18 for cells of type $__MUL18X18.
+No more expansions possible.
+<suppressed ~40 debug messages>
+
+15.24. Executing ALUMACC pass (create $alu and $macc cells).
+Extracting $alu and $macc cells in module rtl_to_pixels_top:
+  creating $macc model for $flatten\u_sobel.$add$rtl/sobel_compact.sv:41$116 ($add).
+  creating $macc model for $flatten\u_sobel.$add$rtl/sobel_compact.sv:49$130 ($add).
+  creating $macc model for $flatten\u_sobel.$sub$rtl/sobel_compact.sv:41$118 ($sub).
+  creating $macc model for $flatten\u_sobel.$add$rtl/sobel_compact.sv:49$129 ($add).
+  creating $macc model for $flatten\u_sobel.$add$rtl/sobel_compact.sv:41$120 ($add).
+  creating $macc model for $flatten\u_sobel.$sub$rtl/sobel_compact.sv:41$121 ($sub).
+  creating $macc model for $flatten\u_sobel.$add$rtl/sobel_compact.sv:41$122 ($add).
+  creating $macc model for $flatten\u_sobel.$neg$rtl/sobel_compact.sv:49$123 ($neg).
+  creating $macc model for $flatten\u_sobel.$add$rtl/sobel_compact.sv:49$127 ($add).
+  creating $macc model for $flatten\u_sobel.$sub$rtl/sobel_compact.sv:49$125 ($sub).
+  creating $macc model for $flatten\u_sobel.$sub$rtl/sobel_compact.sv:49$126 ($sub).
+  creating $macc model for $flatten\u_magnitude.$add$rtl/magnitude_clamp.sv:19$134 ($add).
+  creating $macc model for $flatten\u_magnitude.$add$rtl/magnitude_clamp.sv:24$137 ($add).
+  creating $macc model for $flatten\u_magnitude.$add$rtl/magnitude_clamp.sv:28$138 ($add).
+  creating $macc model for $flatten\u_pixel_control.$add$rtl/pixel_control.sv:97$254 ($add).
+  creating $macc model for $flatten\u_output_control.$add$rtl/output_control.sv:180$351 ($add).
+  creating $macc model for $flatten\u_output_control.$add$rtl/output_control.sv:183$352 ($add).
+  creating $macc model for $flatten\u_output_control.$add$rtl/output_control.sv:188$353 ($add).
+  creating $macc model for $flatten\u_pixel_control.$add$rtl/pixel_control.sv:101$255 ($add).
+  creating $macc model for $flatten\u_apb_regs.$add$rtl/apb_regs.sv:124$34 ($add).
+  creating $macc model for $flatten\u_rgb_to_gray.$add$rtl/rgb_to_gray.sv:17$4 ($add).
+  creating $macc model for $flatten\u_rgb_to_gray.$add$rtl/rgb_to_gray.sv:17$6 ($add).
+  creating $macc model for $flatten\u_rgb_to_gray.$add$rtl/rgb_to_gray.sv:17$7 ($add).
+  creating $macc model for $flatten\u_line_buffer.$add$rtl/line_buffer.sv:66$290 ($add).
+  merging $macc model for $flatten\u_rgb_to_gray.$add$rtl/rgb_to_gray.sv:17$6 into $flatten\u_rgb_to_gray.$add$rtl/rgb_to_gray.sv:17$7.
+  merging $macc model for $flatten\u_rgb_to_gray.$add$rtl/rgb_to_gray.sv:17$4 into $flatten\u_rgb_to_gray.$add$rtl/rgb_to_gray.sv:17$7.
+  merging $macc model for $flatten\u_sobel.$sub$rtl/sobel_compact.sv:49$125 into $flatten\u_sobel.$sub$rtl/sobel_compact.sv:49$126.
+  merging $macc model for $flatten\u_sobel.$sub$rtl/sobel_compact.sv:49$126 into $flatten\u_sobel.$add$rtl/sobel_compact.sv:49$127.
+  merging $macc model for $flatten\u_sobel.$sub$rtl/sobel_compact.sv:41$121 into $flatten\u_sobel.$add$rtl/sobel_compact.sv:41$122.
+  merging $macc model for $flatten\u_sobel.$add$rtl/sobel_compact.sv:41$120 into $flatten\u_sobel.$add$rtl/sobel_compact.sv:41$122.
+  merging $macc model for $flatten\u_sobel.$sub$rtl/sobel_compact.sv:41$118 into $flatten\u_sobel.$add$rtl/sobel_compact.sv:41$122.
+  merging $macc model for $flatten\u_sobel.$add$rtl/sobel_compact.sv:41$116 into $flatten\u_sobel.$add$rtl/sobel_compact.sv:41$122.
+  merging $macc model for $flatten\u_sobel.$add$rtl/sobel_compact.sv:49$127 into $flatten\u_sobel.$add$rtl/sobel_compact.sv:49$129.
+  merging $macc model for $flatten\u_sobel.$add$rtl/sobel_compact.sv:49$129 into $flatten\u_sobel.$add$rtl/sobel_compact.sv:49$130.
+  creating $alu model for $macc $flatten\u_magnitude.$add$rtl/magnitude_clamp.sv:28$138.
+  creating $alu model for $macc $flatten\u_magnitude.$add$rtl/magnitude_clamp.sv:24$137.
+  creating $alu model for $macc $flatten\u_magnitude.$add$rtl/magnitude_clamp.sv:19$134.
+  creating $alu model for $macc $flatten\u_output_control.$add$rtl/output_control.sv:188$353.
+  creating $alu model for $macc $flatten\u_output_control.$add$rtl/output_control.sv:183$352.
+  creating $alu model for $macc $flatten\u_sobel.$neg$rtl/sobel_compact.sv:49$123.
+  creating $alu model for $macc $flatten\u_pixel_control.$add$rtl/pixel_control.sv:101$255.
+  creating $alu model for $macc $flatten\u_apb_regs.$add$rtl/apb_regs.sv:124$34.
+  creating $alu model for $macc $flatten\u_line_buffer.$add$rtl/line_buffer.sv:66$290.
+  creating $alu model for $macc $flatten\u_output_control.$add$rtl/output_control.sv:180$351.
+  creating $alu model for $macc $flatten\u_pixel_control.$add$rtl/pixel_control.sv:97$254.
+  creating $macc cell for $flatten\u_sobel.$add$rtl/sobel_compact.sv:41$122: $auto$alumacc.cc:399:replace_macc$1296
+  creating $macc cell for $flatten\u_sobel.$add$rtl/sobel_compact.sv:49$130: $auto$alumacc.cc:399:replace_macc$1297
+  creating $macc cell for $flatten\u_rgb_to_gray.$add$rtl/rgb_to_gray.sv:17$7: $auto$alumacc.cc:399:replace_macc$1298
+  creating $alu model for $flatten\u_magnitude.$lt$rtl/magnitude_clamp.sv:23$135 ($lt): new $alu
+  creating $alu model for $flatten\u_magnitude.$gt$rtl/magnitude_clamp.sv:30$139 ($gt): new $alu
+  creating $alu model for $flatten\u_output_control.$ge$rtl/output_control.sv:77$320 ($ge): new $alu
+  creating $alu model for $flatten\u_window.$ge$rtl/window_3x3.sv:60$305 ($ge): new $alu
+  creating $alu model for $flatten\u_window.$ge$rtl/window_3x3.sv:59$303 ($ge): new $alu
+  creating $alu model for $flatten\u_magnitude.$lt$rtl/magnitude_clamp.sv:18$132 ($lt): new $alu
+  creating $alu model for $flatten\u_threshold.$lt$rtl/threshold_stage.sv:12$141 ($lt): new $alu
+  creating $alu cell for $flatten\u_threshold.$lt$rtl/threshold_stage.sv:12$141: $auto$alumacc.cc:548:replace_alu$1306
+  creating $alu cell for $flatten\u_magnitude.$lt$rtl/magnitude_clamp.sv:18$132: $auto$alumacc.cc:548:replace_alu$1311
+  creating $alu cell for $flatten\u_window.$ge$rtl/window_3x3.sv:59$303: $auto$alumacc.cc:548:replace_alu$1318
+  creating $alu cell for $flatten\u_window.$ge$rtl/window_3x3.sv:60$305: $auto$alumacc.cc:548:replace_alu$1331
+  creating $alu cell for $flatten\u_output_control.$ge$rtl/output_control.sv:77$320: $auto$alumacc.cc:548:replace_alu$1344
+  creating $alu cell for $flatten\u_magnitude.$gt$rtl/magnitude_clamp.sv:30$139: $auto$alumacc.cc:548:replace_alu$1357
+  creating $alu cell for $flatten\u_magnitude.$lt$rtl/magnitude_clamp.sv:23$135: $auto$alumacc.cc:548:replace_alu$1368
+  creating $alu cell for $flatten\u_pixel_control.$add$rtl/pixel_control.sv:97$254: $auto$alumacc.cc:548:replace_alu$1375
+  creating $alu cell for $flatten\u_output_control.$add$rtl/output_control.sv:180$351: $auto$alumacc.cc:548:replace_alu$1378
+  creating $alu cell for $flatten\u_line_buffer.$add$rtl/line_buffer.sv:66$290: $auto$alumacc.cc:548:replace_alu$1381
+  creating $alu cell for $flatten\u_apb_regs.$add$rtl/apb_regs.sv:124$34: $auto$alumacc.cc:548:replace_alu$1384
+  creating $alu cell for $flatten\u_pixel_control.$add$rtl/pixel_control.sv:101$255: $auto$alumacc.cc:548:replace_alu$1387
+  creating $alu cell for $flatten\u_sobel.$neg$rtl/sobel_compact.sv:49$123: $auto$alumacc.cc:548:replace_alu$1390
+  creating $alu cell for $flatten\u_output_control.$add$rtl/output_control.sv:183$352: $auto$alumacc.cc:548:replace_alu$1393
+  creating $alu cell for $flatten\u_output_control.$add$rtl/output_control.sv:188$353: $auto$alumacc.cc:548:replace_alu$1396
+  creating $alu cell for $flatten\u_magnitude.$add$rtl/magnitude_clamp.sv:19$134: $auto$alumacc.cc:548:replace_alu$1399
+  creating $alu cell for $flatten\u_magnitude.$add$rtl/magnitude_clamp.sv:24$137: $auto$alumacc.cc:548:replace_alu$1402
+  creating $alu cell for $flatten\u_magnitude.$add$rtl/magnitude_clamp.sv:28$138: $auto$alumacc.cc:548:replace_alu$1405
+  created 18 $alu and 3 $macc cells.
+
+15.25. Executing OPT pass (performing simple optimizations).
+
+15.25.1. Executing OPT_EXPR pass (perform const folding).
+Optimizing module rtl_to_pixels_top.
+<suppressed ~8 debug messages>
+
+15.25.2. Executing OPT_MERGE pass (detect identical cells).
+Finding identical cells in module `\rtl_to_pixels_top'.
+Computing hashes of 298 cells of `\rtl_to_pixels_top'.
+Finding duplicate cells in `\rtl_to_pixels_top'.
+Removed a total of 0 cells.
+
+15.25.3. Executing OPT_MUXTREE pass (detect dead branches in mux trees).
+Running muxtree optimizer on module \rtl_to_pixels_top..
+  Creating internal representation of mux trees.
+  Evaluating internal representation of mux trees.
+  Analyzing evaluation results.
+Removed 0 multiplexer ports.
+<suppressed ~148 debug messages>
+
+15.25.4. Executing OPT_REDUCE pass (consolidate $*mux and $reduce_* inputs).
+  Optimizing cells in module \rtl_to_pixels_top.
+Performed a total of 0 changes.
+
+15.25.5. Executing OPT_MERGE pass (detect identical cells).
+Finding identical cells in module `\rtl_to_pixels_top'.
+Computing hashes of 298 cells of `\rtl_to_pixels_top'.
+Finding duplicate cells in `\rtl_to_pixels_top'.
+Removed a total of 0 cells.
+
+15.25.6. Executing OPT_DFF pass (perform DFF optimizations).
+
+15.25.7. Executing OPT_CLEAN pass (remove unused cells and wires).
+Finding unused cells or wires in module \rtl_to_pixels_top..
+Removed 14 unused cells and 64 unused wires.
+<suppressed ~17 debug messages>
+
+15.25.8. Executing OPT_EXPR pass (perform const folding).
+Optimizing module rtl_to_pixels_top.
+
+15.25.9. Rerunning OPT passes. (Maybe there is more to do..)
+
+15.25.10. Executing OPT_MUXTREE pass (detect dead branches in mux trees).
+Running muxtree optimizer on module \rtl_to_pixels_top..
+  Creating internal representation of mux trees.
+  Evaluating internal representation of mux trees.
+  Analyzing evaluation results.
+Removed 0 multiplexer ports.
+<suppressed ~148 debug messages>
+
+15.25.11. Executing OPT_REDUCE pass (consolidate $*mux and $reduce_* inputs).
+  Optimizing cells in module \rtl_to_pixels_top.
+Performed a total of 0 changes.
+
+15.25.12. Executing OPT_MERGE pass (detect identical cells).
+Finding identical cells in module `\rtl_to_pixels_top'.
+Computing hashes of 282 cells of `\rtl_to_pixels_top'.
+Finding duplicate cells in `\rtl_to_pixels_top'.
+Removed a total of 0 cells.
+
+15.25.13. Executing OPT_DFF pass (perform DFF optimizations).
+
+15.25.14. Executing OPT_CLEAN pass (remove unused cells and wires).
+Finding unused cells or wires in module \rtl_to_pixels_top..
+
+15.25.15. Executing OPT_EXPR pass (perform const folding).
+Optimizing module rtl_to_pixels_top.
+
+15.25.16. Finished fast OPT passes. (There is nothing left to do.)
+
+15.26. Executing MEMORY pass.
+
+15.26.1. Executing OPT_MEM pass (optimize memories).
+Performed a total of 0 transformations.
+
+15.26.2. Executing OPT_MEM_PRIORITY pass (removing unnecessary memory write priority relations).
+Performed a total of 0 transformations.
+
+15.26.3. Executing OPT_MEM_FEEDBACK pass (finding memory read-to-write feedback paths).
+  Analyzing rtl_to_pixels_top.u_line_buffer.line1_mem write port 0.
+  Analyzing rtl_to_pixels_top.u_line_buffer.line2_mem write port 0.
+
+15.26.4. Executing MEMORY_BMUX2ROM pass (converting muxes to ROMs).
+
+15.26.5. Executing MEMORY_DFF pass (merging $dff cells to $memrd).
+Checking read port `\u_line_buffer.line1_mem'[0] in module `\rtl_to_pixels_top': no output FF found.
+Checking read port `\u_line_buffer.line2_mem'[0] in module `\rtl_to_pixels_top': no output FF found.
+Checking read port address `\u_line_buffer.line1_mem'[0] in module `\rtl_to_pixels_top': merged address FF to cell.
+Checking read port address `\u_line_buffer.line2_mem'[0] in module `\rtl_to_pixels_top': merged address FF to cell.
+
+15.26.6. Executing OPT_CLEAN pass (remove unused cells and wires).
+Finding unused cells or wires in module \rtl_to_pixels_top..
+
+15.26.7. Executing MEMORY_SHARE pass (consolidating $memrd/$memwr cells).
+
+15.26.8. Executing OPT_MEM_WIDEN pass (optimize memories where all ports are wide).
+Performed a total of 0 transformations.
+
+15.26.9. Executing OPT_CLEAN pass (remove unused cells and wires).
+Finding unused cells or wires in module \rtl_to_pixels_top..
+
+15.26.10. Executing MEMORY_COLLECT pass (generating $mem cells).
+
+15.27. Executing OPT_CLEAN pass (remove unused cells and wires).
+Finding unused cells or wires in module \rtl_to_pixels_top..
+
+15.28. Executing MEMORY_LIBMAP pass (mapping memories to cells).
+mapping memory rtl_to_pixels_top.u_line_buffer.line1_mem via $__DP16KD_
+mapping memory rtl_to_pixels_top.u_line_buffer.line2_mem via $__DP16KD_
+<suppressed ~894 debug messages>
+
+15.29. Executing TECHMAP pass (map to technology primitives).
+
+15.29.1. Executing Verilog-2005 frontend: /Users/Dilan/.local/share/from-rtl-to-pixels/oss-cad-suite-20260920/libexec/../share/yosys/lattice/lutrams_map_trellis.v
+Parsing Verilog input from `/Users/Dilan/.local/share/from-rtl-to-pixels/oss-cad-suite-20260920/libexec/../share/yosys/lattice/lutrams_map_trellis.v' to AST representation.
+Generating RTLIL representation for module `$__TRELLIS_DPR16X4_'.
+Successfully finished Verilog frontend.
+
+15.29.2. Executing Verilog-2005 frontend: /Users/Dilan/.local/share/from-rtl-to-pixels/oss-cad-suite-20260920/libexec/../share/yosys/lattice/brams_map_16kd.v
+Parsing Verilog input from `/Users/Dilan/.local/share/from-rtl-to-pixels/oss-cad-suite-20260920/libexec/../share/yosys/lattice/brams_map_16kd.v' to AST representation.
+Generating RTLIL representation for module `$__DP16KD_'.
+Generating RTLIL representation for module `$__PDPW16KD_'.
+Successfully finished Verilog frontend.
+
+15.29.3. Continuing TECHMAP pass.
+Using template $paramod$eed5c07ccc20b30fea5f07adc53d361b0ef0f8bc$__DP16KD_ for cells of type $__DP16KD_.
+No more expansions possible.
+<suppressed ~34 debug messages>
+
+15.30. Executing OPT pass (performing simple optimizations).
+
+15.30.1. Executing OPT_EXPR pass (perform const folding).
+Optimizing module rtl_to_pixels_top.
+<suppressed ~39 debug messages>
+
+15.30.2. Executing OPT_MERGE pass (detect identical cells).
+Finding identical cells in module `\rtl_to_pixels_top'.
+Computing hashes of 273 cells of `\rtl_to_pixels_top'.
+Finding duplicate cells in `\rtl_to_pixels_top'.
+Computing hashes of 272 cells of `\rtl_to_pixels_top'.
+Finding duplicate cells in `\rtl_to_pixels_top'.
+Computing hashes of 271 cells of `\rtl_to_pixels_top'.
+Finding duplicate cells in `\rtl_to_pixels_top'.
+Computing hashes of 270 cells of `\rtl_to_pixels_top'.
+Finding duplicate cells in `\rtl_to_pixels_top'.
+Computing hashes of 269 cells of `\rtl_to_pixels_top'.
+Finding duplicate cells in `\rtl_to_pixels_top'.
+Computing hashes of 268 cells of `\rtl_to_pixels_top'.
+Finding duplicate cells in `\rtl_to_pixels_top'.
+<suppressed ~15 debug messages>
+Removed a total of 5 cells.
+
+15.30.3. Executing OPT_DFF pass (perform DFF optimizations).
+Removing always-active EN on $auto$mem.cc:1169:emulate_transparency$1439 ($dffe) from module rtl_to_pixels_top.
+Removing always-active EN on $auto$mem.cc:1169:emulate_transparency$1425 ($dffe) from module rtl_to_pixels_top.
+
+15.30.4. Executing OPT_CLEAN pass (remove unused cells and wires).
+Finding unused cells or wires in module \rtl_to_pixels_top..
+Removed 0 unused cells and 76 unused wires.
+<suppressed ~1 debug messages>
+
+15.30.5. Rerunning OPT passes. (Removed registers in this run.)
+
+15.30.6. Executing OPT_EXPR pass (perform const folding).
+Optimizing module rtl_to_pixels_top.
+<suppressed ~1 debug messages>
+
+15.30.7. Executing OPT_MERGE pass (detect identical cells).
+Finding identical cells in module `\rtl_to_pixels_top'.
+Computing hashes of 267 cells of `\rtl_to_pixels_top'.
+Finding duplicate cells in `\rtl_to_pixels_top'.
+Removed a total of 0 cells.
+
+15.30.8. Executing OPT_DFF pass (perform DFF optimizations).
+
+15.30.9. Executing OPT_CLEAN pass (remove unused cells and wires).
+Finding unused cells or wires in module \rtl_to_pixels_top..
+Removed 0 unused cells and 1 unused wires.
+<suppressed ~1 debug messages>
+
+15.30.10. Finished fast OPT passes.
+
+15.31. Executing MEMORY_MAP pass (converting memories to logic and flip-flops).
+
+15.32. Executing OPT pass (performing simple optimizations).
+
+15.32.1. Executing OPT_EXPR pass (perform const folding).
+Optimizing module rtl_to_pixels_top.
+
+15.32.2. Executing OPT_MERGE pass (detect identical cells).
+Finding identical cells in module `\rtl_to_pixels_top'.
+Computing hashes of 267 cells of `\rtl_to_pixels_top'.
+Finding duplicate cells in `\rtl_to_pixels_top'.
+Removed a total of 0 cells.
+
+15.32.3. Executing OPT_MUXTREE pass (detect dead branches in mux trees).
+Running muxtree optimizer on module \rtl_to_pixels_top..
+  Creating internal representation of mux trees.
+  Evaluating internal representation of mux trees.
+  Analyzing evaluation results.
+Removed 0 multiplexer ports.
+<suppressed ~127 debug messages>
+
+15.32.4. Executing OPT_REDUCE pass (consolidate $*mux and $reduce_* inputs).
+  Optimizing cells in module \rtl_to_pixels_top.
+    New ctrl vector for $pmux cell $flatten\u_output_control.$procmux$685: { \u_output_control.state_q [2] \u_output_control.state_q [0] }
+  Optimizing cells in module \rtl_to_pixels_top.
+Performed a total of 1 changes.
+
+15.32.5. Executing OPT_MERGE pass (detect identical cells).
+Finding identical cells in module `\rtl_to_pixels_top'.
+Computing hashes of 267 cells of `\rtl_to_pixels_top'.
+Finding duplicate cells in `\rtl_to_pixels_top'.
+Removed a total of 0 cells.
+
+15.32.6. Executing OPT_DFF pass (perform DFF optimizations).
+
+15.32.7. Executing OPT_CLEAN pass (remove unused cells and wires).
+Finding unused cells or wires in module \rtl_to_pixels_top..
+
+15.32.8. Executing OPT_EXPR pass (perform const folding).
+Optimizing module rtl_to_pixels_top.
+
+15.32.9. Rerunning OPT passes. (Maybe there is more to do..)
+
+15.32.10. Executing OPT_MUXTREE pass (detect dead branches in mux trees).
+Running muxtree optimizer on module \rtl_to_pixels_top..
+  Creating internal representation of mux trees.
+  Evaluating internal representation of mux trees.
+  Analyzing evaluation results.
+Removed 0 multiplexer ports.
+<suppressed ~127 debug messages>
+
+15.32.11. Executing OPT_REDUCE pass (consolidate $*mux and $reduce_* inputs).
+  Optimizing cells in module \rtl_to_pixels_top.
+Performed a total of 0 changes.
+
+15.32.12. Executing OPT_MERGE pass (detect identical cells).
+Finding identical cells in module `\rtl_to_pixels_top'.
+Computing hashes of 267 cells of `\rtl_to_pixels_top'.
+Finding duplicate cells in `\rtl_to_pixels_top'.
+Removed a total of 0 cells.
+
+15.32.13. Executing OPT_DFF pass (perform DFF optimizations).
+
+15.32.14. Executing OPT_CLEAN pass (remove unused cells and wires).
+Finding unused cells or wires in module \rtl_to_pixels_top..
+
+15.32.15. Executing OPT_EXPR pass (perform const folding).
+Optimizing module rtl_to_pixels_top.
+
+15.32.16. Finished fast OPT passes. (There is nothing left to do.)
+
+15.33. Executing TECHMAP pass (map to technology primitives).
+
+15.33.1. Executing Verilog-2005 frontend: /Users/Dilan/.local/share/from-rtl-to-pixels/oss-cad-suite-20260920/libexec/../share/yosys/techmap.v
+Parsing Verilog input from `/Users/Dilan/.local/share/from-rtl-to-pixels/oss-cad-suite-20260920/libexec/../share/yosys/techmap.v' to AST representation.
+Generating RTLIL representation for module `\_90_simplemap_bool_ops'.
+Generating RTLIL representation for module `\_90_simplemap_reduce_ops'.
+Generating RTLIL representation for module `\_90_simplemap_logic_ops'.
+Generating RTLIL representation for module `\_90_simplemap_compare_ops'.
+Generating RTLIL representation for module `\_90_simplemap_various'.
+Generating RTLIL representation for module `\_90_simplemap_registers'.
+Generating RTLIL representation for module `\_90_shift_ops_shr_shl_sshl_sshr'.
+Generating RTLIL representation for module `\_90_shift_shiftx'.
+Generating RTLIL representation for module `\_90_fa'.
+Generating RTLIL representation for module `\_90_lcu_brent_kung'.
+Generating RTLIL representation for module `\_90_alu'.
+Generating RTLIL representation for module `\_90_macc'.
+Generating RTLIL representation for module `\_90_alumacc'.
+Generating RTLIL representation for module `$__div_mod_u'.
+Generating RTLIL representation for module `$__div_mod_trunc'.
+Generating RTLIL representation for module `\_90_div'.
+Generating RTLIL representation for module `\_90_mod'.
+Generating RTLIL representation for module `$__div_mod_floor'.
+Generating RTLIL representation for module `\_90_divfloor'.
+Generating RTLIL representation for module `\_90_modfloor'.
+Generating RTLIL representation for module `\_90_pow'.
+Generating RTLIL representation for module `\_90_demux'.
+Generating RTLIL representation for module `\_90_lut'.
+Generating RTLIL representation for module `$connect'.
+Generating RTLIL representation for module `$input_port'.
+Successfully finished Verilog frontend.
+
+15.33.2. Executing Verilog-2005 frontend: /Users/Dilan/.local/share/from-rtl-to-pixels/oss-cad-suite-20260920/libexec/../share/yosys/lattice/arith_map_ccu2c.v
+Parsing Verilog input from `/Users/Dilan/.local/share/from-rtl-to-pixels/oss-cad-suite-20260920/libexec/../share/yosys/lattice/arith_map_ccu2c.v' to AST representation.
+Generating RTLIL representation for module `\_80_ccu2c_alu'.
+Successfully finished Verilog frontend.
+
+15.33.3. Continuing TECHMAP pass.
+Using extmapper simplemap for cells of type $not.
+Using extmapper simplemap for cells of type $mux.
+Using extmapper simplemap for cells of type $dff.
+Using extmapper simplemap for cells of type $and.
+Using extmapper simplemap for cells of type $eq.
+Using template $paramod$ec32b97001540459632a2df9accd677d3703ea0f\_80_ccu2c_alu for cells of type $alu.
+Using template $paramod$2f5fb04daf2da94d981bf9455fa4454c6ec8b705\_80_ccu2c_alu for cells of type $alu.
+Using template $paramod$20b1d0597707d55efcb9664e40f63985956d7680\_80_ccu2c_alu for cells of type $alu.
+Using template $paramod$754650b284649a026620fc6856e5b6886cbfe794\_80_ccu2c_alu for cells of type $alu.
+Using template $paramod$c0370e83547cfedc208b4fa2acb899a014f3ec0c\_80_ccu2c_alu for cells of type $alu.
+Using template $paramod$6a42b6fefed750f8a1c58eab59479d960557103c\_80_ccu2c_alu for cells of type $alu.
+Using template $paramod$175e67c02b86e96b1288b9dc100122520d7240d8\_90_alu for cells of type $alu.
+Using template $paramod$53700bbee849b2010ad0b60a61ccd204a10e24ca\_80_ccu2c_alu for cells of type $alu.
+Using extmapper simplemap for cells of type $or.
+Using extmapper simplemap for cells of type $reduce_and.
+Using template $paramod$0718797f1c88f971033fdff0134bca54e9e0c0ed\_80_ccu2c_alu for cells of type $alu.
+Using extmapper simplemap for cells of type $reduce_or.
+Using template $paramod$ed2f15258b58458caad6e1d0a72273ddd893456b\_80_ccu2c_alu for cells of type $alu.
+Using template $paramod$6f67705c43e5e94c02b6ebb52209ce5aa5ade4c1\_80_ccu2c_alu for cells of type $alu.
+Using template $paramod$403a3c2fa431a154c52a6a5429d7a6260b5d144f\_80_ccu2c_alu for cells of type $alu.
+Using template $paramod$a1bc51c02ce12ac21eb18988e83292af48ed7d72\_80_ccu2c_alu for cells of type $alu.
+Using extmapper maccmap for cells of type $macc_v2.
+  add $techmap1289$flatten\u_rgb_to_gray.$mul$rtl/rgb_to_gray.sv:17$2.Y (15 bits, unsigned)
+  add $techmap1287$flatten\u_rgb_to_gray.$mul$rtl/rgb_to_gray.sv:19$5.Y (13 bits, unsigned)
+  add { $techmap1288$flatten\u_rgb_to_gray.$mul$rtl/rgb_to_gray.sv:18$3.Y 1'0 } (16 bits, unsigned)
+  add 16'0000000010000000 (16 bits, unsigned)
+  add $flatten\u_sobel.$neg$rtl/sobel_compact.sv:41$115_Y (12 bits, signed)
+  add { 1'0 \u_sobel.p22_i } (9 bits, signed)
+  add { 1'0 \p21 1'0 } (10 bits, signed)
+  add { 1'0 \u_sobel.p20_i } (9 bits, signed)
+  sub { 1'0 \u_sobel.p02_i } (9 bits, signed)
+  sub { 1'0 \p01 1'0 } (10 bits, signed)
+  packed 2 (1) bits / 1 words into adder tree
+  add $flatten\u_sobel.$neg$rtl/sobel_compact.sv:41$115_Y (12 bits, signed)
+  add { 1'0 \u_sobel.p22_i } (9 bits, signed)
+  sub { 1'0 \u_sobel.p20_i } (9 bits, signed)
+  add { 1'0 \p12 1'0 } (10 bits, signed)
+  sub { 1'0 \p10 1'0 } (10 bits, signed)
+  add { 1'0 \u_sobel.p02_i } (9 bits, signed)
+  packed 2 (1) bits / 1 words into adder tree
+Using extmapper simplemap for cells of type $sdffe.
+Using extmapper simplemap for cells of type $ne.
+Using extmapper simplemap for cells of type $dffe.
+Using extmapper simplemap for cells of type $sdffce.
+Using extmapper simplemap for cells of type $reduce_bool.
+Using extmapper simplemap for cells of type $sdff.
+Using extmapper simplemap for cells of type $logic_not.
+Using extmapper simplemap for cells of type $logic_and.
+Using extmapper simplemap for cells of type $logic_or.
+Using extmapper simplemap for cells of type $pmux.
+Using extmapper simplemap for cells of type $lut.
+Using template $paramod\_90_fa\WIDTH=32'00000000000000000000000000001001 for cells of type $fa.
+Using template $paramod\_90_fa\WIDTH=32'00000000000000000000000000001100 for cells of type $fa.
+Using template $paramod$ee3d784672cdb1cb32d9a801a3af776716f16b74\_80_ccu2c_alu for cells of type $alu.
+Using template $paramod\_90_fa\WIDTH=32'00000000000000000000000000010000 for cells of type $fa.
+Using template $paramod$6df0329addda9228fcc2546de2aaf14ad26c98e1\_80_ccu2c_alu for cells of type $alu.
+Using extmapper simplemap for cells of type $xor.
+Using extmapper simplemap for cells of type $pos.
+Using template $paramod\_90_fa\WIDTH=32'00000000000000000000000000000010 for cells of type $fa.
+Using template $paramod\_90_lcu_brent_kung\WIDTH=32'00000000000000000000000000000010 for cells of type $lcu.
+No more expansions possible.
+<suppressed ~1390 debug messages>
+
+15.34. Executing OPT pass (performing simple optimizations).
+
+15.34.1. Executing OPT_EXPR pass (perform const folding).
+Optimizing module rtl_to_pixels_top.
+<suppressed ~1229 debug messages>
+
+15.34.2. Executing OPT_MERGE pass (detect identical cells).
+Finding identical cells in module `\rtl_to_pixels_top'.
+Computing hashes of 2225 cells of `\rtl_to_pixels_top'.
+Finding duplicate cells in `\rtl_to_pixels_top'.
+Computing hashes of 2105 cells of `\rtl_to_pixels_top'.
+Finding duplicate cells in `\rtl_to_pixels_top'.
+Computing hashes of 2097 cells of `\rtl_to_pixels_top'.
+Finding duplicate cells in `\rtl_to_pixels_top'.
+<suppressed ~384 debug messages>
+Removed a total of 128 cells.
+
+15.34.3. Executing OPT_DFF pass (perform DFF optimizations).
+
+15.34.4. Executing OPT_CLEAN pass (remove unused cells and wires).
+Finding unused cells or wires in module \rtl_to_pixels_top..
+Removed 338 unused cells and 1167 unused wires.
+<suppressed ~339 debug messages>
+
+15.34.5. Finished fast OPT passes.
+
+15.35. Executing OPT_CLEAN pass (remove unused cells and wires).
+Finding unused cells or wires in module \rtl_to_pixels_top..
+
+15.36. Executing DFFLEGALIZE pass (convert FFs and LATCHes to types supported by the target).
+
+15.37. Executing OPT_MERGE pass (detect identical cells).
+Finding identical cells in module `\rtl_to_pixels_top'.
+Computing hashes of 1767 cells of `\rtl_to_pixels_top'.
+Finding duplicate cells in `\rtl_to_pixels_top'.
+Computing hashes of 1760 cells of `\rtl_to_pixels_top'.
+Finding duplicate cells in `\rtl_to_pixels_top'.
+<suppressed ~21 debug messages>
+Removed a total of 7 cells.
+
+15.38. Executing TECHMAP pass (map to technology primitives).
+
+15.38.1. Executing Verilog-2005 frontend: /Users/Dilan/.local/share/from-rtl-to-pixels/oss-cad-suite-20260920/libexec/../share/yosys/lattice/cells_map_trellis.v
+Parsing Verilog input from `/Users/Dilan/.local/share/from-rtl-to-pixels/oss-cad-suite-20260920/libexec/../share/yosys/lattice/cells_map_trellis.v' to AST representation.
+Generating RTLIL representation for module `$_DFF_N_'.
+Generating RTLIL representation for module `$_DFF_P_'.
+Generating RTLIL representation for module `$_DFFE_NN_'.
+Generating RTLIL representation for module `$_DFFE_PN_'.
+Generating RTLIL representation for module `$_DFFE_NP_'.
+Generating RTLIL representation for module `$_DFFE_PP_'.
+Generating RTLIL representation for module `$_DFF_NP0_'.
+Generating RTLIL representation for module `$_DFF_NP1_'.
+Generating RTLIL representation for module `$_DFF_PP0_'.
+Generating RTLIL representation for module `$_DFF_PP1_'.
+Generating RTLIL representation for module `$_SDFF_NP0_'.
+Generating RTLIL representation for module `$_SDFF_NP1_'.
+Generating RTLIL representation for module `$_SDFF_PP0_'.
+Generating RTLIL representation for module `$_SDFF_PP1_'.
+Generating RTLIL representation for module `$_DFFE_NP0P_'.
+Generating RTLIL representation for module `$_DFFE_NP1P_'.
+Generating RTLIL representation for module `$_DFFE_PP0P_'.
+Generating RTLIL representation for module `$_DFFE_PP1P_'.
+Generating RTLIL representation for module `$_DFFE_NP0N_'.
+Generating RTLIL representation for module `$_DFFE_NP1N_'.
+Generating RTLIL representation for module `$_DFFE_PP0N_'.
+Generating RTLIL representation for module `$_DFFE_PP1N_'.
+Generating RTLIL representation for module `$_SDFFE_NP0P_'.
+Generating RTLIL representation for module `$_SDFFE_NP1P_'.
+Generating RTLIL representation for module `$_SDFFE_PP0P_'.
+Generating RTLIL representation for module `$_SDFFE_PP1P_'.
+Generating RTLIL representation for module `$_SDFFE_NP0N_'.
+Generating RTLIL representation for module `$_SDFFE_NP1N_'.
+Generating RTLIL representation for module `$_SDFFE_PP0N_'.
+Generating RTLIL representation for module `$_SDFFE_PP1N_'.
+Generating RTLIL representation for module `$_ALDFF_NP_'.
+Generating RTLIL representation for module `$_ALDFF_PP_'.
+Generating RTLIL representation for module `$_ALDFFE_NPN_'.
+Generating RTLIL representation for module `$_ALDFFE_NPP_'.
+Generating RTLIL representation for module `$_ALDFFE_PPN_'.
+Generating RTLIL representation for module `$_ALDFFE_PPP_'.
+Generating RTLIL representation for module `\FD1P3AX'.
+Generating RTLIL representation for module `\FD1P3AY'.
+Generating RTLIL representation for module `\FD1P3BX'.
+Generating RTLIL representation for module `\FD1P3DX'.
+Generating RTLIL representation for module `\FD1P3IX'.
+Generating RTLIL representation for module `\FD1P3JX'.
+Generating RTLIL representation for module `\FD1S3AX'.
+Generating RTLIL representation for module `\FD1S3AY'.
+Generating RTLIL representation for module `\FD1S3BX'.
+Generating RTLIL representation for module `\FD1S3DX'.
+Generating RTLIL representation for module `\FD1S3IX'.
+Generating RTLIL representation for module `\FD1S3JX'.
+Generating RTLIL representation for module `\IFS1P3BX'.
+Generating RTLIL representation for module `\IFS1P3DX'.
+Generating RTLIL representation for module `\IFS1P3IX'.
+Generating RTLIL representation for module `\IFS1P3JX'.
+Generating RTLIL representation for module `\OFS1P3BX'.
+Generating RTLIL representation for module `\OFS1P3DX'.
+Generating RTLIL representation for module `\OFS1P3IX'.
+Generating RTLIL representation for module `\OFS1P3JX'.
+Generating RTLIL representation for module `\IB'.
+Generating RTLIL representation for module `\IBPU'.
+Generating RTLIL representation for module `\IBPD'.
+Generating RTLIL representation for module `\OB'.
+Generating RTLIL representation for module `\OBZ'.
+Generating RTLIL representation for module `\OBZPU'.
+Generating RTLIL representation for module `\OBZPD'.
+Generating RTLIL representation for module `\OBCO'.
+Generating RTLIL representation for module `\BB'.
+Generating RTLIL representation for module `\BBPU'.
+Generating RTLIL representation for module `\BBPD'.
+Generating RTLIL representation for module `\ILVDS'.
+Generating RTLIL representation for module `\OLVDS'.
+Successfully finished Verilog frontend.
+
+15.38.2. Continuing TECHMAP pass.
+Using template $paramod$_DFF_P_\_TECHMAP_WIREINIT_Q_=1'x for cells of type $_DFF_P_.
+Using template $_SDFF_PP0_ for cells of type $_SDFF_PP0_.
+Using template $_SDFFE_PP0P_ for cells of type $_SDFFE_PP0P_.
+Using template $_SDFFE_PP1P_ for cells of type $_SDFFE_PP1P_.
+Using template $paramod$_DFFE_PP_\_TECHMAP_WIREINIT_Q_=1'x for cells of type $_DFFE_PP_.
+No more expansions possible.
+<suppressed ~283 debug messages>
+
+15.39. Executing OPT_EXPR pass (perform const folding).
+Optimizing module rtl_to_pixels_top.
+
+15.40. Executing SIMPLEMAP pass (map simple cells to gate primitives).
+
+15.41. Executing LATTICE_GSR pass (implement FF init values).
+Handling GSR in rtl_to_pixels_top.
+
+15.42. Executing ATTRMVCP pass (move or copy attributes).
+
+15.43. Executing OPT_CLEAN pass (remove unused cells and wires).
+Finding unused cells or wires in module \rtl_to_pixels_top..
+Removed 0 unused cells and 1127 unused wires.
+<suppressed ~1 debug messages>
+
+15.44. Executing CHECK pass (checking for obvious problems).
+Checking module rtl_to_pixels_top...
+Found and reported 0 problems.
+
+15.45. Executing TECHMAP pass (map to technology primitives).
+
+15.45.1. Executing Verilog-2005 frontend: /Users/Dilan/.local/share/from-rtl-to-pixels/oss-cad-suite-20260920/libexec/../share/yosys/lattice/latches_map.v
+Parsing Verilog input from `/Users/Dilan/.local/share/from-rtl-to-pixels/oss-cad-suite-20260920/libexec/../share/yosys/lattice/latches_map.v' to AST representation.
+Generating RTLIL representation for module `$_DLATCH_N_'.
+Generating RTLIL representation for module `$_DLATCH_P_'.
+Successfully finished Verilog frontend.
+
+15.45.2. Continuing TECHMAP pass.
+No more expansions possible.
+<suppressed ~4 debug messages>
+
+15.46. Executing ABC9 pass.
+
+15.46.1. Executing ABC9_OPS pass (helper functions for ABC9).
+
+15.46.2. Executing ABC9_OPS pass (helper functions for ABC9).
+
+15.46.3. Executing SCC pass (detecting logic loops).
+Found an SCC: $auto$simplemap.cc:298:simplemap_mux$3029 $auto$simplemap.cc:474:simplemap_pmux$3038 $auto$simplemap.cc:198:logic_reduce$3037 $auto$simplemap.cc:460:simplemap_pmux$3032 $auto$simplemap.cc:298:simplemap_mux$3039 $auto$simplemap.cc:256:simplemap_logbin$3027 $auto$simplemap.cc:227:simplemap_lognot$3028 $auto$simplemap.cc:256:simplemap_logbin$2778 $auto$simplemap.cc:256:simplemap_logbin$2777 $auto$ff.cc:337:slice$2498 $auto$simplemap.cc:256:simplemap_logbin$2776 $auto$simplemap.cc:157:simplemap_reduce$2587 $auto$simplemap.cc:256:simplemap_logbin$2775 $auto$simplemap.cc:298:simplemap_mux$3752 $auto$simplemap.cc:256:simplemap_logbin$3845 $auto$simplemap.cc:256:simplemap_logbin$2717 $auto$simplemap.cc:298:simplemap_mux$2780 $auto$simplemap.cc:256:simplemap_logbin$2713 $auto$simplemap.cc:256:simplemap_logbin$2712 $auto$simplemap.cc:227:simplemap_lognot$2711 $auto$ff.cc:337:slice$2585
+Found 1 SCCs in module rtl_to_pixels_top.
+Found 1 SCCs.
+
+15.46.4. Executing ABC9_OPS pass (helper functions for ABC9).
+
+15.46.5. Executing TECHMAP pass (map to technology primitives).
+
+15.46.5.1. Executing Verilog-2005 frontend: /Users/Dilan/.local/share/from-rtl-to-pixels/oss-cad-suite-20260920/libexec/../share/yosys/techmap.v
+Parsing Verilog input from `/Users/Dilan/.local/share/from-rtl-to-pixels/oss-cad-suite-20260920/libexec/../share/yosys/techmap.v' to AST representation.
+Generating RTLIL representation for module `\_90_simplemap_bool_ops'.
+Generating RTLIL representation for module `\_90_simplemap_reduce_ops'.
+Generating RTLIL representation for module `\_90_simplemap_logic_ops'.
+Generating RTLIL representation for module `\_90_simplemap_compare_ops'.
+Generating RTLIL representation for module `\_90_simplemap_various'.
+Generating RTLIL representation for module `\_90_simplemap_registers'.
+Generating RTLIL representation for module `\_90_shift_ops_shr_shl_sshl_sshr'.
+Generating RTLIL representation for module `\_90_shift_shiftx'.
+Generating RTLIL representation for module `\_90_fa'.
+Generating RTLIL representation for module `\_90_lcu_brent_kung'.
+Generating RTLIL representation for module `\_90_alu'.
+Generating RTLIL representation for module `\_90_macc'.
+Generating RTLIL representation for module `\_90_alumacc'.
+Generating RTLIL representation for module `$__div_mod_u'.
+Generating RTLIL representation for module `$__div_mod_trunc'.
+Generating RTLIL representation for module `\_90_div'.
+Generating RTLIL representation for module `\_90_mod'.
+Generating RTLIL representation for module `$__div_mod_floor'.
+Generating RTLIL representation for module `\_90_divfloor'.
+Generating RTLIL representation for module `\_90_modfloor'.
+Generating RTLIL representation for module `\_90_pow'.
+Generating RTLIL representation for module `\_90_demux'.
+Generating RTLIL representation for module `\_90_lut'.
+Generating RTLIL representation for module `$connect'.
+Generating RTLIL representation for module `$input_port'.
+Successfully finished Verilog frontend.
+
+15.46.5.2. Continuing TECHMAP pass.
+No more expansions possible.
+<suppressed ~166 debug messages>
+
+15.46.6. Executing OPT pass (performing simple optimizations).
+
+15.46.6.1. Executing OPT_EXPR pass (perform const folding).
+
+15.46.6.2. Executing OPT_MERGE pass (detect identical cells).
+Removed a total of 0 cells.
+
+15.46.6.3. Executing OPT_MUXTREE pass (detect dead branches in mux trees).
+Removed 0 multiplexer ports.
+
+15.46.6.4. Executing OPT_REDUCE pass (consolidate $*mux and $reduce_* inputs).
+Performed a total of 0 changes.
+
+15.46.6.5. Executing OPT_MERGE pass (detect identical cells).
+Removed a total of 0 cells.
+
+15.46.6.6. Executing OPT_DFF pass (perform DFF optimizations).
+
+15.46.6.7. Executing OPT_CLEAN pass (remove unused cells and wires).
+
+15.46.6.8. Executing OPT_EXPR pass (perform const folding).
+
+15.46.6.9. Finished fast OPT passes. (There is nothing left to do.)
+
+15.46.7. Executing TECHMAP pass (map to technology primitives).
+
+15.46.7.1. Executing Verilog-2005 frontend: /Users/Dilan/.local/share/from-rtl-to-pixels/oss-cad-suite-20260920/libexec/../share/yosys/abc9_map.v
+Parsing Verilog input from `/Users/Dilan/.local/share/from-rtl-to-pixels/oss-cad-suite-20260920/libexec/../share/yosys/abc9_map.v' to AST representation.
+Successfully finished Verilog frontend.
+
+15.46.7.2. Continuing TECHMAP pass.
+No more expansions possible.
+<suppressed ~2 debug messages>
+
+15.46.8. Executing Verilog-2005 frontend: /Users/Dilan/.local/share/from-rtl-to-pixels/oss-cad-suite-20260920/libexec/../share/yosys/abc9_model.v
+Parsing Verilog input from `/Users/Dilan/.local/share/from-rtl-to-pixels/oss-cad-suite-20260920/libexec/../share/yosys/abc9_model.v' to AST representation.
+Generating RTLIL representation for module `$__ABC9_DELAY'.
+Generating RTLIL representation for module `$__ABC9_SCC_BREAKER'.
+Generating RTLIL representation for module `$__DFF_N__$abc9_flop'.
+Generating RTLIL representation for module `$__DFF_P__$abc9_flop'.
+Successfully finished Verilog frontend.
+
+15.46.9. Executing ABC9_OPS pass (helper functions for ABC9).
+<suppressed ~2 debug messages>
+
+15.46.10. Executing ABC9_OPS pass (helper functions for ABC9).
+
+15.46.11. Executing ABC9_OPS pass (helper functions for ABC9).
+<suppressed ~2 debug messages>
+
+15.46.12. Executing TECHMAP pass (map to technology primitives).
+
+15.46.12.1. Executing Verilog-2005 frontend: /Users/Dilan/.local/share/from-rtl-to-pixels/oss-cad-suite-20260920/libexec/../share/yosys/techmap.v
+Parsing Verilog input from `/Users/Dilan/.local/share/from-rtl-to-pixels/oss-cad-suite-20260920/libexec/../share/yosys/techmap.v' to AST representation.
+Generating RTLIL representation for module `\_90_simplemap_bool_ops'.
+Generating RTLIL representation for module `\_90_simplemap_reduce_ops'.
+Generating RTLIL representation for module `\_90_simplemap_logic_ops'.
+Generating RTLIL representation for module `\_90_simplemap_compare_ops'.
+Generating RTLIL representation for module `\_90_simplemap_various'.
+Generating RTLIL representation for module `\_90_simplemap_registers'.
+Generating RTLIL representation for module `\_90_shift_ops_shr_shl_sshl_sshr'.
+Generating RTLIL representation for module `\_90_shift_shiftx'.
+Generating RTLIL representation for module `\_90_fa'.
+Generating RTLIL representation for module `\_90_lcu_brent_kung'.
+Generating RTLIL representation for module `\_90_alu'.
+Generating RTLIL representation for module `\_90_macc'.
+Generating RTLIL representation for module `\_90_alumacc'.
+Generating RTLIL representation for module `$__div_mod_u'.
+Generating RTLIL representation for module `$__div_mod_trunc'.
+Generating RTLIL representation for module `\_90_div'.
+Generating RTLIL representation for module `\_90_mod'.
+Generating RTLIL representation for module `$__div_mod_floor'.
+Generating RTLIL representation for module `\_90_divfloor'.
+Generating RTLIL representation for module `\_90_modfloor'.
+Generating RTLIL representation for module `\_90_pow'.
+Generating RTLIL representation for module `\_90_demux'.
+Generating RTLIL representation for module `\_90_lut'.
+Generating RTLIL representation for module `$connect'.
+Generating RTLIL representation for module `$input_port'.
+Successfully finished Verilog frontend.
+
+15.46.12.2. Continuing TECHMAP pass.
+Using template $paramod$838872d5a4bab89607f53482b205c0fd50d8b82e\CCU2C for cells of type $paramod$838872d5a4bab89607f53482b205c0fd50d8b82e\CCU2C.
+Using extmapper simplemap for cells of type $or.
+Using extmapper simplemap for cells of type $and.
+Using extmapper simplemap for cells of type $not.
+Using extmapper simplemap for cells of type $xor.
+Using template $paramod\LUT2\INIT=4'1010 for cells of type LUT2.
+Using template $paramod\LUT4\INIT=16'1001011010101010 for cells of type LUT4.
+Using extmapper simplemap for cells of type $mux.
+No more expansions possible.
+<suppressed ~203 debug messages>
+
+15.46.13. Executing OPT pass (performing simple optimizations).
+
+15.46.13.1. Executing OPT_EXPR pass (perform const folding).
+Optimizing module rtl_to_pixels_top.
+<suppressed ~18 debug messages>
+
+15.46.13.2. Executing OPT_MERGE pass (detect identical cells).
+Finding identical cells in module `\rtl_to_pixels_top'.
+Computing hashes of 59 cells of `\rtl_to_pixels_top'.
+Finding duplicate cells in `\rtl_to_pixels_top'.
+Computing hashes of 57 cells of `\rtl_to_pixels_top'.
+Finding duplicate cells in `\rtl_to_pixels_top'.
+<suppressed ~6 debug messages>
+Removed a total of 2 cells.
+
+15.46.13.3. Executing OPT_MUXTREE pass (detect dead branches in mux trees).
+Running muxtree optimizer on module \rtl_to_pixels_top..
+  Creating internal representation of mux trees.
+  No muxes found in this module.
+Removed 0 multiplexer ports.
+
+15.46.13.4. Executing OPT_REDUCE pass (consolidate $*mux and $reduce_* inputs).
+  Optimizing cells in module \rtl_to_pixels_top.
+Performed a total of 0 changes.
+
+15.46.13.5. Executing OPT_MERGE pass (detect identical cells).
+Finding identical cells in module `\rtl_to_pixels_top'.
+Computing hashes of 57 cells of `\rtl_to_pixels_top'.
+Finding duplicate cells in `\rtl_to_pixels_top'.
+Removed a total of 0 cells.
+
+15.46.13.6. Executing OPT_DFF pass (perform DFF optimizations).
+
+15.46.13.7. Executing OPT_CLEAN pass (remove unused cells and wires).
+Finding unused cells or wires in module \rtl_to_pixels_top..
+Removed 0 unused cells and 55 unused wires.
+<suppressed ~1 debug messages>
+
+15.46.13.8. Executing OPT_EXPR pass (perform const folding).
+Optimizing module rtl_to_pixels_top.
+
+15.46.13.9. Rerunning OPT passes. (Maybe there is more to do..)
+
+15.46.13.10. Executing OPT_MUXTREE pass (detect dead branches in mux trees).
+Running muxtree optimizer on module \rtl_to_pixels_top..
+  Creating internal representation of mux trees.
+  No muxes found in this module.
+Removed 0 multiplexer ports.
+
+15.46.13.11. Executing OPT_REDUCE pass (consolidate $*mux and $reduce_* inputs).
+  Optimizing cells in module \rtl_to_pixels_top.
+Performed a total of 0 changes.
+
+15.46.13.12. Executing OPT_MERGE pass (detect identical cells).
+Finding identical cells in module `\rtl_to_pixels_top'.
+Computing hashes of 57 cells of `\rtl_to_pixels_top'.
+Finding duplicate cells in `\rtl_to_pixels_top'.
+Removed a total of 0 cells.
+
+15.46.13.13. Executing OPT_DFF pass (perform DFF optimizations).
+
+15.46.13.14. Executing OPT_CLEAN pass (remove unused cells and wires).
+Finding unused cells or wires in module \rtl_to_pixels_top..
+
+15.46.13.15. Executing OPT_EXPR pass (perform const folding).
+Optimizing module rtl_to_pixels_top.
+
+15.46.13.16. Finished fast OPT passes. (There is nothing left to do.)
+
+15.46.14. Executing AIGMAP pass (map logic to AIG).
+Module rtl_to_pixels_top: replaced 912 cells with 5508 new cells, skipped 849 cells.
+  replaced 3 cell types:
+     426 $_MUX_
+     292 $_OR_
+     194 $_XOR_
+  not replaced 8 cell types:
+     351 $_AND_
+     172 $_NOT_
+       1 $__ABC9_SCC_BREAKER
+      10 $scopeinfo
+     194 TRELLIS_FF
+       2 DP16KD
+       3 MULT18X18D
+     116 $paramod$838872d5a4bab89607f53482b205c0fd50d8b82e\CCU2C
+
+15.46.14.1. Executing ABC9_OPS pass (helper functions for ABC9).
+
+15.46.14.2. Executing ABC9_OPS pass (helper functions for ABC9).
+Warning: Feature 'write_xaiger2' is experimental.
+
+15.46.14.3. Executing XAIGER2 backend.
+<suppressed ~750 debug messages>
+Extracted 2593 AND gates and 0 wires from module `rtl_to_pixels_top' to a netlist network with 796 inputs and 2016 outputs.
+
+15.46.14.4. Executing ABC9_EXE pass (technology mapping using ABC9).
+
+15.46.14.5. Executing ABC9.
+Running ABC command: "<yosys-exe-dir>/yosys-abc" -s -f <abc-temp-dir>/abc.script 2>&1
+ABC: ======== ABC command line "source <abc-temp-dir>/abc.script"
+ABC: + read_lut <abc-temp-dir>/input.lut 
+ABC: + read_box <abc-temp-dir>/input.box 
+ABC: + &read <abc-temp-dir>/input.xaig 
+ABC: + &ps 
+ABC: <abc-temp-dir>/input : i/o =    448/    972  and =    1619  lev =   39 (3.68)  mem = 0.06 MB  box = 116  bb = 0
+ABC: + &scorr 
+ABC: Warning: The network is combinational.
+ABC: + &sweep 
+ABC: + &dc2 
+ABC: + &dch -f -r 
+ABC: + &ps 
+ABC: <abc-temp-dir>/input : i/o =    448/    972  and =    1904  lev =   22 (2.05)  mem = 0.07 MB  ch =  219  box = 113  bb = 0
+ABC: cst =       0  cls =    200  lit =     219  unused =    2272  proof =     0
+ABC: + &if -W 300 -v 
+ABC: K = 7. Memory (bytes): Truth =    0. Cut =   76. Obj =  156. Set =  780. CutMin = no
+ABC: Node =    1904.  Ch =   200.  Total mem =    0.77 MB. Peak cut mem =    0.06 MB.
+ABC: P:  Del = 8554.00.  Ar =    1852.0.  Edge =     2463.  Cut =    25402.  T =     0.00 sec
+ABC: P:  Del = 8551.00.  Ar =    1804.0.  Edge =     2396.  Cut =    26360.  T =     0.00 sec
+ABC: P:  Del = 8551.00.  Ar =     957.0.  Edge =     1840.  Cut =    58102.  T =     0.01 sec
+ABC: F:  Del = 8551.00.  Ar =     717.0.  Edge =     1834.  Cut =    43153.  T =     0.01 sec
+ABC: A:  Del = 8551.00.  Ar =     689.0.  Edge =     1685.  Cut =    42117.  T =     0.01 sec
+ABC: A:  Del = 8551.00.  Ar =     686.0.  Edge =     1682.  Cut =    42284.  T =     0.01 sec
+ABC: Total time =     0.05 sec
+ABC: + &write -n <abc-temp-dir>/output.aig 
+ABC: + &mfs 
+ABC: + &ps -l 
+ABC: <abc-temp-dir>/input : i/o =    448/    972  and =    2459  lev =   32 (2.08)  mem = 0.07 MB  box = 113  bb = 0
+ABC: Mapping (K=7)  :  lut =    493  edge =    1604  lev =    8 (0.96)  levB =   33  mem = 0.03 MB
+ABC: LUT = 493 : 2=162 32.9 %  3=134 27.2 %  4=144 29.2 %  5=27 5.5 %  6=15 3.0 %  7=11 2.2 %  Ave = 3.25
+ABC: + &write -n <abc-temp-dir>/output.aig 
+ABC: + &verify 
+ABC: Networks are equivalent.  Time =     0.08 sec
+ABC: + time 
+ABC: elapse: 1.18 seconds, total: 1.18 seconds
+
+15.46.14.6. Executing AIGER frontend.
+<suppressed ~10 debug messages>
+Removed 4041 unused cells and 6074 unused wires.
+
+15.46.14.7. Executing ABC_OPS_REINTEGRATE pass (reintegrate ABC mapped design into module).
+ABC RESULTS:              $lut cells:      513
+ABC RESULTS:   $paramod$838872d5a4bab89607f53482b205c0fd50d8b82e\CCU2C cells:      113
+ABC RESULTS:           input signals:      239
+ABC RESULTS:          output signals:        8
+<suppressed ~2843 debug messages>
+Removing temp directory.
+
+15.46.15. Executing TECHMAP pass (map to technology primitives).
+
+15.46.15.1. Executing Verilog-2005 frontend: /Users/Dilan/.local/share/from-rtl-to-pixels/oss-cad-suite-20260920/libexec/../share/yosys/abc9_unmap.v
+Parsing Verilog input from `/Users/Dilan/.local/share/from-rtl-to-pixels/oss-cad-suite-20260920/libexec/../share/yosys/abc9_unmap.v' to AST representation.
+Generating RTLIL representation for module `$__DFF_x__$abc9_flop'.
+Generating RTLIL representation for module `$__ABC9_SCC_BREAKER'.
+Successfully finished Verilog frontend.
+
+15.46.15.2. Continuing TECHMAP pass.
+Using template $paramod$__ABC9_SCC_BREAKER\WIDTH=32'00000000000000000000000000000001 for cells of type $__ABC9_SCC_BREAKER.
+Using template $paramod$838872d5a4bab89607f53482b205c0fd50d8b82e\CCU2C for cells of type $paramod$838872d5a4bab89607f53482b205c0fd50d8b82e\CCU2C.
+No more expansions possible.
+<suppressed ~129 debug messages>
+Removed 83 unused cells and 3205 unused wires.
+
+15.47. Executing TECHMAP pass (map to technology primitives).
+
+15.47.1. Executing Verilog-2005 frontend: /Users/Dilan/.local/share/from-rtl-to-pixels/oss-cad-suite-20260920/libexec/../share/yosys/lattice/cells_map_trellis.v
+Parsing Verilog input from `/Users/Dilan/.local/share/from-rtl-to-pixels/oss-cad-suite-20260920/libexec/../share/yosys/lattice/cells_map_trellis.v' to AST representation.
+Generating RTLIL representation for module `$_DFF_N_'.
+Generating RTLIL representation for module `$_DFF_P_'.
+Generating RTLIL representation for module `$_DFFE_NN_'.
+Generating RTLIL representation for module `$_DFFE_PN_'.
+Generating RTLIL representation for module `$_DFFE_NP_'.
+Generating RTLIL representation for module `$_DFFE_PP_'.
+Generating RTLIL representation for module `$_DFF_NP0_'.
+Generating RTLIL representation for module `$_DFF_NP1_'.
+Generating RTLIL representation for module `$_DFF_PP0_'.
+Generating RTLIL representation for module `$_DFF_PP1_'.
+Generating RTLIL representation for module `$_SDFF_NP0_'.
+Generating RTLIL representation for module `$_SDFF_NP1_'.
+Generating RTLIL representation for module `$_SDFF_PP0_'.
+Generating RTLIL representation for module `$_SDFF_PP1_'.
+Generating RTLIL representation for module `$_DFFE_NP0P_'.
+Generating RTLIL representation for module `$_DFFE_NP1P_'.
+Generating RTLIL representation for module `$_DFFE_PP0P_'.
+Generating RTLIL representation for module `$_DFFE_PP1P_'.
+Generating RTLIL representation for module `$_DFFE_NP0N_'.
+Generating RTLIL representation for module `$_DFFE_NP1N_'.
+Generating RTLIL representation for module `$_DFFE_PP0N_'.
+Generating RTLIL representation for module `$_DFFE_PP1N_'.
+Generating RTLIL representation for module `$_SDFFE_NP0P_'.
+Generating RTLIL representation for module `$_SDFFE_NP1P_'.
+Generating RTLIL representation for module `$_SDFFE_PP0P_'.
+Generating RTLIL representation for module `$_SDFFE_PP1P_'.
+Generating RTLIL representation for module `$_SDFFE_NP0N_'.
+Generating RTLIL representation for module `$_SDFFE_NP1N_'.
+Generating RTLIL representation for module `$_SDFFE_PP0N_'.
+Generating RTLIL representation for module `$_SDFFE_PP1N_'.
+Generating RTLIL representation for module `$_ALDFF_NP_'.
+Generating RTLIL representation for module `$_ALDFF_PP_'.
+Generating RTLIL representation for module `$_ALDFFE_NPN_'.
+Generating RTLIL representation for module `$_ALDFFE_NPP_'.
+Generating RTLIL representation for module `$_ALDFFE_PPN_'.
+Generating RTLIL representation for module `$_ALDFFE_PPP_'.
+Generating RTLIL representation for module `\FD1P3AX'.
+Generating RTLIL representation for module `\FD1P3AY'.
+Generating RTLIL representation for module `\FD1P3BX'.
+Generating RTLIL representation for module `\FD1P3DX'.
+Generating RTLIL representation for module `\FD1P3IX'.
+Generating RTLIL representation for module `\FD1P3JX'.
+Generating RTLIL representation for module `\FD1S3AX'.
+Generating RTLIL representation for module `\FD1S3AY'.
+Generating RTLIL representation for module `\FD1S3BX'.
+Generating RTLIL representation for module `\FD1S3DX'.
+Generating RTLIL representation for module `\FD1S3IX'.
+Generating RTLIL representation for module `\FD1S3JX'.
+Generating RTLIL representation for module `\IFS1P3BX'.
+Generating RTLIL representation for module `\IFS1P3DX'.
+Generating RTLIL representation for module `\IFS1P3IX'.
+Generating RTLIL representation for module `\IFS1P3JX'.
+Generating RTLIL representation for module `\OFS1P3BX'.
+Generating RTLIL representation for module `\OFS1P3DX'.
+Generating RTLIL representation for module `\OFS1P3IX'.
+Generating RTLIL representation for module `\OFS1P3JX'.
+Generating RTLIL representation for module `\IB'.
+Generating RTLIL representation for module `\IBPU'.
+Generating RTLIL representation for module `\IBPD'.
+Generating RTLIL representation for module `\OB'.
+Generating RTLIL representation for module `\OBZ'.
+Generating RTLIL representation for module `\OBZPU'.
+Generating RTLIL representation for module `\OBZPD'.
+Generating RTLIL representation for module `\OBCO'.
+Generating RTLIL representation for module `\BB'.
+Generating RTLIL representation for module `\BBPU'.
+Generating RTLIL representation for module `\BBPD'.
+Generating RTLIL representation for module `\ILVDS'.
+Generating RTLIL representation for module `\OLVDS'.
+Generating RTLIL representation for module `$lut'.
+Successfully finished Verilog frontend.
+
+15.47.2. Continuing TECHMAP pass.
+Using template $paramod$lut\WIDTH=32'00000000000000000000000000000010\LUT=4'0110 for cells of type $lut.
+Using template $paramod$lut\WIDTH=32'00000000000000000000000000000010\LUT=4'1000 for cells of type $lut.
+Using template $paramod$fd904e9e35cfd343a9df248824bd3f1408724879$lut for cells of type $lut.
+Using template $paramod$lut\WIDTH=32'00000000000000000000000000000011\LUT=8'11101000 for cells of type $lut.
+Using template $paramod$4282def8dbd6df3d1248ad282c629bee684502c2$lut for cells of type $lut.
+Using template $paramod$lut\WIDTH=32'00000000000000000000000000000011\LUT=8'01101001 for cells of type $lut.
+Using template $paramod$lut\WIDTH=32'00000000000000000000000000000011\LUT=8'11100001 for cells of type $lut.
+Using template $paramod$lut\WIDTH=32'00000000000000000000000000000011\LUT=8'01000111 for cells of type $lut.
+Using template $paramod$lut\WIDTH=32'00000000000000000000000000000011\LUT=8'11100000 for cells of type $lut.
+Using template $paramod$lut\WIDTH=32'00000000000000000000000000000011\LUT=8'11100100 for cells of type $lut.
+Using template $paramod$lut\WIDTH=32'00000000000000000000000000000010\LUT=4'0001 for cells of type $lut.
+Using template $paramod$571404c0889eaf57f492cb5e37f8acb5df5852f9$lut for cells of type $lut.
+Using template $paramod$0a5c2dd39f0f8f0f2dcea6346d2cf06fa345fe69$lut for cells of type $lut.
+Using template $paramod$lut\WIDTH=32'00000000000000000000000000000010\LUT=4'1101 for cells of type $lut.
+Using template $paramod$627eb3fd9f1861493d21a96d71f19648776cceb2$lut for cells of type $lut.
+Using template $paramod$8db8d581ce5685d7b5b93afb5285bab6f9c74815$lut for cells of type $lut.
+Using template $paramod$lut\WIDTH=32'00000000000000000000000000000010\LUT=4'0010 for cells of type $lut.
+Using template $paramod$33e58adf67c6b686a154c9ce8ebbc4b04b8cabc5$lut for cells of type $lut.
+Using template $paramod$b431bfd938e35871dd0b7668e1503c7e8b9d491c$lut for cells of type $lut.
+Using template $paramod$251994398653c4cf8de320f1e306e535d5d2d624$lut for cells of type $lut.
+Using template $paramod$10a6d42c84663fca6c1622800fdec61acbd34667$lut for cells of type $lut.
+Using template $paramod$0e0172318a2befdad7a8504d21d5d1395af957d8$lut for cells of type $lut.
+Using template $paramod$lut\WIDTH=32'00000000000000000000000000000011\LUT=8'10000000 for cells of type $lut.
+Using template $paramod$38a207c707820f72f67386d2619ee46ee88964f9$lut for cells of type $lut.
+Using template $paramod$lut\WIDTH=32'00000000000000000000000000000011\LUT=8'01001000 for cells of type $lut.
+Using template $paramod$lut\WIDTH=32'00000000000000000000000000000010\LUT=4'1001 for cells of type $lut.
+Using template $paramod$c01d1f1a2c22a23f58c65a92a9c94eaeebcde834$lut for cells of type $lut.
+Using template $paramod$acf49cb7bd2805dee4b4ebb218aa5924b1be7704$lut for cells of type $lut.
+Using template $paramod$1e24dcc5a9b44329604d2fa1cabc73623732b95c$lut for cells of type $lut.
+Using template $paramod$293ec5cf99a22418e4605f981d71d968485e2172$lut for cells of type $lut.
+Using template $paramod$a670b08a47dd8a34f954c50cd06e9996d77e8467$lut for cells of type $lut.
+Using template $paramod$ebf67536873d6a25ea5a81802d39452407181117$lut for cells of type $lut.
+Using template $paramod$23a44c557d8b0c41a23d6c16083c7af93f76ea34$lut for cells of type $lut.
+Using template $paramod$b9f610e6c84b85c57ade07b8ce949116ff58aef4$lut for cells of type $lut.
+Using template $paramod$lut\WIDTH=32'00000000000000000000000000000011\LUT=8'01000000 for cells of type $lut.
+Using template $paramod$51b755c396107cb29e311b82657fda968e27837d$lut for cells of type $lut.
+Using template $paramod$56dc04fa0850e2fb2a9b854a179d6a5ee6f2e384$lut for cells of type $lut.
+Using template $paramod$lut\WIDTH=32'00000000000000000000000000000011\LUT=8'10010110 for cells of type $lut.
+Using template $paramod$74cc8577a00e3dbe2da8ecb56b5b430f4023212d$lut for cells of type $lut.
+Using template $paramod$3c565b8c246ceb4a3bf41508f78658f0378e15da$lut for cells of type $lut.
+Using template $paramod$lut\WIDTH=32'00000000000000000000000000000011\LUT=8'10110010 for cells of type $lut.
+Using template $paramod$1e3d523efa09bf9d8e3db351f96b8a5ca2009d30$lut for cells of type $lut.
+Using template $paramod$d74bce062257e6cbb830e5aab05dd23ac7829399$lut for cells of type $lut.
+Using template $paramod$80296eae5a3f9cd8b9da6b44f7b0f0f48957470f$lut for cells of type $lut.
+Using template $paramod$lut\WIDTH=32'00000000000000000000000000000011\LUT=8'01111000 for cells of type $lut.
+Using template $paramod$ff7561cfb7d3ae7112e6974b98c96c3d891737ce$lut for cells of type $lut.
+Using template $paramod$c21e0fc0f0bb543bcb90874ef291abf20ac786f2$lut for cells of type $lut.
+Using template $paramod$f05d4b8888c79762c43743d193b4196209b4613e$lut for cells of type $lut.
+Using template $paramod$8d2050f8008f356a76583dd20dcfeba5baa43a21$lut for cells of type $lut.
+Using template $paramod$lut\WIDTH=32'00000000000000000000000000000011\LUT=8'01100000 for cells of type $lut.
+Using template $paramod$369d44c3fcd7327eb62e3ac3bdcb1e082f92f62a$lut for cells of type $lut.
+Using template $paramod$lut\WIDTH=32'00000000000000000000000000000010\LUT=4'0111 for cells of type $lut.
+Using template $paramod$8a5015138f244fff5622d67ad0eea2edd4979fda$lut for cells of type $lut.
+Using template $paramod$lut\WIDTH=32'00000000000000000000000000000011\LUT=8'00100000 for cells of type $lut.
+Using template $paramod$b100a2813ddd931f73400dfa54acf6ca20bdc473$lut for cells of type $lut.
+Using template $paramod$695034af8e89377d804354c0b58bec0754c5cb48$lut for cells of type $lut.
+Using template $paramod$lut\WIDTH=32'00000000000000000000000000000011\LUT=8'10111000 for cells of type $lut.
+Using template $paramod$d2000394e95e7422159f89fa6f4e738a5fb86206$lut for cells of type $lut.
+Using template $paramod$36327f38f098605500240c0d0efd12cdc72e4bb2$lut for cells of type $lut.
+Using template $paramod$8dea978432b975a06d487b3763d4d556f8d362b4$lut for cells of type $lut.
+Using template $paramod$lut\WIDTH=32'00000000000000000000000000000010\LUT=4'0100 for cells of type $lut.
+Using template $paramod$d3e9f7d370820e98eb27bb49c24953708704a338$lut for cells of type $lut.
+Using template $paramod$17047bf20dd67392fcbd4519e1c50c8a9355f78a$lut for cells of type $lut.
+Using template $paramod$006b12e1d55439cd8a6a53697d0202122a9fba2b$lut for cells of type $lut.
+Using template $paramod$809be0ee81e5fb8314cd8791d27ae107c1b032ef$lut for cells of type $lut.
+Using template $paramod$lut\WIDTH=32'00000000000000000000000000000011\LUT=8'01110001 for cells of type $lut.
+Using template $paramod$940e265ccceef02b918592ccb65332ef11a2c478$lut for cells of type $lut.
+Using template $paramod$61f035f41030ddb47cfcd1ea8dd93ffb01689764$lut for cells of type $lut.
+Using template $paramod$0de052767abdccc3aefc818722bdc3c7850d25d6$lut for cells of type $lut.
+Using template $paramod$8325ff4d8dae282a2e669978dccc65a15d434506$lut for cells of type $lut.
+Using template $paramod$20130e34e0fcc72333c9fe6003e1c14870c2f898$lut for cells of type $lut.
+Using template $paramod$1e9d31fd9d29ec2b288c09d6ff4a2646e026682e$lut for cells of type $lut.
+Using template $paramod$f5c97e291c8b48d9f1b4239d871ab7639e5a24ac$lut for cells of type $lut.
+Using template $paramod$7066fda4957707736ad2507e46aa42c6776e0957$lut for cells of type $lut.
+Using template $paramod$3b05ce69402b9fa4320d7ba0b5dbbdce3f2d9804$lut for cells of type $lut.
+Using template $paramod$lut\WIDTH=32'00000000000000000000000000000011\LUT=8'00001000 for cells of type $lut.
+Using template $paramod$eb3a669def58713422b27d96a1afb5e45721bd11$lut for cells of type $lut.
+Using template $paramod$5529c09e24afdc1e4a70e8bf749eb26854458f84$lut for cells of type $lut.
+Using template $paramod$lut\WIDTH=32'00000000000000000000000000000011\LUT=8'11001010 for cells of type $lut.
+Using template $paramod$lut\WIDTH=32'00000000000000000000000000000011\LUT=8'11100010 for cells of type $lut.
+Using template $paramod$lut\WIDTH=32'00000000000000000000000000000010\LUT=4'1110 for cells of type $lut.
+Using template $paramod$lut\WIDTH=32'00000000000000000000000000000011\LUT=8'11111110 for cells of type $lut.
+Using template $paramod$658b9ed803f0d3d335616d3858b53e0a2522f1e8$lut for cells of type $lut.
+Using template $paramod$6e238df02989b317f10820a22773676e71120644$lut for cells of type $lut.
+Using template $paramod$66e741791413519a466d4f44240bc83d3a191818$lut for cells of type $lut.
+Using template $paramod$lut\WIDTH=32'00000000000000000000000000000011\LUT=8'11110010 for cells of type $lut.
+Using template $paramod$lut\WIDTH=32'00000000000000000000000000000011\LUT=8'00010000 for cells of type $lut.
+Using template $paramod$272652f6c6fbe9a75eff76e45cc7e2788835518b$lut for cells of type $lut.
+Using template $paramod$a5dd9ee10fc2202a29791f7d68d4afcce241aee5$lut for cells of type $lut.
+Using template $paramod$lut\WIDTH=32'00000000000000000000000000000011\LUT=8'10001111 for cells of type $lut.
+Using template $paramod$6d6beead1425af15cf78b27fd9b11b41b5d4bce8$lut for cells of type $lut.
+Using template $paramod$769bdbbde83614df0f4ab5f54e777ded51bb10ce$lut for cells of type $lut.
+Using template $paramod$lut\WIDTH=32'00000000000000000000000000000011\LUT=8'00101010 for cells of type $lut.
+Using template $paramod$efce95869eacbcb4d48548e73d703e4fbe2b3843$lut for cells of type $lut.
+Using template $paramod$24352b207ff65b49aac9506c7ef42867dd0ad80f$lut for cells of type $lut.
+Using template $paramod$47a8214374025465e226fa66bee690ff33268a25$lut for cells of type $lut.
+Using template $paramod$873c285bdccf0ac2b60d2304ea5cd14bf211d2a6$lut for cells of type $lut.
+Using template $paramod$lut\WIDTH=32'00000000000000000000000000000011\LUT=8'10111111 for cells of type $lut.
+Using template $paramod$f8f63b209b7230e81958663ff24fef1613156af7$lut for cells of type $lut.
+Using template $paramod$53ce561f80f32d4298a3beadc88b6c5c78293221$lut for cells of type $lut.
+Using template $paramod$43779580bfffd5d5a9f321249a174febf1dac288$lut for cells of type $lut.
+Using template $paramod$lut\WIDTH=32'00000000000000000000000000000011\LUT=8'10010000 for cells of type $lut.
+Using template $paramod$fca001e3e0b52158a872e76e56c01ec10dfbb1de$lut for cells of type $lut.
+Using template $paramod$df196ed0a1da5c4a58c5e08a1dac304fd3fccaab$lut for cells of type $lut.
+Using template $paramod$8d7a8d6e3356de09670738ba85f2c6b874f6b06d$lut for cells of type $lut.
+Using template $paramod$992bdc10cff2c6edd722994f0e1044bc863f79f7$lut for cells of type $lut.
+Using template $paramod$daac9b1e7bb2ac018f7132a3fbe0026ddd7b1a71$lut for cells of type $lut.
+Using template $paramod$0d3ac82cf5b8a192d5ff4c23e3143360366ae882$lut for cells of type $lut.
+Using template $paramod$b30bebc72dd0e5d803f249e61f4e944f7b20c163$lut for cells of type $lut.
+Using template $paramod$82b4a585d1edcb5c6e755dc9bd3392228a1c1304$lut for cells of type $lut.
+Using template $paramod$69f20e0703606f2ffd2ee27cd26f815bd5eeb6e9$lut for cells of type $lut.
+Using template $paramod$lut\WIDTH=32'00000000000000000000000000000011\LUT=8'00001101 for cells of type $lut.
+Using template $paramod$b1547fb78c197d5a3ac660080a5b6d1efc1a6fd6$lut for cells of type $lut.
+Using template $paramod$94d2f1f461ef911482e15efdba185521de732c99$lut for cells of type $lut.
+Using template $paramod$37275f9005096a8b3beded7be16e5d19f7397fa0$lut for cells of type $lut.
+Using template $paramod$3c014941563a279228df79e25630751fec86819c$lut for cells of type $lut.
+Using template $paramod$lut\WIDTH=32'00000000000000000000000000000011\LUT=8'01010001 for cells of type $lut.
+Using template $paramod$b45e5cb971154e30a797eecb0461619c3eeae12d$lut for cells of type $lut.
+Using template $paramod$0f3210d84432761faf3448c1578355fc247afd90$lut for cells of type $lut.
+Using template $paramod$lut\WIDTH=32'00000000000000000000000000000011\LUT=8'00000100 for cells of type $lut.
+Using template $paramod$2f147e763ba577f3fa3725284117cea07b568703$lut for cells of type $lut.
+Using template $paramod$lut\WIDTH=32'00000000000000000000000000000011\LUT=8'11001000 for cells of type $lut.
+Using template $paramod$790500af866d969d25ef74ad8cc83cfe64b5b491$lut for cells of type $lut.
+Using template $paramod$lut\WIDTH=32'00000000000000000000000000000011\LUT=8'10011100 for cells of type $lut.
+Using template $paramod$d3ef1e4c51780d0a5425e32110ea022c31c1404f$lut for cells of type $lut.
+Using template $paramod$84abafac600770dbecbd08e858f90b0a8d019d50$lut for cells of type $lut.
+Using template $paramod$lut\WIDTH=32'00000000000000000000000000000011\LUT=8'11010100 for cells of type $lut.
+Using template $paramod$lut\WIDTH=32'00000000000000000000000000000011\LUT=8'00000010 for cells of type $lut.
+Using template $paramod$ee55d4d1d1d7325f58dbdbfce0ec75c463d4291c$lut for cells of type $lut.
+Using template $paramod$e87c652d68339e0a13e8ac3dd39fd0a21e0079b7$lut for cells of type $lut.
+Using template $paramod$c3e1dc7b9e539f115f21c9fa61c94c4df05b91c1$lut for cells of type $lut.
+Using template $paramod$lut\WIDTH=32'00000000000000000000000000000011\LUT=8'00001110 for cells of type $lut.
+Using template $paramod$fe89c52e83c5b0456317806a3190c48a5e8494e5$lut for cells of type $lut.
+Using template $paramod$480632dc6f7c037df6062cf8bf88300b5262c395$lut for cells of type $lut.
+Using template $paramod$lut\WIDTH=32'00000000000000000000000000000011\LUT=8'01001100 for cells of type $lut.
+Using template $paramod$74db7ebdc203ab2b8e34f5d81b5d1b49c6ee3ec6$lut for cells of type $lut.
+Using template $paramod$cad45b6c9da81941161a13849773fe2ed4bc1c6f$lut for cells of type $lut.
+Using template $paramod$lut\WIDTH=32'00000000000000000000000000000011\LUT=8'01110000 for cells of type $lut.
+Using template $paramod$ff58554493773336c4e06dc62f25c37448f98c7b$lut for cells of type $lut.
+Using template $paramod$lut\WIDTH=32'00000000000000000000000000000011\LUT=8'00010010 for cells of type $lut.
+Using template $paramod$8c218f07f4fcb7aa89542ff3d7405186c308b9d1$lut for cells of type $lut.
+Using template $paramod$lut\WIDTH=32'00000000000000000000000000000001\LUT=2'01 for cells of type $lut.
+No more expansions possible.
+<suppressed ~2149 debug messages>
+
+15.48. Executing OPT_LUT_INS pass (discard unused LUT inputs).
+Optimizing LUTs in rtl_to_pixels_top.
+  Optimizing lut $abc$21654$lut$aiger$o217.genblk1.genblk1.genblk1.genblk1.genblk1.genblk1.lut2 (4 -> 0)
+  Optimizing lut $abc$21654$lut$aiger$o221.genblk1.genblk1.genblk1.genblk1.genblk1.genblk1.lut1 (4 -> 0)
+  Optimizing lut $abc$21654$lut$aiger$o221.genblk1.genblk1.genblk1.genblk1.genblk1.genblk1.lut2 (4 -> 0)
+  Optimizing lut $abc$21654$lut$aiger$o208.genblk1.genblk1.genblk1.genblk1.genblk1.genblk1.lut1 (4 -> 0)
+  Optimizing lut $abc$21654$lut$aiger$o208.genblk1.genblk1.genblk1.genblk1.genblk1.genblk1.lut2 (4 -> 0)
+  Optimizing lut $abc$21654$lut$aiger$o212.genblk1.genblk1.genblk1.genblk1.genblk1.genblk1.lut1 (4 -> 0)
+  Optimizing lut $abc$21654$lut$aiger$o212.genblk1.genblk1.genblk1.genblk1.genblk1.genblk1.lut2 (4 -> 0)
+  Optimizing lut $auto$abc_ops_reintegrate.cc:655:reintegrate$21706.genblk1.genblk1.genblk1.genblk1.genblk1.genblk1.genblk1.lut2 (4 -> 3)
+  Optimizing lut $auto$abc_ops_reintegrate.cc:655:reintegrate$21706.genblk1.genblk1.genblk1.genblk1.genblk1.genblk1.genblk1.lut3 (4 -> 3)
+  Optimizing lut $auto$abc_ops_reintegrate.cc:655:reintegrate$21706.genblk1.genblk1.genblk1.genblk1.genblk1.genblk1.genblk1.lut6 (4 -> 3)
+  Optimizing lut $auto$abc_ops_reintegrate.cc:655:reintegrate$21706.genblk1.genblk1.genblk1.genblk1.genblk1.genblk1.genblk1.lut7 (4 -> 3)
+  Optimizing lut $abc$21654$lut$aiger21653$2249.genblk1.genblk1.genblk1.genblk1.genblk1.genblk1.genblk1.lut2 (4 -> 0)
+  Optimizing lut $abc$21654$lut$aiger21653$2249.genblk1.genblk1.genblk1.genblk1.genblk1.genblk1.genblk1.lut3 (4 -> 0)
+  Optimizing lut $abc$21654$lut$aiger21653$2249.genblk1.genblk1.genblk1.genblk1.genblk1.genblk1.genblk1.lut5 (4 -> 3)
+  Optimizing lut $abc$21654$lut$aiger21653$2249.genblk1.genblk1.genblk1.genblk1.genblk1.genblk1.genblk1.lut6 (4 -> 3)
+  Optimizing lut $abc$21654$lut$aiger21653$2304.genblk1.genblk1.genblk1.genblk1.genblk1.genblk1.genblk1.lut1 (4 -> 0)
+  Optimizing lut $abc$21654$lut$aiger21653$2304.genblk1.genblk1.genblk1.genblk1.genblk1.genblk1.genblk1.lut2 (4 -> 0)
+  Optimizing lut $abc$21654$lut$aiger21653$2304.genblk1.genblk1.genblk1.genblk1.genblk1.genblk1.genblk1.lut3 (4 -> 0)
+  Optimizing lut $abc$21654$lut$aiger21653$2217.genblk1.genblk1.genblk1.genblk1.genblk1.genblk1.lut1 (4 -> 0)
+  Optimizing lut $abc$21654$lut$aiger21653$2217.genblk1.genblk1.genblk1.genblk1.genblk1.genblk1.lut2 (4 -> 0)
+  Optimizing lut $abc$21654$lut$aiger21653$2484.genblk1.genblk1.genblk1.genblk1.genblk1.genblk1.genblk1.lut1 (4 -> 0)
+  Optimizing lut $abc$21654$lut$aiger21653$2484.genblk1.genblk1.genblk1.genblk1.genblk1.genblk1.genblk1.lut2 (4 -> 0)
+  Optimizing lut $abc$21654$lut$aiger21653$2484.genblk1.genblk1.genblk1.genblk1.genblk1.genblk1.genblk1.lut3 (4 -> 0)
+  Optimizing lut $abc$21654$lut$aiger21653$2269.genblk1.genblk1.genblk1.genblk1.genblk1.genblk1.lut1 (4 -> 0)
+  Optimizing lut $abc$21654$lut$aiger21653$2269.genblk1.genblk1.genblk1.genblk1.genblk1.genblk1.lut2 (4 -> 0)
+  Optimizing lut $auto$abc_ops_reintegrate.cc:655:reintegrate$21711.genblk1.genblk1.genblk1.genblk1.genblk1.genblk1.lut3 (4 -> 3)
+  Optimizing lut $abc$21654$lut$aiger21653$2589.genblk1.genblk1.genblk1.genblk1.genblk1.genblk1.genblk1.lut1 (4 -> 0)
+  Optimizing lut $abc$21654$lut$aiger21653$2589.genblk1.genblk1.genblk1.genblk1.genblk1.genblk1.genblk1.lut2 (4 -> 0)
+  Optimizing lut $abc$21654$lut$aiger21653$2589.genblk1.genblk1.genblk1.genblk1.genblk1.genblk1.genblk1.lut3 (4 -> 0)
+  Optimizing lut $abc$21654$lut$aiger21653$2449.genblk1.genblk1.genblk1.genblk1.genblk1.genblk1.lut1 (4 -> 0)
+  Optimizing lut $abc$21654$lut$aiger21653$2449.genblk1.genblk1.genblk1.genblk1.genblk1.genblk1.lut2 (4 -> 0)
+  Optimizing lut $abc$21654$lut$aiger21653$2554.genblk1.genblk1.genblk1.genblk1.genblk1.genblk1.lut2 (4 -> 0)
+  Optimizing lut $abc$21654$lut$aiger21653$2795.genblk1.genblk1.genblk1.genblk1.genblk1.genblk1.lut2 (4 -> 0)
+  Optimizing lut $abc$21654$lut$aiger21653$1541.genblk1.genblk1.genblk1.genblk1.genblk1.genblk1.lut1 (4 -> 2)
+  Optimizing lut $abc$21654$lut$aiger21653$1541.genblk1.genblk1.genblk1.genblk1.genblk1.genblk1.lut2 (4 -> 3)
+  Optimizing lut $abc$21654$lut$aiger21653$1541.genblk1.genblk1.genblk1.genblk1.genblk1.genblk1.lut3 (4 -> 1)
+  Optimizing lut $abc$21654$lut$aiger21653$1719.genblk1.genblk1.genblk1.genblk1.genblk1.genblk1.lut2 (4 -> 3)
+  Optimizing lut $abc$21654$lut$aiger21653$1719.genblk1.genblk1.genblk1.genblk1.genblk1.genblk1.lut3 (4 -> 1)
+  Optimizing lut $abc$21654$lut$aiger21653$1806.genblk1.genblk1.genblk1.genblk1.genblk1.genblk1.genblk1.lut1 (4 -> 0)
+  Optimizing lut $abc$21654$lut$aiger21653$1806.genblk1.genblk1.genblk1.genblk1.genblk1.genblk1.genblk1.lut4 (4 -> 3)
+  Optimizing lut $abc$21654$lut$aiger21653$1806.genblk1.genblk1.genblk1.genblk1.genblk1.genblk1.genblk1.lut5 (4 -> 0)
+  Optimizing lut $abc$21654$lut$aiger21653$1700.genblk1.genblk1.genblk1.genblk1.genblk1.genblk1.genblk1.lut2 (4 -> 0)
+  Optimizing lut $abc$21654$lut$aiger21653$1700.genblk1.genblk1.genblk1.genblk1.genblk1.genblk1.genblk1.lut3 (4 -> 0)
+  Optimizing lut $abc$21654$lut$aiger21653$2008.genblk1.genblk1.genblk1.genblk1.genblk1.genblk1.lut2 (4 -> 0)
+  Optimizing lut $abc$21654$lut$aiger$o1092.genblk1.genblk1.genblk1.genblk1.genblk1.genblk1.genblk1.lut2 (4 -> 0)
+  Optimizing lut $abc$21654$lut$aiger$o1092.genblk1.genblk1.genblk1.genblk1.genblk1.genblk1.genblk1.lut3 (4 -> 0)
+  Optimizing lut $abc$21654$lut$aiger$o1092.genblk1.genblk1.genblk1.genblk1.genblk1.genblk1.genblk1.lut5 (4 -> 3)
+  Optimizing lut $abc$21654$lut$aiger$o1092.genblk1.genblk1.genblk1.genblk1.genblk1.genblk1.genblk1.lut6 (4 -> 2)
+  Optimizing lut $abc$21654$lut$aiger$o1092.genblk1.genblk1.genblk1.genblk1.genblk1.genblk1.genblk1.lut7 (4 -> 3)
+  Optimizing lut $abc$21654$lut$aiger21653$805.genblk1.genblk1.genblk1.genblk1.genblk1.genblk1.lut2 (4 -> 0)
+  Optimizing lut $abc$21654$lut$aiger21653$805.genblk1.genblk1.genblk1.genblk1.genblk1.genblk1.lut3 (4 -> 0)
+  Optimizing lut $abc$21654$lut$aiger21653$830.genblk1.genblk1.genblk1.genblk1.genblk1.genblk1.genblk1.lut2 (4 -> 0)
+  Optimizing lut $abc$21654$lut$aiger21653$830.genblk1.genblk1.genblk1.genblk1.genblk1.genblk1.genblk1.lut3 (4 -> 0)
+  Optimizing lut $abc$21654$lut$aiger21653$830.genblk1.genblk1.genblk1.genblk1.genblk1.genblk1.genblk1.lut4 (4 -> 0)
+  Optimizing lut $abc$21654$lut$aiger21653$830.genblk1.genblk1.genblk1.genblk1.genblk1.genblk1.genblk1.lut5 (4 -> 0)
+  Optimizing lut $abc$21654$lut$aiger21653$2554.genblk1.genblk1.genblk1.genblk1.genblk1.genblk1.lut1 (4 -> 0)
+  Optimizing lut $abc$21654$lut$aiger21653$2304.genblk1.genblk1.genblk1.genblk1.genblk1.genblk1.genblk1.lut0 (4 -> 0)
+  Optimizing lut $abc$21654$lut$aiger21653$1541.genblk1.genblk1.genblk1.genblk1.genblk1.genblk1.lut0 (4 -> 3)
+  Optimizing lut $abc$21654$lut$aiger21653$2449.genblk1.genblk1.genblk1.genblk1.genblk1.genblk1.lut0 (4 -> 0)
+  Optimizing lut $abc$21654$lut$aiger21653$2217.genblk1.genblk1.genblk1.genblk1.genblk1.genblk1.lut0 (4 -> 0)
+  Optimizing lut $auto$abc_ops_reintegrate.cc:655:reintegrate$21668.genblk1.genblk1.genblk1.genblk1.genblk1.lut1 (4 -> 3)
+  Optimizing lut $abc$21654$lut$aiger21653$958.genblk1.genblk1.genblk1.genblk1.genblk1.lut0 (4 -> 0)
+  Optimizing lut $abc$21654$lut$aiger$o217.genblk1.genblk1.genblk1.genblk1.genblk1.genblk1.lut1 (4 -> 0)
+  Optimizing lut $abc$21654$lut$aiger$o217.genblk1.genblk1.genblk1.genblk1.genblk1.genblk1.lut0 (4 -> 0)
+  Optimizing lut $abc$21654$lut$aiger$o221.genblk1.genblk1.genblk1.genblk1.genblk1.genblk1.lut0 (4 -> 0)
+  Optimizing lut $abc$21654$lut$aiger$o1103.genblk1.genblk1.genblk1.genblk1.genblk1.lut0 (4 -> 0)
+  Optimizing lut $abc$21654$lut$aiger$o208.genblk1.genblk1.genblk1.genblk1.genblk1.genblk1.lut0 (4 -> 0)
+  Optimizing lut $abc$21654$lut$aiger21653$2554.genblk1.genblk1.genblk1.genblk1.genblk1.genblk1.lut0 (4 -> 0)
+  Optimizing lut $abc$21654$lut$aiger21653$1700.genblk1.genblk1.genblk1.genblk1.genblk1.genblk1.genblk1.lut1 (4 -> 0)
+  Optimizing lut $abc$21654$lut$aiger21653$1806.genblk1.genblk1.genblk1.genblk1.genblk1.genblk1.genblk1.lut0 (4 -> 3)
+  Optimizing lut $abc$21654$lut$aiger21653$1700.genblk1.genblk1.genblk1.genblk1.genblk1.genblk1.genblk1.lut0 (4 -> 0)
+  Optimizing lut $abc$21654$lut$aiger$o212.genblk1.genblk1.genblk1.genblk1.genblk1.genblk1.lut0 (4 -> 0)
+  Optimizing lut $abc$21654$lut$aiger21653$2249.genblk1.genblk1.genblk1.genblk1.genblk1.genblk1.genblk1.lut1 (4 -> 0)
+  Optimizing lut $abc$21654$lut$aiger21653$2269.genblk1.genblk1.genblk1.genblk1.genblk1.genblk1.lut0 (4 -> 0)
+  Optimizing lut $abc$21654$lut$aiger21653$2795.genblk1.genblk1.genblk1.genblk1.genblk1.genblk1.lut0 (4 -> 0)
+  Optimizing lut $abc$21654$lut$aiger21653$1719.genblk1.genblk1.genblk1.genblk1.genblk1.genblk1.lut1 (4 -> 2)
+  Optimizing lut $abc$21654$lut$aiger21653$2008.genblk1.genblk1.genblk1.genblk1.genblk1.genblk1.lut0 (4 -> 0)
+  Optimizing lut $abc$21654$lut$aiger21653$2249.genblk1.genblk1.genblk1.genblk1.genblk1.genblk1.genblk1.lut0 (4 -> 0)
+  Optimizing lut $abc$21654$lut$aiger21653$2484.genblk1.genblk1.genblk1.genblk1.genblk1.genblk1.genblk1.lut0 (4 -> 0)
+  Optimizing lut $abc$21654$lut$aiger21653$1719.genblk1.genblk1.genblk1.genblk1.genblk1.genblk1.lut0 (4 -> 3)
+  Optimizing lut $auto$abc_ops_reintegrate.cc:655:reintegrate$21711.genblk1.genblk1.genblk1.genblk1.genblk1.genblk1.lut1 (4 -> 3)
+  Optimizing lut $abc$21654$lut$aiger21653$2589.genblk1.genblk1.genblk1.genblk1.genblk1.genblk1.genblk1.lut0 (4 -> 0)
+  Optimizing lut $abc$21654$lut$aiger21653$830.genblk1.genblk1.genblk1.genblk1.genblk1.genblk1.genblk1.lut0 (4 -> 0)
+  Optimizing lut $abc$21654$lut$aiger21653$2008.genblk1.genblk1.genblk1.genblk1.genblk1.genblk1.lut1 (4 -> 0)
+  Optimizing lut $abc$21654$lut$aiger$o1092.genblk1.genblk1.genblk1.genblk1.genblk1.genblk1.genblk1.lut1 (4 -> 0)
+  Optimizing lut $auto$abc_ops_reintegrate.cc:655:reintegrate$21669.genblk1.genblk1.genblk1.genblk1.genblk1.lut0 (4 -> 3)
+  Optimizing lut $auto$abc_ops_reintegrate.cc:655:reintegrate$21668.genblk1.genblk1.genblk1.genblk1.genblk1.lut0 (4 -> 3)
+  Optimizing lut $abc$21654$lut$aiger21653$805.genblk1.genblk1.genblk1.genblk1.genblk1.genblk1.lut0 (4 -> 3)
+  Optimizing lut $abc$21654$lut$aiger21653$830.genblk1.genblk1.genblk1.genblk1.genblk1.genblk1.genblk1.lut1 (4 -> 0)
+  Optimizing lut $abc$21654$lut$aiger$o1092.genblk1.genblk1.genblk1.genblk1.genblk1.genblk1.genblk1.lut0 (4 -> 0)
+Removed 0 unused cells and 1204 unused wires.
+
+15.49. Executing AUTONAME pass.
+Renamed 2267 objects in module rtl_to_pixels_top.
+<suppressed ~2267 debug messages>
+
+15.50. Executing HIERARCHY pass (managing design hierarchy).
+Attribute `top' found on module `rtl_to_pixels_top'. Setting top module to rtl_to_pixels_top.
+
+15.50.1. Analyzing design hierarchy..
+Top module:  \rtl_to_pixels_top
+
+15.50.2. Analyzing design hierarchy..
+Top module:  \rtl_to_pixels_top
+Removed 0 unused modules.
+
+15.51. Printing statistics.
+
+=== rtl_to_pixels_top ===
+
+        +----------Local Count, excluding submodules.
+        | 
+     1211 wires
+     2150 wire bits
+     1211 public wires
+     2150 public wire bits
+       20 ports
+      119 port bits
+        5 cells
+        2   DP16KD
+        3   MULT18X18D
+     1122 submodules
+      113   CCU2C
+       48   L6MUX21
+      665   LUT4
+      102   PFUMX
+      194   TRELLIS_FF
+
+=== design hierarchy ===
+
+        +----------Count including submodules.
+        | 
+        5 rtl_to_pixels_top
+
+        +----------Count including submodules.
+        | 
+     1211 wires
+     2150 wire bits
+     1211 public wires
+     2150 public wire bits
+       20 ports
+      119 port bits
+        - memories
+        - memory bits
+        - processes
+        5 cells
+        2   DP16KD
+        3   MULT18X18D
+     1122 submodules
+      113   CCU2C
+       48   L6MUX21
+      665   LUT4
+      102   PFUMX
+      194   TRELLIS_FF
+
+15.52. Executing CHECK pass (checking for obvious problems).
+Checking module rtl_to_pixels_top...
+Found and reported 0 problems.
+
+15.53. Executing JSON backend.
+
+16. Executing CHECK pass (checking for obvious problems).
+Checking module rtl_to_pixels_top...
+Found and reported 0 problems.
+
+Warnings: 1 unique messages, 1 total
+Warnings: 1 experimental features used (not excluded with -x).
+End of script. Logfile hash: 63f1d2d88c, time: 2.16s, user: 0.91s, system: 0.04s, MEM: 75.80 MB peak
+Yosys 0.69+75 (git sha1 f0b945f63-dirty, Release, Clang /usr/local/osxcross/target/bin/aarch64-apple-darwin25.5-clang++ 21.1.8)
+Time spent: 56% 1x abc9_exe (1 sec), 14% 32x read_verilog (0 sec), ...

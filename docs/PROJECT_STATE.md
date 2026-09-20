@@ -1,6 +1,6 @@
 # Project State
 
-Current phase: Phase 8 — Compact implementation baseline
+Current phase: Phase 9 — Bottleneck review
 Current gate: Gate 3 CLOSED; Gate 4 OPEN
 Historical known-good commit before Phase 5: `597af7f8c0edfac2dfb2763e042a7d17acf17b8d`
 Streaming baseline commit: `a73be9929b6f73329e86790e7726eef8dae4e62d`; subsequent monitor/coverage strengthening is recorded in results/raw/gate3-streaming-monitor-coverage.log.
@@ -67,8 +67,7 @@ Evidence: results/raw/gate3-dimension-image-cocotb.log
 Classification: RTL SIMULATION VERIFIED.
 Conditions: Verilator 5.052; cocotb 2.1.0; six legal dimensions with three random frames each; one 640x480 public-domain photograph; independent `sobel_rgb` comparison.
 Gate 3 CLOSED — verified regression evidence now covers streaming stress, reset/malformed-metadata recovery, configuration timing, multiple legal dimensions, deterministic random frames, a canonical 640x480 public real-image frame, and requirements traceability.
-Remaining Gate-3 work: none unresolved in the audited categories. Formal, synthesis, P&R, timing and Architecture B remain unverified.
-Formal, synthesis, P&R, timing and Architecture B remain unverified.
+Remaining Gate-3 work: none unresolved in the audited categories. Selected formal scope is complete. Architecture-A synthesis and routed timing evidence are recorded below; Architecture B remains unstarted.
 `pixel_control.accept_i` represents accepted input; that primitive does not generate ready or implement RUN_ENABLE/DRAIN admission.
 
 Formal:
@@ -104,20 +103,23 @@ results/raw/formal-frame-completion.log
 No whole-accelerator formal verification is claimed.
 
 Synthesis:
-not run
+SYNTHESISED (Architecture A, canonical 640x480)
+
+Place/route:
+PLACED/ROUTED timing-clean at 35 MHz, seed 1; timing-failing at 50 MHz, seed 1
 
 Timing:
-not run
+35 MHz clean / 50 MHz fail, 5 MHz resolution, seed 1
 
 Known future workflow dependencies:
 - Yosys/SBY/formal solver for formal
 - nextpnr-ecp5/ECP5 database for implementation
 
 Current bottleneck:
-Establish reproducible Architecture-A synthesis, place/route, resource, timing and critical-path evidence on the frozen ECP5 virtual target.
+Measured routed critical path is a routing-dominated mixed arithmetic path spanning rgb_to_gray, magnitude_clamp and threshold_stage; inspect this path before selecting Architecture-B pipeline boundaries.
 
 Next task:
-P8-ARCH-A-BASELINE-001
+P9-ARCH-A-BOTTLENECK-001
 
 Formal toolchain:
 FORMAL TOOLCHAIN SMOKE VERIFIED.
@@ -131,7 +133,20 @@ The targeted APB/configuration properties have also passed under documented
 assumptions using formal-netlist-only Yosys expose observation of the actual
 APB state wires. Evidence: results/raw/formal-apb-regs.log
 
-Synthesis: not run
-Place/route: not run
-Timing: not run
+Synthesis: Architecture A synthesised
+Place/route: Architecture A routed; 35 MHz clean, 50 MHz fail, seed 1
+Timing: routed timing evidence recorded
 Architecture B: not started
+
+
+Architecture-A implementation baseline:
+SYNTHESISED. Canonical 640x480 placed/routed timing-clean at 35 MHz, seed 1; timing-failing at 50 MHz. Highest tested clean=35 MHz, lowest tested fail=50 MHz, resolution=5 MHz. Mapped resources: LUT4=665, TRELLIS_FF=194, CCU2C=113, DP16KD=2, MULT18X18D=3, PFUMX=102, L6MUX21=48. Critical path measured at 32.068 ns total (12.306 ns logic, 19.762 ns routing), a routing-dominated mixed arithmetic path spanning grayscale, magnitude/clamp and threshold logic.
+
+Current bottleneck:
+Measured routed critical path is a routing-dominated mixed arithmetic path spanning rgb_to_gray, magnitude_clamp and threshold_stage; inspect this path before selecting Architecture-B pipeline boundaries.
+
+Phase 9 next task:
+P9-ARCH-A-BOTTLENECK-001
+
+Physical board: not run
+Physical measurement: none

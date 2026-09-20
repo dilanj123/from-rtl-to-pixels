@@ -1,6 +1,6 @@
 # Evidence index
 
-Classification: bootstrap checks, Gate-1 documentation, focused reference-model verification, and accumulated primitive regression evidence. Focused `rgb_to_gray`, `elastic_stage`, `apb_regs`, `pixel_control`, `line_buffer`, `window_3x3`, `output_control`, `sobel_compact`, `magnitude_clamp`, and `threshold_stage` RTL simulation evidence is recorded below; no formal, synthesis, or timing evidence exists yet.
+Classification: bootstrap checks, Gate-1 documentation, focused reference-model verification, and accumulated primitive regression evidence. Focused `rgb_to_gray`, `elastic_stage`, `apb_regs`, `pixel_control`, `line_buffer`, `window_3x3`, `output_control`, `sobel_compact`, `magnitude_clamp`, and `threshold_stage` RTL simulation evidence is recorded below; selected targeted Phase-7 formal evidence is complete; no whole-accelerator formal proof is claimed. Synthesis and routed timing evidence now exist for the Architecture-A baseline; no physical-board measurement exists.
 Bootstrap commit: `f540928c1d04e0ae191236fb44c326404c70e755`. Pre-commit logs necessarily precede its hash.
 Published Phase-0 baseline: `6bd14fca23b7f74e74fbe18f911d718478f49bbb`.
 Gate-1 documentation commit: `a19678a45e5bbf4dad3ee5e250b7dfcbcddbd1a1` (`Freeze Gate 1 project contract`); specifications only; subsequently frozen by the Phase-2 task.
@@ -227,3 +227,8 @@ Classification: `FORMAL PROPERTY PASSED UNDER DOCUMENTED ASSUMPTIONS`
 Limitations: 3x3 and 5x4 only; narrow integration of output_control, elastic_stage and apb_regs plus audited glue; not universal dimensions, arithmetic/image datapath, or whole-accelerator formal verification.
 
 The selected Phase-7 targeted formal property set is complete. Output-control eventual drain completion remains a derived result under its documented downstream-fairness condition.
+
+Claim: Architecture A compact production RTL was synthesized and placed/routed for the canonical 640x480 configuration on the frozen LFE5U-45F/CABGA381/speed-6 target. Yosys checks passed; nextpnr routed with seed 1; the measured mapped cells were LUT4=665, TRELLIS_FF=194, CCU2C=113, DP16KD=2, MULT18X18D=3, PFUMX=102 and L6MUX21=48. The single-seed routed timing constraint frontier was clean at 35 MHz and failing at 50 MHz, with 5 MHz resolution. The reported 32.068 ns critical path was a routing-dominated mixed arithmetic path spanning grayscale, magnitude/clamp and threshold logic.
+Evidence: `results/raw/arch-a-implementation-baseline.log`, `results/raw/arch-a-synthesis-stat.json`, `results/raw/arch-a-frequency-search.csv`, `results/raw/arch-a-route-clean-report.json`, `results/raw/arch-a-route-fail-report.json`
+Classification: `SYNTHESISED`; `PLACED/ROUTED TIMING-CLEAN AT 35 MHz, SEED 1`; `PLACED/ROUTED TIMING-FAILING AT 50 MHz, SEED 1`
+Limitations: one seed and canonical 640x480 only; routed timing evidence is not a statistically robust Fmax, physical board measurement, or whole-accelerator formal claim. Architecture B was not started.

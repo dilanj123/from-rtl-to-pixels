@@ -41,7 +41,7 @@ module rtl_to_pixels_top_pipelined #(
     output_control #(.IMG_WIDTH(IMG_WIDTH),.IMG_HEIGHT(IMG_HEIGHT)) u_output_control(.clk(clk),.rst(rst),.pixel_commit_i(pixel_commit),.frame_start_i(sof_accept),.last_input_accept_i(last_input_accept),.frame_abort_i(frame_abort_q),.output_ready_i(arithmetic_s_ready),.input_allow_o(output_input_allow),.output_valid_o(raw_output_valid),.output_row_o(raw_output_row),.output_col_o(raw_output_col),.output_border_o(raw_output_border),.processing_o(processing_internal),.draining_o(draining_internal),.waiting_for_sof_o(output_waiting_for_sof),.frame_done_o(raw_frame_done_internal));
     assign raw_output_user=(raw_output_row==ROW_W'(0))&&(raw_output_col==COL_W'(0));
     assign raw_output_last=(raw_output_col==LAST_COL);
-    assign arithmetic_s_data={raw_frame_done_internal,raw_output_user,raw_output_last,raw_output_border,gx,gy};
+    assign arithmetic_s_data={raw_frame_done_internal,raw_output_last,raw_output_user,raw_output_border,gx,gy};
     assign pipeline_rst=rst||metadata_error||frame_abort_q;
     elastic_stage #(.DATA_WIDTH(28)) u_arithmetic_elastic(.clk(clk),.rst(pipeline_rst),.s_data(arithmetic_s_data),.s_valid(raw_output_valid),.s_ready(arithmetic_s_ready),.m_data(arithmetic_m_data),.m_valid(arithmetic_m_valid),.m_ready(output_elastic_s_ready));
     assign staged_final_tag=arithmetic_m_data[27]; assign staged_user=arithmetic_m_data[26]; assign staged_last=arithmetic_m_data[25]; assign staged_border=arithmetic_m_data[24];

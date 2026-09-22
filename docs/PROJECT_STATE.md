@@ -1,6 +1,6 @@
 # Project State
 
-Current phase: Phase 10 — Architecture B
+Current phase: Phase 11 — Controlled A/B comparison
 Current gate: Gate 3 CLOSED; Gate 4 OPEN
 Historical known-good commit before Phase 5: `597af7f8c0edfac2dfb2763e042a7d17acf17b8d`
 Streaming baseline commit: `a73be9929b6f73329e86790e7726eef8dae4e62d`; subsequent monitor/coverage strengthening is recorded in results/raw/gate3-streaming-monitor-coverage.log.
@@ -67,7 +67,7 @@ Evidence: results/raw/gate3-dimension-image-cocotb.log
 Classification: RTL SIMULATION VERIFIED.
 Conditions: Verilator 5.052; cocotb 2.1.0; six legal dimensions with three random frames each; one 640x480 public-domain photograph; independent `sobel_rgb` comparison.
 Gate 3 CLOSED — verified regression evidence now covers streaming stress, reset/malformed-metadata recovery, configuration timing, multiple legal dimensions, deterministic random frames, a canonical 640x480 public real-image frame, and requirements traceability.
-Remaining Gate-3 work: none unresolved in the audited categories. Selected formal scope is complete. Architecture-A synthesis and routed timing evidence are recorded below; Architecture B remains unstarted.
+Remaining Gate-3 work: none unresolved in the audited categories. Selected formal scope is complete. Architecture-A synthesis and routed timing evidence are recorded below; Architecture B functional RTL is now implemented and simulation-verified, with synthesis/P&R/timing deferred to Phase 11.
 `pixel_control.accept_i` represents accepted input; that primitive does not generate ready or implement RUN_ENABLE/DRAIN admission.
 
 Formal:
@@ -119,7 +119,7 @@ Current bottleneck:
 Architecture-A synchronous clock-to-clock bottleneck is the ~25.731 ns path from the line-buffer EBR output to the output-data elastic FF through the long downstream arithmetic cone. The previously reported 32.07 ns s_tdata path is an unconstrained async-input-to-clock path and is not the design Fmax path.
 
 Next task:
-P10-ARCH-B-PIPELINE-001
+P11-ARCH-AB-COMPARE-001
 
 Formal toolchain:
 FORMAL TOOLCHAIN SMOKE VERIFIED.
@@ -136,7 +136,7 @@ APB state wires. Evidence: results/raw/formal-apb-regs.log
 Synthesis: Architecture A synthesised
 Place/route: Architecture A routed; 35 MHz clean, 50 MHz fail, seed 1
 Timing: routed timing evidence recorded
-Architecture B: not started
+Architecture B: functional RTL implemented and simulation-verified; synthesis/P&R/timing not run
 
 
 Architecture-A implementation baseline:
@@ -149,13 +149,27 @@ Architecture-B controlled change:
 one 28-bit ready/valid elastic stage after Sobel Gx/Gy.
 
 Architecture B status:
-hypothesis frozen; implementation not yet started
+implemented; RTL simulation verified; synthesis/P&R/timing not run
 
 Next task:
-P10-ARCH-B-PIPELINE-001
+P11-ARCH-AB-COMPARE-001
 
 Physical board: not run
 Physical measurement: none
 
 
 Architecture-A bottleneck review: ARCHITECTURE-A BOTTLENECK REVIEW — DERIVED FROM ROUTED TIMING EVIDENCE. The raw implementation evidence is preserved; the parser now selects the synchronous clock-to-clock path and reports the async I/O path separately.
+
+
+Architecture B:
+IMPLEMENTED. RTL SIMULATION VERIFIED under the established integrated regression. Controlled change: one DATA_WIDTH=28 ready/valid elastic boundary after Sobel Gx/Gy. Canonical Architecture-A/B image equivalence: PASS, diff_nonzero=0.
+
+Architecture-B synthesis: not run
+Architecture-B P&R: not run
+Architecture-B timing: not run
+
+Current engineering task:
+Measure Architecture B under the exact Architecture-A implementation conditions and compare resources, routed timing, latency, initiation interval and derived throughput.
+
+Next task:
+P11-ARCH-AB-COMPARE-001

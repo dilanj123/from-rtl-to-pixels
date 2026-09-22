@@ -1,0 +1,48 @@
+Task:
+P10-ARCH-B-RECOVERY-TEST-REPAIR-001
+
+baseline:
+2e1675f8fd6d3181fda5585b74d660b3b60741f2
+
+original failure:
+dimension=3x3
+suite=reset/malformed-metadata recovery
+test=unexpected_sof_after_partial_output_aborts_and_recovers
+original prior_outputs=0
+
+root cause classification:
+VERIFICATION TEST PRECONDITION WAS ARCHITECTURE-TIMING-DEPENDENT.
+The original recovery test implicitly relied on Architecture-A latency to
+establish an external partial-output transfer by the malformed input index.
+Architecture B adds the intended post-Gx/Gy elastic boundary.
+
+exact test-only change:
+Added wait_for_prior_output_transfer(), which idles the source and waits up
+to 8 cycles for an already-created output token to transfer. The malformed
+token is sent afterward. No accepted input is generated while waiting.
+
+bad_index unchanged:
+bad_index = min(N - 2, W + 2)
+3x3=5, 5x4=7, 8x5=10
+
+malformed metadata unchanged:
+unexpected-SOF case uses user=1 and the expected last value for bad_index.
+
+Architecture A recovery:
+3x3: 11/11 PASS; unexpected-sof bad_index=5, extra_source_idle_cycles=1, prior_output_transfers=1, aborted_frame_count=0, recovered mismatch_count=0, recovered_frame_count=1
+5x4: 11/11 PASS; unexpected-sof bad_index=7, extra_source_idle_cycles=1, prior_output_transfers=1, aborted_frame_count=0, recovered mismatch_count=0, recovered_frame_count=1
+8x5: 11/11 PASS; unexpected-sof bad_index=10, extra_source_idle_cycles=1, prior_output_transfers=1, aborted_frame_count=0, recovered mismatch_count=0, recovered_frame_count=1
+
+Architecture B recovery:
+3x3: 11/11 PASS; unexpected-sof bad_index=5, extra_source_idle_cycles=2, prior_output_transfers=1, aborted_frame_count=0, recovered mismatch_count=0, recovered_frame_count=1
+5x4: 11/11 PASS; unexpected-sof bad_index=7, extra_source_idle_cycles=2, prior_output_transfers=1, aborted_frame_count=0, recovered mismatch_count=0, recovered_frame_count=1
+8x5: 11/11 PASS; unexpected-sof bad_index=10, extra_source_idle_cycles=2, prior_output_transfers=1, aborted_frame_count=0, recovered mismatch_count=0, recovered_frame_count=1
+
+Architecture-A production RTL modified:
+No
+
+Architecture-B RTL modified by repair:
+No
+
+Existing Python test modified:
+Yes, only the shared partial-output precondition was made architecture-neutral.

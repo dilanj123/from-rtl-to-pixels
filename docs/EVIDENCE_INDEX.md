@@ -238,3 +238,13 @@ Claim: The Architecture-A routed implementation bottleneck was reclassified usin
 Evidence: `results/raw/arch-a-bottleneck-review.log`; preserved raw reports remain `results/raw/arch-a-route-clean-report.json` and `results/raw/arch-a-route-fail-report.json`
 Classification: `ARCHITECTURE-A BOTTLENECK REVIEW — DERIVED FROM ROUTED TIMING EVIDENCE`
 Interpretation: the corrected bottleneck supports one bottleneck-driven Architecture-B experiment: a single 28-bit ready/valid elastic stage after Sobel Gx/Gy. Architecture B was not implemented.
+
+Claim: Architecture-B functional implementation passed the established integrated regression after the single post-Gx/Gy 28-bit elastic boundary was added. Complete-frame, streaming/backpressure, reset and malformed-metadata recovery, configuration timing, six random dimensions (three frames each), the canonical 640x480 image, the reference model and direct Architecture-A/B image comparison all passed with exact counts and zero mismatches.
+Evidence: `results/raw/arch-b-functional-regression.log`, `results/raw/arch-ab-recovery-precondition-repair.log`, `results/processed/arch-b/gate3-real-reference.png`, `results/processed/arch-b/gate3-real-rtl.png`, `results/processed/arch-b/gate3-real-diff.png`, `results/processed/arch-b/arch-a-vs-b-diff.png`
+Classification: `RTL SIMULATION VERIFIED`
+Conditions: one DATA_WIDTH=28 ready/valid stage immediately after Sobel Gx/Gy; same Python test logic and oracle as Architecture A; B lint clean at 3x3, 5x4, 8x5 and 640x480; 28-bit elastic regression 6/6; Gate-2 4/4, streaming 5/5, recovery 11/11 and configuration 6/6 at 3x3, 5x4 and 8x5; 18 random frames across 4x4, 5x5, 3x7, 7x3, 16x9 and 31x17; canonical 640x480 accepted_input=307200, accepted_output=307200, mismatch_count=0 and FRAME_COUNT=1; direct A/B image diff_nonzero=0 and max_abs_diff=0; reference pytest 13 passed.
+Limitations: Architecture-B synthesis, P&R and timing were not run; no timing improvement is claimed; no whole-Architecture-B formal proof or whole-accelerator formal proof is claimed.
+
+Claim: During Architecture-B re-verification, the existing unexpected-SOF-after-partial-output recovery test was found to rely on Architecture-A pipeline latency when establishing its prior-output-escaped precondition. The shared test was repaired to establish that condition explicitly using source-idle cycles while preserving the malformed input index and all abort/recovery assertions. Architecture A and B then passed the complete recovery suite.
+Evidence: `results/raw/arch-ab-recovery-precondition-repair.log`, `results/raw/arch-b-functional-regression.log`
+Classification: `VERIFICATION HARNESS IMPROVEMENT — architecture-neutral establishment of the pre-existing partial-output precondition.`

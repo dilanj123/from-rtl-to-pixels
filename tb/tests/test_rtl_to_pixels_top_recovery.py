@@ -444,6 +444,48 @@ async def send_malformed_token(
     return int(output_transfer)
 
 
+async def wait_for_prior_output_transfer(
+    dut,
+    label,
+    max_wait_cycles=8,
+):
+    """
+    Establish the architecture-neutral precondition for metadata-abort
+    cases that explicitly require an output from the incomplete frame
+    to have escaped before the malformed input is accepted.
+
+    No input pixel is accepted while waiting.  Only already-created
+    downstream tokens are allowed to advance.
+    """
+    source_idle(dut)
+    dut.m_tready.value = 1
+
+    for wait_cycle in range(max_wait_cycles):
+        await settle()
+
+        output_transfer = bool(
+            int(dut.m_tvalid.value)
+            and int(dut.m_tready.value)
+        )
+
+        await RisingEdge(dut.clk)
+        await settle()
+
+        if output_transfer:
+            print(
+                "partial-output precondition: "
+                f"label={label} "
+                f"extra_idle_cycles={wait_cycle + 1} "
+                "prior_output_transfer=1"
+            )
+            return 1
+
+    raise AssertionError(
+        f"{label}: required prior external output transfer "
+        f"not reached within {max_wait_cycles} source-idle cycles"
+    )
+
+
 async def abort_and_recover(
     dut,
     label,
@@ -473,6 +515,15 @@ async def abort_and_recover(
         image,
         bad_index,
     )
+
+    if (
+        require_prior_output
+        and prior_outputs == 0
+    ):
+        prior_outputs += await wait_for_prior_output_transfer(
+            dut,
+            label,
+        )
 
     prior_outputs += await send_malformed_token(
         dut,

@@ -112,3 +112,16 @@ This boundary is selected from the corrected synchronous Architecture-A path: li
 If the change directly addresses the measured A bottleneck it may be described as a bottleneck-driven optimisation. Otherwise it shall be described only as a controlled pipeline experiment.
 
 A and B shall produce bit-identical completed output images.
+
+### Architecture-B implementation status
+
+The initial Architecture-B experiment is implemented as one ready/valid elastic stage immediately after Sobel Gx/Gy. The exact 28-bit token mapping is:
+
+- `[27]` final tag
+- `[26]` SOF/user
+- `[25]` EOL/last
+- `[24]` border
+- `[23:12]` Gx
+- `[11:0]` Gy
+
+The existing output elastic `s_ready` drives the arithmetic stage `m_ready`; the arithmetic stage `s_ready` drives `output_control.output_ready_i`. No additional arithmetic pipeline stage has been introduced. Functional regression evidence is recorded in `results/raw/arch-b-functional-regression.log`; Architecture-B synthesis, P&R and timing remain deferred to Phase 11.

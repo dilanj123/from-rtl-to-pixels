@@ -1,6 +1,6 @@
 module magnitude_clamp (
-    input  logic [11:0] gx_i,
-    input logic [11:0] gy_i,
+    input  logic signed [11:0] gx_i,
+    input  logic signed [11:0] gy_i,
     output logic [10:0] magnitude_o,
     output logic [7:0]  magnitude_clamped_o
 );

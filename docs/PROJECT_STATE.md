@@ -195,3 +195,25 @@ Gate 3: CLOSED
 Gate 4: CLOSED
 Gate 5: OPEN
 Physical board: not run. Physical measurement: none.
+
+## Current authoritative release state
+
+Current phase: Phase 13 — Publication complete
+Current gate: Gate 4 CLOSED; Gate 5 CLOSED
+Release status: CV-ready release candidate validated
+
+Architecture A: compact baseline; 35/40 MHz seed-1 clean/fail frontier; 25.731 ns synchronous path.
+Architecture B: retained timing-oriented variant; 60/65 MHz seed-1 clean/fail frontier; 16.194 ns synchronous path; one-cycle latency increase; II=1.
+
+Phase-12 debug case studies are complete. No deliberate defect remains on main.
+Current bottleneck: public/CV-ready documentation, CI and clean-clone reproduction (completed for this release).
+Next phase: Phase 14 — Optional physical FPGA
+Next task: OPTIONAL ONLY — physical FPGA demonstration if desired
+
+Gate 0: CLOSED
+Gate 1: CLOSED
+Gate 2: CLOSED
+Gate 3: CLOSED
+Gate 4: CLOSED
+Gate 5: CLOSED
+Physical board: not run. Physical measurement: none.

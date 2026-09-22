@@ -32,5 +32,5 @@ Rules:
 - Architecture B starts only after Architecture-A functional and implementation evidence exists.
 - Return exact commands, exit codes, relevant logs, diff/stat and status for local tasks.
 
-Current restriction:
-Gate 1 and Gate 2 are recorded closed in docs/PROJECT_STATE.md; Gate 3 remains open. Keep work scoped to the authorised verification task. Do not change production RTL during verification-only tasks; report any detected RTL failure before proceeding. Architecture B remains gated on Architecture-A functional and implementation evidence.
+Current state:
+Gate 3 CLOSED. Gate 4 CLOSED. Architecture A and B are implemented and compared. Current work is Gate-5 publication/reproducibility only. Do not change production RTL during publication work unless a new verified defect requires reopening an engineering gate.

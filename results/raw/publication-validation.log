@@ -1,0 +1,10 @@
+P13-PUBLICATION-001
+README, architecture SVG, pinned dependencies, command surface, CI workflow and current limitations prepared.
+PUBLICATION_ASSETS=PASS
+Local make ci: CI_SMOKE=PASS
+Local make test-unit: UNIT_REGRESSION=PASS
+Local make test: INTEGRATION_REGRESSION=PASS
+Local make test-real-image: REAL_IMAGE_REGRESSION=PASS
+Local selected formal: SELECTED_FORMAL_REGRESSION=PASS
+Production RTL unchanged; existing functional tests unchanged.
+Candidate CI and clean-clone results are recorded after push.

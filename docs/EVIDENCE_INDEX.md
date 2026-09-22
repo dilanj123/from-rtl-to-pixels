@@ -263,3 +263,9 @@ A deliberately injected isolated defect caused the documented regression failure
 - DEBUG-001 signedness: branch `debug/signedness`, defect `2efe6a8`, fix `0546324`; evidence `results/raw/debug-001-signedness-fail.log` and `debug-001-signedness-pass.log`.
 - DEBUG-002 stalled output: branch `debug/stalled-output`, defect `6ea07f8`, fix `26c6af5`; evidence `results/raw/debug-002-stalled-output-fail.log` and `debug-002-stalled-output-pass.log`.
 - DEBUG-003 metadata alignment: branch `debug/metadata-misalignment`, defect `03f2fbb`, fix `44fb4c3`; evidence `results/raw/debug-003-metadata-misalignment-fail.log` and `debug-003-metadata-misalignment-pass.log`.
+
+## Phase-13 publication and release
+
+Publication evidence includes the README, original architecture SVG, pinned development dependencies, command surface, GitHub Actions workflow, and current limitations/trade-offs. Asset check: `PUBLICATION_ASSETS=PASS`. Release evidence: `results/raw/clean-clone-validation.log`, `results/raw/publication-validation.log`, `results/raw/gate5-release-audit.log`.
+
+Classification: `CLEAN-CHECKOUT REPRODUCTION VERIFIED` after the recorded candidate validation. The public repository was cloned into a fresh temporary directory at the recorded commit, dependencies were installed from repository instructions, and documented simulation, formal and implementation commands completed using the external EDA installation.

@@ -1,0 +1,17 @@
+README: PASS — README.md
+original architecture diagram: PASS — docs/assets/architecture.svg
+input image: PASS — tb/images/Tokinokane2005-1-4.jpg
+reference image: PASS — results/processed/arch-b/gate3-real-reference.png
+RTL image: PASS — results/processed/arch-b/gate3-real-rtl.png
+diff image: PASS — results/processed/arch-b/gate3-real-diff.png and arch-a-vs-b-diff.png
+regression summary: PASS — results/raw/arch-b-functional-regression.log
+formal summary: PASS — docs/FORMAL.md
+A/B result table: PASS — docs/ARCHITECTURE_COMPARISON.md
+exact commands: PASS — README.md and Makefile
+limitations: PASS — docs/KNOWN_LIMITATIONS.md
+evidence index: PASS — docs/EVIDENCE_INDEX.md
+MIT licence: PASS — LICENSE
+third-party notices: PASS — THIRD_PARTY_NOTICES.md and docs/THIRD_PARTY_MANIFEST.md
+CI: PASS — .github/workflows/ci.yml
+clean-clone reproduction: PASS — results/raw/clean-clone-validation.log
+GATE5_RELEASE_AUDIT=PASS

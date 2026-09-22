@@ -253,3 +253,13 @@ Classification: `VERIFICATION HARNESS IMPROVEMENT — architecture-neutral estab
 Claim: P11 controlled Architecture A/B comparison used identical 640x480, ECP5, seed-1 conditions. A and B synthesized, routed, and were compared for resources, synchronous timing, latency and II. A frontier is 35/40 MHz; B is 60/65 MHz.
 Evidence: results/raw/arch-ab-comparison.json, results/raw/arch-ab-comparison.log, p11 raw files.
 Classification: SYNTHESISED; PLACED/ROUTED TIMING-CLEAN/FAILING; RTL SIMULATION VERIFIED; DERIVED throughput.
+
+## Phase-12 debug case studies
+
+Classification: `DEBUG CASE STUDY VERIFIED`.
+
+A deliberately injected isolated defect caused the documented regression failure; restoring the known-good implementation caused the same regression to pass. The deliberate defect was never merged into `main`.
+
+- DEBUG-001 signedness: branch `debug/signedness`, defect `2efe6a8`, fix `0546324`; evidence `results/raw/debug-001-signedness-fail.log` and `debug-001-signedness-pass.log`.
+- DEBUG-002 stalled output: branch `debug/stalled-output`, defect `6ea07f8`, fix `26c6af5`; evidence `results/raw/debug-002-stalled-output-fail.log` and `debug-002-stalled-output-pass.log`.
+- DEBUG-003 metadata alignment: branch `debug/metadata-misalignment`, defect `03f2fbb`, fix `44fb4c3`; evidence `results/raw/debug-003-metadata-misalignment-fail.log` and `debug-003-metadata-misalignment-pass.log`.

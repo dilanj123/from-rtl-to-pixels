@@ -1,0 +1,11 @@
+Task: P12-DEBUG-CASE-STUDIES-001
+Baseline: 436719bc4ea16d58a2ea72ad28711e86087e9ffa
+Gate-4 evidence: A LUT4=665 FF=194 clean=35 fail=40 sync=25.731 ns; B LUT4=775 FF=223 clean=60 fail=65 sync=16.194 ns; II=1; pixels/clock=1; B latency +1; decision RETAIN; Gate 4 CLOSED.
+
+DEBUG-001 signedness: branch debug/signedness; defect 2efe6a8; fix 0546324; removed signed qualifiers; 7/7 failure with negative vectors (e.g. gx=-3 gy=-7 expected 10 actual 2038); restored source; 7/7 PASS; branch pushed.
+DEBUG-002 stalled-output: branch debug/stalled-output; defect 6ea07f8; fix 26c6af5; bypassed data_q with s_valid ? s_data : data_q; backpressure_holds_output_stable observed expected 0x12 actual 0x34 and randomized failure; restored source; 6/6 PASS; branch pushed.
+DEBUG-003 metadata: branch debug/metadata-misalignment; defect 03f2fbb; fix 44fb4c3; swapped raw_output_user/raw_output_last pack order; first metadata failure had output index 0 expected SOF=1 actual 0; Gate-2 3x3 4/4 failed; restored source; 4/4 PASS; branch pushed.
+
+Root causes: signedness is part of arithmetic contract; stalled valid transactions must hold data/metadata; pipeline metadata must travel with the arithmetic token.
+All defect branch tips match baseline production source contents. No deliberate defect remains on main.
+Main sanity: magnitude_clamp 7/7 PASS; elastic_stage 6/6 PASS; Architecture-B Gate-2 3x3 4/4 PASS.

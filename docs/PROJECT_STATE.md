@@ -176,3 +176,22 @@ P12-DEBUG-CASE-STUDIES-001
 
 
 P11 comparison: A 35/40 MHz, B 60/65 MHz seed-1 frontier; B synchronous path 16.194 ns versus A 25.731 ns; B adds one cycle and resources while preserving II=1 and image equivalence. Decision: RETAIN. No physical board or whole-accelerator formal claim.
+
+## Current authoritative state after Phase 12
+
+Current phase: Phase 13 — Publication
+Current gate: Gate 4 CLOSED; Gate 5 OPEN
+
+Architecture A: SYNTHESISED; highest clean 35 MHz, lowest fail 40 MHz, synchronous path 25.731 ns; LUT4 665, TRELLIS_FF 194.
+Architecture B: SYNTHESISED; highest clean 60 MHz, lowest fail 65 MHz, synchronous path 16.194 ns; LUT4 775, TRELLIS_FF 223.
+Both architectures sustain II=1 and 1 pixel/clock. B adds one cycle of latency. Decision: RETAIN B as timing-oriented variant.
+
+Phase-12 debug case studies complete: signedness, stalled-output instability, and Architecture-B metadata alignment. No deliberate defect remains on main.
+
+Current bottleneck: Public/CV-ready documentation, CI and clean-clone reproduction.
+Next task: P13-PUBLICATION-001
+
+Gate 3: CLOSED
+Gate 4: CLOSED
+Gate 5: OPEN
+Physical board: not run. Physical measurement: none.

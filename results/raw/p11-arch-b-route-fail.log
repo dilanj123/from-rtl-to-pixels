@@ -1,0 +1,431 @@
+
+
+Info: Logic utilisation before packing:
+Info:     Total LUT4s:       995/43848     2%
+Info:         logic LUTs:    775/43848     1%
+Info:         carry LUTs:    220/43848     0%
+Info:           RAM LUTs:      0/ 5481     0%
+Info:          RAMW LUTs:      0/10962     0%
+
+Info:      Total DFFs:       223/43848     0%
+
+Info: Packing IOs..
+Info: Packing constants..
+Info: Packing carries...
+Info: Packing LUTs...
+Info: Packing LUT5-7s...
+Info: Packing FFs...
+Info:     184 FFs paired with LUTs.
+Info: Generating derived timing constraints...
+Info: Promoting globals...
+Info:     promoting clock net clk$TRELLIS_IO_IN to global network
+Info: Checksum: 0xa5360788
+
+Info: Device utilisation:
+Info: 	          TRELLIS_IO:     119/    245    48%
+Info: 	                DCCA:       1/     56     1%
+Info: 	              DP16KD:       2/    108     1%
+Info: 	          MULT18X18D:       3/     72     4%
+Info: 	              ALU54B:       0/     36     0%
+Info: 	             EHXPLLL:       0/      4     0%
+Info: 	             EXTREFB:       0/      2     0%
+Info: 	                DCUA:       0/      2     0%
+Info: 	           PCSCLKDIV:       0/      2     0%
+Info: 	             IOLOGIC:       0/    160     0%
+Info: 	            SIOLOGIC:       0/     85     0%
+Info: 	                 GSR:       0/      1     0%
+Info: 	               JTAGG:       0/      1     0%
+Info: 	                OSCG:       0/      1     0%
+Info: 	               SEDGA:       0/      1     0%
+Info: 	                 DTR:       0/      1     0%
+Info: 	             USRMCLK:       0/      1     0%
+Info: 	             CLKDIVF:       0/      4     0%
+Info: 	           ECLKSYNCB:       0/     10     0%
+Info: 	             DLLDELD:       0/      8     0%
+Info: 	              DDRDLL:       0/      4     0%
+Info: 	             DQSBUFM:       0/     10     0%
+Info: 	     TRELLIS_ECLKBUF:       0/      8     0%
+Info: 	        ECLKBRIDGECS:       0/      2     0%
+Info: 	                DCSC:       0/      2     0%
+Info: 	          TRELLIS_FF:     223/  43848     0%
+Info: 	        TRELLIS_COMB:    1065/  43848     2%
+Info: 	        TRELLIS_RAMW:       0/   5481     0%
+
+Info: Placed 0 cells based on constraints.
+Info: Creating initial analytic placement for 579 cells, random placement wirelen = 65035.
+Info:     at initial placer iter 0, wirelen = 6672
+Info:     at initial placer iter 1, wirelen = 6184
+Info:     at initial placer iter 2, wirelen = 6068
+Info:     at initial placer iter 3, wirelen = 5901
+Info: Running main analytical placer, max placement attempts per cell = 249571.
+Info:     at iteration #1, type ALL: wirelen solved = 5878, spread = 10760, legal = 10876; time = 0.02s
+Info:     at iteration #2, type ALL: wirelen solved = 6121, spread = 10301, legal = 10878; time = 0.01s
+Info:     at iteration #3, type ALL: wirelen solved = 6230, spread = 10075, legal = 10608; time = 0.01s
+Info:     at iteration #4, type ALL: wirelen solved = 6334, spread = 9338, legal = 9545; time = 0.01s
+Info:     at iteration #5, type ALL: wirelen solved = 6478, spread = 8885, legal = 9751; time = 0.01s
+Info:     at iteration #6, type ALL: wirelen solved = 6546, spread = 9016, legal = 9985; time = 0.01s
+Info:     at iteration #7, type ALL: wirelen solved = 6691, spread = 9393, legal = 9864; time = 0.01s
+Info:     at iteration #8, type ALL: wirelen solved = 6884, spread = 9091, legal = 9887; time = 0.01s
+Info:     at iteration #9, type ALL: wirelen solved = 6997, spread = 10185, legal = 10995; time = 0.01s
+Info: HeAP Placer Time: 0.19s
+Info:   of which solving equations: 0.11s
+Info:   of which spreading cells: 0.02s
+Info:   of which strict legalisation: 0.01s
+
+Info: Running simulated annealing placer for refinement.
+Info:   at iteration #1: temp = 0.000000, timing cost = 263, wirelen = 9545
+Info:   at iteration #5: temp = 0.000000, timing cost = 229, wirelen = 7505
+Info:   at iteration #10: temp = 0.000000, timing cost = 212, wirelen = 7244
+Info:   at iteration #15: temp = 0.000000, timing cost = 196, wirelen = 7167
+Info:   at iteration #18: temp = 0.000000, timing cost = 194, wirelen = 7124 
+Info: SA placement time 0.66s
+
+Info: Max frequency for clock '$glbnet$clk$TRELLIS_IO_IN': 58.68 MHz (FAIL at 65.00 MHz)
+
+Info: Max delay <async>                           -> <async>                          : 21.58 ns
+Info: Max delay <async>                           -> posedge $glbnet$clk$TRELLIS_IO_IN: 24.91 ns
+Info: Max delay posedge $glbnet$clk$TRELLIS_IO_IN -> <async>                          : 11.30 ns
+
+Info: Slack histogram:
+Info:  legend: * represents 1 endpoint(s)
+Info:          + represents [1,1) endpoint(s)
+Info: [ -1658,   -843) |*****+
+Info: [  -843,    -28) |*+
+Info: [   -28,    787) |******+
+Info: [   787,   1602) |**+
+Info: [  1602,   2417) |+
+Info: [  2417,   3232) |*+
+Info: [  3232,   4047) |**************************+
+Info: [  4047,   4862) |***************+
+Info: [  4862,   5677) |*********************************+
+Info: [  5677,   6492) |******************************************+
+Info: [  6492,   7307) |********************************************************+
+Info: [  7307,   8122) |**********************************+
+Info: [  8122,   8937) |*************************************+
+Info: [  8937,   9752) |*************+
+Info: [  9752,  10567) | 
+Info: [ 10567,  11382) |***+
+Info: [ 11382,  12197) |************************************************************ 
+Info: [ 12197,  13012) |****************************************************+
+Info: [ 13012,  13827) |************************+
+Info: [ 13827,  14642) |************+
+Info: Checksum: 0x004542d9
+Info: Routing globals...
+Info:     routing clock net $glbnet$clk$TRELLIS_IO_IN using global 0
+
+Info: Routing..
+Info: Setting up routing queue.
+Info: Routing 3833 arcs.
+Info:            |   (re-)routed arcs  |   delta    | remaining|       time spent     |
+Info:    IterCnt |  w/ripup   wo/ripup |  w/r  wo/r |      arcs| batch(sec) total(sec)|
+Info:       1000 |      200        799 |  200   799 |      3071|       0.13       0.13|
+Info:       2000 |      420       1543 |  220   744 |      2331|       0.10       0.23|
+Info:       3000 |      679       2186 |  259   643 |      1599|       0.08       0.31|
+Info:       4000 |      745       3016 |   66   830 |       670|       0.11       0.42|
+Info:       4725 |      797       3613 |   52   597 |         0|       0.16       0.58|
+Info: Routing complete.
+Info: Router1 time 0.58s
+Info: Checksum: 0x8f818ff4
+
+Info: Critical path report for clock '$glbnet$clk$TRELLIS_IO_IN' (posedge -> posedge):
+Info:       type curr  total name
+Info:   clk-to-q  5.83  5.83 Source u_line_buffer.line1_mem.0.0.DOB3
+Info:    routing  0.82  6.65 Net u_line_buffer.line1_mem.0.0_DOB3[2] (26,10) -> (26,11)
+Info:                          Sink u_line_buffer.line1_mem.0.0_DOB3_LUT4_D.D
+Info:                          Defined in:
+Info:                               /Users/Dilan/.local/share/from-rtl-to-pixels/oss-cad-suite-20260920/libexec/../share/yosys/lattice/cells_map_trellis.v:108.23-108.24
+Info:      logic  0.24  6.89 Source u_line_buffer.line1_mem.0.0_DOB3_LUT4_D.F
+Info:    routing  1.39  8.27 Net u_line_buffer.line1_mem.0.0_DOB3_LUT4_D_Z[3] (26,11) -> (30,15)
+Info:                          Sink s_tvalid_LUT4_A.D
+Info:                          Defined in:
+Info:                               /Users/Dilan/.local/share/from-rtl-to-pixels/oss-cad-suite-20260920/libexec/../share/yosys/lattice/cells_map_trellis.v:108.23-108.24
+Info:      logic  0.24  8.51 Source s_tvalid_LUT4_A.F
+Info:    routing  0.00  8.51 Net s_tvalid_LUT4_A_Z (30,15) -> (30,15)
+Info:                          Sink s_tvalid_LUT4_A_Z_PFUMX_ALUT_BLUT_LUT4_Z.F1
+Info:                          Defined in:
+Info:                               /Users/Dilan/.local/share/from-rtl-to-pixels/oss-cad-suite-20260920/libexec/../share/yosys/lattice/cells_map_trellis.v:157.30-157.32
+Info:      logic  0.17  8.67 Source s_tvalid_LUT4_A_Z_PFUMX_ALUT_BLUT_LUT4_Z.OFX
+Info:    routing  0.00  8.67 Net s_tvalid_LUT4_A_Z_PFUMX_ALUT_Z (30,15) -> (30,15)
+Info:                          Sink s_tvalid_LUT4_A.FXB
+Info:                          Defined in:
+Info:                               /Users/Dilan/.local/share/from-rtl-to-pixels/oss-cad-suite-20260920/libexec/../share/yosys/lattice/cells_map_trellis.v:157.54-157.56
+Info:      logic  0.24  8.92 Source s_tvalid_LUT4_A.OFX
+Info:    routing  0.00  8.92 Net s_tvalid_LUT4_A_Z_PFUMX_ALUT_Z_L6MUX21_D1_Z (30,15) -> (30,15)
+Info:                          Sink s_tvalid_LUT4_A_Z_PFUMX_ALUT_Z_L6MUX21_D1_Z_L6MUX21_D0_D1_L6MUX21_Z_D0_PFUMX_Z_ALUT_LUT4_Z.FXA
+Info:                          Defined in:
+Info:                               /Users/Dilan/.local/share/from-rtl-to-pixels/oss-cad-suite-20260920/libexec/../share/yosys/lattice/cells_map_trellis.v:157.66-157.68
+Info:      logic  0.24  9.15 Source s_tvalid_LUT4_A_Z_PFUMX_ALUT_Z_L6MUX21_D1_Z_L6MUX21_D0_D1_L6MUX21_Z_D0_PFUMX_Z_ALUT_LUT4_Z.OFX
+Info:    routing  0.62  9.78 Net s_tvalid_LUT4_A_Z_PFUMX_ALUT_Z_L6MUX21_D1_Z_L6MUX21_D0_Z[4] (30,15) -> (29,15)
+Info:                          Sink u_line_buffer.line1_mem.0.0_DOB4_LUT4_D_Z_LUT4_C_Z_PFUMX_ALUT_Z_L6MUX21_D1_Z_L6MUX21_SD_D1_L6MUX21_Z_D1_PFUMX_Z_BLUT_LUT4_Z.M
+Info:                          Defined in:
+Info:                               /Users/Dilan/.local/share/from-rtl-to-pixels/oss-cad-suite-20260920/libexec/../share/yosys/lattice/cells_map_trellis.v:108.23-108.24
+Info:      logic  0.26  10.04 Source u_line_buffer.line1_mem.0.0_DOB4_LUT4_D_Z_LUT4_C_Z_PFUMX_ALUT_Z_L6MUX21_D1_Z_L6MUX21_SD_D1_L6MUX21_Z_D1_PFUMX_Z_BLUT_LUT4_Z.OFX
+Info:    routing  0.00  10.04 Net u_line_buffer.line1_mem.0.0_DOB4_LUT4_D_Z_LUT4_C_Z_PFUMX_ALUT_Z_L6MUX21_D1_Z_L6MUX21_SD_D1_L6MUX21_Z_D1 (29,15) -> (29,15)
+Info:                          Sink u_line_buffer.line1_mem.0.0_DOB4_LUT4_D_Z_LUT4_C_Z_PFUMX_ALUT_Z_L6MUX21_D1_Z_L6MUX21_SD_D1_L6MUX21_Z_D1_PFUMX_Z_ALUT_LUT4_Z.FXB
+Info:                          Defined in:
+Info:                               /Users/Dilan/.local/share/from-rtl-to-pixels/oss-cad-suite-20260920/libexec/../share/yosys/lattice/cells_map_trellis.v:157.62-157.64
+Info:      logic  0.24  10.28 Source u_line_buffer.line1_mem.0.0_DOB4_LUT4_D_Z_LUT4_C_Z_PFUMX_ALUT_Z_L6MUX21_D1_Z_L6MUX21_SD_D1_L6MUX21_Z_D1_PFUMX_Z_ALUT_LUT4_Z.OFX
+Info:    routing  0.00  10.28 Net u_line_buffer.line1_mem.0.0_DOB4_LUT4_D_Z_LUT4_C_Z_PFUMX_ALUT_Z_L6MUX21_D1_Z_L6MUX21_SD_D1 (29,15) -> (29,15)
+Info:                          Sink u_line_buffer.line1_mem.0.0_DOB4_LUT4_D_Z_LUT4_C_Z_PFUMX_ALUT_Z_L6MUX21_D1_Z_L6MUX21_SD_D1_L6MUX21_Z_D0_PFUMX_Z_ALUT_LUT4_Z.FXB
+Info:                          Defined in:
+Info:                               /Users/Dilan/.local/share/from-rtl-to-pixels/oss-cad-suite-20260920/libexec/../share/yosys/lattice/cells_map_trellis.v:157.70-157.72
+Info:      logic  0.24  10.52 Source u_line_buffer.line1_mem.0.0_DOB4_LUT4_D_Z_LUT4_C_Z_PFUMX_ALUT_Z_L6MUX21_D1_Z_L6MUX21_SD_D1_L6MUX21_Z_D0_PFUMX_Z_ALUT_LUT4_Z.OFX
+Info:    routing  0.85  11.37 Net u_line_buffer.line1_mem.0.0_DOB4_LUT4_D_Z_LUT4_C_Z_PFUMX_ALUT_Z_L6MUX21_D1_Z_L6MUX21_SD_1_Z[3] (29,15) -> (29,14)
+Info:                          Sink u_line_buffer.line1_mem.0.0_DOB4_LUT4_D_Z_LUT4_C_Z_PFUMX_ALUT_Z_L6MUX21_D1_Z_L6MUX21_SD_1_Z_PFUMX_C0_Z_L6MUX21_D1_D0_PFUMX_Z_BLUT_LUT4_Z.D
+Info:                          Defined in:
+Info:                               /Users/Dilan/.local/share/from-rtl-to-pixels/oss-cad-suite-20260920/libexec/../share/yosys/lattice/cells_map_trellis.v:108.23-108.24
+Info:      logic  0.40  11.77 Source u_line_buffer.line1_mem.0.0_DOB4_LUT4_D_Z_LUT4_C_Z_PFUMX_ALUT_Z_L6MUX21_D1_Z_L6MUX21_SD_1_Z_PFUMX_C0_Z_L6MUX21_D1_D0_PFUMX_Z_BLUT_LUT4_Z.OFX
+Info:    routing  0.00  11.77 Net u_line_buffer.line1_mem.0.0_DOB4_LUT4_D_Z_LUT4_C_Z_PFUMX_ALUT_Z_L6MUX21_D1_Z_L6MUX21_SD_1_Z_PFUMX_C0_Z_L6MUX21_D1_D0 (29,14) -> (29,14)
+Info:                          Sink u_line_buffer.line1_mem.0.0_DOB4_LUT4_D_Z_LUT4_C_Z_PFUMX_ALUT_Z_L6MUX21_D1_Z_L6MUX21_SD_1_Z_PFUMX_C0_ALUT_LUT4_Z.FXA
+Info:                          Defined in:
+Info:                               /Users/Dilan/.local/share/from-rtl-to-pixels/oss-cad-suite-20260920/libexec/../share/yosys/lattice/cells_map_trellis.v:141.34-141.36
+Info:      logic  0.24  12.01 Source u_line_buffer.line1_mem.0.0_DOB4_LUT4_D_Z_LUT4_C_Z_PFUMX_ALUT_Z_L6MUX21_D1_Z_L6MUX21_SD_1_Z_PFUMX_C0_ALUT_LUT4_Z.OFX
+Info:    routing  1.10  13.11 Net u_line_buffer.line1_mem.0.0_DOB4_LUT4_D_Z_LUT4_C_Z_PFUMX_ALUT_Z_L6MUX21_D1_Z_L6MUX21_SD_1_Z_PFUMX_C0_Z_L6MUX21_D1_Z[3] (29,14) -> (28,16)
+Info:                          Sink u_arithmetic_elastic.m_data_TRELLIS_FF_Q_18_DI_CCU2C_S1_A0_PFUMX_Z_ALUT_LUT4_Z.D
+Info:                          Defined in:
+Info:                               /Users/Dilan/.local/share/from-rtl-to-pixels/oss-cad-suite-20260920/libexec/../share/yosys/lattice/cells_map_trellis.v:108.23-108.24
+Info:      logic  0.24  13.35 Source u_arithmetic_elastic.m_data_TRELLIS_FF_Q_18_DI_CCU2C_S1_A0_PFUMX_Z_ALUT_LUT4_Z.F
+Info:    routing  0.00  13.35 Net u_arithmetic_elastic.m_data_TRELLIS_FF_Q_18_DI_CCU2C_S1_A0_PFUMX_Z_ALUT (28,16) -> (28,16)
+Info:                          Sink u_arithmetic_elastic.m_data_TRELLIS_FF_Q_18_DI_CCU2C_S1_A0_PFUMX_Z_BLUT_LUT4_Z.F1
+Info:                          Defined in:
+Info:                               /Users/Dilan/.local/share/from-rtl-to-pixels/oss-cad-suite-20260920/libexec/../share/yosys/lattice/cells_map_trellis.v:133.22-133.24
+Info:      logic  0.17  13.51 Source u_arithmetic_elastic.m_data_TRELLIS_FF_Q_18_DI_CCU2C_S1_A0_PFUMX_Z_BLUT_LUT4_Z.OFX
+Info:    routing  1.30  14.81 Net u_arithmetic_elastic.m_data_TRELLIS_FF_Q_18_DI_CCU2C_S1_A0 (28,16) -> (26,18)
+Info:                          Sink u_arithmetic_elastic.m_data_TRELLIS_FF_Q_18_DI_CCU2C_S1$CCU2_COMB0.A
+Info:      logic  0.45  15.26 Source u_arithmetic_elastic.m_data_TRELLIS_FF_Q_18_DI_CCU2C_S1$CCU2_COMB0.FCO
+Info:    routing  0.00  15.26 Net u_arithmetic_elastic.m_data_TRELLIS_FF_Q_18_DI_CCU2C_S1$CCU2_FCI_INT (26,18) -> (26,18)
+Info:                          Sink u_arithmetic_elastic.m_data_TRELLIS_FF_Q_18_DI_CCU2C_S1$CCU2_COMB1.FCI
+Info:      logic  0.00  15.26 Source u_arithmetic_elastic.m_data_TRELLIS_FF_Q_18_DI_CCU2C_S1$CCU2_COMB1.FCO
+Info:    routing  0.00  15.26 Net u_arithmetic_elastic.m_data_TRELLIS_FF_Q_18_DI_CCU2C_S1_COUT (26,18) -> (26,18)
+Info:                          Sink u_arithmetic_elastic.m_data_TRELLIS_FF_Q_20_DI_CCU2C_S1$CCU2_COMB0.FCI
+Info:                          Defined in:
+Info:                               /Users/Dilan/.local/share/from-rtl-to-pixels/oss-cad-suite-20260920/libexec/../share/yosys/lattice/arith_map_ccu2c.v:74.7-80.4
+Info:                               /Users/Dilan/.local/share/from-rtl-to-pixels/oss-cad-suite-20260920/libexec/../share/yosys/lattice/ccu2c_sim.vh:9.9-9.13
+Info:      logic  0.07  15.33 Source u_arithmetic_elastic.m_data_TRELLIS_FF_Q_20_DI_CCU2C_S1$CCU2_COMB0.FCO
+Info:    routing  0.00  15.33 Net u_arithmetic_elastic.m_data_TRELLIS_FF_Q_20_DI_CCU2C_S1$CCU2_FCI_INT (26,18) -> (26,18)
+Info:                          Sink u_arithmetic_elastic.m_data_TRELLIS_FF_Q_20_DI_CCU2C_S1$CCU2_COMB1.FCI
+Info:      logic  0.00  15.33 Source u_arithmetic_elastic.m_data_TRELLIS_FF_Q_20_DI_CCU2C_S1$CCU2_COMB1.FCO
+Info:    routing  0.00  15.33 Net u_arithmetic_elastic.m_data_TRELLIS_FF_Q_20_DI_CCU2C_S1_COUT (26,18) -> (26,18)
+Info:                          Sink u_arithmetic_elastic.m_data_TRELLIS_FF_Q_20_DI_CCU2C_S1_COUT_CCU2C_CIN$CCU2_COMB0.FCI
+Info:                          Defined in:
+Info:                               /Users/Dilan/.local/share/from-rtl-to-pixels/oss-cad-suite-20260920/libexec/../share/yosys/lattice/arith_map_ccu2c.v:74.7-80.4
+Info:                               /Users/Dilan/.local/share/from-rtl-to-pixels/oss-cad-suite-20260920/libexec/../share/yosys/lattice/ccu2c_sim.vh:9.9-9.13
+Info:      logic  0.44  15.77 Source u_arithmetic_elastic.m_data_TRELLIS_FF_Q_20_DI_CCU2C_S1_COUT_CCU2C_CIN$CCU2_COMB0.F
+Info:    routing  0.42  16.19 Net u_arithmetic_elastic.m_data_TRELLIS_FF_Q_20_DI_CCU2C_S1_COUT_CCU2C_CIN_S0 (26,18) -> (26,18)
+Info:                          Sink u_arithmetic_elastic.m_data_TRELLIS_FF_Q_21.M
+Info:      setup  0.00  16.19 Source u_arithmetic_elastic.m_data_TRELLIS_FF_Q_21.M
+Info: 9.69 ns logic, 6.50 ns routing
+
+Info: Critical path report for cross-domain path '<async>' -> '<async>':
+Info:       type curr  total name
+Info:     source  0.00  0.00 Source paddr[7]$tr_io.O
+Info:    routing  4.61  4.61 Net paddr[7]$TRELLIS_IO_IN (0,35) -> (74,35)
+Info:                          Sink pwrite_LUT4_B_Z_LUT4_Z_D_LUT4_Z_D_LUT4_Z.A
+Info:                          Defined in:
+Info:                               rtl/apb_regs.sv:8.25-8.30
+Info:      logic  0.24  4.84 Source pwrite_LUT4_B_Z_LUT4_Z_D_LUT4_Z_D_LUT4_Z.F
+Info:    routing  2.83  7.67 Net pwrite_LUT4_B_Z_LUT4_Z_D_LUT4_Z_D[1] (74,35) -> (31,38)
+Info:                          Sink pwrite_LUT4_B_Z_LUT4_Z_D_LUT4_Z.D
+Info:                          Defined in:
+Info:                               /Users/Dilan/.local/share/from-rtl-to-pixels/oss-cad-suite-20260920/libexec/../share/yosys/lattice/cells_map_trellis.v:108.23-108.24
+Info:      logic  0.24  7.91 Source pwrite_LUT4_B_Z_LUT4_Z_D_LUT4_Z.F
+Info:    routing  0.64  8.54 Net pwrite_LUT4_B_Z_LUT4_Z_D[3] (31,38) -> (31,38)
+Info:                          Sink pwrite_LUT4_B_Z_LUT4_Z.D
+Info:                          Defined in:
+Info:                               /Users/Dilan/.local/share/from-rtl-to-pixels/oss-cad-suite-20260920/libexec/../share/yosys/lattice/cells_map_trellis.v:108.23-108.24
+Info:      logic  0.24  8.78 Source pwrite_LUT4_B_Z_LUT4_Z.F
+Info:    routing  2.00  10.78 Net prdata_LUT4_Z_11_C[1] (31,38) -> (32,19)
+Info:                          Sink prdata_LUT4_Z_11_C_LUT4_Z.D
+Info:                          Defined in:
+Info:                               /Users/Dilan/.local/share/from-rtl-to-pixels/oss-cad-suite-20260920/libexec/../share/yosys/lattice/cells_map_trellis.v:108.23-108.24
+Info:      logic  0.24  11.01 Source prdata_LUT4_Z_11_C_LUT4_Z.F
+Info:    routing  0.50  11.51 Net prdata_LUT4_Z_11_C[2] (32,19) -> (32,21)
+Info:                          Sink prdata_LUT4_Z_11_C_LUT4_D.D
+Info:                          Defined in:
+Info:                               /Users/Dilan/.local/share/from-rtl-to-pixels/oss-cad-suite-20260920/libexec/../share/yosys/lattice/cells_map_trellis.v:108.23-108.24
+Info:      logic  0.24  11.75 Source prdata_LUT4_Z_11_C_LUT4_D.F
+Info:    routing  0.62  12.37 Net prdata_LUT4_Z_11_C_LUT4_D_Z[3] (32,21) -> (32,21)
+Info:                          Sink prdata_LUT4_Z_6.D
+Info:                          Defined in:
+Info:                               /Users/Dilan/.local/share/from-rtl-to-pixels/oss-cad-suite-20260920/libexec/../share/yosys/lattice/cells_map_trellis.v:108.23-108.24
+Info:      logic  0.24  12.60 Source prdata_LUT4_Z_6.F
+Info:    routing  3.03  15.63 Net prdata[0]$TRELLIS_IO_OUT (32,21) -> (0,32)
+Info:                          Sink prdata[0]$tr_io.I
+Info:                          Defined in:
+Info:                               rtl/rtl_to_pixels_top_pipelined.sv:7.75-7.81
+Info: 1.42 ns logic, 14.22 ns routing
+
+Info: Critical path report for cross-domain path '<async>' -> 'posedge $glbnet$clk$TRELLIS_IO_IN':
+Info:       type curr  total name
+Info:     source  0.00  0.00 Source s_tdata[2]$tr_io.O
+Info:    routing  4.86  4.86 Net s_tdata[2]$TRELLIS_IO_IN (90,32) -> (22,22)
+Info:                          Sink u_arithmetic_elastic.m_data_TRELLIS_FF_Q_7_DI_CCU2C_S0_A1_LUT4_Z_C_LUT4_D_Z_CCU2C_S0_CIN_CCU2C_COUT_S0_CCU2C_S0_A1_LUT4_Z_D_MULT18X18D_P14_P8_MULT18X18D_P9.A2
+Info:                          Defined in:
+Info:                               rtl/rgb_to_gray.sv:8.18-8.23
+Info:      logic  3.93  8.79 Source u_arithmetic_elastic.m_data_TRELLIS_FF_Q_7_DI_CCU2C_S0_A1_LUT4_Z_C_LUT4_D_Z_CCU2C_S0_CIN_CCU2C_COUT_S0_CCU2C_S0_A1_LUT4_Z_D_MULT18X18D_P14_P8_MULT18X18D_P9.P4
+Info:    routing  2.17  10.96 Net u_arithmetic_elastic.m_data_TRELLIS_FF_Q_7_DI_CCU2C_S0_A1_LUT4_Z_C_LUT4_D_Z_CCU2C_S0_CIN_CCU2C_COUT_S0_CCU2C_S0_A1_LUT4_Z_D_MULT18X18D_P14_P3[1] (22,22) -> (22,13)
+Info:                          Sink u_arithmetic_elastic.m_data_TRELLIS_FF_Q_7_DI_CCU2C_S0_A1_LUT4_Z_C_LUT4_D_Z_CCU2C_S0_CIN_CCU2C_COUT_S0_CCU2C_S0_A1_LUT4_Z_D_MULT18X18D_P14_P4_LUT4_Z.C
+Info:                          Defined in:
+Info:                               /Users/Dilan/.local/share/from-rtl-to-pixels/oss-cad-suite-20260920/libexec/../share/yosys/lattice/cells_map_trellis.v:108.23-108.24
+Info:      logic  0.24  11.20 Source u_arithmetic_elastic.m_data_TRELLIS_FF_Q_7_DI_CCU2C_S0_A1_LUT4_Z_C_LUT4_D_Z_CCU2C_S0_CIN_CCU2C_COUT_S0_CCU2C_S0_A1_LUT4_Z_D_MULT18X18D_P14_P4_LUT4_Z.F
+Info:    routing  0.62  11.82 Net u_arithmetic_elastic.m_data_TRELLIS_FF_Q_7_DI_CCU2C_S0_A1_LUT4_Z_C_LUT4_D_Z_CCU2C_S0_CIN_CCU2C_COUT_S0_CCU2C_S0_A1_LUT4_Z_D_MULT18X18D_P14_P4[3] (22,13) -> (22,13)
+Info:                          Sink u_arithmetic_elastic.m_data_TRELLIS_FF_Q_7_DI_CCU2C_S0_A1_LUT4_Z_C_LUT4_D_Z_CCU2C_S0_CIN_CCU2C_COUT_S0_CCU2C_S0_CIN_CCU2C_COUT_CIN_CCU2C_COUT_CIN_CCU2C_COUT_CIN_CCU2C_COUT_B0_LUT4_Z.D
+Info:                          Defined in:
+Info:                               /Users/Dilan/.local/share/from-rtl-to-pixels/oss-cad-suite-20260920/libexec/../share/yosys/lattice/cells_map_trellis.v:108.23-108.24
+Info:      logic  0.24  12.06 Source u_arithmetic_elastic.m_data_TRELLIS_FF_Q_7_DI_CCU2C_S0_A1_LUT4_Z_C_LUT4_D_Z_CCU2C_S0_CIN_CCU2C_COUT_S0_CCU2C_S0_CIN_CCU2C_COUT_CIN_CCU2C_COUT_CIN_CCU2C_COUT_CIN_CCU2C_COUT_B0_LUT4_Z.F
+Info:    routing  1.16  13.22 Net u_arithmetic_elastic.m_data_TRELLIS_FF_Q_7_DI_CCU2C_S0_A1_LUT4_Z_C_LUT4_D_Z_CCU2C_S0_CIN_CCU2C_COUT_S0_CCU2C_S0_CIN_CCU2C_COUT_CIN_CCU2C_COUT_CIN_CCU2C_COUT_CIN_CCU2C_COUT_B0 (22,13) -> (22,11)
+Info:                          Sink u_arithmetic_elastic.m_data_TRELLIS_FF_Q_7_DI_CCU2C_S0_A1_LUT4_Z_C_LUT4_D_Z_CCU2C_S0_CIN_CCU2C_COUT_S0_CCU2C_S0_CIN_CCU2C_COUT_CIN_CCU2C_COUT_CIN_CCU2C_COUT_CIN_CCU2C_COUT$CCU2_COMB0.B
+Info:      logic  0.45  13.67 Source u_arithmetic_elastic.m_data_TRELLIS_FF_Q_7_DI_CCU2C_S0_A1_LUT4_Z_C_LUT4_D_Z_CCU2C_S0_CIN_CCU2C_COUT_S0_CCU2C_S0_CIN_CCU2C_COUT_CIN_CCU2C_COUT_CIN_CCU2C_COUT_CIN_CCU2C_COUT$CCU2_COMB0.FCO
+Info:    routing  0.00  13.67 Net u_arithmetic_elastic.m_data_TRELLIS_FF_Q_7_DI_CCU2C_S0_A1_LUT4_Z_C_LUT4_D_Z_CCU2C_S0_CIN_CCU2C_COUT_S0_CCU2C_S0_CIN_CCU2C_COUT_CIN_CCU2C_COUT_CIN_CCU2C_COUT_CIN_CCU2C_COUT$CCU2_FCI_INT (22,11) -> (22,11)
+Info:                          Sink u_arithmetic_elastic.m_data_TRELLIS_FF_Q_7_DI_CCU2C_S0_A1_LUT4_Z_C_LUT4_D_Z_CCU2C_S0_CIN_CCU2C_COUT_S0_CCU2C_S0_CIN_CCU2C_COUT_CIN_CCU2C_COUT_CIN_CCU2C_COUT_CIN_CCU2C_COUT$CCU2_COMB1.FCI
+Info:      logic  0.00  13.67 Source u_arithmetic_elastic.m_data_TRELLIS_FF_Q_7_DI_CCU2C_S0_A1_LUT4_Z_C_LUT4_D_Z_CCU2C_S0_CIN_CCU2C_COUT_S0_CCU2C_S0_CIN_CCU2C_COUT_CIN_CCU2C_COUT_CIN_CCU2C_COUT_CIN_CCU2C_COUT$CCU2_COMB1.FCO
+Info:    routing  0.00  13.67 Net u_arithmetic_elastic.m_data_TRELLIS_FF_Q_7_DI_CCU2C_S0_A1_LUT4_Z_C_LUT4_D_Z_CCU2C_S0_CIN_CCU2C_COUT_S0_CCU2C_S0_CIN_CCU2C_COUT_CIN_CCU2C_COUT_CIN_CCU2C_COUT_CIN (22,11) -> (22,11)
+Info:                          Sink u_arithmetic_elastic.m_data_TRELLIS_FF_Q_7_DI_CCU2C_S0_A1_LUT4_Z_C_LUT4_D_Z_CCU2C_S0_CIN_CCU2C_COUT_S0_CCU2C_S0_CIN_CCU2C_COUT_CIN_CCU2C_COUT_CIN_CCU2C_COUT$CCU2_COMB0.FCI
+Info:                          Defined in:
+Info:                               /Users/Dilan/.local/share/from-rtl-to-pixels/oss-cad-suite-20260920/libexec/../share/yosys/lattice/arith_map_ccu2c.v:74.7-80.4
+Info:                               /Users/Dilan/.local/share/from-rtl-to-pixels/oss-cad-suite-20260920/libexec/../share/yosys/lattice/ccu2c_sim.vh:9.9-9.13
+Info:      logic  0.07  13.74 Source u_arithmetic_elastic.m_data_TRELLIS_FF_Q_7_DI_CCU2C_S0_A1_LUT4_Z_C_LUT4_D_Z_CCU2C_S0_CIN_CCU2C_COUT_S0_CCU2C_S0_CIN_CCU2C_COUT_CIN_CCU2C_COUT_CIN_CCU2C_COUT$CCU2_COMB0.FCO
+Info:    routing  0.00  13.74 Net u_arithmetic_elastic.m_data_TRELLIS_FF_Q_7_DI_CCU2C_S0_A1_LUT4_Z_C_LUT4_D_Z_CCU2C_S0_CIN_CCU2C_COUT_S0_CCU2C_S0_CIN_CCU2C_COUT_CIN_CCU2C_COUT_CIN_CCU2C_COUT$CCU2_FCI_INT (22,11) -> (22,11)
+Info:                          Sink u_arithmetic_elastic.m_data_TRELLIS_FF_Q_7_DI_CCU2C_S0_A1_LUT4_Z_C_LUT4_D_Z_CCU2C_S0_CIN_CCU2C_COUT_S0_CCU2C_S0_CIN_CCU2C_COUT_CIN_CCU2C_COUT_CIN_CCU2C_COUT$CCU2_COMB1.FCI
+Info:      logic  0.00  13.74 Source u_arithmetic_elastic.m_data_TRELLIS_FF_Q_7_DI_CCU2C_S0_A1_LUT4_Z_C_LUT4_D_Z_CCU2C_S0_CIN_CCU2C_COUT_S0_CCU2C_S0_CIN_CCU2C_COUT_CIN_CCU2C_COUT_CIN_CCU2C_COUT$CCU2_COMB1.FCO
+Info:    routing  0.00  13.74 Net u_arithmetic_elastic.m_data_TRELLIS_FF_Q_7_DI_CCU2C_S0_A1_LUT4_Z_C_LUT4_D_Z_CCU2C_S0_CIN_CCU2C_COUT_S0_CCU2C_S0_CIN_CCU2C_COUT_CIN_CCU2C_COUT_CIN (22,11) -> (22,11)
+Info:                          Sink u_arithmetic_elastic.m_data_TRELLIS_FF_Q_7_DI_CCU2C_S0_A1_LUT4_Z_C_LUT4_D_Z_CCU2C_S0_CIN_CCU2C_COUT_S0_CCU2C_S0_CIN_CCU2C_COUT_CIN_CCU2C_COUT$CCU2_COMB0.FCI
+Info:                          Defined in:
+Info:                               /Users/Dilan/.local/share/from-rtl-to-pixels/oss-cad-suite-20260920/libexec/../share/yosys/lattice/arith_map_ccu2c.v:74.7-80.4
+Info:                               /Users/Dilan/.local/share/from-rtl-to-pixels/oss-cad-suite-20260920/libexec/../share/yosys/lattice/ccu2c_sim.vh:9.9-9.13
+Info:      logic  0.07  13.81 Source u_arithmetic_elastic.m_data_TRELLIS_FF_Q_7_DI_CCU2C_S0_A1_LUT4_Z_C_LUT4_D_Z_CCU2C_S0_CIN_CCU2C_COUT_S0_CCU2C_S0_CIN_CCU2C_COUT_CIN_CCU2C_COUT$CCU2_COMB0.FCO
+Info:    routing  0.00  13.81 Net u_arithmetic_elastic.m_data_TRELLIS_FF_Q_7_DI_CCU2C_S0_A1_LUT4_Z_C_LUT4_D_Z_CCU2C_S0_CIN_CCU2C_COUT_S0_CCU2C_S0_CIN_CCU2C_COUT_CIN_CCU2C_COUT$CCU2_FCI_INT (22,11) -> (22,11)
+Info:                          Sink u_arithmetic_elastic.m_data_TRELLIS_FF_Q_7_DI_CCU2C_S0_A1_LUT4_Z_C_LUT4_D_Z_CCU2C_S0_CIN_CCU2C_COUT_S0_CCU2C_S0_CIN_CCU2C_COUT_CIN_CCU2C_COUT$CCU2_COMB1.FCI
+Info:      logic  0.00  13.81 Source u_arithmetic_elastic.m_data_TRELLIS_FF_Q_7_DI_CCU2C_S0_A1_LUT4_Z_C_LUT4_D_Z_CCU2C_S0_CIN_CCU2C_COUT_S0_CCU2C_S0_CIN_CCU2C_COUT_CIN_CCU2C_COUT$CCU2_COMB1.FCO
+Info:    routing  0.00  13.81 Net u_arithmetic_elastic.m_data_TRELLIS_FF_Q_7_DI_CCU2C_S0_A1_LUT4_Z_C_LUT4_D_Z_CCU2C_S0_CIN_CCU2C_COUT_S0_CCU2C_S0_CIN_CCU2C_COUT_CIN (22,11) -> (22,11)
+Info:                          Sink u_arithmetic_elastic.m_data_TRELLIS_FF_Q_7_DI_CCU2C_S0_A1_LUT4_Z_C_LUT4_D_Z_CCU2C_S0_CIN_CCU2C_COUT_S0_CCU2C_S0_CIN_CCU2C_COUT$CCU2_COMB0.FCI
+Info:                          Defined in:
+Info:                               /Users/Dilan/.local/share/from-rtl-to-pixels/oss-cad-suite-20260920/libexec/../share/yosys/lattice/arith_map_ccu2c.v:74.7-80.4
+Info:                               /Users/Dilan/.local/share/from-rtl-to-pixels/oss-cad-suite-20260920/libexec/../share/yosys/lattice/ccu2c_sim.vh:9.9-9.13
+Info:      logic  0.07  13.88 Source u_arithmetic_elastic.m_data_TRELLIS_FF_Q_7_DI_CCU2C_S0_A1_LUT4_Z_C_LUT4_D_Z_CCU2C_S0_CIN_CCU2C_COUT_S0_CCU2C_S0_CIN_CCU2C_COUT$CCU2_COMB0.FCO
+Info:    routing  0.00  13.88 Net u_arithmetic_elastic.m_data_TRELLIS_FF_Q_7_DI_CCU2C_S0_A1_LUT4_Z_C_LUT4_D_Z_CCU2C_S0_CIN_CCU2C_COUT_S0_CCU2C_S0_CIN_CCU2C_COUT$CCU2_FCI_INT (22,11) -> (22,11)
+Info:                          Sink u_arithmetic_elastic.m_data_TRELLIS_FF_Q_7_DI_CCU2C_S0_A1_LUT4_Z_C_LUT4_D_Z_CCU2C_S0_CIN_CCU2C_COUT_S0_CCU2C_S0_CIN_CCU2C_COUT$CCU2_COMB1.FCI
+Info:      logic  0.00  13.88 Source u_arithmetic_elastic.m_data_TRELLIS_FF_Q_7_DI_CCU2C_S0_A1_LUT4_Z_C_LUT4_D_Z_CCU2C_S0_CIN_CCU2C_COUT_S0_CCU2C_S0_CIN_CCU2C_COUT$CCU2_COMB1.FCO
+Info:    routing  0.00  13.88 Net u_arithmetic_elastic.m_data_TRELLIS_FF_Q_7_DI_CCU2C_S0_A1_LUT4_Z_C_LUT4_D_Z_CCU2C_S0_CIN_CCU2C_COUT_S0_CCU2C_S0_CIN (22,11) -> (23,11)
+Info:                          Sink u_arithmetic_elastic.m_data_TRELLIS_FF_Q_7_DI_CCU2C_S0_A1_LUT4_Z_C_LUT4_D_Z_CCU2C_S0_CIN_CCU2C_COUT_S0_CCU2C_S0$CCU2_COMB0.FCI
+Info:                          Defined in:
+Info:                               /Users/Dilan/.local/share/from-rtl-to-pixels/oss-cad-suite-20260920/libexec/../share/yosys/lattice/arith_map_ccu2c.v:74.7-80.4
+Info:                               /Users/Dilan/.local/share/from-rtl-to-pixels/oss-cad-suite-20260920/libexec/../share/yosys/lattice/ccu2c_sim.vh:9.9-9.13
+Info:      logic  0.07  13.95 Source u_arithmetic_elastic.m_data_TRELLIS_FF_Q_7_DI_CCU2C_S0_A1_LUT4_Z_C_LUT4_D_Z_CCU2C_S0_CIN_CCU2C_COUT_S0_CCU2C_S0$CCU2_COMB0.FCO
+Info:    routing  0.00  13.95 Net u_arithmetic_elastic.m_data_TRELLIS_FF_Q_7_DI_CCU2C_S0_A1_LUT4_Z_C_LUT4_D_Z_CCU2C_S0_CIN_CCU2C_COUT_S0_CCU2C_S0$CCU2_FCI_INT (23,11) -> (23,11)
+Info:                          Sink u_arithmetic_elastic.m_data_TRELLIS_FF_Q_7_DI_CCU2C_S0_A1_LUT4_Z_C_LUT4_D_Z_CCU2C_S0_CIN_CCU2C_COUT_S0_CCU2C_S0$CCU2_COMB1.FCI
+Info:      logic  0.40  14.35 Source u_arithmetic_elastic.m_data_TRELLIS_FF_Q_7_DI_CCU2C_S0_A1_LUT4_Z_C_LUT4_D_Z_CCU2C_S0_CIN_CCU2C_COUT_S0_CCU2C_S0$CCU2_COMB1.F
+Info:    routing  1.31  15.67 Net u_arithmetic_elastic.m_data_TRELLIS_FF_Q_7_DI_CCU2C_S0_A1_LUT4_Z_C_LUT4_D_Z_CCU2C_S0_CIN_CCU2C_COUT_S0_CCU2C_S0_S1[2] (23,11) -> (29,16)
+Info:                          Sink u_arithmetic_elastic.m_data_TRELLIS_FF_Q_7_DI_CCU2C_S0_A1_LUT4_Z_C_LUT4_D_Z_CCU2C_S0_CIN_CCU2C_COUT_S1_LUT4_Z.D
+Info:                          Defined in:
+Info:                               /Users/Dilan/.local/share/from-rtl-to-pixels/oss-cad-suite-20260920/libexec/../share/yosys/lattice/cells_map_trellis.v:108.23-108.24
+Info:      logic  0.24  15.90 Source u_arithmetic_elastic.m_data_TRELLIS_FF_Q_7_DI_CCU2C_S0_A1_LUT4_Z_C_LUT4_D_Z_CCU2C_S0_CIN_CCU2C_COUT_S1_LUT4_Z.F
+Info:    routing  1.20  17.10 Net u_arithmetic_elastic.m_data_TRELLIS_FF_Q_7_DI_CCU2C_S0_A1_LUT4_Z_C_LUT4_D_Z_CCU2C_S0_CIN_CCU2C_COUT_S1[1] (29,16) -> (29,13)
+Info:                          Sink u_line_buffer.line1_mem.0.0_DOB7_LUT4_D_Z_LUT4_D_Z_LUT4_D_Z_PFUMX_BLUT_Z_LUT4_Z_C_LUT4_C.B
+Info:                          Defined in:
+Info:                               /Users/Dilan/.local/share/from-rtl-to-pixels/oss-cad-suite-20260920/libexec/../share/yosys/lattice/cells_map_trellis.v:108.23-108.24
+Info:      logic  0.24  17.33 Source u_line_buffer.line1_mem.0.0_DOB7_LUT4_D_Z_LUT4_D_Z_LUT4_D_Z_PFUMX_BLUT_Z_LUT4_Z_C_LUT4_C.F
+Info:    routing  0.71  18.05 Net u_line_buffer.line1_mem.0.0_DOB7_LUT4_D_Z_LUT4_D_Z_LUT4_D_Z_PFUMX_BLUT_Z_LUT4_Z_C_LUT4_C_Z[6] (29,13) -> (29,12)
+Info:                          Sink u_arithmetic_elastic.m_data_TRELLIS_FF_Q_18_DI_CCU2C_S1_A1_L6MUX21_Z_D1_L6MUX21_Z_D0_PFUMX_Z_ALUT_LUT4_Z.M
+Info:                          Defined in:
+Info:                               /Users/Dilan/.local/share/from-rtl-to-pixels/oss-cad-suite-20260920/libexec/../share/yosys/lattice/cells_map_trellis.v:108.23-108.24
+Info:      logic  0.26  18.30 Source u_arithmetic_elastic.m_data_TRELLIS_FF_Q_18_DI_CCU2C_S1_A1_L6MUX21_Z_D1_L6MUX21_Z_D0_PFUMX_Z_ALUT_LUT4_Z.OFX
+Info:    routing  1.63  19.93 Net u_arithmetic_elastic.m_data_TRELLIS_FF_Q_18_DI_CCU2C_S1_A1 (29,12) -> (26,18)
+Info:                          Sink u_arithmetic_elastic.m_data_TRELLIS_FF_Q_18_DI_CCU2C_S1$CCU2_COMB1.A
+Info:      logic  0.45  20.38 Source u_arithmetic_elastic.m_data_TRELLIS_FF_Q_18_DI_CCU2C_S1$CCU2_COMB1.FCO
+Info:    routing  0.00  20.38 Net u_arithmetic_elastic.m_data_TRELLIS_FF_Q_18_DI_CCU2C_S1_COUT (26,18) -> (26,18)
+Info:                          Sink u_arithmetic_elastic.m_data_TRELLIS_FF_Q_20_DI_CCU2C_S1$CCU2_COMB0.FCI
+Info:                          Defined in:
+Info:                               /Users/Dilan/.local/share/from-rtl-to-pixels/oss-cad-suite-20260920/libexec/../share/yosys/lattice/arith_map_ccu2c.v:74.7-80.4
+Info:                               /Users/Dilan/.local/share/from-rtl-to-pixels/oss-cad-suite-20260920/libexec/../share/yosys/lattice/ccu2c_sim.vh:9.9-9.13
+Info:      logic  0.07  20.45 Source u_arithmetic_elastic.m_data_TRELLIS_FF_Q_20_DI_CCU2C_S1$CCU2_COMB0.FCO
+Info:    routing  0.00  20.45 Net u_arithmetic_elastic.m_data_TRELLIS_FF_Q_20_DI_CCU2C_S1$CCU2_FCI_INT (26,18) -> (26,18)
+Info:                          Sink u_arithmetic_elastic.m_data_TRELLIS_FF_Q_20_DI_CCU2C_S1$CCU2_COMB1.FCI
+Info:      logic  0.00  20.45 Source u_arithmetic_elastic.m_data_TRELLIS_FF_Q_20_DI_CCU2C_S1$CCU2_COMB1.FCO
+Info:    routing  0.00  20.45 Net u_arithmetic_elastic.m_data_TRELLIS_FF_Q_20_DI_CCU2C_S1_COUT (26,18) -> (26,18)
+Info:                          Sink u_arithmetic_elastic.m_data_TRELLIS_FF_Q_20_DI_CCU2C_S1_COUT_CCU2C_CIN$CCU2_COMB0.FCI
+Info:                          Defined in:
+Info:                               /Users/Dilan/.local/share/from-rtl-to-pixels/oss-cad-suite-20260920/libexec/../share/yosys/lattice/arith_map_ccu2c.v:74.7-80.4
+Info:                               /Users/Dilan/.local/share/from-rtl-to-pixels/oss-cad-suite-20260920/libexec/../share/yosys/lattice/ccu2c_sim.vh:9.9-9.13
+Info:      logic  0.44  20.89 Source u_arithmetic_elastic.m_data_TRELLIS_FF_Q_20_DI_CCU2C_S1_COUT_CCU2C_CIN$CCU2_COMB0.F
+Info:    routing  0.42  21.32 Net u_arithmetic_elastic.m_data_TRELLIS_FF_Q_20_DI_CCU2C_S1_COUT_CCU2C_CIN_S0 (26,18) -> (26,18)
+Info:                          Sink u_arithmetic_elastic.m_data_TRELLIS_FF_Q_21.M
+Info:      setup  0.00  21.32 Source u_arithmetic_elastic.m_data_TRELLIS_FF_Q_21.M
+Info: 7.22 ns logic, 14.10 ns routing
+
+Info: Critical path report for cross-domain path 'posedge $glbnet$clk$TRELLIS_IO_IN' -> '<async>':
+Info:       type curr  total name
+Info:   clk-to-q  0.52  0.52 Source u_apb_regs.threshold_shadow_q_TRELLIS_FF_Q.Q
+Info:    routing  1.23  1.76 Net pwrite_LUT4_B_Z_LUT4_Z_D_LUT4_D_Z[1] (32,17) -> (32,20)
+Info:                          Sink prdata_LUT4_Z_29_D_LUT4_Z_D_LUT4_Z_D_LUT4_Z_D_LUT4_Z_D_LUT4_Z_D_LUT4_Z.D
+Info:                          Defined in:
+Info:                               rtl/apb_regs.sv:30.18-30.36
+Info:      logic  0.24  1.99 Source prdata_LUT4_Z_29_D_LUT4_Z_D_LUT4_Z_D_LUT4_Z_D_LUT4_Z_D_LUT4_Z_D_LUT4_Z.F
+Info:    routing  0.42  2.41 Net prdata_LUT4_Z_29_D_LUT4_Z_D_LUT4_Z_D_LUT4_Z_D_LUT4_Z_D_LUT4_Z_D[2] (32,20) -> (32,20)
+Info:                          Sink prdata_LUT4_Z_29_D_LUT4_Z_D_LUT4_Z_D_LUT4_Z_D_LUT4_Z_D_LUT4_Z.D
+Info:                          Defined in:
+Info:                               /Users/Dilan/.local/share/from-rtl-to-pixels/oss-cad-suite-20260920/libexec/../share/yosys/lattice/cells_map_trellis.v:108.23-108.24
+Info:      logic  0.24  2.65 Source prdata_LUT4_Z_29_D_LUT4_Z_D_LUT4_Z_D_LUT4_Z_D_LUT4_Z_D_LUT4_Z.F
+Info:    routing  0.62  3.27 Net prdata_LUT4_Z_29_D_LUT4_Z_D_LUT4_Z_D_LUT4_Z_D_LUT4_Z_D[3] (32,20) -> (32,20)
+Info:                          Sink prdata_LUT4_Z_29_D_LUT4_Z_D_LUT4_Z_D_LUT4_Z_D_LUT4_Z.D
+Info:                          Defined in:
+Info:                               /Users/Dilan/.local/share/from-rtl-to-pixels/oss-cad-suite-20260920/libexec/../share/yosys/lattice/cells_map_trellis.v:108.23-108.24
+Info:      logic  0.24  3.51 Source prdata_LUT4_Z_29_D_LUT4_Z_D_LUT4_Z_D_LUT4_Z_D_LUT4_Z.F
+Info:    routing  0.68  4.18 Net prdata_LUT4_Z_29_D_LUT4_Z_D_LUT4_Z_D_LUT4_Z_D[3] (32,20) -> (32,20)
+Info:                          Sink prdata_LUT4_Z_29_D_LUT4_Z_D_LUT4_Z_D_LUT4_Z.D
+Info:                          Defined in:
+Info:                               /Users/Dilan/.local/share/from-rtl-to-pixels/oss-cad-suite-20260920/libexec/../share/yosys/lattice/cells_map_trellis.v:108.23-108.24
+Info:      logic  0.24  4.42 Source prdata_LUT4_Z_29_D_LUT4_Z_D_LUT4_Z_D_LUT4_Z.F
+Info:    routing  0.49  4.91 Net prdata_LUT4_Z_29_D_LUT4_Z_D_LUT4_Z_D[3] (32,20) -> (32,21)
+Info:                          Sink prdata_LUT4_Z_29_D_LUT4_Z_D_LUT4_Z.D
+Info:                          Defined in:
+Info:                               /Users/Dilan/.local/share/from-rtl-to-pixels/oss-cad-suite-20260920/libexec/../share/yosys/lattice/cells_map_trellis.v:108.23-108.24
+Info:      logic  0.24  5.15 Source prdata_LUT4_Z_29_D_LUT4_Z_D_LUT4_Z.F
+Info:    routing  1.47  6.62 Net prdata_LUT4_Z_29_D_LUT4_Z_D[3] (32,21) -> (33,26)
+Info:                          Sink prdata_LUT4_Z_29_D_LUT4_Z.D
+Info:                          Defined in:
+Info:                               /Users/Dilan/.local/share/from-rtl-to-pixels/oss-cad-suite-20260920/libexec/../share/yosys/lattice/cells_map_trellis.v:108.23-108.24
+Info:      logic  0.24  6.86 Source prdata_LUT4_Z_29_D_LUT4_Z.F
+Info:    routing  0.42  7.28 Net prdata_LUT4_Z_29_D[2] (33,26) -> (33,26)
+Info:                          Sink prdata_LUT4_Z_29.D
+Info:                          Defined in:
+Info:                               /Users/Dilan/.local/share/from-rtl-to-pixels/oss-cad-suite-20260920/libexec/../share/yosys/lattice/cells_map_trellis.v:108.23-108.24
+Info:      logic  0.24  7.51 Source prdata_LUT4_Z_29.F
+Info:    routing  3.20  10.71 Net prdata[2]$TRELLIS_IO_OUT (33,26) -> (90,26)
+Info:                          Sink prdata[2]$tr_io.I
+Info:                          Defined in:
+Info:                               rtl/rtl_to_pixels_top_pipelined.sv:7.75-7.81
+Info: 2.18 ns logic, 8.54 ns routing
+
+Warning: Max frequency for clock '$glbnet$clk$TRELLIS_IO_IN': 61.75 MHz (FAIL at 65.00 MHz)
+
+Info: Max delay <async>                           -> <async>                          : 15.63 ns
+Info: Max delay <async>                           -> posedge $glbnet$clk$TRELLIS_IO_IN: 21.32 ns
+Info: Max delay posedge $glbnet$clk$TRELLIS_IO_IN -> <async>                          : 10.71 ns
+
+Info: Slack histogram:
+Info:  legend: * represents 1 endpoint(s)
+Info:          + represents [1,1) endpoint(s)
+Info: [  -810,    -47) |****+
+Info: [   -47,    716) |+
+Info: [   716,   1479) |*+
+Info: [  1479,   2242) |*****+
+Info: [  2242,   3005) |****+
+Info: [  3005,   3768) |******+
+Info: [  3768,   4531) |+
+Info: [  4531,   5294) |*******+
+Info: [  5294,   6057) |**************************+
+Info: [  6057,   6820) |*******************+
+Info: [  6820,   7583) |************************************************************ 
+Info: [  7583,   8346) |************************************************+
+Info: [  8346,   9109) |******************************************+
+Info: [  9109,   9872) |************************+
+Info: [  9872,  10635) |*****+
+Info: [ 10635,  11398) |***************+
+Info: [ 11398,  12161) |******************************************+
+Info: [ 12161,  12924) |**********************************************+
+Info: [ 12924,  13687) |**********************+
+Info: [ 13687,  14450) |**************+
+1 warning, 0 errors
+
+Info: Program finished normally.

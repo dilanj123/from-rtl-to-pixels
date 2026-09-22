@@ -248,3 +248,8 @@ Limitations: Architecture-B synthesis, P&R and timing were not run; no timing im
 Claim: During Architecture-B re-verification, the existing unexpected-SOF-after-partial-output recovery test was found to rely on Architecture-A pipeline latency when establishing its prior-output-escaped precondition. The shared test was repaired to establish that condition explicitly using source-idle cycles while preserving the malformed input index and all abort/recovery assertions. Architecture A and B then passed the complete recovery suite.
 Evidence: `results/raw/arch-ab-recovery-precondition-repair.log`, `results/raw/arch-b-functional-regression.log`
 Classification: `VERIFICATION HARNESS IMPROVEMENT — architecture-neutral establishment of the pre-existing partial-output precondition.`
+
+
+Claim: P11 controlled Architecture A/B comparison used identical 640x480, ECP5, seed-1 conditions. A and B synthesized, routed, and were compared for resources, synchronous timing, latency and II. A frontier is 35/40 MHz; B is 60/65 MHz.
+Evidence: results/raw/arch-ab-comparison.json, results/raw/arch-ab-comparison.log, p11 raw files.
+Classification: SYNTHESISED; PLACED/ROUTED TIMING-CLEAN/FAILING; RTL SIMULATION VERIFIED; DERIVED throughput.

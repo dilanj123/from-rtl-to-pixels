@@ -1,0 +1,50 @@
+{
+  "creator": "Yosys 0.69+75 (git sha1 f0b945f63-dirty, Release, Clang /usr/local/osxcross/target/bin/aarch64-apple-darwin25.5-clang++ 21.1.8)",
+  "invocation": "stat -json -top rtl_to_pixels_top_pipelined ",
+  "modules": {
+    "\\rtl_to_pixels_top_pipelined": {
+      "num_wires": 1431,
+      "num_wire_bits": 2416,
+      "num_pub_wires": 1431,
+      "num_pub_wire_bits": 2416,
+      "num_ports": 20,
+      "num_port_bits": 119,
+      "num_memories": 0,
+      "num_memory_bits": 0,
+      "num_processes": 0,
+      "num_cells": 1372,
+      "num_submodules": 0,
+      "num_cells_by_type": {
+        "CCU2C": 110,
+        "DP16KD": 2,
+        "L6MUX21": 88,
+        "LUT4": 775,
+        "MULT18X18D": 3,
+        "PFUMX": 171,
+        "TRELLIS_FF": 223
+      }
+    }
+  },
+  "design": {
+    "num_wires": 1431,
+    "num_wire_bits": 2416,
+    "num_pub_wires": 1431,
+    "num_pub_wire_bits": 2416,
+    "num_ports": 20,
+    "num_port_bits": 119,
+    "num_memories": 0,
+    "num_memory_bits": 0,
+    "num_processes": 0,
+    "num_cells": 1372,
+    "num_submodules": 0,
+    "num_cells_by_type": {
+      "CCU2C": 110,
+      "DP16KD": 2,
+      "L6MUX21": 88,
+      "LUT4": 775,
+      "MULT18X18D": 3,
+      "PFUMX": 171,
+      "TRELLIS_FF": 223
+    }
+  }
+}

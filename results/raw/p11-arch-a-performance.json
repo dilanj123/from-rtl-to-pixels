@@ -1,0 +1,17 @@
+{
+  "dimensions": "640x480",
+  "accepted_input_count": 307200,
+  "accepted_output_count": 307200,
+  "frame_count": 1,
+  "first_input_cycle": 0,
+  "last_input_cycle": 307199,
+  "first_output_cycle": 642,
+  "last_output_cycle": 307841,
+  "first_output_latency_cycles": 642,
+  "frame_completion_cycles": 307842,
+  "input_ii_min": 1,
+  "input_ii_max": 1,
+  "output_ii_min": 1,
+  "output_ii_max": 1,
+  "metadata_correct": true
+}

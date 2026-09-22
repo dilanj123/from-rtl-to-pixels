@@ -1,0 +1,21 @@
+Task: P11-ARCH-AB-COMPARE-001
+Baseline: f32eb297fbe95530753673debd4739617529a84d
+Controlled variables: 640x480, LFE5U-45F/CABGA381/speed-6, seed=1, identical synth_ecp5 and nextpnr options, 5 MHz search grid.
+Phase-8 search bug: boolean-expression side effects updated hi after clean midpoint; historical 25/35/50 results preserved, claimed resolution superseded.
+Search repair: explicit if/else midpoint updates in shared generic search.
+Tool versions: Yosys 0.69+75; nextpnr-ecp5 0.11.1-30-g3e53a0bf; ecppack 1.4-82-g3afe7b5.
+Architecture A synthesis: PASS; baseline counts reproduced LUT4=665 TRELLIS_FF=194 CCU2C=113 DP16KD=2 MULT18X18D=3 PFUMX=102 L6MUX21=48.
+Architecture B synthesis: PASS; LUT4=775 TRELLIS_FF=223 CCU2C=110 DP16KD=2 MULT18X18D=3 PFUMX=171 L6MUX21=88.
+A search: tested 25 PASS, 50 FAIL, 35 PASS, 40 FAIL; bracket 35/40 MHz.
+B search: tested 25 PASS,50 PASS,100 FAIL,75 FAIL,60 PASS,65 FAIL; bracket 60/65 MHz.
+A synchronous path: u_line_buffer.line1_mem.0.0/DOB1 -> m_tdata_TRELLIS_FF_Q_2/DI, total 25.731 ns, clk-q 5.830, logic 8.033, routing 11.868.
+B synchronous path: u_line_buffer.line1_mem.0.0/DOB3 -> u_arithmetic_elastic.m_data_TRELLIS_FF_Q_21/M, total 16.194 ns, clk-q 5.830, logic 3.860, routing 6.504.
+Performance A: input/output 307200/307200, first latency 642 cycles, frame 307842 cycles, input/output II 1/1.
+Performance B: input/output 307200/307200, first latency 643 cycles, frame 307843 cycles, input/output II 1/1.
+Derived peak pixel rates: A 35 Mpixel/s, B 60 Mpixel/s. Derived complete-frame rates: A 113.695 fps, B 194.905 fps. Derived effective pixel rates: A 34.927, B 59.875 Mpixel/s.
+Timing hypothesis: SUPPORTED in this single-seed controlled experiment.
+Latency hypothesis: SUPPORTED; B adds one cycle.
+II and pixels/clock hypotheses: SUPPORTED; both remain 1.
+Engineering decision: RETAIN B as timing-oriented variant; A remains compact baseline.
+No physical board or physical measurement. No RTL modifications. No existing functional-test modifications. No whole-accelerator formal claim.
+ARCH_AB_CONTROLLED_COMPARISON=PASS

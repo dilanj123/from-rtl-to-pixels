@@ -125,3 +125,7 @@ The initial Architecture-B experiment is implemented as one ready/valid elastic 
 - `[11:0]` Gy
 
 The existing output elastic `s_ready` drives the arithmetic stage `m_ready`; the arithmetic stage `s_ready` drives `output_control.output_ready_i`. No additional arithmetic pipeline stage has been introduced. Functional regression evidence is recorded in `results/raw/arch-b-functional-regression.log`; Architecture-B synthesis, P&R and timing remain deferred to Phase 11.
+
+## Architecture B implementation status
+
+Architecture B is implemented with one DATA_WIDTH=28 ready/valid elastic stage after Sobel Gx/Gy. Token mapping is [27] final tag, [26] SOF/user, [25] EOL/last, [24] border, [23:12] Gx, [11:0] Gy. No additional arithmetic pipeline stage is introduced.

@@ -51,3 +51,7 @@
 `D-025` Production Architecture A retains a top-level final-output-pending state after output_control admits the last drain token into the elastic output buffer. New-frame admission and APB DRAINING/BUSY remain asserted until that buffered final token transfers externally. FRAME_COUNT increments only on that external final transfer.
 
 `D-026` Architecture-B first controlled experiment inserts one ready/valid elastic boundary immediately after Sobel Gx/Gy. The 28-bit conceptual token carries Gx/Gy plus border, SOF, EOL and final-tag metadata. No additional arithmetic pipeline boundary is introduced initially. This is based on the corrected Architecture-A post-route synchronous clock-to-clock path from the line-buffer EBR output to the final output elastic FF. The approximately 32.07 ns `s_tdata` path is async-input-to-clock and is not the synchronous Fmax path.
+
+## D-027 — Architecture A/B controlled comparison
+
+The corrected single-seed comparison measured A at a 35/40 MHz clean/fail frontier and B at 60/65 MHz, with B reducing the primary synchronous path from 25.731 ns to 16.194 ns. B adds one cycle of latency and increases LUT/FF resources while preserving II=1 and pixel equivalence. Decision: RETAIN B as the timing-oriented variant; A remains the compact baseline.

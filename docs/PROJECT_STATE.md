@@ -1,7 +1,7 @@
 # Project State
 
-Current phase: Phase 11 — Controlled A/B comparison
-Current gate: Gate 3 CLOSED; Gate 4 OPEN
+Current phase: Phase 12 — Debug case studies
+Current gate: Gate 4 CLOSED
 Historical known-good commit before Phase 5: `597af7f8c0edfac2dfb2763e042a7d17acf17b8d`
 Streaming baseline commit: `a73be9929b6f73329e86790e7726eef8dae4e62d`; subsequent monitor/coverage strengthening is recorded in results/raw/gate3-streaming-monitor-coverage.log.
 Current architecture: frozen single-clock streaming Sobel specification with production `rtl_to_pixels_top` and verified Architecture-A datapath integration at tested small dimensions
@@ -119,7 +119,7 @@ Current bottleneck:
 Architecture-A synchronous clock-to-clock bottleneck is the ~25.731 ns path from the line-buffer EBR output to the output-data elastic FF through the long downstream arithmetic cone. The previously reported 32.07 ns s_tdata path is an unconstrained async-input-to-clock path and is not the design Fmax path.
 
 Next task:
-P11-ARCH-AB-COMPARE-001
+P12-DEBUG-CASE-STUDIES-001
 
 Formal toolchain:
 FORMAL TOOLCHAIN SMOKE VERIFIED.
@@ -152,7 +152,7 @@ Architecture B status:
 implemented; RTL simulation verified; synthesis/P&R/timing not run
 
 Next task:
-P11-ARCH-AB-COMPARE-001
+P12-DEBUG-CASE-STUDIES-001
 
 Physical board: not run
 Physical measurement: none
@@ -172,4 +172,7 @@ Current engineering task:
 Measure Architecture B under the exact Architecture-A implementation conditions and compare resources, routed timing, latency, initiation interval and derived throughput.
 
 Next task:
-P11-ARCH-AB-COMPARE-001
+P12-DEBUG-CASE-STUDIES-001
+
+
+P11 comparison: A 35/40 MHz, B 60/65 MHz seed-1 frontier; B synchronous path 16.194 ns versus A 25.731 ns; B adds one cycle and resources while preserving II=1 and image equivalence. Decision: RETAIN. No physical board or whole-accelerator formal claim.

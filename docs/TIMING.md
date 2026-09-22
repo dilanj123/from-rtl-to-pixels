@@ -66,3 +66,9 @@ Evidence:
 - `results/raw/arch-a-route-fail.log`
 - `results/raw/arch-a-route-fail-report.json`
 - `results/raw/arch-a-implementation-baseline.log`
+
+## Phase-11 controlled A/B comparison
+
+The Phase-8 25/35/50 MHz measurements remain valid; the original refinement script had a control-flow defect, so its claimed 5 MHz resolution was superseded. The corrected seed-1 search gives Architecture A 35 MHz clean / 40 MHz failing and Architecture B 60 MHz clean / 65 MHz failing, each with a 5 MHz bracket. A post-route synchronous path is 25.731 ns for A and 16.194 ns for B; the B path is line-buffer EBR output to the new arithmetic elastic register. Canonical no-stall simulation measured first-output latency 642 cycles for A and 643 for B, frame completion 307842 and 307843 cycles, and II=1 for input and output in both.
+
+B resources are LUT4=775, TRELLIS_FF=223, CCU2C=110, DP16KD=2, MULT18X18D=3, PFUMX=171, L6MUX21=88 versus A LUT4=665, FF=194, CCU2C=113, DP16KD=2, MULT18X18D=3, PFUMX=102, L6MUX21=48. This is routed timing evidence for one seed, not a physical measurement.

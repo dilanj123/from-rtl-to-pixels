@@ -17,7 +17,7 @@ module elastic_stage #(
     logic                  valid_q;
 
     assign s_ready = !valid_q || m_ready;
-    assign m_data  = s_valid ? s_data : data_q;
+    assign m_data  = data_q;
     assign m_valid = valid_q;
 
     always_ff @(posedge clk) begin

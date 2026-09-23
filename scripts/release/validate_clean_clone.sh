@@ -9,5 +9,5 @@ export FORMAL_TOOLCHAIN_ROOT
 export PATH="$FORMAL_TOOLCHAIN_ROOT/bin:$PATH"
 make help; make doctor; make lint; make test-unit; make test; make test-real-image; make formal; make synth ARCH=compact; make synth ARCH=pipelined; make timing ARCH=compact FREQ_MHZ=35 SEED=1; make timing ARCH=pipelined FREQ_MHZ=60 SEED=1; python scripts/analysis/check_publication_assets.py; make ppa
 git diff --exit-code -- rtl tb/reference tb/tests
-printf 'validated commit=%s\npython=%s\nverilator=%s\nyosys=%s\nsby=%s\nz3=%s\nnextpnr=%s\n' "$(git rev-parse HEAD)" "$(python --version 2>&1)" "$(verilator --version | head -1)" "$(yosys -V | head -1)" "$(sby --version 2>&1 | head -1)" "$(z3 --version | head -1)" "$(nextpnr-ecp5 --version | head -1)"
+printf 'validated commit=%s\npython=%s\nverilator=%s\nyosys=%s\nsby=%s\nz3=%s\nnextpnr=%s\n' "$(git rev-parse HEAD)" "$(python --version 2>&1)" "$(verilator --version 2>&1 | head -1)" "$(yosys -V 2>&1 | head -1)" "$(sby --version 2>&1 | head -1)" "$(z3 --version 2>&1 | head -1)" "$(nextpnr-ecp5 --version 2>&1 | head -1)"
 echo CLEAN_CLONE_VALIDATION=PASS

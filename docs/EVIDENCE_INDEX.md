@@ -71,7 +71,7 @@ and restored on isolated branches; none remains on `main`.
 | Claim | Classification | Evidence |
 |---|---|---|
 | Public command surface and CI | REPRODUCIBLE WORKFLOW | `Makefile`, `.github/workflows/ci.yml`, `results/raw/publication-validation.log` |
-| Original architecture diagram and demo assets | PUBLICATION ASSETS VERIFIED | `docs/assets/architecture.svg`, `tb/images/Tokinokane2005-1-4.jpg`, `tb/images/gradient-grid-640x480.png`, `results/processed/`, `scripts/analysis/check_publication_assets.py` |
+| Original architecture diagram and demo assets | PUBLICATION ASSETS VERIFIED | `docs/assets/architecture.svg`, `tb/images/Tokinokane2005-1-4.jpg`, `tb/images/gradient-grid-640x480.png`, `results/processed/`, `results/raw/public-gradient-image-regression.log`, `scripts/analysis/check_publication_assets.py` |
 | Fresh-clone reproduction | CLEAN-CHECKOUT REPRODUCTION VERIFIED | `results/raw/clean-clone-validation.log` |
 | Gate-5 audit | GATE5_RELEASE_AUDIT=PASS | `results/raw/gate5-release-audit.log` |
 

@@ -15,5 +15,5 @@ MIT licence=PASS LICENSE
 third-party notices=PASS THIRD_PARTY_NOTICES.md docs/THIRD_PARTY_MANIFEST.md
 CI=PASS candidate run 35800586342
 clean-clone reproduction=PASS results/raw/clean-clone-validation.log
-v1.0-cv-ready tag=PASS pending final release tag
+v1.0-cv-ready tag=PASS tag points to final audited publication commit
 GATE5_RELEASE_AUDIT=PASS

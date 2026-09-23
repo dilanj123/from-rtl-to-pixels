@@ -1,10 +1,15 @@
 P13-PUBLICATION-001
-README, architecture SVG, pinned dependencies, command surface, CI workflow and current limitations prepared.
-PUBLICATION_ASSETS=PASS
-Local make ci: CI_SMOKE=PASS
-Local make test-unit: UNIT_REGRESSION=PASS
-Local make test: INTEGRATION_REGRESSION=PASS
-Local make test-real-image: REAL_IMAGE_REGRESSION=PASS
-Local selected formal: SELECTED_FORMAL_REGRESSION=PASS
-Production RTL unchanged; existing functional tests unchanged.
-Candidate CI and clean-clone results are recorded after push.
+baseline=0c8b41f428c6a10136c9c212e19c596146805260
+publication_candidate=f9598f3a92a998a416c08ca36653ed8bf73bf5d8
+asset_check=PUBLICATION_ASSETS=PASS
+local_ci=CI_SMOKE=PASS
+candidate_ci_run=35800586342
+candidate_ci_url=https://github.com/dilanj123/from-rtl-to-pixels/actions/runs/35800586342
+candidate_ci_result=success
+clean_clone_commit=f9598f3a92a998a416c08ca36653ed8bf73bf5d8
+clean_clone_result=CLEAN_CLONE_VALIDATION=PASS
+clean_clone_evidence=results/raw/clean-clone-validation.log
+production_rtl_unchanged=yes
+existing_functional_tests_unchanged=yes
+formal_scope=selected targeted formal only
+physical_board=not run

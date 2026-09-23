@@ -217,3 +217,19 @@ Gate 3: CLOSED
 Gate 4: CLOSED
 Gate 5: CLOSED
 Physical board: not run. Physical measurement: none.
+
+## Phase-13 publication completion (current)
+
+Current phase: Phase 13 — Publication complete
+Current gate: Gate 5 CLOSED
+Release status: CV-ready release candidate validated
+
+Publication validation:
+- GitHub Actions candidate run 35800586342 passed for commit f9598f3a92a998a416c08ca36653ed8bf73bf5d8.
+- Fresh-clone validation passed at commit f9598f3a92a998a416c08ca36653ed8bf73bf5d8.
+- Publication assets and command surface passed their recorded checks.
+
+Final gate state: Gate 0 CLOSED; Gate 1 CLOSED; Gate 2 CLOSED; Gate 3 CLOSED; Gate 4 CLOSED; Gate 5 CLOSED.
+
+Next phase: Phase 14 — Optional physical FPGA only; not required for project completion.
+Next task: OPTIONAL ONLY — physical FPGA demonstration if desired.

@@ -343,4 +343,5 @@ The first sampled edge is synchronous reset; later request, error, start, final 
 
 The initial harness passed depth-64 reset-reachable BMC but failed temporal induction because the cross-module relationship between `final_pending_q`, the elastic final-tag state and post-internal-final output-control state was not explicit. Adding bridge assertions resolved that induction weakness without changing production RTL or adding an environmental assumption. This is a narrow integration proof, not arithmetic/image-datapath or whole-accelerator formal verification; it is not universal across dimensions.
 
-Selected Phase-7 formal scope is complete. Next task: `P8-ARCH-A-BASELINE-001`.
+Selected Phase-7 formal scope is complete. Implementation and publication
+milestones are recorded in the timing, comparison and release documents.

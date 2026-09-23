@@ -13,4 +13,16 @@
 - Purpose: Gate-3 canonical 640x480 complete-image regression
 - Generated derivatives: `results/processed/gate3-real-reference.png`, `results/processed/gate3-real-rtl.png`, `results/processed/gate3-real-diff.png`
 
-This media is not Project F code or a Project F dependency.
+This media is not original project code or a project dependency.
+
+## Project-owned gradient-grid image
+
+- Local file: `tb/images/gradient-grid-640x480.png`
+- Source: generated for this repository by a small deterministic Pillow script
+- Licence/status: original project work
+- Purpose: second publication image and 640x480 A/B regression input
+- SHA-256: `bc0a735d30d8568e37a8a2d50ba3618848fa0b4f4284a7ad9641d9f083723b84`
+
+Generated derivatives are under `results/processed/public-gradient-a/`,
+`results/processed/public-gradient-b/` and
+`results/processed/public-gradient-a-vs-b-diff.png`.

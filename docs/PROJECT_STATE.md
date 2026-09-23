@@ -1,235 +1,85 @@
 # Project State
 
-Current phase: Phase 12 — Debug case studies
-Current gate: Gate 4 CLOSED
-Historical known-good commit before Phase 5: `597af7f8c0edfac2dfb2763e042a7d17acf17b8d`
-Streaming baseline commit: `a73be9929b6f73329e86790e7726eef8dae4e62d`; subsequent monitor/coverage strengthening is recorded in results/raw/gate3-streaming-monitor-coverage.log.
-Current architecture: frozen single-clock streaming Sobel specification with production `rtl_to_pixels_top` and verified Architecture-A datapath integration at tested small dimensions
+## Current status
 
-Gate 0:
-CLOSED — environment/repository/bootstrap established.
+**Gate 5 CLOSED — CV-ready MVP complete.**
 
-Gate 1:
-CLOSED — project contract, interfaces, arithmetic, alignment, drain, reset,
-configuration, verification strategy, formal scope, A/B experiment and reuse
-policy are frozen and synchronized.
+- Architecture A is the compact baseline.
+- Architecture B is the retained timing-oriented variant.
+- No physical FPGA measurement is claimed.
+- Release tag: `v1.0-cv-ready`.
 
-Reference model:
-REFERENCE-MODEL VERIFIED by the focused Phase-2 pytest suite.
-Evidence: results/raw/reference-model-pytest.log
+## Final architecture
 
-Phase 3 simulation toolchain:
-Verilator 5.052 and cocotb 2.1.0 installed and smoke-checked using a temporary non-project XOR fixture.
-Evidence: results/raw/sim-toolchain-smoke.log
+Both variants implement the same RGB888 streaming Sobel pipeline: grayscale,
+two line buffers, a 3×3 window, Sobel Gx/Gy, magnitude/clamp, threshold and
+an 11-bit output elastic stage. Architecture B adds one 28-bit ready/valid
+stage after Gx/Gy and carries arithmetic plus SOF, EOL, border and final-tag
+metadata together.
 
-RTL simulation:
-`rgb_to_gray`: RTL SIMULATION VERIFIED under the focused regression: 3 tests, 2317 RGB vectors against the independent Python grayscale oracle.
-Evidence: results/raw/rgb-to-gray-cocotb.log
-`elastic_stage`: RTL SIMULATION VERIFIED under the six-test focused one-entry ready/valid regression.
-Evidence: results/raw/elastic-stage-cocotb.log
-`apb_regs`: RTL SIMULATION VERIFIED under the seven-test focused APB regression, including test-only VPI preload for FRAME_COUNT rollover.
-Evidence: results/raw/apb-regs-cocotb.log
-`pixel_control`: RTL SIMULATION VERIFIED under the focused 3x3 and 5x4 regressions (7 tests each).
-Evidence: results/raw/pixel-control-cocotb.log
-`line_buffer`: RTL SIMULATION VERIFIED under the focused width-3 and width-7 regressions (7 tests each), checking pre-write same-column history, commit-only updates, and frame/reset invalidation.
-Evidence: results/raw/line-buffer-cocotb.log
-`window_3x3`: RTL SIMULATION VERIFIED under the focused 3x3, 5x4, and 8x5 regressions (7 tests each), using supplied pre-write vertical-history inputs.
-Evidence: results/raw/window-3x3-cocotb.log
-`output_control`: RTL SIMULATION VERIFIED under the focused 3x3, 5x4, and 8x5 regressions (7 tests each). W+1 logical mapping and final-drain control now have focused simulation evidence, under `pixel_commit_i -> input_allow_o`.
-Evidence: results/raw/output-control-cocotb.log
-`sobel_compact`: RTL SIMULATION VERIFIED under the focused seven-test arithmetic regression (4369 windows), with strict lint clean.
-Evidence: results/raw/sobel-compact-cocotb.log
-`magnitude_clamp`: RTL SIMULATION VERIFIED under the focused seven-test arithmetic regression. The initial lint defect was corrected before verification, without lint suppression; the reference suite passed all 13 tests.
-Evidence: results/raw/magnitude-clamp-cocotb.log
-`threshold_stage`: RTL SIMULATION VERIFIED under the focused four-test regression; 70668 checks were derived from the exact test construction.
-Evidence: results/raw/threshold-stage-cocotb.log
-Architecture-A alignment harness: RTL SIMULATION VERIFIED under 5 tests at each of 3x3, 5x4, and 8x5. The test-only harness composes geometry and arithmetic paths and checks labelled windows, W+1 mapping, borders, source gaps, live/drain stalls, thresholding, and consecutive frames without reset.
-Evidence: results/raw/architecture-a-alignment-cocotb.log
-Production Architecture A: RTL SIMULATION VERIFIED under 4 complete deterministic RGB-frame tests at each of 3x3, 5x4, and 8x5. Exact accepted input/output counts, SOF/EOL metadata, independent Python comparisons with zero mismatches, APB configuration, frame count, and final external-token completion behavior passed.
-Evidence: results/raw/gate2-top-cocotb.log
-Production Architecture A streaming stress: RTL SIMULATION VERIFIED at 3x3, 5x4, and 8x5. Five tests per dimension exercised deterministic random RGB frames, source gaps, random and targeted backpressure, SOF/EOL stalls, drain stalls, output stability, exact counts, and independent `sobel_rgb` comparison with mismatch_count=0.
-Evidence: results/raw/gate3-streaming-stress-cocotb.log (historical; targeted metadata coverage and valid persistence were not fully asserted).
-Strengthened streaming checks: 5/5 tests passed at each of 3x3, 5x4 and 8x5, with zero mismatches. Pending stalled transactions require valid and unchanged data/SOF/EOL through transfer. Per-output counters assert two stalls at SOF and each EOL, and the specified stalls at every final W+1 drain position (including four on the final output). Monitor negative checks reject injected valid/data/SOF/EOL violations; idle cycles do not consume targeted stall budgets.
-Evidence: results/raw/gate3-streaming-monitor-coverage.log; strict lint and all 13 reference tests also passed.
-Previously verified reference-model and primitive evidence remains established. The reference suite passed all 13 tests; established RTL/test/Makefile sources were unchanged. The approved accelerated isolated-leaf policy was used, without rebuilding historical RTL regressions.
-Deferred full accumulated checkpoint: all established primitive/reference regressions passed after the compact arithmetic leaves; evidence: results/raw/arithmetic-checkpoint-regression.log. This verifies individual regressions only, not integrated geometry plus arithmetic or a complete RTL frame.
-Production Architecture A reset/malformed-metadata recovery regression exercises synchronous reset from idle, pre-frame, first-pixel, mid-line, EOL, late-frame and DRAIN states, plus accepted early/missing EOL and unexpected SOF metadata errors. Under the tested 3x3, 5x4 and 8x5 configurations, reset restored the frozen defaults and clean-frame recovery remained bit-exact. Malformed accepted metadata aborted incomplete frames, set sticky FRAME_ERROR, prevented aborted-frame completion counting, required a new valid SOF, and allowed a subsequent bit-exact complete frame.
-Evidence: results/raw/gate3-reset-metadata-cocotb.log
-Classification: RTL SIMULATION VERIFIED.
-Conditions: Verilator 5.052; cocotb 2.1.0; 11 focused recovery tests at each of 3x3, 5x4 and 8x5; independent `sobel_rgb` comparisons. All 33 recovered frames reported zero mismatches, exact W*H input/output counts and correct metadata. Strict lint passed without warnings; reference pytest passed all 13 tests. Partial outputs before abort are discarded, not recalled; physical RAM clearing is not claimed.
-Random source gaps and backpressure are already RTL SIMULATION VERIFIED by the strengthened streaming regression above. The production top is simulation-verified only under the recorded small-dimension configurations and deterministic seeds.
-Production Architecture A configuration timing regression verifies shadow/active threshold and bypass semantics through the complete production datapath, including idle CONFIG_PENDING activation, mid-frame deferred writes, same-edge APB-write/SOF pre-edge priority, and RUN_ENABLE new-frame-only admission behavior. At 3x3, 5x4 and 8x5, all six focused tests per dimension passed with independent `sobel_rgb` mismatch_count=0 and exact input/output counts.
-Evidence: results/raw/gate3-config-timing-cocotb.log
-Classification: RTL SIMULATION VERIFIED.
-Conditions: Verilator 5.052; cocotb 2.1.0; 6 configuration-timing tests at each of 3x3, 5x4 and 8x5; independent `sobel_rgb` comparison.
-Production Architecture A dimension/image regression adds 18 deterministic random complete frames at 4x4, 5x5, 3x7, 7x3, 16x9 and 31x17, plus a canonical 640x480 public-domain image frame. All recorded comparisons have exact input/output counts and mismatch_count=0; processed reference, RTL and diff artifacts are recorded.
-Evidence: results/raw/gate3-dimension-image-cocotb.log
-Classification: RTL SIMULATION VERIFIED.
-Conditions: Verilator 5.052; cocotb 2.1.0; six legal dimensions with three random frames each; one 640x480 public-domain photograph; independent `sobel_rgb` comparison.
-Gate 3 CLOSED — verified regression evidence now covers streaming stress, reset/malformed-metadata recovery, configuration timing, multiple legal dimensions, deterministic random frames, a canonical 640x480 public real-image frame, and requirements traceability.
-Remaining Gate-3 work: none unresolved in the audited categories. Selected formal scope is complete. Architecture-A synthesis and routed timing evidence are recorded below; Architecture B functional RTL is now implemented and simulation-verified, with synthesis/P&R/timing deferred to Phase 11.
-`pixel_control.accept_i` represents accepted input; that primitive does not generate ready or implement RUN_ENABLE/DRAIN admission.
+## Verification status
 
-Formal:
-SELECTED TARGETED FORMAL COMPLETE.
+The reference model and RTL simulation suites passed. Coverage includes
+primitive arithmetic and protocol tests, complete frames, source gaps,
+destination backpressure, SOF/EOL and drain stalls, reset and malformed
+metadata, APB configuration timing, multiple dimensions, 18 deterministic
+random frames, the 640×480 public image and direct A/B image equivalence.
 
-Passed under documented assumptions:
-- F-ELASTIC-001
-- F-ELASTIC-002
-- F-ELASTIC-003
-- F-APB-001
-- F-APB-002
-- F-CTRL-001 at 3x3 and 5x4
-- F-OUT-001 at 3x3 and 5x4
-- F-OUT-002 drain transition mechanics at 3x3 and 5x4
-- F-FRAME-001 narrow completion integration at 3x3 and 5x4
+Evidence: `results/raw/arch-b-functional-regression.log`,
+`results/raw/arch-ab-recovery-precondition-repair.log` and the focused logs in
+`results/raw/`.
 
-Elastic-stage, APB/configuration, pixel-controller, output-control and final-token/frame-completion cover/vacuity checks are recorded.
+## Formal status
 
-F-FRAME-001 proves external final-token qualification of FRAME_COUNT in the narrow integration harness.
+Selected targeted formal verification is complete for the elastic stage,
+APB/configuration, pixel controller, output control and final-token/frame-count
+integration properties under their recorded assumptions. Output-control
+liveness remains a derived result under downstream fairness. No
+whole-accelerator formal proof is claimed.
 
-No whole-accelerator formal verification is claimed.
+Evidence: `docs/FORMAL.md` and `results/raw/formal-*.log`.
 
-F-OUT-002 eventual drain completion is derived from the formally checked
-transition mechanics under an explicit downstream fairness condition.
+## Implementation results
 
-Evidence:
-results/raw/formal-elastic-stage.log
-results/raw/formal-apb-regs.log
-results/raw/formal-pixel-control.log
-results/raw/formal-output-control.log
-results/raw/formal-frame-completion.log
+| Metric | Architecture A | Architecture B |
+|---|---:|---:|
+| LUT4 | 665 | 775 |
+| TRELLIS_FF | 194 | 223 |
+| Clean/fail constraint | 35/40 MHz | 60/65 MHz |
+| Synchronous path | 25.731 ns | 16.194 ns |
+| First output | 642 cycles | 643 cycles |
+| Frame completion | 307842 cycles | 307843 cycles |
+| II / pixels per clock | 1 / 1 | 1 / 1 |
 
-No whole-accelerator formal verification is claimed.
+The comparison used the virtual LFE5U-45F/CABGA381/speed-6 target, identical
+synthesis and routing settings, and seed 1. Throughput figures are derived
+from clean routed constraints and measured II. Architecture B is retained as
+the timing-oriented variant; Architecture A remains the compact baseline.
 
-Synthesis:
-SYNTHESISED (Architecture A, canonical 640x480)
+Evidence: `docs/ARCHITECTURE_COMPARISON.md` and
+`results/raw/arch-ab-comparison.json`.
 
-Place/route:
-PLACED/ROUTED timing-clean at 35 MHz, seed 1; timing-failing at 50 MHz, seed 1
+## Release status
 
-Timing:
-35 MHz clean / 50 MHz fail, 5 MHz resolution, seed 1
+The public repository includes the README, architecture diagram, pinned
+Python development dependencies, command runners, GitHub Actions CI and
+clean-clone validation. Candidate CI and clean-clone evidence are recorded in
+`results/raw/publication-validation.log` and
+`results/raw/clean-clone-validation.log`.
 
-Known future workflow dependencies:
-- Yosys/SBY/formal solver for formal
-- nextpnr-ecp5/ECP5 database for implementation
+## Known limitations
 
-Current bottleneck:
-Architecture-A synchronous clock-to-clock bottleneck is the ~25.731 ns path from the line-buffer EBR output to the output-data elastic FF through the long downstream arithmetic cone. The previously reported 32.07 ns s_tdata path is an unconstrained async-input-to-clock path and is not the design Fmax path.
+There is no physical FPGA demonstration or physical throughput measurement.
+Routed timing is single-seed virtual-device evidence, not a statistically
+robust Fmax characterization. Dimensions are compile-time; the design uses a
+single clock, does not overlap frames during final drain, and is not a full
+AXI4-Stream, framebuffer, DMA, CPU, display or CNN system.
 
-Next task:
-P12-DEBUG-CASE-STUDIES-001
+See [Known limitations](KNOWN_LIMITATIONS.md).
 
-Formal toolchain:
-FORMAL TOOLCHAIN SMOKE VERIFIED.
+## Historical milestone references
 
-A generic prove and cover smoke job passed with the recorded Yosys,
-SymbiYosys and Z3 versions. The first targeted elastic-stage project
-formal properties have since passed at DATA_WIDTH=11; whole-accelerator
-formal verification is not claimed.
-
-The targeted APB/configuration properties have also passed under documented
-assumptions using formal-netlist-only Yosys expose observation of the actual
-APB state wires. Evidence: results/raw/formal-apb-regs.log
-
-Synthesis: Architecture A synthesised
-Place/route: Architecture A routed; 35 MHz clean, 50 MHz fail, seed 1
-Timing: routed timing evidence recorded
-Architecture B: functional RTL implemented and simulation-verified; synthesis/P&R/timing not run
-
-
-Architecture-A implementation baseline:
-SYNTHESISED. Canonical 640x480 placed/routed timing-clean at 35 MHz, seed 1; timing-failing at 50 MHz. Highest tested clean=35 MHz, lowest tested fail=50 MHz, resolution=5 MHz. Mapped resources: LUT4=665, TRELLIS_FF=194, CCU2C=113, DP16KD=2, MULT18X18D=3, PFUMX=102, L6MUX21=48. Primary synchronous path measured at 25.731 ns total (5.830 ns clk-to-q, 8.033 ns logic, 11.868 ns routing); separate 32.068 ns async-input-to-clock path is preserved but is not the Fmax path.
-
-Current bottleneck:
-Architecture-A synchronous clock-to-clock bottleneck is the ~25.731 ns path from the line-buffer EBR output to the output-data elastic FF through the long downstream arithmetic cone. The previously reported 32.07 ns s_tdata path is an unconstrained async-input-to-clock path and is not the design Fmax path.
-
-Architecture-B controlled change:
-one 28-bit ready/valid elastic stage after Sobel Gx/Gy.
-
-Architecture B status:
-implemented; RTL simulation verified; synthesis/P&R/timing not run
-
-Next task:
-P12-DEBUG-CASE-STUDIES-001
-
-Physical board: not run
-Physical measurement: none
-
-
-Architecture-A bottleneck review: ARCHITECTURE-A BOTTLENECK REVIEW — DERIVED FROM ROUTED TIMING EVIDENCE. The raw implementation evidence is preserved; the parser now selects the synchronous clock-to-clock path and reports the async I/O path separately.
-
-
-Architecture B:
-IMPLEMENTED. RTL SIMULATION VERIFIED under the established integrated regression. Controlled change: one DATA_WIDTH=28 ready/valid elastic boundary after Sobel Gx/Gy. Canonical Architecture-A/B image equivalence: PASS, diff_nonzero=0.
-
-Architecture-B synthesis: not run
-Architecture-B P&R: not run
-Architecture-B timing: not run
-
-Current engineering task:
-Measure Architecture B under the exact Architecture-A implementation conditions and compare resources, routed timing, latency, initiation interval and derived throughput.
-
-Next task:
-P12-DEBUG-CASE-STUDIES-001
-
-
-P11 comparison: A 35/40 MHz, B 60/65 MHz seed-1 frontier; B synchronous path 16.194 ns versus A 25.731 ns; B adds one cycle and resources while preserving II=1 and image equivalence. Decision: RETAIN. No physical board or whole-accelerator formal claim.
-
-## Current authoritative state after Phase 12
-
-Current phase: Phase 13 — Publication
-Current gate: Gate 4 CLOSED; Gate 5 OPEN
-
-Architecture A: SYNTHESISED; highest clean 35 MHz, lowest fail 40 MHz, synchronous path 25.731 ns; LUT4 665, TRELLIS_FF 194.
-Architecture B: SYNTHESISED; highest clean 60 MHz, lowest fail 65 MHz, synchronous path 16.194 ns; LUT4 775, TRELLIS_FF 223.
-Both architectures sustain II=1 and 1 pixel/clock. B adds one cycle of latency. Decision: RETAIN B as timing-oriented variant.
-
-Phase-12 debug case studies complete: signedness, stalled-output instability, and Architecture-B metadata alignment. No deliberate defect remains on main.
-
-Current bottleneck: Public/CV-ready documentation, CI and clean-clone reproduction.
-Next task: P13-PUBLICATION-001
-
-Gate 3: CLOSED
-Gate 4: CLOSED
-Gate 5: OPEN
-Physical board: not run. Physical measurement: none.
-
-## Current authoritative release state
-
-Current phase: Phase 13 — Publication complete
-Current gate: Gate 4 CLOSED; Gate 5 CLOSED
-Release status: CV-ready release candidate validated
-
-Architecture A: compact baseline; 35/40 MHz seed-1 clean/fail frontier; 25.731 ns synchronous path.
-Architecture B: retained timing-oriented variant; 60/65 MHz seed-1 clean/fail frontier; 16.194 ns synchronous path; one-cycle latency increase; II=1.
-
-Phase-12 debug case studies are complete. No deliberate defect remains on main.
-Current bottleneck: public/CV-ready documentation, CI and clean-clone reproduction (completed for this release).
-Next phase: Phase 14 — Optional physical FPGA
-Next task: OPTIONAL ONLY — physical FPGA demonstration if desired
-
-Gate 0: CLOSED
-Gate 1: CLOSED
-Gate 2: CLOSED
-Gate 3: CLOSED
-Gate 4: CLOSED
-Gate 5: CLOSED
-Physical board: not run. Physical measurement: none.
-
-## Phase-13 publication completion (current)
-
-Current phase: Phase 13 — Publication complete
-Current gate: Gate 5 CLOSED
-Release status: CV-ready release candidate validated
-
-Publication validation:
-- GitHub Actions candidate run 35800586342 passed for commit f9598f3a92a998a416c08ca36653ed8bf73bf5d8.
-- Fresh-clone validation passed at commit f9598f3a92a998a416c08ca36653ed8bf73bf5d8.
-- Publication assets and command surface passed their recorded checks.
-
-Final gate state: Gate 0 CLOSED; Gate 1 CLOSED; Gate 2 CLOSED; Gate 3 CLOSED; Gate 4 CLOSED; Gate 5 CLOSED.
-
-Next phase: Phase 14 — Optional physical FPGA only; not required for project completion.
-Next task: OPTIONAL ONLY — physical FPGA demonstration if desired.
+Gate and phase history remains in Git history and the preserved raw evidence.
+Use [the evidence index](EVIDENCE_INDEX.md) for the traceable record,
+[decisions](DECISIONS.md) for architectural rationale and
+[formal records](FORMAL.md) for assumptions and proof boundaries.

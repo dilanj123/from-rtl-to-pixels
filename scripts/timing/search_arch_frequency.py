@@ -1,41 +1,138 @@
 #!/usr/bin/env python3
-import argparse,csv,json,subprocess
+import argparse
+import csv
+import json
+import subprocess
 from pathlib import Path
-ROOT=Path(__file__).resolve().parents[2]
+
+
+ROOT = Path(__file__).resolve().parents[2]
+SEED = 1
+GRID_MHZ = 5
+
+
+def parse_args():
+    parser = argparse.ArgumentParser()
+    parser.add_argument("--architecture", choices=["compact", "pipelined"], required=True)
+    return parser.parse_args()
+
+
+def route_result(architecture, frequency_mhz, cache, rows):
+    if frequency_mhz in cache:
+        return cache[frequency_mhz]
+
+    script = ROOT / "scripts/timing/run_arch_route.sh"
+    arch_dir = "arch-a" if architecture == "compact" else "arch-b"
+    output_dir = (
+        ROOT / "build/impl" / arch_dir / "640x480"
+        / f"route/freq-{frequency_mhz}MHz-seed-{SEED}"
+    )
+    result = subprocess.run(
+        [str(script), architecture, str(frequency_mhz), str(SEED)],
+        capture_output=True,
+        text=True,
+    )
+    status_path = output_dir / "status.txt"
+    status = status_path.read_text() if status_path.exists() else ""
+    route_passed = "ROUTE_STATUS=PASS" in status
+    summary_path = output_dir / "summary.json"
+    summary = json.loads(summary_path.read_text()) if summary_path.exists() else {}
+    clocks = summary.get("clocks", [])
+    clock = clocks[0] if clocks else {}
+    timing_passed = route_passed and summary.get("timing_clean", False)
+    rows.append(
+        {
+            "target_mhz": frequency_mhz,
+            "seed": SEED,
+            "route_status": "PASS" if route_passed else "FAIL",
+            "reported_clock": clock.get("clock", ""),
+            "achieved_mhz": clock.get("achieved_mhz"),
+            "timing_status": "PASS" if timing_passed else "FAIL",
+            "log_path": str(output_dir / "nextpnr.log"),
+            "report_path": str(output_dir / "nextpnr-report.json"),
+        }
+    )
+    if not route_passed:
+        raise RuntimeError(
+            f"route failure at {frequency_mhz} MHz\n"
+            f"{result.stdout}\n{result.stderr}"
+        )
+    cache[frequency_mhz] = timing_passed
+    return timing_passed
+
+
+def refine_bracket(architecture, low, high, cache, rows):
+    while high - low > GRID_MHZ:
+        midpoint = (low + high) / 2
+        frequency = int(midpoint // GRID_MHZ) * GRID_MHZ
+        if frequency <= low:
+            frequency = low + GRID_MHZ
+        if frequency >= high:
+            frequency = high - GRID_MHZ
+        if route_result(architecture, frequency, cache, rows):
+            low = frequency
+        else:
+            high = frequency
+    return low, high
+
+
+def find_bracket(architecture):
+    rows = []
+    cache = {}
+    if route_result(architecture, 25, cache, rows):
+        low = 25
+        high = None
+        for frequency in (50, 100, 200, 400):
+            if route_result(architecture, frequency, cache, rows):
+                low = frequency
+            else:
+                high = frequency
+                break
+    else:
+        high = 25
+        low = None
+        for frequency in (10, 5):
+            if route_result(architecture, frequency, cache, rows):
+                low = frequency
+                break
+        if low is None:
+            raise RuntimeError("5 MHz not timing-clean")
+
+    if high is None:
+        result = {
+            "highest_clean": low,
+            "lowest_fail": None,
+            "bracket_width": None,
+            "open_upper_bound": True,
+        }
+    else:
+        low, high = refine_bracket(architecture, low, high, cache, rows)
+        result = {
+            "highest_clean": low,
+            "lowest_fail": high,
+            "bracket_width": high - low,
+        }
+    return rows, result
+
+
 def main():
- p=argparse.ArgumentParser(); p.add_argument('--architecture',choices=['compact','pipelined'],required=True); a=p.parse_args()
- rows=[]; cache={}; script=ROOT/'scripts/timing/run_arch_route.sh'; build=ROOT/f'build/impl/arch-{"a" if a.architecture=="compact" else "b"}/640x480'
- def run(f):
-  if f in cache:return cache[f]
-  out=build/f'route/freq-{f}MHz-seed-1'; r=subprocess.run([str(script),a.architecture,str(f),'1'],capture_output=True,text=True)
-  status=(out/'status.txt').read_text() if (out/'status.txt').exists() else ''
-  route_ok='ROUTE_STATUS=PASS' in status; summ=json.load(open(out/'summary.json')) if (out/'summary.json').exists() else {}
-  clocks=summ.get('clocks',[]); c=clocks[0] if clocks else {}; clean=route_ok and summ.get('timing_clean',False)
-  row={'target_mhz':f,'seed':1,'route_status':'PASS' if route_ok else 'FAIL','reported_clock':c.get('clock',''),'achieved_mhz':c.get('achieved_mhz'),'timing_status':'PASS' if clean else 'FAIL','log_path':str(out/'nextpnr.log'),'report_path':str(out/'nextpnr-report.json')}; rows.append(row); cache[f]=clean
-  if not route_ok: raise RuntimeError(f'route failure at {f} MHz\n{r.stdout}\n{r.stderr}')
-  return clean
- clean=False
- if run(25):
-  lo=25; hi=None
-  for f in (50,100,200,400):
-   if run(f): lo=f
-   else: hi=f; break
- else:
-  hi=25; lo=None
-  for f in (10,5):
-   if run(f): lo=f; break
-  if lo is None: raise RuntimeError('5 MHz not timing-clean')
- if hi is not None:
-  while hi-lo>5:
-   mid=int(((lo+hi)/2)//5)*5
-   if mid<=lo: mid=lo+5
-   if mid>=hi: mid=hi-5
-   if run(mid): lo=mid
-   else: hi=mid
-  result={'highest_clean':lo,'lowest_fail':hi,'bracket_width':hi-lo}
- else: result={'highest_clean':lo,'lowest_fail':None,'bracket_width':None,'open_upper_bound':True}
- out=ROOT/f'build/impl/arch-{"a" if a.architecture=="compact" else "b"}/640x480/frequency-search.csv'; out.parent.mkdir(parents=True,exist_ok=True)
- with open(out,'w',newline='') as f:
-  w=csv.DictWriter(f,fieldnames=rows[0].keys()); w.writeheader(); w.writerows(rows)
- print(json.dumps({'architecture':a.architecture,'seed':1,'grid_mhz':5,'tested':rows,**result},indent=2))
-if __name__=='__main__': main()
+    args = parse_args()
+    rows, bracket = find_bracket(args.architecture)
+    arch_dir = "arch-a" if args.architecture == "compact" else "arch-b"
+    output_path = ROOT / "build/impl" / arch_dir / "640x480/frequency-search.csv"
+    output_path.parent.mkdir(parents=True, exist_ok=True)
+    with output_path.open("w", newline="") as handle:
+        writer = csv.DictWriter(handle, fieldnames=rows[0].keys())
+        writer.writeheader()
+        writer.writerows(rows)
+    print(json.dumps({
+        "architecture": args.architecture,
+        "seed": SEED,
+        "grid_mhz": GRID_MHZ,
+        "tested": rows,
+        **bracket,
+    }, indent=2))
+
+
+if __name__ == "__main__":
+    main()

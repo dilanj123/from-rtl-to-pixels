@@ -44,7 +44,7 @@
 
 `D-022` Core accelerator RTL, reference model, verification, formal properties and A/B experiment are original project work. Third-party support reuse requires provenance/licence manifest entries.
 
-`D-023` Authority order is `00_MASTER_PROJECT_PLAN.md → 01_CHATGPT_PROJECT_OPERATING_INSTRUCTIONS.md → Gate-1 docs → implementation`.
+`D-023` Early project planning used a written authority order: frozen requirements and architecture documents take precedence over implementation details. The planning files that recorded that workflow are historical and are no longer part of the public build surface.
 
 `D-024` `make doctor` categories are CORE/GITHUB/SIMULATION/FORMAL/IMPLEMENTATION. Bootstrap failure depends only on CORE; later targets enforce their workflow dependencies.
 

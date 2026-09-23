@@ -1,6 +1,7 @@
 import hashlib
 import re
 import subprocess
+import xml.etree.ElementTree as ET
 from pathlib import Path
 
 import numpy as np
@@ -15,6 +16,18 @@ PUBLIC_IMAGE_SHA256 = (
 
 
 def verify_assets():
+    assert (ROOT / "COPYRIGHT.md").is_file()
+    schematic_source = ROOT / "docs/assets/top-level-schematic.drawio"
+    schematic_svg = ROOT / "docs/assets/top-level-schematic.svg"
+    assert schematic_source.is_file()
+    assert schematic_svg.is_file()
+    drawio_root = ET.parse(schematic_source).getroot()
+    assert drawio_root.tag == "mxfile"
+    assert drawio_root.find("diagram/mxGraphModel") is not None
+    svg_root = ET.parse(schematic_svg).getroot()
+    assert svg_root.tag.endswith("svg")
+    assert svg_root.get("viewBox")
+
     source_image = ROOT / "tb/images/Tokinokane2005-1-4.jpg"
     gradient_image = ROOT / "tb/images/gradient-grid-640x480.png"
     assert hashlib.sha256(source_image.read_bytes()).hexdigest() == PUBLIC_IMAGE_SHA256
@@ -62,6 +75,10 @@ def verify_markdown_links():
                 broken.append(f"{markdown_path}:{target_path}")
 
     assert not broken, "broken repository links: " + ", ".join(broken)
+    readme = (ROOT / "README.md").read_text()
+    assert "docs/assets/top-level-schematic.svg" in readme
+    assert "docs/assets/top-level-schematic.drawio" in readme
+    assert "LICENSE" not in readme
 
 
 def main():

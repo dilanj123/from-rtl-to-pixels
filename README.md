@@ -1,6 +1,6 @@
 # From RTL to Pixels — Streaming Sobel RTL Accelerator
 
-[![CI](https://github.com/dilanj123/from-rtl-to-pixels/actions/workflows/ci.yml/badge.svg)](https://github.com/dilanj123/from-rtl-to-pixels/actions/workflows/ci.yml) [![License: MIT](https://img.shields.io/badge/license-MIT-blue.svg)](LICENSE)
+[![CI](https://github.com/dilanj123/from-rtl-to-pixels/actions/workflows/ci.yml/badge.svg)](https://github.com/dilanj123/from-rtl-to-pixels/actions/workflows/ci.yml)
 
 A synthesizable SystemVerilog image accelerator that streams RGB888 through
 grayscale, two line buffers, a 3×3 Sobel operator, thresholding and an edge
@@ -48,7 +48,9 @@ and one pixel per clock while reducing the measured synchronous path.
 
 ## How it works
 
-![Architecture and datapath](docs/assets/architecture.svg)
+![Top-level RTL schematic](docs/assets/top-level-schematic.svg)
+
+[Open the editable diagrams.net source](docs/assets/top-level-schematic.drawio)
 
 The complete architecture and frozen interfaces are described in
 [Architecture and datapath](docs/MICROARCHITECTURE.md).
@@ -83,6 +85,8 @@ formal properties and a controlled synthesis/routing comparison. Start with
 | Inspect formal harnesses | [formal/](formal/) |
 | Inspect scripts | [scripts/](scripts/) |
 | Inspect raw and processed results | [results/](results/) |
+| View the complete module-level schematic | [Top-level schematic](docs/assets/top-level-schematic.svg) |
+| Edit the schematic in diagrams.net | [Editable draw.io source](docs/assets/top-level-schematic.drawio) |
 
 ## Technical results
 
@@ -173,10 +177,14 @@ signedness loss, stalled ready/valid output instability and pipeline metadata
 misalignment. Each failed its regression, was root-caused and restored. No
 deliberate defect remains on `main`; see [Debug case studies](docs/DEBUG_CASE_STUDIES.md).
 
-## Provenance and licence
+## Provenance and copyright
 
-Core RTL, reference model, verification, formal properties, Architecture A/B
-experiment and diagram are original project work. The public-domain image
-record is in [Third-party notices](THIRD_PARTY_NOTICES.md) and the
-[third-party manifest](docs/THIRD_PARTY_MANIFEST.md). The project is released
-under the [MIT licence](LICENSE).
+The accelerator RTL, Python reference model, verification, formal properties,
+implementation tooling, Architecture A/B experiment and project diagrams are
+original project work.
+
+The canonical photograph is a public-domain Wikimedia Commons image; its
+provenance is recorded in the [third-party notices](THIRD_PARTY_NOTICES.md).
+
+Original project material is © 2026 Dilan Jayasena. See
+[COPYRIGHT.md](COPYRIGHT.md).

@@ -1,0 +1,10 @@
+Task: POST-RELEASE-LICENCE-SCHEMATIC-001
+Baseline: b834ef6105d5076b03a8cc5c2c95cbbe71f5d72d
+
+copyright notice=PASS
+third-party media provenance=PASS
+drawio schematic source=PASS
+schematic SVG export=PASS
+README links=PASS
+production RTL unchanged=PASS
+existing functional tests unchanged=PASS

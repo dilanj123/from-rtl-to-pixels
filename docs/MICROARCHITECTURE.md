@@ -1,5 +1,8 @@
 # Microarchitecture
 
+A module-level schematic is available as [SVG](assets/top-level-schematic.svg)
+and editable [diagrams.net source](assets/top-level-schematic.drawio).
+
 ## Data path
 
 `RGB stream`

@@ -1,0 +1,66 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1850" height="1000" viewBox="0 0 1850 1000">
+<defs><marker id="arrow" markerWidth="10" markerHeight="8" refX="9" refY="4" orient="auto"><path d="M0,0 L10,4 L0,8 z" fill="#243b53"/></marker><marker id="ready" markerWidth="10" markerHeight="8" refX="9" refY="4" orient="auto"><path d="M0,0 L10,4 L0,8 z" fill="#a23b72"/></marker></defs>
+<rect width="100%" height="100%" fill="#f7fafc"/>
+<text x="50" y="52" font-family="Arial,sans-serif" font-size="30" font-weight="700" fill="#102a43">Ready/Valid, Drain and Frame Completion</text>
+<text x="50" y="82" font-family="Arial,sans-serif" font-size="15" fill="#486581">Forward tokens move right; ready/backpressure moves left.</text>
+<rect x="80" y="150" width="260" height="100" rx="8" fill="#e8f1fb" stroke="#2b6cb0" stroke-width="2"/>
+<text x="92" y="178" font-family="Arial,sans-serif" font-size="16" font-weight="700" fill="#102a43">Input admission</text>
+<text x="92" y="201" font-family="Arial,sans-serif" font-size="13" fill="#243b53">s_tready / input_accept</text>
+<rect x="430" y="150" width="250" height="100" rx="8" fill="#e8f1fb" stroke="#2b6cb0" stroke-width="2"/>
+<text x="442" y="178" font-family="Arial,sans-serif" font-size="16" font-weight="700" fill="#102a43">output_control</text>
+<text x="442" y="201" font-family="Arial,sans-serif" font-size="13" fill="#243b53">WAIT_SOF / PROCESS / DRAIN</text>
+<rect x="850" y="150" width="250" height="100" rx="8" fill="#fff4cc" stroke="#d69e2e" stroke-width="2"/>
+<text x="862" y="178" font-family="Arial,sans-serif" font-size="16" font-weight="700" fill="#102a43">28-bit elastic (B)</text>
+<text x="862" y="201" font-family="Arial,sans-serif" font-size="13" fill="#243b53">staged token</text>
+<rect x="1260" y="150" width="250" height="100" rx="8" fill="#ffffff" stroke="#334e68" stroke-width="2"/>
+<text x="1272" y="178" font-family="Arial,sans-serif" font-size="16" font-weight="700" fill="#102a43">11-bit output elastic</text>
+<text x="1272" y="201" font-family="Arial,sans-serif" font-size="13" fill="#243b53">final token</text>
+<rect x="1580" y="150" width="190" height="100" rx="8" fill="#e6fffa" stroke="#2c7a7b" stroke-width="2"/>
+<text x="1592" y="178" font-family="Arial,sans-serif" font-size="16" font-weight="700" fill="#102a43">Output</text>
+<text x="1592" y="201" font-family="Arial,sans-serif" font-size="13" fill="#243b53">m_tvalid / m_tready</text>
+<rect x="80" y="400" width="280" height="100" rx="8" fill="#e8f1fb" stroke="#2b6cb0" stroke-width="2"/>
+<text x="92" y="428" font-family="Arial,sans-serif" font-size="16" font-weight="700" fill="#102a43">WAIT_SOF</text>
+<text x="92" y="451" font-family="Arial,sans-serif" font-size="13" fill="#243b53">accept SOF</text>
+<rect x="430" y="400" width="250" height="100" rx="8" fill="#e8f1fb" stroke="#2b6cb0" stroke-width="2"/>
+<text x="442" y="428" font-family="Arial,sans-serif" font-size="16" font-weight="700" fill="#102a43">PROCESS</text>
+<text x="442" y="451" font-family="Arial,sans-serif" font-size="13" fill="#243b53">accepted pixels</text>
+<rect x="800" y="400" width="250" height="100" rx="8" fill="#e8f1fb" stroke="#2b6cb0" stroke-width="2"/>
+<text x="812" y="428" font-family="Arial,sans-serif" font-size="16" font-weight="700" fill="#102a43">DRAIN</text>
+<text x="812" y="451" font-family="Arial,sans-serif" font-size="13" fill="#243b53">final outputs</text>
+<rect x="1170" y="400" width="320" height="100" rx="8" fill="#fff4cc" stroke="#d69e2e" stroke-width="2"/>
+<text x="1182" y="428" font-family="Arial,sans-serif" font-size="16" font-weight="700" fill="#102a43">frame_done_external</text>
+<text x="1182" y="451" font-family="Arial,sans-serif" font-size="13" fill="#243b53">m_valid &amp; m_ready &amp; final_tag</text>
+<rect x="80" y="650" width="300" height="120" rx="8" fill="#e8f1fb" stroke="#2b6cb0" stroke-width="2"/>
+<text x="92" y="678" font-family="Arial,sans-serif" font-size="16" font-weight="700" fill="#102a43">APB status</text>
+<text x="92" y="701" font-family="Arial,sans-serif" font-size="13" fill="#243b53">BUSY / DRAINING</text>
+<text x="92" y="719" font-family="Arial,sans-serif" font-size="13" fill="#243b53">FRAME_ERROR / FRAME_COUNT</text>
+<rect x="510" y="650" width="300" height="120" rx="8" fill="#fff4cc" stroke="#d69e2e" stroke-width="2"/>
+<text x="522" y="678" font-family="Arial,sans-serif" font-size="16" font-weight="700" fill="#102a43">final_pending_q</text>
+<text x="522" y="701" font-family="Arial,sans-serif" font-size="13" fill="#243b53">set by raw_frame_done_internal</text>
+<text x="522" y="719" font-family="Arial,sans-serif" font-size="13" fill="#243b53">clear on external final transfer</text>
+<line x1="340" y1="200" x2="430" y2="200" stroke="#243b53" stroke-width="3" marker-end="url(#arrow)"/>
+<text x="390" y="195" font-family="Arial,sans-serif" font-size="12" fill="#243b53">valid/data</text>
+<line x1="680" y1="200" x2="850" y2="200" stroke="#243b53" stroke-width="3" marker-end="url(#arrow)"/>
+<text x="770" y="195" font-family="Arial,sans-serif" font-size="12" fill="#243b53">raw token</text>
+<line x1="1100" y1="200" x2="1260" y2="200" stroke="#a23b72" stroke-width="2" stroke-dasharray="8 5" marker-end="url(#ready)"/>
+<text x="1185" y="195" font-family="Arial,sans-serif" font-size="12" fill="#a23b72">m_ready chain</text>
+<line x1="1510" y1="200" x2="1580" y2="200" stroke="#243b53" stroke-width="3" marker-end="url(#arrow)"/>
+<text x="1550" y="195" font-family="Arial,sans-serif" font-size="12" fill="#243b53">stream</text>
+<line x1="210" y1="400" x2="430" y2="400" stroke="#805ad5" stroke-width="2" stroke-dasharray="8 5" marker-end="url(#arrow)"/>
+<text x="325" y="395" font-family="Arial,sans-serif" font-size="12" fill="#805ad5">SOF</text>
+<line x1="680" y1="450" x2="800" y2="450" stroke="#2b6cb0" stroke-width="2" stroke-dasharray="8 5" marker-end="url(#arrow)"/>
+<text x="745" y="445" font-family="Arial,sans-serif" font-size="12" fill="#2b6cb0">last input</text>
+<line x1="1050" y1="450" x2="1170" y2="450" stroke="#805ad5" stroke-width="2" stroke-dasharray="8 5" marker-end="url(#arrow)"/>
+<text x="1115" y="445" font-family="Arial,sans-serif" font-size="12" fill="#805ad5">final tag</text>
+<line x1="1490" y1="450" x2="1580" y2="450" stroke="#2b6cb0" stroke-width="2" stroke-dasharray="8 5" marker-end="url(#arrow)"/>
+<text x="1540" y="445" font-family="Arial,sans-serif" font-size="12" fill="#2b6cb0">count/clear</text>
+<line x1="1170" y1="500" x2="790" y2="700" stroke="#2b6cb0" stroke-width="2" stroke-dasharray="8 5" marker-end="url(#arrow)"/>
+<text x="985" y="595" font-family="Arial,sans-serif" font-size="12" fill="#2b6cb0">status/frame_done</text>
+<line x1="510" y1="650" x2="550" y2="500" stroke="#2b6cb0" stroke-width="2" stroke-dasharray="8 5" marker-end="url(#arrow)"/>
+<text x="535" y="570" font-family="Arial,sans-serif" font-size="12" fill="#2b6cb0">drain state</text>
+<line x1="1260" y1="250" x2="220" y2="250" stroke="#a23b72" stroke-width="2" stroke-dasharray="8 5" marker-end="url(#ready)"/>
+<text x="745" y="245" font-family="Arial,sans-serif" font-size="12" fill="#a23b72">ready backwards</text>
+<text x="80" y="100" font-family="Arial,sans-serif" font-size="14" fill="#243b53">Architecture A omits the 28-bit block; Architecture B adds it after Sobel Gx/Gy.</text>
+<text x="80" y="850" font-family="Arial,sans-serif" font-size="14" fill="#243b53">No new frame is admitted during DRAIN. Final completion is counted only on external tagged-token transfer.</text>
+<text x="80" y="900" font-family="Arial,sans-serif" font-size="14" fill="#243b53">Solid arrows = data/valid; magenta dashed arrows = ready/backpressure; purple dashed = metadata/control</text>
+<text x="50" y="960" font-family="Arial,sans-serif" font-size="12" fill="#627d98">Solid = pixel/data path   Dashed blue = control/config   Dashed magenta = ready/backpressure   Dashed purple = metadata</text></svg>

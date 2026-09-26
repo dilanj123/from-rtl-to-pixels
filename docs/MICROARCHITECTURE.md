@@ -1,7 +1,6 @@
 # Microarchitecture
 
-A module-level schematic is available as [SVG](assets/top-level-schematic.svg)
-and editable [diagrams.net source](assets/top-level-schematic.drawio).
+RTL schematic views are available as [system context](assets/rtl-system-context.svg), [Architecture A](assets/rtl-architecture-a.svg), [Architecture B](assets/rtl-architecture-b.svg), [module interfaces](assets/rtl-module-interfaces.svg), and [ready/valid control flow](assets/rtl-control-flow.svg). The complete [editable diagrams.net source](assets/rtl-architecture.drawio) is also available.
 
 ## Data path
 
@@ -127,7 +126,7 @@ The initial Architecture-B experiment is implemented as one ready/valid elastic 
 - `[23:12]` Gx
 - `[11:0]` Gy
 
-The existing output elastic `s_ready` drives the arithmetic stage `m_ready`; the arithmetic stage `s_ready` drives `output_control.output_ready_i`. No additional arithmetic pipeline stage has been introduced. Functional regression evidence is recorded in `results/raw/arch-b-functional-regression.log`; Architecture-B synthesis, P&R and timing remain deferred to Phase 11.
+The existing output elastic `s_ready` drives the arithmetic stage `m_ready`; the arithmetic stage `s_ready` drives `output_control.output_ready_i`. No additional arithmetic pipeline stage has been introduced. Functional regression evidence is recorded in `results/raw/arch-b-functional-regression.log`; Architecture B has been synthesised and placed/routed under the controlled A/B implementation experiment. See [ARCHITECTURE_COMPARISON.md](ARCHITECTURE_COMPARISON.md) and [TIMING.md](TIMING.md).
 
 ## Architecture B implementation status
 

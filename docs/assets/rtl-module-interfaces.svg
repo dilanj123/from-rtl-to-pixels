@@ -1,0 +1,98 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1850" height="1000" viewBox="0 0 1850 1000">
+<defs><marker id="arrow" markerWidth="10" markerHeight="8" refX="9" refY="4" orient="auto"><path d="M0,0 L10,4 L0,8 z" fill="#243b53"/></marker><marker id="ready" markerWidth="10" markerHeight="8" refX="9" refY="4" orient="auto"><path d="M0,0 L10,4 L0,8 z" fill="#a23b72"/></marker></defs>
+<rect width="100%" height="100%" fill="#f7fafc"/>
+<text x="50" y="52" font-family="Arial,sans-serif" font-size="30" font-weight="700" fill="#102a43">Module Interfaces</text>
+<text x="50" y="82" font-family="Arial,sans-serif" font-size="15" fill="#486581">Port groups are taken from the SystemVerilog module declarations.</text>
+<rect x="50" y="130" width="300" height="220" rx="8" fill="#ffffff" stroke="#334e68" stroke-width="2"/>
+<text x="62" y="158" font-family="Arial,sans-serif" font-size="16" font-weight="700" fill="#102a43">pixel_control</text>
+<text x="62" y="181" font-family="Arial,sans-serif" font-size="13" fill="#243b53">clk/rst</text>
+<text x="62" y="199" font-family="Arial,sans-serif" font-size="13" fill="#243b53">accept_i, SOF/EOL</text>
+<text x="62" y="217" font-family="Arial,sans-serif" font-size="13" fill="#243b53">row/col [ROW_W/COL_W]</text>
+<text x="62" y="235" font-family="Arial,sans-serif" font-size="13" fill="#243b53">pixel_commit, metadata_error</text>
+<text x="62" y="253" font-family="Arial,sans-serif" font-size="13" fill="#243b53">waiting_for_sof</text>
+<rect x="390" y="130" width="250" height="170" rx="8" fill="#ffffff" stroke="#334e68" stroke-width="2"/>
+<text x="402" y="158" font-family="Arial,sans-serif" font-size="16" font-weight="700" fill="#102a43">rgb_to_gray</text>
+<text x="402" y="181" font-family="Arial,sans-serif" font-size="13" fill="#243b53">rgb_i[23:0]</text>
+<text x="402" y="199" font-family="Arial,sans-serif" font-size="13" fill="#243b53">Y=(77R+150G+29B+128)&gt;&gt;8</text>
+<text x="402" y="217" font-family="Arial,sans-serif" font-size="13" fill="#243b53">gray_o[7:0]</text>
+<rect x="680" y="130" width="330" height="220" rx="8" fill="#ffffff" stroke="#334e68" stroke-width="2"/>
+<text x="692" y="158" font-family="Arial,sans-serif" font-size="16" font-weight="700" fill="#102a43">line_buffer</text>
+<text x="692" y="181" font-family="Arial,sans-serif" font-size="13" fill="#243b53">pixel_commit, frame_start</text>
+<text x="692" y="199" font-family="Arial,sans-serif" font-size="13" fill="#243b53">col[COL_W-1:0], pixel[7:0]</text>
+<text x="692" y="217" font-family="Arial,sans-serif" font-size="13" fill="#243b53">line1_mem / line2_mem</text>
+<text x="692" y="235" font-family="Arial,sans-serif" font-size="13" fill="#243b53">prev_row1/2[7:0] + valid</text>
+<rect x="1050" y="130" width="350" height="260" rx="8" fill="#ffffff" stroke="#334e68" stroke-width="2"/>
+<text x="1062" y="158" font-family="Arial,sans-serif" font-size="16" font-weight="700" fill="#102a43">window_3x3</text>
+<text x="1062" y="181" font-family="Arial,sans-serif" font-size="13" fill="#243b53">pixel/history + row/col</text>
+<text x="1062" y="199" font-family="Arial,sans-serif" font-size="13" fill="#243b53">window_valid/row/col</text>
+<text x="1062" y="217" font-family="Arial,sans-serif" font-size="13" fill="#243b53">p00..p22 [8 bits each]</text>
+<text x="1062" y="235" font-family="Arial,sans-serif" font-size="13" fill="#243b53">3x3 tap matrix shown below</text>
+<rect x="1450" y="130" width="300" height="220" rx="8" fill="#ffffff" stroke="#334e68" stroke-width="2"/>
+<text x="1462" y="158" font-family="Arial,sans-serif" font-size="16" font-weight="700" fill="#102a43">sobel_compact</text>
+<text x="1462" y="181" font-family="Arial,sans-serif" font-size="13" fill="#243b53">8 signed input taps</text>
+<text x="1462" y="199" font-family="Arial,sans-serif" font-size="13" fill="#243b53">Gx kernels: -1 0 +1 / -2 0 +2 / -1 0 +1</text>
+<text x="1462" y="217" font-family="Arial,sans-serif" font-size="13" fill="#243b53">Gy kernels: -1 -2 -1 / 0 0 0 / +1 +2 +1</text>
+<text x="1462" y="235" font-family="Arial,sans-serif" font-size="13" fill="#243b53">gx_o, gy_o signed[11:0]</text>
+<rect x="50" y="450" width="300" height="190" rx="8" fill="#edf2f7" stroke="#718096" stroke-width="2"/>
+<text x="62" y="478" font-family="Arial,sans-serif" font-size="16" font-weight="700" fill="#102a43">magnitude_clamp</text>
+<text x="62" y="501" font-family="Arial,sans-serif" font-size="13" fill="#243b53">gx/gy signed[11:0]</text>
+<text x="62" y="519" font-family="Arial,sans-serif" font-size="13" fill="#243b53">|Gx|+|Gy|</text>
+<text x="62" y="537" font-family="Arial,sans-serif" font-size="13" fill="#243b53">magnitude_o[10:0]</text>
+<text x="62" y="555" font-family="Arial,sans-serif" font-size="13" fill="#243b53">magnitude_clamped_o[7:0]</text>
+<text x="62" y="573" font-family="Arial,sans-serif" font-size="13" fill="#243b53">mag output observability-only</text>
+<rect x="390" y="450" width="280" height="170" rx="8" fill="#ffffff" stroke="#334e68" stroke-width="2"/>
+<text x="402" y="478" font-family="Arial,sans-serif" font-size="16" font-weight="700" fill="#102a43">threshold_stage</text>
+<text x="402" y="501" font-family="Arial,sans-serif" font-size="13" fill="#243b53">magnitude[7:0]</text>
+<text x="402" y="519" font-family="Arial,sans-serif" font-size="13" fill="#243b53">threshold[7:0]</text>
+<text x="402" y="537" font-family="Arial,sans-serif" font-size="13" fill="#243b53">bypass</text>
+<text x="402" y="555" font-family="Arial,sans-serif" font-size="13" fill="#243b53">edge_o[7:0]</text>
+<rect x="710" y="450" width="380" height="240" rx="8" fill="#e8f1fb" stroke="#2b6cb0" stroke-width="2"/>
+<text x="722" y="478" font-family="Arial,sans-serif" font-size="16" font-weight="700" fill="#102a43">output_control</text>
+<text x="722" y="501" font-family="Arial,sans-serif" font-size="13" fill="#243b53">pixel/sof/last/frame_abort</text>
+<text x="722" y="519" font-family="Arial,sans-serif" font-size="13" fill="#243b53">output_ready_i</text>
+<text x="722" y="537" font-family="Arial,sans-serif" font-size="13" fill="#243b53">allow, valid, row/col, border</text>
+<text x="722" y="555" font-family="Arial,sans-serif" font-size="13" fill="#243b53">processing/draining/waiting</text>
+<text x="722" y="573" font-family="Arial,sans-serif" font-size="13" fill="#243b53">frame_done_o</text>
+<text x="722" y="591" font-family="Arial,sans-serif" font-size="13" fill="#243b53">WAIT_SOF / PROCESS / DRAIN</text>
+<rect x="1130" y="450" width="300" height="190" rx="8" fill="#fff4cc" stroke="#d69e2e" stroke-width="2"/>
+<text x="1142" y="478" font-family="Arial,sans-serif" font-size="16" font-weight="700" fill="#102a43">elastic_stage #(DATA_WIDTH)</text>
+<text x="1142" y="501" font-family="Arial,sans-serif" font-size="13" fill="#243b53">s_data, s_valid, m_ready</text>
+<text x="1142" y="519" font-family="Arial,sans-serif" font-size="13" fill="#243b53">s_ready, m_data, m_valid</text>
+<text x="1142" y="537" font-family="Arial,sans-serif" font-size="13" fill="#243b53">DATA_WIDTH = 28 or 11</text>
+<text x="1142" y="555" font-family="Arial,sans-serif" font-size="13" fill="#243b53">s_ready = !valid_q || m_ready</text>
+<rect x="1470" y="450" width="300" height="220" rx="8" fill="#e8f1fb" stroke="#2b6cb0" stroke-width="2"/>
+<text x="1482" y="478" font-family="Arial,sans-serif" font-size="16" font-weight="700" fill="#102a43">apb_regs</text>
+<text x="1482" y="501" font-family="Arial,sans-serif" font-size="13" fill="#243b53">APB psel/penable/pwrite</text>
+<text x="1482" y="519" font-family="Arial,sans-serif" font-size="13" fill="#243b53">paddr[7:0], pwdata/prdata[31:0]</text>
+<text x="1482" y="537" font-family="Arial,sans-serif" font-size="13" fill="#243b53">run, threshold, bypass</text>
+<text x="1482" y="555" font-family="Arial,sans-serif" font-size="13" fill="#243b53">BUSY, DRAINING, CONFIG_PENDING</text>
+<text x="1482" y="573" font-family="Arial,sans-serif" font-size="13" fill="#243b53">FRAME_ERROR, FRAME_COUNT</text>
+<rect x="50" y="770" width="320" height="150" rx="8" fill="#ffffff" stroke="#334e68" stroke-width="2"/>
+<text x="62" y="798" font-family="Arial,sans-serif" font-size="16" font-weight="700" fill="#102a43">3x3 window taps</text>
+<text x="62" y="821" font-family="Arial,sans-serif" font-size="13" fill="#243b53">┌────┬────┬────┐</text>
+<text x="62" y="839" font-family="Arial,sans-serif" font-size="13" fill="#243b53">│p00 │p01 │p02 │</text>
+<text x="62" y="857" font-family="Arial,sans-serif" font-size="13" fill="#243b53">├────┼────┼────┤</text>
+<text x="62" y="875" font-family="Arial,sans-serif" font-size="13" fill="#243b53">│p10 │p11 │p12 │</text>
+<text x="62" y="893" font-family="Arial,sans-serif" font-size="13" fill="#243b53">├────┼────┼────┤</text>
+<text x="62" y="911" font-family="Arial,sans-serif" font-size="13" fill="#243b53">│p20 │p21 │p22 │</text>
+<text x="62" y="929" font-family="Arial,sans-serif" font-size="13" fill="#243b53">└────┴────┴────┘</text>
+<text x="62" y="947" font-family="Arial,sans-serif" font-size="13" fill="#243b53">8 bits per tap</text>
+<line x1="350" y1="220" x2="390" y2="220" stroke="#243b53" stroke-width="3" marker-end="url(#arrow)"/>
+<text x="375" y="215" font-family="Arial,sans-serif" font-size="12" fill="#243b53">gray[7:0]</text>
+<line x1="640" y1="220" x2="680" y2="220" stroke="#243b53" stroke-width="3" marker-end="url(#arrow)"/>
+<text x="665" y="215" font-family="Arial,sans-serif" font-size="12" fill="#243b53">pixel/history</text>
+<line x1="1010" y1="220" x2="1050" y2="220" stroke="#243b53" stroke-width="3" marker-end="url(#arrow)"/>
+<text x="1035" y="215" font-family="Arial,sans-serif" font-size="12" fill="#243b53">history + coords</text>
+<line x1="1400" y1="220" x2="1450" y2="220" stroke="#243b53" stroke-width="3" marker-end="url(#arrow)"/>
+<text x="1430" y="215" font-family="Arial,sans-serif" font-size="12" fill="#243b53">taps</text>
+<line x1="550" y1="450" x2="550" y2="300" stroke="#243b53" stroke-width="3" marker-end="url(#arrow)"/>
+<text x="555" y="370" font-family="Arial,sans-serif" font-size="12" fill="#243b53">Gx/Gy</text>
+<line x1="670" y1="530" x2="710" y2="530" stroke="#243b53" stroke-width="3" marker-end="url(#arrow)"/>
+<text x="695" y="525" font-family="Arial,sans-serif" font-size="12" fill="#243b53">edge</text>
+<line x1="1090" y1="530" x2="1130" y2="530" stroke="#a23b72" stroke-width="2" stroke-dasharray="8 5" marker-end="url(#ready)"/>
+<text x="1115" y="525" font-family="Arial,sans-serif" font-size="12" fill="#a23b72">ready/token</text>
+<line x1="1430" y1="550" x2="1470" y2="550" stroke="#2b6cb0" stroke-width="2" stroke-dasharray="8 5" marker-end="url(#arrow)"/>
+<text x="1455" y="545" font-family="Arial,sans-serif" font-size="12" fill="#2b6cb0">status/config</text>
+<text x="50" y="80" font-family="Arial,sans-serif" font-size="14" fill="#243b53">Canonical widths: 640x480 =&gt; ROW_W=9, COL_W=10; parameterized expressions remain in inventory</text>
+<text x="50" y="960" font-family="Arial,sans-serif" font-size="14" fill="#243b53">Grey output = instantiated/observable but not consumed by production top</text>
+<text x="50" y="960" font-family="Arial,sans-serif" font-size="12" fill="#627d98">Solid = pixel/data path   Dashed blue = control/config   Dashed magenta = ready/backpressure   Dashed purple = metadata</text></svg>

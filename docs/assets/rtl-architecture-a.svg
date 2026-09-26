@@ -1,0 +1,102 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1900" height="1000" viewBox="0 0 1900 1000">
+<defs><marker id="arrow" markerWidth="10" markerHeight="8" refX="9" refY="4" orient="auto"><path d="M0,0 L10,4 L0,8 z" fill="#243b53"/></marker><marker id="ready" markerWidth="10" markerHeight="8" refX="9" refY="4" orient="auto"><path d="M0,0 L10,4 L0,8 z" fill="#a23b72"/></marker></defs>
+<rect width="100%" height="100%" fill="#f7fafc"/>
+<text x="50" y="52" font-family="Arial,sans-serif" font-size="30" font-weight="700" fill="#102a43">Architecture A — Compact RTL Interconnect</text>
+<text x="50" y="82" font-family="Arial,sans-serif" font-size="15" fill="#486581">Module-level RTL interconnect; data flows left-to-right, ready returns upstream.</text>
+<rect x="50" y="160" width="190" height="150" rx="8" fill="#e8f1fb" stroke="#2b6cb0" stroke-width="2"/>
+<text x="62" y="188" font-family="Arial,sans-serif" font-size="16" font-weight="700" fill="#102a43">u_pixel_control</text>
+<text x="62" y="211" font-family="Arial,sans-serif" font-size="13" fill="#243b53">pixel_control</text>
+<text x="62" y="229" font-family="Arial,sans-serif" font-size="13" fill="#243b53">row/col [ROW_W/COL_W]</text>
+<text x="62" y="247" font-family="Arial,sans-serif" font-size="13" fill="#243b53">pixel_commit, SOF/EOL</text>
+<text x="62" y="265" font-family="Arial,sans-serif" font-size="13" fill="#243b53">metadata_error</text>
+<rect x="290" y="160" width="180" height="120" rx="8" fill="#ffffff" stroke="#334e68" stroke-width="2"/>
+<text x="302" y="188" font-family="Arial,sans-serif" font-size="16" font-weight="700" fill="#102a43">u_rgb_to_gray</text>
+<text x="302" y="211" font-family="Arial,sans-serif" font-size="13" fill="#243b53">rgb_to_gray</text>
+<text x="302" y="229" font-family="Arial,sans-serif" font-size="13" fill="#243b53">gray[7:0]</text>
+<rect x="540" y="130" width="220" height="170" rx="8" fill="#ffffff" stroke="#334e68" stroke-width="2"/>
+<text x="552" y="158" font-family="Arial,sans-serif" font-size="16" font-weight="700" fill="#102a43">u_line_buffer</text>
+<text x="552" y="181" font-family="Arial,sans-serif" font-size="13" fill="#243b53">line_buffer</text>
+<text x="552" y="199" font-family="Arial,sans-serif" font-size="13" fill="#243b53">prev_row1/2[7:0]</text>
+<text x="552" y="217" font-family="Arial,sans-serif" font-size="13" fill="#243b53">valid1/2</text>
+<rect x="830" y="130" width="220" height="170" rx="8" fill="#ffffff" stroke="#334e68" stroke-width="2"/>
+<text x="842" y="158" font-family="Arial,sans-serif" font-size="16" font-weight="700" fill="#102a43">u_window</text>
+<text x="842" y="181" font-family="Arial,sans-serif" font-size="13" fill="#243b53">window_3x3</text>
+<text x="842" y="199" font-family="Arial,sans-serif" font-size="13" fill="#243b53">p00..p22 [8 bits each]</text>
+<rect x="1120" y="160" width="180" height="120" rx="8" fill="#ffffff" stroke="#334e68" stroke-width="2"/>
+<text x="1132" y="188" font-family="Arial,sans-serif" font-size="16" font-weight="700" fill="#102a43">u_sobel</text>
+<text x="1132" y="211" font-family="Arial,sans-serif" font-size="13" fill="#243b53">sobel_compact</text>
+<text x="1132" y="229" font-family="Arial,sans-serif" font-size="13" fill="#243b53">gx/gy signed[11:0]</text>
+<rect x="1360" y="130" width="230" height="170" rx="8" fill="#e8f1fb" stroke="#2b6cb0" stroke-width="2"/>
+<text x="1372" y="158" font-family="Arial,sans-serif" font-size="16" font-weight="700" fill="#102a43">u_output_control</text>
+<text x="1372" y="181" font-family="Arial,sans-serif" font-size="13" fill="#243b53">output_control</text>
+<text x="1372" y="199" font-family="Arial,sans-serif" font-size="13" fill="#243b53">row/col, border</text>
+<text x="1372" y="217" font-family="Arial,sans-serif" font-size="13" fill="#243b53">valid/allow/drain</text>
+<text x="1372" y="235" font-family="Arial,sans-serif" font-size="13" fill="#243b53">frame_done</text>
+<rect x="1360" y="400" width="230" height="130" rx="8" fill="#ffffff" stroke="#334e68" stroke-width="2"/>
+<text x="1372" y="428" font-family="Arial,sans-serif" font-size="16" font-weight="700" fill="#102a43">u_magnitude</text>
+<text x="1372" y="451" font-family="Arial,sans-serif" font-size="13" fill="#243b53">magnitude_clamp</text>
+<text x="1372" y="469" font-family="Arial,sans-serif" font-size="13" fill="#243b53">mag[10:0]</text>
+<text x="1372" y="487" font-family="Arial,sans-serif" font-size="13" fill="#243b53">clamped[7:0]</text>
+<rect x="1660" y="400" width="170" height="130" rx="8" fill="#ffffff" stroke="#334e68" stroke-width="2"/>
+<text x="1672" y="428" font-family="Arial,sans-serif" font-size="16" font-weight="700" fill="#102a43">u_threshold</text>
+<text x="1672" y="451" font-family="Arial,sans-serif" font-size="13" fill="#243b53">threshold_stage</text>
+<text x="1672" y="469" font-family="Arial,sans-serif" font-size="13" fill="#243b53">edge[7:0]</text>
+<rect x="1660" y="620" width="170" height="130" rx="8" fill="#e8f1fb" stroke="#2b6cb0" stroke-width="2"/>
+<text x="1672" y="648" font-family="Arial,sans-serif" font-size="16" font-weight="700" fill="#102a43">border-zero mux</text>
+<text x="1672" y="671" font-family="Arial,sans-serif" font-size="13" fill="#243b53">border ? 0 : edge</text>
+<text x="1672" y="689" font-family="Arial,sans-serif" font-size="13" fill="#243b53">raw_output_data[7:0]</text>
+<rect x="1360" y="800" width="230" height="120" rx="8" fill="#ffffff" stroke="#334e68" stroke-width="2"/>
+<text x="1372" y="828" font-family="Arial,sans-serif" font-size="16" font-weight="700" fill="#102a43">u_output_elastic</text>
+<text x="1372" y="851" font-family="Arial,sans-serif" font-size="13" fill="#243b53">elastic_stage</text>
+<text x="1372" y="869" font-family="Arial,sans-serif" font-size="13" fill="#243b53">DATA_WIDTH=11</text>
+<text x="1372" y="887" font-family="Arial,sans-serif" font-size="13" fill="#243b53">final/SOF/EOL/data</text>
+<rect x="1650" y="810" width="180" height="100" rx="8" fill="#e6fffa" stroke="#2c7a7b" stroke-width="2"/>
+<text x="1662" y="838" font-family="Arial,sans-serif" font-size="16" font-weight="700" fill="#102a43">Output</text>
+<text x="1662" y="861" font-family="Arial,sans-serif" font-size="13" fill="#243b53">m_tdata[7:0]</text>
+<text x="1662" y="879" font-family="Arial,sans-serif" font-size="13" fill="#243b53">m_tvalid/m_tuser</text>
+<text x="1662" y="897" font-family="Arial,sans-serif" font-size="13" fill="#243b53">m_tlast / m_tready</text>
+<rect x="50" y="570" width="220" height="180" rx="8" fill="#e8f1fb" stroke="#2b6cb0" stroke-width="2"/>
+<text x="62" y="598" font-family="Arial,sans-serif" font-size="16" font-weight="700" fill="#102a43">Top-level glue</text>
+<text x="62" y="621" font-family="Arial,sans-serif" font-size="13" fill="#243b53">s_tready admission</text>
+<text x="62" y="639" font-family="Arial,sans-serif" font-size="13" fill="#243b53">frame_abort_q</text>
+<text x="62" y="657" font-family="Arial,sans-serif" font-size="13" fill="#243b53">final_pending_q</text>
+<text x="62" y="675" font-family="Arial,sans-serif" font-size="13" fill="#243b53">metadata generation</text>
+<rect x="50" y="800" width="250" height="120" rx="8" fill="#e8f1fb" stroke="#2b6cb0" stroke-width="2"/>
+<text x="62" y="828" font-family="Arial,sans-serif" font-size="16" font-weight="700" fill="#102a43">u_apb_regs</text>
+<text x="62" y="851" font-family="Arial,sans-serif" font-size="13" fill="#243b53">apb_regs</text>
+<text x="62" y="869" font-family="Arial,sans-serif" font-size="13" fill="#243b53">run/threshold/bypass</text>
+<text x="62" y="887" font-family="Arial,sans-serif" font-size="13" fill="#243b53">status/frame count</text>
+<line x1="240" y1="220" x2="290" y2="220" stroke="#2b6cb0" stroke-width="2" stroke-dasharray="8 5" marker-end="url(#arrow)"/>
+<text x="270" y="215" font-family="Arial,sans-serif" font-size="12" fill="#2b6cb0">input_accept</text>
+<line x1="470" y1="220" x2="540" y2="220" stroke="#243b53" stroke-width="3" marker-end="url(#arrow)"/>
+<text x="510" y="215" font-family="Arial,sans-serif" font-size="12" fill="#243b53">gray[7:0]</text>
+<line x1="470" y1="250" x2="830" y2="250" stroke="#243b53" stroke-width="3" marker-end="url(#arrow)"/>
+<text x="655" y="245" font-family="Arial,sans-serif" font-size="12" fill="#243b53">gray also to window</text>
+<line x1="760" y1="220" x2="830" y2="220" stroke="#243b53" stroke-width="3" marker-end="url(#arrow)"/>
+<text x="800" y="215" font-family="Arial,sans-serif" font-size="12" fill="#243b53">history[8+8]</text>
+<line x1="1050" y1="220" x2="1120" y2="220" stroke="#243b53" stroke-width="3" marker-end="url(#arrow)"/>
+<text x="1090" y="215" font-family="Arial,sans-serif" font-size="12" fill="#243b53">p00..p22</text>
+<line x1="1300" y1="220" x2="1360" y2="220" stroke="#243b53" stroke-width="3" marker-end="url(#arrow)"/>
+<text x="1335" y="215" font-family="Arial,sans-serif" font-size="12" fill="#243b53">Gx/Gy</text>
+<line x1="1475" y1="300" x2="1475" y2="400" stroke="#2b6cb0" stroke-width="2" stroke-dasharray="8 5" marker-end="url(#arrow)"/>
+<text x="1480" y="345" font-family="Arial,sans-serif" font-size="12" fill="#2b6cb0">output control</text>
+<line x1="1590" y1="465" x2="1660" y2="465" stroke="#243b53" stroke-width="3" marker-end="url(#arrow)"/>
+<text x="1630" y="460" font-family="Arial,sans-serif" font-size="12" fill="#243b53">mag[7:0]</text>
+<line x1="1830" y1="465" x2="1745" y2="620" stroke="#243b53" stroke-width="3" marker-end="url(#arrow)"/>
+<text x="1792" y="537" font-family="Arial,sans-serif" font-size="12" fill="#243b53">threshold edge</text>
+<line x1="1745" y1="750" x2="1450" y2="860" stroke="#243b53" stroke-width="3" marker-end="url(#arrow)"/>
+<text x="1602" y="800" font-family="Arial,sans-serif" font-size="12" fill="#243b53">11-bit token</text>
+<line x1="1590" y1="860" x2="1650" y2="860" stroke="#243b53" stroke-width="3" marker-end="url(#arrow)"/>
+<text x="1625" y="855" font-family="Arial,sans-serif" font-size="12" fill="#243b53">output stream</text>
+<line x1="1450" y1="530" x2="1360" y2="530" stroke="#a23b72" stroke-width="2" stroke-dasharray="8 5" marker-end="url(#ready)"/>
+<text x="1410" y="525" font-family="Arial,sans-serif" font-size="12" fill="#a23b72">output_ready</text>
+<line x1="1360" y1="530" x2="1360" y2="680" stroke="#a23b72" stroke-width="2" stroke-dasharray="8 5" marker-end="url(#ready)"/>
+<text x="1365" y="600" font-family="Arial,sans-serif" font-size="12" fill="#a23b72">ready/backpressure</text>
+<line x1="1360" y1="680" x2="240" y2="680" stroke="#a23b72" stroke-width="2" stroke-dasharray="8 5" marker-end="url(#ready)"/>
+<text x="805" y="675" font-family="Arial,sans-serif" font-size="12" fill="#a23b72">input_allow -&gt; s_tready</text>
+<line x1="240" y1="680" x2="240" y2="250" stroke="#2b6cb0" stroke-width="2" stroke-dasharray="8 5" marker-end="url(#arrow)"/>
+<text x="245" y="460" font-family="Arial,sans-serif" font-size="12" fill="#2b6cb0">accept</text>
+<text x="50" y="120" font-family="Arial,sans-serif" font-size="14" fill="#243b53">Compact path: Sobel feeds magnitude/clamp directly</text>
+<text x="1360" y="370" font-family="Arial,sans-serif" font-size="14" fill="#243b53">raw_output_user = row==0 &amp;&amp; col==0; raw_output_last = col==LAST_COL</text>
+<text x="50" y="940" font-family="Arial,sans-serif" font-size="14" fill="#243b53">Final token [10] final_tag  [9] SOF  [8] EOL  [7:0] edge data</text>
+<text x="50" y="960" font-family="Arial,sans-serif" font-size="12" fill="#627d98">Solid = pixel/data path   Dashed blue = control/config   Dashed magenta = ready/backpressure   Dashed purple = metadata</text></svg>

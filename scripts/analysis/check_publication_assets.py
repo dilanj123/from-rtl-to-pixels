@@ -17,16 +17,29 @@ PUBLIC_IMAGE_SHA256 = (
 
 def verify_assets():
     assert (ROOT / "COPYRIGHT.md").is_file()
-    schematic_source = ROOT / "docs/assets/top-level-schematic.drawio"
-    schematic_svg = ROOT / "docs/assets/top-level-schematic.svg"
+    schematic_source = ROOT / "docs/assets/rtl-architecture.drawio"
+    inventory = ROOT / "docs/assets/rtl-interface-inventory.json"
+    svg_paths = [
+        ROOT / "docs/assets/rtl-system-context.svg",
+        ROOT / "docs/assets/rtl-architecture-a.svg",
+        ROOT / "docs/assets/rtl-architecture-b.svg",
+        ROOT / "docs/assets/rtl-module-interfaces.svg",
+        ROOT / "docs/assets/rtl-control-flow.svg",
+    ]
     assert schematic_source.is_file()
-    assert schematic_svg.is_file()
+    assert inventory.is_file()
+    assert all(path.is_file() for path in svg_paths)
     drawio_root = ET.parse(schematic_source).getroot()
     assert drawio_root.tag == "mxfile"
-    assert drawio_root.find("diagram/mxGraphModel") is not None
-    svg_root = ET.parse(schematic_svg).getroot()
-    assert svg_root.tag.endswith("svg")
-    assert svg_root.get("viewBox")
+    assert len(drawio_root.findall("diagram")) >= 5
+    assert {d.get("name") for d in drawio_root.findall("diagram")} >= {
+        "System Context", "Architecture A", "Architecture B",
+        "Module Interfaces", "Ready-Valid and Frame Control",
+    }
+    for svg_path in svg_paths:
+        svg_root = ET.parse(svg_path).getroot()
+        assert svg_root.tag.endswith("svg")
+        assert svg_root.get("viewBox")
 
     source_image = ROOT / "tb/images/Tokinokane2005-1-4.jpg"
     gradient_image = ROOT / "tb/images/gradient-grid-640x480.png"
@@ -76,9 +89,19 @@ def verify_markdown_links():
 
     assert not broken, "broken repository links: " + ", ".join(broken)
     readme = (ROOT / "README.md").read_text()
-    assert "docs/assets/top-level-schematic.svg" in readme
-    assert "docs/assets/top-level-schematic.drawio" in readme
+    for link in [
+        "docs/assets/rtl-system-context.svg",
+        "docs/assets/rtl-architecture-a.svg",
+        "docs/assets/rtl-architecture-b.svg",
+        "docs/assets/rtl-module-interfaces.svg",
+        "docs/assets/rtl-control-flow.svg",
+        "docs/assets/rtl-architecture.drawio",
+    ]:
+        assert link in readme
+    assert "top-level-schematic" not in readme
     assert "LICENSE" not in readme
+    microarchitecture = (ROOT / "docs/MICROARCHITECTURE.md").read_text()
+    assert "docs/assets/top-level-schematic" not in microarchitecture
 
 
 def main():

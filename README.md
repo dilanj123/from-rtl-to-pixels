@@ -48,9 +48,9 @@ and one pixel per clock while reducing the measured synchronous path.
 
 ## How it works
 
-![Top-level RTL schematic](docs/assets/top-level-schematic.svg)
+![RTL system context](docs/assets/rtl-system-context.svg)
 
-[Open the editable diagrams.net source](docs/assets/top-level-schematic.drawio)
+Detailed views: [Architecture A](docs/assets/rtl-architecture-a.svg) · [Architecture B](docs/assets/rtl-architecture-b.svg) · [Module interfaces](docs/assets/rtl-module-interfaces.svg) · [Ready/valid and frame control](docs/assets/rtl-control-flow.svg) · [editable diagrams.net source](docs/assets/rtl-architecture.drawio)
 
 The complete architecture and frozen interfaces are described in
 [Architecture and datapath](docs/MICROARCHITECTURE.md).
@@ -85,8 +85,11 @@ formal properties and a controlled synthesis/routing comparison. Start with
 | Inspect formal harnesses | [formal/](formal/) |
 | Inspect scripts | [scripts/](scripts/) |
 | Inspect raw and processed results | [results/](results/) |
-| View the complete module-level schematic | [Top-level schematic](docs/assets/top-level-schematic.svg) |
-| Edit the schematic in diagrams.net | [Editable draw.io source](docs/assets/top-level-schematic.drawio) |
+| View the system context schematic | [System context](docs/assets/rtl-system-context.svg) |
+| Inspect Architecture A RTL connectivity | [Architecture A schematic](docs/assets/rtl-architecture-a.svg) |
+| Inspect Architecture B RTL connectivity | [Architecture B schematic](docs/assets/rtl-architecture-b.svg) |
+| View module interfaces | [Module interfaces](docs/assets/rtl-module-interfaces.svg) |
+| Edit the full schematic in diagrams.net | [Editable source](docs/assets/rtl-architecture.drawio) |
 
 ## Technical results
 

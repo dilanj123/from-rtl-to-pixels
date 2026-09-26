@@ -1,0 +1,1616 @@
+{
+  "canonical_configuration": {
+    "IMG_WIDTH": 640,
+    "IMG_HEIGHT": 480,
+    "ROW_W": 9,
+    "COL_W": 10,
+    "widths": {
+      "RGB input": 24,
+      "gray pixel": 8,
+      "line-buffer pixel": 8,
+      "window tap": 8,
+      "Gx signed": 12,
+      "Gy signed": 12,
+      "magnitude": 11,
+      "magnitude_clamped": 8,
+      "threshold edge": 8,
+      "Architecture-B token": 28,
+      "final output token": 11,
+      "output edge": 8,
+      "APB address": 8,
+      "APB data": 32
+    }
+  },
+  "modules": {
+    "pixel_pkg": {
+      "kind": "package",
+      "parameters": [],
+      "ports": [],
+      "functional_group": "typedef source",
+      "top_level_instances": []
+    },
+    "rgb_to_gray": {
+      "kind": "module",
+      "parameters": [],
+      "ports": [
+        {
+          "name": "rgb_i",
+          "direction": "input",
+          "width": 24,
+          "width_expr": "pixel_pkg::rgb888_t",
+          "signed": false,
+          "group": "pixel_data"
+        },
+        {
+          "name": "gray_o",
+          "direction": "output",
+          "width": 8,
+          "width_expr": "pixel_pkg::pixel_u8_t",
+          "signed": false,
+          "group": "pixel_data"
+        }
+      ],
+      "functional_group": "grayscale",
+      "top_level_instances": [
+        "u_rgb_to_gray"
+      ]
+    },
+    "pixel_control": {
+      "kind": "module",
+      "parameters": [
+        "IMG_WIDTH",
+        "IMG_HEIGHT"
+      ],
+      "ports": [
+        {
+          "name": "clk",
+          "direction": "input",
+          "width": 1,
+          "signed": false,
+          "group": "clock_reset"
+        },
+        {
+          "name": "rst",
+          "direction": "input",
+          "width": 1,
+          "signed": false,
+          "group": "clock_reset"
+        },
+        {
+          "name": "accept_i",
+          "direction": "input",
+          "width": 1,
+          "signed": false,
+          "group": "handshake"
+        },
+        {
+          "name": "s_tuser_i",
+          "direction": "input",
+          "width": 1,
+          "signed": false,
+          "group": "metadata"
+        },
+        {
+          "name": "s_tlast_i",
+          "direction": "input",
+          "width": 1,
+          "signed": false,
+          "group": "metadata"
+        },
+        {
+          "name": "row_o",
+          "direction": "output",
+          "width": "$clog2(IMG_HEIGHT)",
+          "canonical_width": 9,
+          "signed": false,
+          "group": "coordinates"
+        },
+        {
+          "name": "col_o",
+          "direction": "output",
+          "width": "$clog2(IMG_WIDTH)",
+          "canonical_width": 10,
+          "signed": false,
+          "group": "coordinates"
+        },
+        {
+          "name": "pixel_commit_o",
+          "direction": "output",
+          "width": 1,
+          "signed": false,
+          "group": "control"
+        },
+        {
+          "name": "sof_accept_o",
+          "direction": "output",
+          "width": 1,
+          "signed": false,
+          "group": "metadata"
+        },
+        {
+          "name": "last_input_accept_o",
+          "direction": "output",
+          "width": 1,
+          "signed": false,
+          "group": "metadata"
+        },
+        {
+          "name": "metadata_error_o",
+          "direction": "output",
+          "width": 1,
+          "signed": false,
+          "group": "status"
+        },
+        {
+          "name": "waiting_for_sof_o",
+          "direction": "output",
+          "width": 1,
+          "signed": false,
+          "group": "status"
+        }
+      ],
+      "functional_group": "input/frame control",
+      "top_level_instances": [
+        "u_pixel_control"
+      ]
+    },
+    "line_buffer": {
+      "kind": "module",
+      "parameters": [
+        "DATA_WIDTH",
+        "IMG_WIDTH"
+      ],
+      "ports": [
+        {
+          "name": "clk",
+          "direction": "input",
+          "width": 1,
+          "signed": false,
+          "group": "clock_reset"
+        },
+        {
+          "name": "rst",
+          "direction": "input",
+          "width": 1,
+          "signed": false,
+          "group": "clock_reset"
+        },
+        {
+          "name": "pixel_commit_i",
+          "direction": "input",
+          "width": 1,
+          "signed": false,
+          "group": "control"
+        },
+        {
+          "name": "frame_start_i",
+          "direction": "input",
+          "width": 1,
+          "signed": false,
+          "group": "metadata"
+        },
+        {
+          "name": "col_i",
+          "direction": "input",
+          "width": "$clog2(IMG_WIDTH)",
+          "canonical_width": 10,
+          "signed": false,
+          "group": "coordinates"
+        },
+        {
+          "name": "pixel_i",
+          "direction": "input",
+          "width": "DATA_WIDTH",
+          "canonical_width": 8,
+          "signed": false,
+          "group": "pixel_data"
+        },
+        {
+          "name": "prev_row1_o",
+          "direction": "output",
+          "width": "DATA_WIDTH",
+          "canonical_width": 8,
+          "signed": false,
+          "group": "line_history"
+        },
+        {
+          "name": "prev_row1_valid_o",
+          "direction": "output",
+          "width": 1,
+          "signed": false,
+          "group": "valid"
+        },
+        {
+          "name": "prev_row2_o",
+          "direction": "output",
+          "width": "DATA_WIDTH",
+          "canonical_width": 8,
+          "signed": false,
+          "group": "line_history"
+        },
+        {
+          "name": "prev_row2_valid_o",
+          "direction": "output",
+          "width": 1,
+          "signed": false,
+          "group": "valid"
+        }
+      ],
+      "functional_group": "line history",
+      "top_level_instances": [
+        "u_line_buffer"
+      ]
+    },
+    "window_3x3": {
+      "kind": "module",
+      "parameters": [
+        "DATA_WIDTH",
+        "IMG_WIDTH",
+        "IMG_HEIGHT"
+      ],
+      "ports": [
+        {
+          "name": "clk",
+          "direction": "input",
+          "width": 1,
+          "signed": false,
+          "group": "clock_reset"
+        },
+        {
+          "name": "rst",
+          "direction": "input",
+          "width": 1,
+          "signed": false,
+          "group": "clock_reset"
+        },
+        {
+          "name": "pixel_commit_i",
+          "direction": "input",
+          "width": 1,
+          "signed": false,
+          "group": "control"
+        },
+        {
+          "name": "frame_start_i",
+          "direction": "input",
+          "width": 1,
+          "signed": false,
+          "group": "metadata"
+        },
+        {
+          "name": "row_i",
+          "direction": "input",
+          "width": "$clog2(IMG_HEIGHT)",
+          "canonical_width": 9,
+          "signed": false,
+          "group": "coordinates"
+        },
+        {
+          "name": "col_i",
+          "direction": "input",
+          "width": "$clog2(IMG_WIDTH)",
+          "canonical_width": 10,
+          "signed": false,
+          "group": "coordinates"
+        },
+        {
+          "name": "pixel_i",
+          "direction": "input",
+          "width": "DATA_WIDTH",
+          "canonical_width": 8,
+          "signed": false,
+          "group": "pixel_data"
+        },
+        {
+          "name": "prev_row1_i",
+          "direction": "input",
+          "width": "DATA_WIDTH",
+          "canonical_width": 8,
+          "signed": false,
+          "group": "line_history"
+        },
+        {
+          "name": "prev_row1_valid_i",
+          "direction": "input",
+          "width": 1,
+          "signed": false,
+          "group": "valid"
+        },
+        {
+          "name": "prev_row2_i",
+          "direction": "input",
+          "width": "DATA_WIDTH",
+          "canonical_width": 8,
+          "signed": false,
+          "group": "line_history"
+        },
+        {
+          "name": "prev_row2_valid_i",
+          "direction": "input",
+          "width": 1,
+          "signed": false,
+          "group": "valid"
+        },
+        {
+          "name": "window_valid_o",
+          "direction": "output",
+          "width": 1,
+          "signed": false,
+          "group": "observability"
+        },
+        {
+          "name": "window_row_o",
+          "direction": "output",
+          "width": "$clog2(IMG_HEIGHT)",
+          "canonical_width": 9,
+          "signed": false,
+          "group": "observability"
+        },
+        {
+          "name": "window_col_o",
+          "direction": "output",
+          "width": "$clog2(IMG_WIDTH)",
+          "canonical_width": 10,
+          "signed": false,
+          "group": "observability"
+        },
+        {
+          "name": "p00_o",
+          "direction": "output",
+          "width": "DATA_WIDTH",
+          "canonical_width": 8,
+          "signed": false,
+          "group": "window_tap"
+        },
+        {
+          "name": "p01_o",
+          "direction": "output",
+          "width": "DATA_WIDTH",
+          "canonical_width": 8,
+          "signed": false,
+          "group": "window_tap"
+        },
+        {
+          "name": "p02_o",
+          "direction": "output",
+          "width": "DATA_WIDTH",
+          "canonical_width": 8,
+          "signed": false,
+          "group": "window_tap"
+        },
+        {
+          "name": "p10_o",
+          "direction": "output",
+          "width": "DATA_WIDTH",
+          "canonical_width": 8,
+          "signed": false,
+          "group": "window_tap"
+        },
+        {
+          "name": "p11_o",
+          "direction": "output",
+          "width": "DATA_WIDTH",
+          "canonical_width": 8,
+          "signed": false,
+          "group": "window_tap"
+        },
+        {
+          "name": "p12_o",
+          "direction": "output",
+          "width": "DATA_WIDTH",
+          "canonical_width": 8,
+          "signed": false,
+          "group": "window_tap"
+        },
+        {
+          "name": "p20_o",
+          "direction": "output",
+          "width": "DATA_WIDTH",
+          "canonical_width": 8,
+          "signed": false,
+          "group": "window_tap"
+        },
+        {
+          "name": "p21_o",
+          "direction": "output",
+          "width": "DATA_WIDTH",
+          "canonical_width": 8,
+          "signed": false,
+          "group": "window_tap"
+        },
+        {
+          "name": "p22_o",
+          "direction": "output",
+          "width": "DATA_WIDTH",
+          "canonical_width": 8,
+          "signed": false,
+          "group": "window_tap"
+        }
+      ],
+      "functional_group": "3x3 window",
+      "top_level_instances": [
+        "u_window"
+      ]
+    },
+    "sobel_compact": {
+      "kind": "module",
+      "parameters": [],
+      "ports": [
+        {
+          "name": "p00_i",
+          "direction": "input",
+          "width": 8,
+          "signed": false,
+          "group": "window_tap"
+        },
+        {
+          "name": "p01_i",
+          "direction": "input",
+          "width": 8,
+          "signed": false,
+          "group": "window_tap"
+        },
+        {
+          "name": "p02_i",
+          "direction": "input",
+          "width": 8,
+          "signed": false,
+          "group": "window_tap"
+        },
+        {
+          "name": "p10_i",
+          "direction": "input",
+          "width": 8,
+          "signed": false,
+          "group": "window_tap"
+        },
+        {
+          "name": "p12_i",
+          "direction": "input",
+          "width": 8,
+          "signed": false,
+          "group": "window_tap"
+        },
+        {
+          "name": "p20_i",
+          "direction": "input",
+          "width": 8,
+          "signed": false,
+          "group": "window_tap"
+        },
+        {
+          "name": "p21_i",
+          "direction": "input",
+          "width": 8,
+          "signed": false,
+          "group": "window_tap"
+        },
+        {
+          "name": "p22_i",
+          "direction": "input",
+          "width": 8,
+          "signed": false,
+          "group": "window_tap"
+        },
+        {
+          "name": "gx_o",
+          "direction": "output",
+          "width": 12,
+          "signed": true,
+          "group": "sobel_gradient"
+        },
+        {
+          "name": "gy_o",
+          "direction": "output",
+          "width": 12,
+          "signed": true,
+          "group": "sobel_gradient"
+        }
+      ],
+      "functional_group": "Sobel arithmetic",
+      "top_level_instances": [
+        "u_sobel"
+      ]
+    },
+    "magnitude_clamp": {
+      "kind": "module",
+      "parameters": [],
+      "ports": [
+        {
+          "name": "gx_i",
+          "direction": "input",
+          "width": 12,
+          "signed": true,
+          "group": "sobel_gradient"
+        },
+        {
+          "name": "gy_i",
+          "direction": "input",
+          "width": 12,
+          "signed": true,
+          "group": "sobel_gradient"
+        },
+        {
+          "name": "magnitude_o",
+          "direction": "output",
+          "width": 11,
+          "signed": false,
+          "group": "observability"
+        },
+        {
+          "name": "magnitude_clamped_o",
+          "direction": "output",
+          "width": 8,
+          "signed": false,
+          "group": "pixel_data"
+        }
+      ],
+      "functional_group": "magnitude/clamp",
+      "top_level_instances": [
+        "u_magnitude"
+      ]
+    },
+    "threshold_stage": {
+      "kind": "module",
+      "parameters": [],
+      "ports": [
+        {
+          "name": "magnitude_i",
+          "direction": "input",
+          "width": 8,
+          "signed": false,
+          "group": "pixel_data"
+        },
+        {
+          "name": "threshold_i",
+          "direction": "input",
+          "width": 8,
+          "signed": false,
+          "group": "configuration"
+        },
+        {
+          "name": "bypass_threshold_i",
+          "direction": "input",
+          "width": 1,
+          "signed": false,
+          "group": "configuration"
+        },
+        {
+          "name": "edge_o",
+          "direction": "output",
+          "width": 8,
+          "signed": false,
+          "group": "pixel_data"
+        }
+      ],
+      "functional_group": "threshold/bypass",
+      "top_level_instances": [
+        "u_threshold"
+      ]
+    },
+    "output_control": {
+      "kind": "module",
+      "parameters": [
+        "IMG_WIDTH",
+        "IMG_HEIGHT"
+      ],
+      "ports": [
+        {
+          "name": "clk",
+          "direction": "input",
+          "width": 1,
+          "signed": false,
+          "group": "clock_reset"
+        },
+        {
+          "name": "rst",
+          "direction": "input",
+          "width": 1,
+          "signed": false,
+          "group": "clock_reset"
+        },
+        {
+          "name": "pixel_commit_i",
+          "direction": "input",
+          "width": 1,
+          "signed": false,
+          "group": "control"
+        },
+        {
+          "name": "frame_start_i",
+          "direction": "input",
+          "width": 1,
+          "signed": false,
+          "group": "metadata"
+        },
+        {
+          "name": "last_input_accept_i",
+          "direction": "input",
+          "width": 1,
+          "signed": false,
+          "group": "metadata"
+        },
+        {
+          "name": "frame_abort_i",
+          "direction": "input",
+          "width": 1,
+          "signed": false,
+          "group": "control"
+        },
+        {
+          "name": "output_ready_i",
+          "direction": "input",
+          "width": 1,
+          "signed": false,
+          "group": "ready"
+        },
+        {
+          "name": "input_allow_o",
+          "direction": "output",
+          "width": 1,
+          "signed": false,
+          "group": "ready"
+        },
+        {
+          "name": "output_valid_o",
+          "direction": "output",
+          "width": 1,
+          "signed": false,
+          "group": "valid"
+        },
+        {
+          "name": "output_row_o",
+          "direction": "output",
+          "width": "$clog2(IMG_HEIGHT)",
+          "canonical_width": 9,
+          "signed": false,
+          "group": "coordinates"
+        },
+        {
+          "name": "output_col_o",
+          "direction": "output",
+          "width": "$clog2(IMG_WIDTH)",
+          "canonical_width": 10,
+          "signed": false,
+          "group": "coordinates"
+        },
+        {
+          "name": "output_border_o",
+          "direction": "output",
+          "width": 1,
+          "signed": false,
+          "group": "metadata"
+        },
+        {
+          "name": "processing_o",
+          "direction": "output",
+          "width": 1,
+          "signed": false,
+          "group": "status"
+        },
+        {
+          "name": "draining_o",
+          "direction": "output",
+          "width": 1,
+          "signed": false,
+          "group": "status"
+        },
+        {
+          "name": "waiting_for_sof_o",
+          "direction": "output",
+          "width": 1,
+          "signed": false,
+          "group": "status"
+        },
+        {
+          "name": "frame_done_o",
+          "direction": "output",
+          "width": 1,
+          "signed": false,
+          "group": "metadata"
+        }
+      ],
+      "functional_group": "output geometry/drain control",
+      "top_level_instances": [
+        "u_output_control"
+      ]
+    },
+    "elastic_stage": {
+      "kind": "module",
+      "parameters": [
+        "DATA_WIDTH"
+      ],
+      "ports": [
+        {
+          "name": "clk",
+          "direction": "input",
+          "width": 1,
+          "signed": false,
+          "group": "clock_reset"
+        },
+        {
+          "name": "rst",
+          "direction": "input",
+          "width": 1,
+          "signed": false,
+          "group": "clock_reset"
+        },
+        {
+          "name": "s_data",
+          "direction": "input",
+          "width": "DATA_WIDTH",
+          "signed": false,
+          "group": "data"
+        },
+        {
+          "name": "s_valid",
+          "direction": "input",
+          "width": 1,
+          "signed": false,
+          "group": "valid"
+        },
+        {
+          "name": "s_ready",
+          "direction": "output",
+          "width": 1,
+          "signed": false,
+          "group": "ready"
+        },
+        {
+          "name": "m_data",
+          "direction": "output",
+          "width": "DATA_WIDTH",
+          "signed": false,
+          "group": "data"
+        },
+        {
+          "name": "m_valid",
+          "direction": "output",
+          "width": 1,
+          "signed": false,
+          "group": "valid"
+        },
+        {
+          "name": "m_ready",
+          "direction": "input",
+          "width": 1,
+          "signed": false,
+          "group": "ready"
+        }
+      ],
+      "functional_group": "ready/valid elastic buffer",
+      "top_level_instances": [
+        "u_output_elastic",
+        "u_arithmetic_elastic"
+      ]
+    },
+    "apb_regs": {
+      "kind": "module",
+      "parameters": [],
+      "ports": [
+        {
+          "name": "clk",
+          "direction": "input",
+          "width": 1,
+          "signed": false,
+          "group": "clock_reset"
+        },
+        {
+          "name": "rst",
+          "direction": "input",
+          "width": 1,
+          "signed": false,
+          "group": "clock_reset"
+        },
+        {
+          "name": "psel",
+          "direction": "input",
+          "width": 1,
+          "signed": false,
+          "group": "apb"
+        },
+        {
+          "name": "penable",
+          "direction": "input",
+          "width": 1,
+          "signed": false,
+          "group": "apb"
+        },
+        {
+          "name": "pwrite",
+          "direction": "input",
+          "width": 1,
+          "signed": false,
+          "group": "apb"
+        },
+        {
+          "name": "paddr",
+          "direction": "input",
+          "width": 8,
+          "signed": false,
+          "group": "apb"
+        },
+        {
+          "name": "pwdata",
+          "direction": "input",
+          "width": 32,
+          "signed": false,
+          "group": "apb"
+        },
+        {
+          "name": "prdata",
+          "direction": "output",
+          "width": 32,
+          "signed": false,
+          "group": "apb"
+        },
+        {
+          "name": "pready",
+          "direction": "output",
+          "width": 1,
+          "signed": false,
+          "group": "apb"
+        },
+        {
+          "name": "pslverr",
+          "direction": "output",
+          "width": 1,
+          "signed": false,
+          "group": "apb"
+        },
+        {
+          "name": "processing_i",
+          "direction": "input",
+          "width": 1,
+          "signed": false,
+          "group": "status"
+        },
+        {
+          "name": "draining_i",
+          "direction": "input",
+          "width": 1,
+          "signed": false,
+          "group": "status"
+        },
+        {
+          "name": "sof_accept_i",
+          "direction": "input",
+          "width": 1,
+          "signed": false,
+          "group": "metadata"
+        },
+        {
+          "name": "frame_error_set_i",
+          "direction": "input",
+          "width": 1,
+          "signed": false,
+          "group": "status"
+        },
+        {
+          "name": "frame_done_i",
+          "direction": "input",
+          "width": 1,
+          "signed": false,
+          "group": "metadata"
+        },
+        {
+          "name": "run_enable_o",
+          "direction": "output",
+          "width": 1,
+          "signed": false,
+          "group": "configuration"
+        },
+        {
+          "name": "threshold_active_o",
+          "direction": "output",
+          "width": 8,
+          "signed": false,
+          "group": "configuration"
+        },
+        {
+          "name": "bypass_threshold_active_o",
+          "direction": "output",
+          "width": 1,
+          "signed": false,
+          "group": "configuration"
+        }
+      ],
+      "functional_group": "APB configuration/status",
+      "top_level_instances": [
+        "u_apb_regs"
+      ]
+    },
+    "rtl_to_pixels_top": {
+      "kind": "module",
+      "parameters": [
+        "IMG_WIDTH",
+        "IMG_HEIGHT"
+      ],
+      "ports": [
+        {
+          "name": "clk",
+          "direction": "input",
+          "width": 1,
+          "signed": false,
+          "group": "clock_reset"
+        },
+        {
+          "name": "rst",
+          "direction": "input",
+          "width": 1,
+          "signed": false,
+          "group": "clock_reset"
+        },
+        {
+          "name": "s_tdata",
+          "direction": "input",
+          "width": 24,
+          "signed": false,
+          "group": "stream_in"
+        },
+        {
+          "name": "s_tvalid",
+          "direction": "input",
+          "width": 1,
+          "signed": false,
+          "group": "stream_in"
+        },
+        {
+          "name": "s_tready",
+          "direction": "output",
+          "width": 1,
+          "signed": false,
+          "group": "stream_in"
+        },
+        {
+          "name": "s_tuser",
+          "direction": "input",
+          "width": 1,
+          "signed": false,
+          "group": "stream_in"
+        },
+        {
+          "name": "s_tlast",
+          "direction": "input",
+          "width": 1,
+          "signed": false,
+          "group": "stream_in"
+        },
+        {
+          "name": "m_tdata",
+          "direction": "output",
+          "width": 8,
+          "signed": false,
+          "group": "stream_out"
+        },
+        {
+          "name": "m_tvalid",
+          "direction": "output",
+          "width": 1,
+          "signed": false,
+          "group": "stream_out"
+        },
+        {
+          "name": "m_tready",
+          "direction": "input",
+          "width": 1,
+          "signed": false,
+          "group": "stream_out"
+        },
+        {
+          "name": "m_tuser",
+          "direction": "output",
+          "width": 1,
+          "signed": false,
+          "group": "stream_out"
+        },
+        {
+          "name": "m_tlast",
+          "direction": "output",
+          "width": 1,
+          "signed": false,
+          "group": "stream_out"
+        },
+        {
+          "name": "psel",
+          "direction": "input",
+          "width": 1,
+          "signed": false,
+          "group": "apb"
+        },
+        {
+          "name": "penable",
+          "direction": "input",
+          "width": 1,
+          "signed": false,
+          "group": "apb"
+        },
+        {
+          "name": "pwrite",
+          "direction": "input",
+          "width": 1,
+          "signed": false,
+          "group": "apb"
+        },
+        {
+          "name": "paddr",
+          "direction": "input",
+          "width": 8,
+          "signed": false,
+          "group": "apb"
+        },
+        {
+          "name": "pwdata",
+          "direction": "input",
+          "width": 32,
+          "signed": false,
+          "group": "apb"
+        },
+        {
+          "name": "prdata",
+          "direction": "output",
+          "width": 32,
+          "signed": false,
+          "group": "apb"
+        },
+        {
+          "name": "pready",
+          "direction": "output",
+          "width": 1,
+          "signed": false,
+          "group": "apb"
+        },
+        {
+          "name": "pslverr",
+          "direction": "output",
+          "width": 1,
+          "signed": false,
+          "group": "apb"
+        }
+      ],
+      "functional_group": "Architecture A top",
+      "top_level_instances": []
+    },
+    "rtl_to_pixels_top_pipelined": {
+      "kind": "module",
+      "parameters": [
+        "IMG_WIDTH",
+        "IMG_HEIGHT"
+      ],
+      "ports": [
+        {
+          "name": "clk",
+          "direction": "input",
+          "width": 1,
+          "signed": false,
+          "group": "clock_reset"
+        },
+        {
+          "name": "rst",
+          "direction": "input",
+          "width": 1,
+          "signed": false,
+          "group": "clock_reset"
+        },
+        {
+          "name": "s_tdata",
+          "direction": "input",
+          "width": 24,
+          "signed": false,
+          "group": "stream_in"
+        },
+        {
+          "name": "s_tvalid",
+          "direction": "input",
+          "width": 1,
+          "signed": false,
+          "group": "stream_in"
+        },
+        {
+          "name": "s_tready",
+          "direction": "output",
+          "width": 1,
+          "signed": false,
+          "group": "stream_in"
+        },
+        {
+          "name": "s_tuser",
+          "direction": "input",
+          "width": 1,
+          "signed": false,
+          "group": "stream_in"
+        },
+        {
+          "name": "s_tlast",
+          "direction": "input",
+          "width": 1,
+          "signed": false,
+          "group": "stream_in"
+        },
+        {
+          "name": "m_tdata",
+          "direction": "output",
+          "width": 8,
+          "signed": false,
+          "group": "stream_out"
+        },
+        {
+          "name": "m_tvalid",
+          "direction": "output",
+          "width": 1,
+          "signed": false,
+          "group": "stream_out"
+        },
+        {
+          "name": "m_tready",
+          "direction": "input",
+          "width": 1,
+          "signed": false,
+          "group": "stream_out"
+        },
+        {
+          "name": "m_tuser",
+          "direction": "output",
+          "width": 1,
+          "signed": false,
+          "group": "stream_out"
+        },
+        {
+          "name": "m_tlast",
+          "direction": "output",
+          "width": 1,
+          "signed": false,
+          "group": "stream_out"
+        },
+        {
+          "name": "psel",
+          "direction": "input",
+          "width": 1,
+          "signed": false,
+          "group": "apb"
+        },
+        {
+          "name": "penable",
+          "direction": "input",
+          "width": 1,
+          "signed": false,
+          "group": "apb"
+        },
+        {
+          "name": "pwrite",
+          "direction": "input",
+          "width": 1,
+          "signed": false,
+          "group": "apb"
+        },
+        {
+          "name": "paddr",
+          "direction": "input",
+          "width": 8,
+          "signed": false,
+          "group": "apb"
+        },
+        {
+          "name": "pwdata",
+          "direction": "input",
+          "width": 32,
+          "signed": false,
+          "group": "apb"
+        },
+        {
+          "name": "prdata",
+          "direction": "output",
+          "width": 32,
+          "signed": false,
+          "group": "apb"
+        },
+        {
+          "name": "pready",
+          "direction": "output",
+          "width": 1,
+          "signed": false,
+          "group": "apb"
+        },
+        {
+          "name": "pslverr",
+          "direction": "output",
+          "width": 1,
+          "signed": false,
+          "group": "apb"
+        }
+      ],
+      "functional_group": "Architecture B top",
+      "top_level_instances": []
+    }
+  },
+  "top_level_ports": {
+    "rtl_to_pixels_top": "same as module ports",
+    "rtl_to_pixels_top_pipelined": "same as module ports"
+  },
+  "connections": {
+    "rtl_to_pixels_top": [
+      {
+        "source": "s_tdata",
+        "destination": [
+          "u_rgb_to_gray.rgb_i"
+        ],
+        "signal": "s_tdata[23:0]",
+        "width": 24,
+        "type": "data"
+      },
+      {
+        "source": "u_rgb_to_gray.gray_o",
+        "destination": [
+          "u_line_buffer.pixel_i",
+          "u_window.pixel_i"
+        ],
+        "signal": "gray_pixel[7:0]",
+        "width": 8,
+        "type": "data"
+      },
+      {
+        "source": "u_pixel_control",
+        "destination": [
+          "u_line_buffer",
+          "u_window",
+          "u_output_control"
+        ],
+        "signal": "pixel_commit/sof_accept/row/col/last_input_accept",
+        "width": "control+ROW_W+COL_W",
+        "type": "control"
+      },
+      {
+        "source": "u_line_buffer",
+        "destination": [
+          "u_window"
+        ],
+        "signal": "prev_row1/prev_row2 + valid",
+        "width": "8+8+1+1",
+        "type": "data"
+      },
+      {
+        "source": "u_window",
+        "destination": [
+          "u_sobel"
+        ],
+        "signal": "p00..p22[7:0] each",
+        "width": 72,
+        "type": "data"
+      },
+      {
+        "source": "u_sobel",
+        "destination": [
+          "u_magnitude"
+        ],
+        "signal": "gx[11:0] signed, gy[11:0] signed",
+        "width": 24,
+        "type": "data"
+      },
+      {
+        "source": "u_magnitude.magnitude_clamped_o",
+        "destination": [
+          "u_threshold.magnitude_i"
+        ],
+        "signal": "magnitude_clamped[7:0]",
+        "width": 8,
+        "type": "data"
+      },
+      {
+        "source": "u_threshold.edge_o",
+        "destination": [
+          "top.border_zero_mux"
+        ],
+        "signal": "threshold_edge[7:0]",
+        "width": 8,
+        "type": "data"
+      },
+      {
+        "source": "u_output_control",
+        "destination": [
+          "top.input_admission",
+          "top.output_metadata",
+          "top.border_zero_mux",
+          "u_output_elastic"
+        ],
+        "signal": "allow/valid/row/col/border/frame_done",
+        "width": "control",
+        "type": "control"
+      },
+      {
+        "source": "top.border_zero_mux",
+        "destination": [
+          "u_output_elastic.s_data[7:0]"
+        ],
+        "signal": "raw_output_data[7:0]",
+        "width": 8,
+        "type": "data"
+      },
+      {
+        "source": "top.output_metadata",
+        "destination": [
+          "u_output_elastic.s_data[10:8]"
+        ],
+        "signal": "final_tag/SOF/EOL",
+        "width": 3,
+        "type": "metadata"
+      },
+      {
+        "source": "m_tready",
+        "destination": [
+          "u_output_elastic.m_ready",
+          "u_output_control.output_ready_i"
+        ],
+        "signal": "ready/backpressure",
+        "width": 1,
+        "type": "ready"
+      },
+      {
+        "source": "u_output_elastic",
+        "destination": [
+          "m_tdata/m_tvalid/m_tuser/m_tlast",
+          "top.frame_done_external"
+        ],
+        "signal": "m_data[10:0]/valid",
+        "width": 11,
+        "type": "data"
+      },
+      {
+        "source": "top.frame_abort_q",
+        "destination": [
+          "u_output_control.frame_abort_i",
+          "top.elastic_reset"
+        ],
+        "signal": "frame_abort_q",
+        "width": 1,
+        "type": "control"
+      },
+      {
+        "source": "top.final_pending_q",
+        "destination": [
+          "top.input_admission",
+          "top.draining_status"
+        ],
+        "signal": "final_pending_q",
+        "width": 1,
+        "type": "control"
+      },
+      {
+        "source": "u_apb_regs",
+        "destination": [
+          "top.input_admission",
+          "u_threshold"
+        ],
+        "signal": "run_enable/threshold/bypass",
+        "width": "1+8+1",
+        "type": "configuration"
+      },
+      {
+        "source": "top.frame_done_external",
+        "destination": [
+          "u_apb_regs.frame_done_i",
+          "top.final_pending_q.clear"
+        ],
+        "signal": "frame_done_external",
+        "width": 1,
+        "type": "metadata"
+      }
+    ],
+    "rtl_to_pixels_top_pipelined": [
+      {
+        "source": "s_tdata",
+        "destination": [
+          "u_rgb_to_gray.rgb_i"
+        ],
+        "signal": "s_tdata[23:0]",
+        "width": 24,
+        "type": "data"
+      },
+      {
+        "source": "u_rgb_to_gray.gray_o",
+        "destination": [
+          "u_line_buffer.pixel_i",
+          "u_window.pixel_i"
+        ],
+        "signal": "gray_pixel[7:0]",
+        "width": 8,
+        "type": "data"
+      },
+      {
+        "source": "u_pixel_control",
+        "destination": [
+          "u_line_buffer",
+          "u_window",
+          "u_output_control"
+        ],
+        "signal": "pixel_commit/sof_accept/row/col/last_input_accept",
+        "width": "control+ROW_W+COL_W",
+        "type": "control"
+      },
+      {
+        "source": "u_line_buffer",
+        "destination": [
+          "u_window"
+        ],
+        "signal": "prev_row1/prev_row2 + valid",
+        "width": "8+8+1+1",
+        "type": "data"
+      },
+      {
+        "source": "u_window",
+        "destination": [
+          "u_sobel"
+        ],
+        "signal": "p00..p22[7:0] each",
+        "width": 72,
+        "type": "data"
+      },
+      {
+        "source": "u_sobel",
+        "destination": [
+          "u_magnitude"
+        ],
+        "signal": "gx[11:0] signed, gy[11:0] signed",
+        "width": 24,
+        "type": "data"
+      },
+      {
+        "source": "u_sobel",
+        "destination": [
+          "u_arithmetic_elastic.s_data"
+        ],
+        "signal": "arithmetic_s_data[27:0] = final_tag,user,last,border,gx,gy",
+        "width": 28,
+        "type": "data+metadata"
+      },
+      {
+        "source": "u_arithmetic_elastic.m_data",
+        "destination": [
+          "u_magnitude",
+          "u_threshold",
+          "top.border_zero_mux",
+          "u_output_elastic"
+        ],
+        "signal": "staged token / staged_gx,staged_gy",
+        "width": 28,
+        "type": "data+metadata"
+      },
+      {
+        "source": "u_magnitude.magnitude_clamped_o",
+        "destination": [
+          "u_threshold.magnitude_i"
+        ],
+        "signal": "magnitude_clamped[7:0]",
+        "width": 8,
+        "type": "data"
+      },
+      {
+        "source": "u_threshold.edge_o",
+        "destination": [
+          "top.border_zero_mux"
+        ],
+        "signal": "threshold_edge[7:0]",
+        "width": 8,
+        "type": "data"
+      },
+      {
+        "source": "u_output_control",
+        "destination": [
+          "top.input_admission",
+          "top.output_metadata",
+          "top.border_zero_mux",
+          "u_output_elastic"
+        ],
+        "signal": "allow/valid/row/col/border/frame_done",
+        "width": "control",
+        "type": "control"
+      },
+      {
+        "source": "top.border_zero_mux",
+        "destination": [
+          "u_output_elastic.s_data[7:0]"
+        ],
+        "signal": "raw_output_data[7:0]",
+        "width": 8,
+        "type": "data"
+      },
+      {
+        "source": "top.output_metadata",
+        "destination": [
+          "u_output_elastic.s_data[10:8]"
+        ],
+        "signal": "final_tag/SOF/EOL",
+        "width": 3,
+        "type": "metadata"
+      },
+      {
+        "source": "m_tready",
+        "destination": [
+          "u_output_elastic.m_ready",
+          "u_output_control.output_ready_i"
+        ],
+        "signal": "ready/backpressure",
+        "width": 1,
+        "type": "ready"
+      },
+      {
+        "source": "u_output_elastic",
+        "destination": [
+          "m_tdata/m_tvalid/m_tuser/m_tlast",
+          "top.frame_done_external"
+        ],
+        "signal": "m_data[10:0]/valid",
+        "width": 11,
+        "type": "data"
+      },
+      {
+        "source": "top.frame_abort_q",
+        "destination": [
+          "u_output_control.frame_abort_i",
+          "top.elastic_reset"
+        ],
+        "signal": "frame_abort_q",
+        "width": 1,
+        "type": "control"
+      },
+      {
+        "source": "top.final_pending_q",
+        "destination": [
+          "top.input_admission",
+          "top.draining_status"
+        ],
+        "signal": "final_pending_q",
+        "width": 1,
+        "type": "control"
+      },
+      {
+        "source": "u_apb_regs",
+        "destination": [
+          "top.input_admission",
+          "u_threshold"
+        ],
+        "signal": "run_enable/threshold/bypass",
+        "width": "1+8+1",
+        "type": "configuration"
+      },
+      {
+        "source": "top.frame_done_external",
+        "destination": [
+          "u_apb_regs.frame_done_i",
+          "top.final_pending_q.clear"
+        ],
+        "signal": "frame_done_external",
+        "width": 1,
+        "type": "metadata"
+      }
+    ]
+  },
+  "top_level_glue": {
+    "input_accept": "s_tvalid && s_tready",
+    "frame_abort_q": "metadata_error registered; inhibits admission and flushes elastic stages",
+    "final_pending_q": "set by raw_frame_done_internal; cleared by frame_done_external",
+    "frame_done_external": "output_elastic_m_valid && m_tready && final_tag",
+    "draining_status": "draining_internal || final_pending_q",
+    "raw_output_user": "row==0 && col==0",
+    "raw_output_last": "col==LAST_COL",
+    "border_zero_mux": "raw_output_border ? 8'd0 : threshold_edge",
+    "token_packing_A": "{final_tag,user,last,edge_data}[10:0]",
+    "token_packing_B": "{final_tag,user,last,border,gx,gy}[27:0]",
+    "input_admission": "rst/frame_abort/final_pending/output_allow/SOF/run_enable gate s_tready"
+  },
+  "token_mappings": {
+    "architecture_b": {
+      "27": "final_tag",
+      "26": "user/SOF",
+      "25": "last/EOL",
+      "24": "border",
+      "23:12": "gx signed[11:0]",
+      "11:0": "gy signed[11:0]"
+    },
+    "output": {
+      "10": "final_tag",
+      "9": "user/SOF",
+      "8": "last/EOL",
+      "7:0": "edge data"
+    }
+  }
+}

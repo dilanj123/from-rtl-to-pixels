@@ -2,7 +2,7 @@
 
 A synthesizable SystemVerilog pipeline converts an RGB888 pixel stream into an 8-bit Sobel edge stream. This project compares a compact datapath (Architecture A) with a version that inserts one ready/valid stage after the Sobel gradients (Architecture B). The same reference model and frame tests are used for both.
 
-The results combine RTL simulation, selected bounded formal checks, Yosys synthesis and single-seed routed timing on a virtual ECP5 target. No physical FPGA measurement is claimed.
+The results combine RTL simulation, selected targeted formal checks under documented assumptions, Yosys synthesis and single-seed routed timing on a virtual ECP5 target. No physical FPGA measurement is claimed.
 
 ## Architecture
 
@@ -56,7 +56,7 @@ The routed path and constraint bracket improved in this one-seed comparison; B a
 
 ## Visual results
 
-The images below show the canonical input, simulated RTL output and image difference for the two architectures. The difference images are zero-valued; they illustrate simulation agreement with the Python reference, not hardware measurements.
+The recorded regressions independently compare RTL output against the Python reference and report zero mismatches for these publication cases. The difference images displayed below compare Architecture A with Architecture B and are zero-valued. All of these are simulation results, not hardware measurements.
 
 | Input | Architecture B output | A/B difference |
 |---|---|---|

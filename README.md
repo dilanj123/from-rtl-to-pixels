@@ -1,125 +1,75 @@
 # From RTL to Pixels — Streaming Sobel RTL Accelerator
 
-[![CI](https://github.com/dilanj123/from-rtl-to-pixels/actions/workflows/ci.yml/badge.svg)](https://github.com/dilanj123/from-rtl-to-pixels/actions/workflows/ci.yml)
+A synthesizable SystemVerilog pipeline converts an RGB888 pixel stream into an 8-bit Sobel edge stream. This project compares a compact datapath (Architecture A) with a version that inserts one ready/valid stage after the Sobel gradients (Architecture B). The same reference model and frame tests are used for both.
 
-A synthesizable SystemVerilog image accelerator that streams RGB888 through
-grayscale, two line buffers, a 3×3 Sobel operator, thresholding and an edge
-output. It handles ready/valid backpressure, APB configuration and frame
-completion. Python, cocotb, selected formal checks and open-source ECP5 tools
-make the results reproducible.
+The results combine RTL simulation, selected bounded formal checks, Yosys synthesis and single-seed routed timing on a virtual ECP5 target. No physical FPGA measurement is claimed.
 
-**Status: Gate 5 CLOSED — CV-ready MVP complete.** Physical FPGA work is an
-optional follow-on; no board measurement is claimed.
+## Architecture
 
-## See it in 20 seconds
+RGB pixels are converted to grayscale, stored in two line buffers and combined with horizontal history into a 3×3 window. Signed Sobel gradients feed an L1 magnitude calculation, 8-bit clamp, threshold/bypass selection and an elastic output stage. Border pixels are forced to zero. The APB-style register block controls run admission, threshold and bypass, and reports status and frame count.
 
-| Input | RTL output | A/B difference |
+```mermaid
+flowchart LR
+    IN["RGB888 stream<br/>SOF and EOL"] --> GRAY["RGB to grayscale"]
+    GRAY --> LB["Two line buffers"]
+    GRAY --> WIN["Sliding 3×3 window"]
+    LB -- "Previous rows" --> WIN
+    WIN --> SOBEL["Sobel Gx and Gy"]
+    SOBEL --> ARITH["Architecture B: 28-bit ready/valid stage"]
+    ARITH --> MAG["L1 magnitude and 8-bit clamp"]
+    MAG --> THR["Threshold, bypass and border mask"]
+    THR --> EL["11-bit output elastic stage"]
+    EL --> OUT["8-bit edge stream<br/>SOF and EOL"]
+    PC["Pixel/frame control"] -.-> LB
+    PC -.-> WIN
+    OC["Output/drain control"] -.-> ARITH
+    APB["APB registers"] -. "Run enable" .-> PC
+    APB -. "Threshold and bypass" .-> THR
+```
+
+Architecture A connects the Sobel gradients directly to the magnitude and threshold path. B inserts one 28-bit elastic token after Gx/Gy; it carries the gradients, border flag, SOF/EOL and final-token metadata together. Backpressure propagates through the ready/valid stages. A transfer occurs only when `valid` and `ready` are both asserted. SOF is `tuser`; EOL is `tlast`.
+
+The [RTL-derived architecture views](docs/MICROARCHITECTURE.md) show both variants and the module interfaces. They are explanatory diagrams, not synthesized netlists: [system context](docs/assets/rtl-system-context.svg), [Architecture A](docs/assets/rtl-architecture-a.svg), [Architecture B](docs/assets/rtl-architecture-b.svg), [module interfaces](docs/assets/rtl-module-interfaces.svg), [ready/valid control flow](docs/assets/rtl-control-flow.svg), and [editable diagrams.net source](docs/assets/rtl-architecture.drawio).
+
+## Verification
+
+The Python reference model is independent of the RTL. Cocotb tests cover arithmetic, frame alignment and drain, source gaps, output stalls, reset, malformed metadata recovery, APB accesses and frame-consistent configuration. The recorded dimension regression includes 18 deterministic random frames (three at each of six dimensions) and the canonical 640×480 image; the saved logs report zero reference mismatches. Architecture A and B also produce matching complete images in the canonical comparison.
+
+Selected formal jobs check local elastic-stage, APB/configuration, pixel-control, output-control and final-token/frame-count properties under documented assumptions. They do not prove the whole image datapath. Eventual drain is derived under an explicit downstream fairness condition, not claimed as unconditional liveness proof. See [formal scope and results](docs/FORMAL.md) and the [evidence index](docs/EVIDENCE_INDEX.md).
+
+## Implementation results
+
+Both architectures use the same 640×480 RTL workload, ECP5 LFE5U-45F CABGA381 speed-grade-6 target, seed 1 and recorded Yosys/nextpnr settings. The frequency entries are tested constraint points, not a measured device Fmax.
+
+| Metric | A: compact | B: pipelined |
+|---|---:|---:|
+| LUT4 | 665 | 775 |
+| TRELLIS_FF | 194 | 223 |
+| CCU2C | 113 | 110 |
+| DP16KD / MULT18X18D | 2 / 3 | 2 / 3 |
+| Highest tested clean / lowest tested fail constraint | 35 / 40 MHz | 60 / 65 MHz |
+| Routed synchronous path | 25.731 ns | 16.194 ns |
+| First output / frame completion | 642 / 307842 cycles | 643 / 307843 cycles |
+| Input and output initiation interval | 1 cycle | 1 cycle |
+
+The routed path and constraint bracket improved in this one-seed comparison; B also uses 110 more LUT4s and 29 more flip-flops and adds one cycle to first output and frame completion. These results support B as the timing-oriented variant in this tested setup. They are not evidence of board-level timing or physical throughput. The full [A/B comparison](docs/ARCHITECTURE_COMPARISON.md) includes additional mapped-cell counts and derived rates.
+
+## Visual results
+
+The images below show the canonical input, simulated RTL output and image difference for the two architectures. The difference images are zero-valued; they illustrate simulation agreement with the Python reference, not hardware measurements.
+
+| Input | Architecture B output | A/B difference |
 |---|---|---|
-| ![Tokinokane input](tb/images/Tokinokane2005-1-4.jpg) | ![Tokinokane edge output](results/processed/arch-b/gate3-real-rtl.png) | ![Zero difference](results/processed/arch-b/arch-a-vs-b-diff.png) |
-| ![Gradient-grid input](tb/images/gradient-grid-640x480.png) | ![Gradient-grid edge output](results/processed/public-gradient-b/gate3-real-rtl.png) | ![Zero difference](results/processed/public-gradient-a-vs-b-diff.png) |
+| ![Public-domain 640 by 480 input image](tb/images/Tokinokane2005-1-4.jpg) | ![Simulated Architecture B edge output](results/processed/arch-b/gate3-real-rtl.png) | ![A/B output difference](results/processed/arch-b/arch-a-vs-b-diff.png) |
+| ![Project-generated gradient input](tb/images/gradient-grid-640x480.png) | ![Simulated gradient edge output](results/processed/public-gradient-b/gate3-real-rtl.png) | ![Gradient A/B output difference](results/processed/public-gradient-a-vs-b-diff.png) |
 
-Both 640×480 runs accepted 307200 inputs and produced 307200 outputs with
-zero reference mismatches. The displayed difference images are zero-valued.
+## Reproduction
 
-## Contents
-
-[See it in 20 seconds](#see-it-in-20-seconds) · [What I built](#what-i-built) · [The result](#the-result) · [Why two architectures?](#why-two-architectures) · [How it works](#how-it-works) · [How I know it works](#how-i-know-it-works) · [Explore the project](#explore-the-project) · [Technical results](#technical-results) · [Reproduce it](#reproduce-it) · [Limitations](#limitations)
-
-## What I built
-
-The project takes a fixed-size RGB stream to a thresholded Sobel edge stream.
-The interface is AXI4-Stream-inspired: transfers occur on `valid && ready`,
-SOF/EOL travel with each token, and stalled output data and metadata stay
-stable. APB controls run enable, threshold, bypass, status and frame count.
-
-## The result
-
-The canonical public image and a project-owned gradient-grid image both match
-the independent Python oracle exactly. The integrated regression also covers
-source gaps, destination stalls, reset, malformed metadata, configuration
-timing, multiple dimensions and 18 deterministic random frames.
-
-## Why two architectures?
-
-Architecture A is the compact baseline. Architecture B makes one controlled
-change: a 28-bit ready/valid elastic stage immediately after Sobel Gx/Gy. The
-token carries final tag, SOF, EOL, border, Gx and Gy together. B keeps II=1
-and one pixel per clock while reducing the measured synchronous path.
-
-## How it works
-
-![RTL system context](docs/assets/rtl-system-context.svg)
-
-Detailed views: [Architecture A](docs/assets/rtl-architecture-a.svg) · [Architecture B](docs/assets/rtl-architecture-b.svg) · [Module interfaces](docs/assets/rtl-module-interfaces.svg) · [Ready/valid and frame control](docs/assets/rtl-control-flow.svg) · [editable diagrams.net source](docs/assets/rtl-architecture.drawio)
-
-The complete architecture and frozen interfaces are described in
-[Architecture and datapath](docs/MICROARCHITECTURE.md).
-
-## How I know it works
-
-The verification stack combines an independent Python oracle, focused primitive
-regressions, complete-frame cocotb tests, streaming/backpressure monitors,
-reset and malformed-metadata recovery, APB configuration timing, selected
-formal properties and a controlled synthesis/routing comparison. Start with
-[full verification evidence](docs/EVIDENCE_INDEX.md) or the
-[verification plan](docs/VERIFICATION_PLAN.md).
-
-## Explore the project
-
-| I want to... | Go here |
-|---|---|
-| Understand the project in two minutes | [This README](README.md) |
-| Understand the hardware architecture | [Architecture and datapath](docs/MICROARCHITECTURE.md) |
-| Read the exact requirements | [Requirements](docs/REQUIREMENTS.md) |
-| See how correctness was tested | [Verification plan](docs/VERIFICATION_PLAN.md) |
-| Audit test and result evidence | [Evidence index](docs/EVIDENCE_INDEX.md) |
-| Understand formal verification | [Formal verification](docs/FORMAL.md) |
-| Inspect routed timing | [Timing](docs/TIMING.md) |
-| Compare compact and pipelined versions | [Architecture comparison](docs/ARCHITECTURE_COMPARISON.md) |
-| Read debugging case studies | [Debug case studies](docs/DEBUG_CASE_STUDIES.md) |
-| See engineering decisions | [Decisions](docs/DECISIONS.md) |
-| See limitations | [Known limitations](docs/KNOWN_LIMITATIONS.md) |
-| Reproduce the project | [Reproduce it](#reproduce-it) |
-| Inspect RTL | [rtl/](rtl/) |
-| Inspect tests and reference model | [tb/](tb/) |
-| Inspect formal harnesses | [formal/](formal/) |
-| Inspect scripts | [scripts/](scripts/) |
-| Inspect raw and processed results | [results/](results/) |
-| View the system context schematic | [System context](docs/assets/rtl-system-context.svg) |
-| Inspect Architecture A RTL connectivity | [Architecture A schematic](docs/assets/rtl-architecture-a.svg) |
-| Inspect Architecture B RTL connectivity | [Architecture B schematic](docs/assets/rtl-architecture-b.svg) |
-| View module interfaces | [Module interfaces](docs/assets/rtl-module-interfaces.svg) |
-| Edit the full schematic in diagrams.net | [Editable source](docs/assets/rtl-architecture.drawio) |
-
-## Technical results
-
-| Metric | Architecture A | Architecture B | Delta |
-|---|---:|---:|---:|
-| LUT4 | 665 | 775 | +110 (+16.5%) |
-| TRELLIS_FF | 194 | 223 | +29 (+14.9%) |
-| CCU2C | 113 | 110 | -3 |
-| DP16KD | 2 | 2 | 0 |
-| Clean/fail constraint | 35/40 MHz | 60/65 MHz | +25/+25 MHz |
-| Synchronous path | 25.731 ns | 16.194 ns | -9.537 ns |
-| First output | 642 cycles | 643 cycles | +1 |
-| Frame completion | 307842 cycles | 307843 cycles | +1 |
-| II / pixels per clock | 1 / 1 | 1 / 1 | unchanged |
-| Derived peak rate | 35 Mpixel/s | 60 Mpixel/s | +25 |
-| Derived frame rate | 113.695 fps | 194.905 fps | +81.210 |
-
-These are single-seed controlled routed results on the virtual
-LFE5U-45F/CABGA381/speed-6 target. Throughput values are derived from clean
-constraints and measured II, not physical measurements. See the full
-[Architecture A/B comparison](docs/ARCHITECTURE_COMPARISON.md).
-
-## Reproduce it
+Python development dependencies are needed for simulation. OSS CAD Suite is also required for formal and implementation commands; [`scripts/doctor.py`](scripts/doctor.py) checks the local tools and `make help` lists the supported targets. The common simulation checks can be run with:
 
 ```sh
-git clone https://github.com/dilanj123/from-rtl-to-pixels.git
-cd from-rtl-to-pixels
 python3 -m venv .venv
 source .venv/bin/activate
-python -m pip install --upgrade pip
 python -m pip install -r requirements-dev.txt
 make doctor
 make lint
@@ -128,66 +78,31 @@ make test
 make test-real-image
 ```
 
-Formal and implementation use the external OSS CAD Suite. Set
-`OSS_CAD_SUITE_ROOT`, defaulting to
-`~/.local/share/from-rtl-to-pixels/oss-cad-suite-current`.
-
-```sh
-make formal
-make synth ARCH=compact
-make synth ARCH=pipelined
-make timing ARCH=compact FREQ_MHZ=35 SEED=1
-make timing ARCH=pipelined FREQ_MHZ=60 SEED=1
-make ppa
-```
-
-`make help` lists the supported commands. `make ci` runs the smaller GitHub
-Actions smoke suite; `make all` runs the full local workflow; `make clean`
-removes generated build products without deleting committed evidence or images.
-
-## Repository map
-
-| Path | What is here |
-|---|---|
-| [`rtl/`](rtl/) | Synthesizable SystemVerilog hardware |
-| [`tb/reference/`](tb/reference/) | Independent Python Sobel model |
-| [`tb/tests/`](tb/tests/) | cocotb verification |
-| [`formal/`](formal/) | Selected formal properties and harnesses |
-| [`scripts/`](scripts/) | Reproducible simulation, formal and implementation flows |
-| [`docs/`](docs/) | Requirements, architecture, evidence and analysis |
-| [`results/raw/`](results/raw/) | Preserved logs and reports |
-| [`results/processed/`](results/processed/) | Images and reviewed result artifacts |
+With `OSS_CAD_SUITE_ROOT` configured, run selected formal checks and the implementation comparison using `make formal` and `make ppa`. Individual synthesis and timing targets are listed by `make help`. Routed timing requires the documented external tools and is a virtual-device result.
 
 ## Limitations
 
-There is no physical FPGA demonstration or physical throughput measurement.
-Timing is single-seed virtual-device evidence, not a statistically robust Fmax
-characterization. Dimensions are compile-time; the design uses one clock, does
-not overlap frames during final drain, and is not a full AXI4-Stream,
-framebuffer, DMA, CPU, display or CNN system. See [Known limitations](docs/KNOWN_LIMITATIONS.md).
+- Timing is a seed-1 virtual ECP5 result. No FPGA board, physical throughput measurement or statistically robust Fmax search is claimed.
+- The measured 35/40 MHz and 60/65 MHz values are clean/failing constraint brackets. They are distinct from the 38.8636 MHz and 61.7513 MHz post-route tool-reported achieved-clock values.
+- Dimensions are compile-time parameters. The design has one clock and does not accept a new frame until the previous frame's final output transfers.
+- This is not a full AXI4-Stream implementation and includes no framebuffer, DMA, display controller, CPU, Linux or CNN.
+- Formal checks are targeted and assumption-bounded; no whole-accelerator proof is claimed.
+- Debug fault-injection case studies are historical isolated-branch work; no deliberate defect remains on `main`.
 
-## Formal scope
+## Repository map
 
-The selected formal set covers elastic-stage, APB/configuration, pixel-control,
-output-control and final-token/frame-count properties under documented
-assumptions. It is **not a whole-accelerator formal proof**; see
-[Formal verification](docs/FORMAL.md).
+| Path | Contents |
+|---|---|
+| [`rtl/`](rtl/) | Synthesizable SystemVerilog |
+| [`tb/reference/`](tb/reference/) and [`tb/tests/`](tb/tests/) | Python oracle and cocotb tests |
+| [`formal/`](formal/) | Selected formal harnesses and properties |
+| [`scripts/`](scripts/) | Regression, formal, synthesis and timing runners |
+| [`docs/`](docs/) | Requirements, architecture, timing, evidence and limitations |
+| [`results/raw/`](results/raw/) | Preserved tool logs and reports |
+| [`results/processed/`](results/processed/) | Reviewed result images and summaries |
 
-## Debug case studies
-
-Three defects were deliberately injected on isolated branches after Gate 4:
-signedness loss, stalled ready/valid output instability and pipeline metadata
-misalignment. Each failed its regression, was root-caused and restored. No
-deliberate defect remains on `main`; see [Debug case studies](docs/DEBUG_CASE_STUDIES.md).
+Start with [requirements](docs/REQUIREMENTS.md), [architecture](docs/MICROARCHITECTURE.md), [timing](docs/TIMING.md), [A/B comparison](docs/ARCHITECTURE_COMPARISON.md), [known limitations](docs/KNOWN_LIMITATIONS.md), or the [evidence index](docs/EVIDENCE_INDEX.md).
 
 ## Provenance and copyright
 
-The accelerator RTL, Python reference model, verification, formal properties,
-implementation tooling, Architecture A/B experiment and project diagrams are
-original project work.
-
-The canonical photograph is a public-domain Wikimedia Commons image; its
-provenance is recorded in the [third-party notices](THIRD_PARTY_NOTICES.md).
-
-Original project material is © 2026 Dilan Jayasena. See
-[COPYRIGHT.md](COPYRIGHT.md).
+The accelerator RTL, reference model, verification, formal properties and project diagrams are original project work. The canonical photograph is a public-domain Wikimedia Commons image; its source and hash are recorded in [third-party notices](THIRD_PARTY_NOTICES.md). See [copyright](COPYRIGHT.md).

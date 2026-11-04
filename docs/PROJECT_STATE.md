@@ -1,85 +1,38 @@
-# Project State
+# Project state
 
-## Current status
+## Current result
 
-**Gate 5 CLOSED — CV-ready MVP complete.**
+The selected RTL, verification, bounded formal and Architecture A/B virtual
+ECP5 implementation study are complete. Architecture A is the compact
+baseline; Architecture B is the timing-oriented variant. The full evidence
+and limitations are linked from the [evidence index](EVIDENCE_INDEX.md).
 
-- Architecture A is the compact baseline.
-- Architecture B is the retained timing-oriented variant.
-- No physical FPGA measurement is claimed.
-- Release tag: `v1.0-cv-ready`.
+Current release tags are `v1.0-cv-ready` and the later dependency update
+`v1.0.1-dependency-ready`. The tags are immutable release references; see
+Git history and the release evidence for their exact contents.
 
-## Final architecture
+## Verification and implementation
 
-Both variants implement the same RGB888 streaming Sobel pipeline: grayscale,
-two line buffers, a 3×3 window, Sobel Gx/Gy, magnitude/clamp, threshold and
-an 11-bit output elastic stage. Architecture B adds one 28-bit ready/valid
-stage after Gx/Gy and carries arithmetic plus SOF, EOL, border and final-tag
-metadata together.
+The reference model and recorded RTL regressions pass, including complete
+frames, stream backpressure, reset/recovery, APB behavior and A/B image
+equivalence. Selected local formal properties pass under the assumptions in
+[`FORMAL.md`](FORMAL.md); this is not a whole-accelerator proof.
 
-## Verification status
+The controlled single-seed routed comparison reports a 35/40 MHz tested
+clean/failing constraint bracket for A and 60/65 MHz for B. These are virtual
+ECP5 timing results, not physical FPGA measurements or a statistically robust
+Fmax characterization. B adds one ready/valid stage after Sobel Gx/Gy and
+uses more logic and registers.
 
-The reference model and RTL simulation suites passed. Coverage includes
-primitive arithmetic and protocol tests, complete frames, source gaps,
-destination backpressure, SOF/EOL and drain stalls, reset and malformed
-metadata, APB configuration timing, multiple dimensions, 18 deterministic
-random frames, the 640×480 public image and direct A/B image equivalence.
+## Scope boundaries
 
-Evidence: `results/raw/arch-b-functional-regression.log`,
-`results/raw/arch-ab-recovery-precondition-repair.log` and the focused logs in
-`results/raw/`.
+- No physical FPGA demonstration or measured throughput.
+- No whole-accelerator formal proof.
+- No board-level timing or robust Fmax claim.
+- Dimensions are compile-time parameters, with no frame overlap during final
+  drain.
+- This is not a full AXI4-Stream, framebuffer, DMA, CPU, display or CNN system.
 
-## Formal status
-
-Selected targeted formal verification is complete for the elastic stage,
-APB/configuration, pixel controller, output control and final-token/frame-count
-integration properties under their recorded assumptions. Output-control
-liveness remains a derived result under downstream fairness. No
-whole-accelerator formal proof is claimed.
-
-Evidence: `docs/FORMAL.md` and `results/raw/formal-*.log`.
-
-## Implementation results
-
-| Metric | Architecture A | Architecture B |
-|---|---:|---:|
-| LUT4 | 665 | 775 |
-| TRELLIS_FF | 194 | 223 |
-| Clean/fail constraint | 35/40 MHz | 60/65 MHz |
-| Synchronous path | 25.731 ns | 16.194 ns |
-| First output | 642 cycles | 643 cycles |
-| Frame completion | 307842 cycles | 307843 cycles |
-| II / pixels per clock | 1 / 1 | 1 / 1 |
-
-The comparison used the virtual LFE5U-45F/CABGA381/speed-6 target, identical
-synthesis and routing settings, and seed 1. Throughput figures are derived
-from clean routed constraints and measured II. Architecture B is retained as
-the timing-oriented variant; Architecture A remains the compact baseline.
-
-Evidence: `docs/ARCHITECTURE_COMPARISON.md` and
-`results/raw/arch-ab-comparison.json`.
-
-## Release status
-
-The public repository includes the README, architecture diagram, pinned
-Python development dependencies, command runners, GitHub Actions CI and
-clean-clone validation. Candidate CI and clean-clone evidence are recorded in
-`results/raw/publication-validation.log` and
-`results/raw/clean-clone-validation.log`.
-
-## Known limitations
-
-There is no physical FPGA demonstration or physical throughput measurement.
-Routed timing is single-seed virtual-device evidence, not a statistically
-robust Fmax characterization. Dimensions are compile-time; the design uses a
-single clock, does not overlap frames during final drain, and is not a full
-AXI4-Stream, framebuffer, DMA, CPU, display or CNN system.
-
-See [Known limitations](KNOWN_LIMITATIONS.md).
-
-## Historical milestone references
-
-Gate and phase history remains in Git history and the preserved raw evidence.
-Use [the evidence index](EVIDENCE_INDEX.md) for the traceable record,
-[decisions](DECISIONS.md) for architectural rationale and
-[formal records](FORMAL.md) for assumptions and proof boundaries.
+Historical phase and release records remain in Git history and preserved raw
+logs. Current technical evidence is indexed in
+[`EVIDENCE_INDEX.md`](EVIDENCE_INDEX.md).

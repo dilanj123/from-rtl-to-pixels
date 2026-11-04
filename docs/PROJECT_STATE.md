@@ -2,7 +2,7 @@
 
 ## Current result
 
-The selected RTL, verification, bounded formal and Architecture A/B virtual
+The selected RTL, verification, targeted formal checks and Architecture A/B virtual
 ECP5 implementation study are complete. Architecture A is the compact
 baseline; Architecture B is the timing-oriented variant. The full evidence
 and limitations are linked from the [evidence index](EVIDENCE_INDEX.md).

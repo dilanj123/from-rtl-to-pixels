@@ -1,62 +1,52 @@
-# Timing
+# Routed timing results
 
-## Architecture-A implementation baseline
+## Current controlled A/B comparison
 
-Classification: `SYNTHESISED`; `PLACED/ROUTED TIMING-CLEAN AT 35 MHz, SEED 1`.
+Both variants were tested at seed 1 for the virtual ECP5 LFE5U-45F,
+CABGA381, speed-grade-6 target. The clean/failing values are tested timing
+constraints. They bound the tested frontier; they are not a physical-device
+Fmax measurement.
 
-Architecture: A / compact
-Top: `rtl_to_pixels_top`
-Dimensions: `640x480`
-Target: LFE5U-45F / CABGA381 / speed grade 6
-Seed: 1
+| Result | Architecture A | Architecture B |
+|---|---:|---:|
+| Highest tested timing-clean constraint | 35 MHz | 60 MHz |
+| Lowest tested timing-failing constraint | 40 MHz | 65 MHz |
+| Post-route synchronous critical path | 25.731 ns | 16.194 ns |
+| Tool-reported post-route achieved clock | 38.8636 MHz | 61.7513 MHz |
 
-Tool versions: Yosys 0.69+75; nextpnr-ecp5 0.11.1-30-g3e53a0bf; Project Trellis ecppack 1.4-82-g3afe7b5.
+For A, the critical synchronous path runs from `u_line_buffer.line1_mem.0.0`
+port `DOB1` to `m_tdata_TRELLIS_FF_Q_2` port `DI`. Delay is 25.731 ns:
+5.830 ns clock-to-Q, 8.033 ns ordinary logic and 11.868 ns routing. For B,
+the path runs from a line-buffer EBR output to the new arithmetic elastic
+register and is 16.194 ns. These are routed virtual-target reports, not board
+measurements.
 
-Synthesis used the complete production RTL source set and the default
-`synth_ecp5` mapping without retiming or resource-suppression options. Yosys
-checks passed. Mapped cells were LUT4=665, TRELLIS_FF=194, CCU2C=113,
-DP16KD=2, MULT18X18D=3, PFUMX=102 and L6MUX21=48. No distributed/LUT RAM
-cells were mapped; the line-buffer storage mapped to DP16KD in this run.
+The single-seed controlled comparison supports the hypothesis that B's
+ready/valid register after Sobel Gx/Gy shortens the measured synchronous path
+and raises the tested clean/fail constraint bracket. B also costs additional
+logic and registers; see [Architecture A/B comparison](ARCHITECTURE_COMPARISON.md)
+for resource counts, latency and derived throughput.
 
-nextpnr used `--45k --package CABGA381 --speed 6 --seed 1
---timing-allow-fail --detailed-timing-report --lpf-allow-unconstrained`.
-The tested single-seed constraint frontier is:
+## Historical Architecture-A search
 
-| Target constraint | Route | Achieved clock | Timing |
-|---:|---|---:|---|
-| 25 MHz | PASS | 38.8636 MHz | PASS |
-| 35 MHz | PASS | 38.8636 MHz | PASS |
-| 50 MHz | PASS | 38.8636 MHz | FAIL |
+The earlier A-only run tested 25, 35 and 50 MHz constraints. Routing completed
+at all three points; timing passed at 25 and 35 MHz and failed at 50 MHz. It
+reported a 38.8636 MHz post-route achieved clock. Those samples do not form a
+5 MHz-resolution search: 35 to 50 MHz is a 15 MHz interval. A refinement
+script later had a control-flow defect. The corrected A/B comparison above
+uses the actual 5 MHz brackets of 35/40 MHz for A and 60/65 MHz for B.
 
-Highest tested timing-clean target: **35 MHz**. Lowest tested timing-failing
-target: **50 MHz**. Search resolution: **5 MHz**. This is routed timing
-evidence for seed 1, not a statistically robust FPGA Fmax.
+The synchronous A bottleneck was mixed logic and routing. Routing contributes
+11.868 ns (46.1%) of the 25.731 ns path. A separate approximately 32.068 ns
+input-to-register path was reported as asynchronous/unconstrained I/O timing;
+it is not the synchronous path used for the tested timing frontier.
 
-The synchronous critical path is `u_line_buffer.line1_mem.0.0` port `DOB1`
-(clock-to-clock) to `m_tdata_TRELLIS_FF_Q_2` port `DI`, with total delay
-25.731 ns: clk-to-q 5.830 ns, ordinary logic 8.033 ns and routing 11.868 ns.
-This is a mixed line-buffer/output arithmetic cone through the Sobel,
-magnitude/clamp and threshold path. Routing contributes 46.1% and the
-registered-source plus ordinary logic contribution 53.9%, so the measured
-synchronous bottleneck is mixed logic/routing rather than purely
-routing-dominated.
+At the 35 MHz clean constraint, A's one-pixel-per-clock initiation interval
+corresponds to a **DERIVED** peak rate of 35 Mpixel/s. It is not a physical
+throughput measurement.
 
-### Unconstrained I/O timing
+## Evidence
 
-The approximately 32.068 ns path from `s_tdata[15]$tr_io` to the same output
-data endpoint is an `<async>` to clock path. It includes source-side logic
-and is preserved as separate unconstrained I/O timing evidence; it is not the
-synchronous Fmax path.
-
-The logs contain two frequency lines: the earlier placement-stage estimate
-is 36.47 MHz and the later post-route result is 38.86 MHz. The latter is the
-routed achieved result used above.
-
-The design specifies up to one accepted pixel per clock. At the 35 MHz clean
-routed target, the corresponding **DERIVED** peak rate is 35 Mpixel/s. This is
-not a physical throughput measurement. No physical board was used.
-
-Evidence:
 - `results/raw/arch-a-implementation-toolchain.log`
 - `results/raw/arch-a-synthesis.log`
 - `results/raw/arch-a-synthesis-stat.json`
@@ -66,9 +56,7 @@ Evidence:
 - `results/raw/arch-a-route-fail.log`
 - `results/raw/arch-a-route-fail-report.json`
 - `results/raw/arch-a-implementation-baseline.log`
+- `results/raw/arch-ab-comparison.json` and `results/raw/arch-ab-comparison.log`
 
-## Phase-11 controlled A/B comparison
-
-The Phase-8 25/35/50 MHz measurements remain valid; the original refinement script had a control-flow defect, so its claimed 5 MHz resolution was superseded. The corrected seed-1 search gives Architecture A 35 MHz clean / 40 MHz failing and Architecture B 60 MHz clean / 65 MHz failing, each with a 5 MHz bracket. A post-route synchronous path is 25.731 ns for A and 16.194 ns for B; the B path is line-buffer EBR output to the new arithmetic elastic register. Canonical no-stall simulation measured first-output latency 642 cycles for A and 643 for B, frame completion 307842 and 307843 cycles, and II=1 for input and output in both.
-
-B resources are LUT4=775, TRELLIS_FF=223, CCU2C=110, DP16KD=2, MULT18X18D=3, PFUMX=171, L6MUX21=88 versus A LUT4=665, FF=194, CCU2C=113, DP16KD=2, MULT18X18D=3, PFUMX=102, L6MUX21=48. This is routed timing evidence for one seed, not a physical measurement.
+The older A-only sample and its script history remain preserved as historical
+evidence; the corrected controlled comparison is the current A/B result.

@@ -89,7 +89,7 @@ Compact baseline.
 
 No performance-motivated internal arithmetic pipeline registers shall be inserted inside the Sobel→magnitude→clamp→threshold arithmetic region beyond registers required for correct elastic protocol boundaries.
 
-Architecture A must be fully verified and routed before Architecture-B boundaries are selected.
+Architecture A is the compact baseline used in the controlled comparison.
 
 ## Architecture B
 
@@ -115,19 +115,14 @@ If the change directly addresses the measured A bottleneck it may be described a
 
 A and B shall produce bit-identical completed output images.
 
-### Architecture-B implementation status
+### Architecture B implementation
 
-The initial Architecture-B experiment is implemented as one ready/valid elastic stage immediately after Sobel Gx/Gy. The exact 28-bit token mapping is:
-
-- `[27]` final tag
-- `[26]` SOF/user
-- `[25]` EOL/last
-- `[24]` border
-- `[23:12]` Gx
-- `[11:0]` Gy
-
-The existing output elastic `s_ready` drives the arithmetic stage `m_ready`; the arithmetic stage `s_ready` drives `output_control.output_ready_i`. No additional arithmetic pipeline stage has been introduced. Functional regression evidence is recorded in `results/raw/arch-b-functional-regression.log`; Architecture B has been synthesised and placed/routed under the controlled A/B implementation experiment. See [ARCHITECTURE_COMPARISON.md](ARCHITECTURE_COMPARISON.md) and [TIMING.md](TIMING.md).
-
-## Architecture B implementation status
-
-Architecture B is implemented with one DATA_WIDTH=28 ready/valid elastic stage after Sobel Gx/Gy. Token mapping is [27] final tag, [26] SOF/user, [25] EOL/last, [24] border, [23:12] Gx, [11:0] Gy. No additional arithmetic pipeline stage is introduced.
+Architecture B adds one `DATA_WIDTH=28` ready/valid elastic stage immediately
+after Sobel Gx/Gy. The token mapping is `[27]` final tag, `[26]` SOF/user,
+`[25]` EOL/last, `[24]` border, `[23:12]` Gx and `[11:0]` Gy. The existing
+output elastic `s_ready` drives the arithmetic stage `m_ready`; the arithmetic
+stage `s_ready` drives `output_control.output_ready_i`. No additional
+arithmetic pipeline boundary is present. A and B share the external interface,
+functional behavior, configuration, reference model and test intent. Their
+controlled synthesis/routing comparison is documented in
+[`ARCHITECTURE_COMPARISON.md`](ARCHITECTURE_COMPARISON.md).

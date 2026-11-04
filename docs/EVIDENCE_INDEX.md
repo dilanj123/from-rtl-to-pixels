@@ -73,9 +73,9 @@ and restored on isolated branches; none remains on `main`.
 | Public command surface and CI | REPRODUCIBLE WORKFLOW | `Makefile`, `.github/workflows/ci.yml`, `results/raw/publication-validation.log` |
 | Original architecture diagram and demo assets | PUBLICATION ASSETS VERIFIED | `docs/assets/architecture.svg`, `tb/images/Tokinokane2005-1-4.jpg`, `tb/images/gradient-grid-640x480.png`, `results/processed/`, `results/raw/public-gradient-image-regression.log`, `scripts/analysis/check_publication_assets.py` |
 | Fresh-clone reproduction | CLEAN-CHECKOUT REPRODUCTION VERIFIED | `results/raw/clean-clone-validation.log` |
-| Gate-5 audit | GATE5_RELEASE_AUDIT=PASS | `results/raw/gate5-release-audit.log` |
+| Historical release audit | `GATE5_RELEASE_AUDIT=PASS` in the recorded candidate audit | `results/raw/gate5-release-audit.log` |
 
-The clean clone validated commit `f9598f3a92a998a416c08ca36653ed8bf73bf5d8`
+The historical clean clone validated commit `f9598f3a92a998a416c08ca36653ed8bf73bf5d8`
 with the documented external OSS CAD Suite. GitHub Actions run
 [35800586342](https://github.com/dilanj123/from-rtl-to-pixels/actions/runs/35800586342)
 passed for that candidate; the final commit run is recorded in the release

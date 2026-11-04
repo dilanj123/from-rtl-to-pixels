@@ -2,7 +2,9 @@
 
 ## Status
 
-Phase 7 is active.
+The selected targeted formal scope is complete. Results below describe the
+properties actually checked and their assumptions; planned items are
+identified separately and are not presented as proof results.
 
 The formal scope is intentionally targeted. Whole-accelerator formal
 verification is not a project requirement and shall not be claimed.
@@ -34,7 +36,11 @@ not sufficient for a strong project claim.
 
 Use only syntax supported by the actually installed open-source frontend.
 
-## Planned property set
+## Property scope and original plan
+
+The following table records the intended property set. Completed jobs and
+their actual results are described in the proof records below; a row in this
+table alone is not evidence that a property passed.
 
 | ID | Target | Intended property | Key assumptions / notes |
 |---|---|---|---|
@@ -229,7 +235,10 @@ The modulo-2^32 FRAME_COUNT recurrence is formally checked, but the formal
 cover does not claim the specific `0xFFFFFFFF -> 0` boundary; the existing
 simulation regression covers that concrete transition with test-only preload.
 This is a local APB/configuration proof, not whole-accelerator formal
-verification. Synthesis, P&R and timing remain unverified.
+verification. The proof itself is not a synthesis, P&R or timing result;
+separate integrated Architecture A/B implementation evidence is recorded in
+[`TIMING.md`](TIMING.md) and
+[`ARCHITECTURE_COMPARISON.md`](ARCHITECTURE_COMPARISON.md).
 
 ## Pixel-controller proof record
 
@@ -315,15 +324,6 @@ completion, return to `WAIT_SOF`, abort during drain and reset during drain.
 This evidence is limited to `3x3` and `5x4`; it is not a universal parameter
 proof. Exact W+1 drain length remains simulation evidence. This is a local
 `output_control` proof and does not verify the whole accelerator.
-
-The next formal task is:
-
-`P7-FRAME-FORMAL-001`
-
-Target property:
-
-`F-FRAME-001` narrow final-external-token completion/frame-count qualification.
-
 
 ## Final-token/frame-completion proof record
 
